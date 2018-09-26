@@ -11,6 +11,8 @@ public class Risk {
 	public static final int width = 800;
     public static final int height = 600;
     
+    public GameSettings config = new GameSettings();
+    
 	Risk(){
 		JFrame frame = new JFrame("Risk: The Conquest Game");
 		JButton newGame,loadGame, map, config, settings, credits, help, exit;
@@ -69,6 +71,9 @@ public class Risk {
 		  }
 		});
     
+		GameSettingsListener cl = new GameSettingsListener(this);
+		settings.addActionListener(cl);
+        
 	    frame.pack();
 	    frame.setVisible(true); 
 	
