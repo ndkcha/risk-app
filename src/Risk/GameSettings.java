@@ -2,9 +2,15 @@ package Risk;
 
 import java.io.Serializable;
 
+/**
+* The game settings.
+*
+* @author  Jatin Rupeja
+* @version 1.0
+*/
 public class GameSettings implements Serializable {
 
-	/** Creates a new instance of Configuracion */
+	/** Creates a new instance of GameSettings */
     public int num_opponents=1;
     public int match_type=1;
     public int territories_home=1;
