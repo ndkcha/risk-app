@@ -12,6 +12,7 @@ public class MapCreator extends Canvas {
         canvas.setSize(800, 600);
         frame.add(canvas);
         frame.pack();
+        
         frame.setVisible(true);
     }
 
