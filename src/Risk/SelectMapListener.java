@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 * @version 1.0
 */
 
-public class GameSettingsListener implements ActionListener {
+public class SelectMapListener implements ActionListener {
 
 	int width=100;
     int height=50;
@@ -27,7 +27,7 @@ public class GameSettingsListener implements ActionListener {
      * Creates a new instance of GameSettingsListener
      * @param r 
      */
-    public GameSettingsListener(Risk r) {
+    public SelectMapListener(Risk r) {
         this.r=r;
     }
 
