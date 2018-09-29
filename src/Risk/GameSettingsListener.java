@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -31,6 +32,14 @@ public class GameSettingsListener implements ActionListener {
         this.r=r;
     }
 
+    public void init() {
+    	final JFrame frame = new JFrame();
+    	JDialog d = new JDialog(frame, "Credits", true);
+	    d.setLocationRelativeTo(frame);
+	    d.setSize(width,height);
+	    d.setVisible(true);
+    }
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -101,6 +110,7 @@ public class GameSettingsListener implements ActionListener {
         
         JButton jb_ok = new JButton("OK");
         JButton jb_cancel = new JButton("Cancel");
+        
         jf.getContentPane().setLayout(null);
         jf.getContentPane().setLayout(new GridLayout(3,6));
         p1.setLayout(new GridLayout(1,5));
@@ -109,6 +119,7 @@ public class GameSettingsListener implements ActionListener {
         String[] players={"2 Players","3 Players","4 Players","5 Players","6 Players"};
         players_list = new JComboBox(players);         
         players_list.setSelectedIndex(0);
+        
         
         // Display players colors based on selection on number of players.
         players_list.addActionListener(new ActionListener() {
@@ -159,8 +170,9 @@ public class GameSettingsListener implements ActionListener {
 			public void actionPerformed(ActionEvent evt) {
                          jf.dispose();
 			}
-		});
-          
+		});  
+        
+        
         p1.add(players_list);
         p1.add(difficulty_list);
         p1.add(countries_list);
@@ -178,13 +190,13 @@ public class GameSettingsListener implements ActionListener {
         player5_select.setVisible(false);
         player6_select.setVisible(false);
                                        
-        p3.add(jb_ok);
+        //p3.add(jb_ok);
         p3.add(jb_cancel);
         
         jf.getContentPane().add(p1);
         jf.getContentPane().add(p2);
         jf.getContentPane().add(p3);
-        
+  
         jf.setVisible(true);
 	}
 }

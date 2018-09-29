@@ -37,7 +37,7 @@ public class Risk {
 		frame.add(map);
 		frame.add(load_map);
 		frame.add(map_editor);
-		frame.add(settings);		
+//		frame.add(settings);		
 		frame.add(credits);
 		frame.add(help);
 		
@@ -45,16 +45,7 @@ public class Risk {
 		frame.setSize(width,height);  
 		
 		
-		new_game.addActionListener(new ActionListener()
-		{
-		  public void actionPerformed(ActionEvent e)
-		  {
-		    JDialog d = new JDialog(frame, "newGame", true);
-		    d.setLocationRelativeTo(frame);
-		    d.setSize(width,height);
-		    d.setVisible(true);
-		  }
-		});
+		
 		
 		help.addActionListener(new ActionListener()
 		{
@@ -94,8 +85,8 @@ public class Risk {
 		MapEditorListener mel = new MapEditorListener(this);
 		map_editor.addActionListener(mel);
 		
-		GameSettingsListener gsl = new GameSettingsListener(this);
-		settings.addActionListener(gsl);
+//		GameSettingsListener gsl = new GameSettingsListener(this);
+//		settings.addActionListener(gsl);
 		
 		CreditListener cl = new CreditListener(this);
 		credits.addActionListener(cl);
