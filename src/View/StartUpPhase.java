@@ -16,6 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -30,13 +31,12 @@ import Controller.Controller;
 public class StartUpPhase {
 
 	// Panel height and width.
-	int width=100;
-    int height=50;
-  
-    int num_players=2;
+	public static final int width=100;
+	public static final int height=50;
+	public int num_players=2;
 	
 	private JFrame frame;
-	private JButton start_game, load_game, map_editor, credits, help, jb_ok;
+	private JButton startGame, loadGame, mapEditor, credits, help, selectMap;
 	
 	//Stores the path of the map file.
 	private String map_path = null;
@@ -47,15 +47,15 @@ public class StartUpPhase {
 		frame = new JFrame("Risk: The Conquest Game");
 		
 		// JButtons objects.
-		start_game = new JButton("Start Game");
-		load_game = new JButton("Load Game");
-		map_editor = new JButton("Map Editor");
+		startGame = new JButton("Start Game");
+		loadGame = new JButton("Load Game");
+		mapEditor = new JButton("Map Editor");
 		credits = new JButton("credits");
 		help = new JButton("Help");
 		
-		frame.add(start_game);
-		frame.add(load_game);
-		frame.add(map_editor);		
+		frame.add(startGame);
+		frame.add(loadGame);
+		frame.add(mapEditor);		
 		frame.add(credits);
 		frame.add(help);
 		
@@ -74,10 +74,13 @@ public class StartUpPhase {
 		// Settings panel
         JPanel p1= new JPanel();
         jf.setBounds(100,100,width*8,height*4);
-        // Players color Panel
+    	// Player Names Panel.
         JPanel p2= new JPanel();
-        // Ok and Cancel panel
+        // Players color Panel
         JPanel p3= new JPanel();
+        // Select map and Cancel panel
+        JPanel p4= new JPanel();
+        
         
         final JComboBox player1_select;
         final JComboBox player2_select;
@@ -91,7 +94,12 @@ public class StartUpPhase {
         final JComboBox countries_list;
         final JComboBox troops_list;
       
-        //final JTextField player1_name; 
+        final JTextField player1_name; 
+        final JTextField player2_name; 
+        final JTextField player3_name; 
+        final JTextField player4_name; 
+        final JTextField player5_name;
+        final JTextField player6_name; 
         
         jf.setTitle("Game Settings");
    
@@ -137,21 +145,27 @@ public class StartUpPhase {
         player6_select.setSelectedIndex(1);
         player6_select.setBackground(Color.ORANGE);
         
-        JButton jb_ok = new JButton("OK");
+        JButton selectMap = new JButton("Select Map");
         JButton jb_cancel = new JButton("Cancel");
         
         jf.getContentPane().setLayout(null);
-        jf.getContentPane().setLayout(new GridLayout(3,6));
+        jf.getContentPane().setLayout(new GridLayout(4,6));
         p1.setLayout(new GridLayout(1,5));
         p2.setLayout(new GridLayout(1,5));
+        p3.setLayout(new GridLayout(1,5));
                
         String[] players={"2 Players","3 Players","4 Players","5 Players","6 Players"};
         players_list = new JComboBox(players);         
         players_list.setSelectedIndex(0);
         
-        //player1_name = new JTextField(26);
+        player1_name = new JTextField("Player One");
+        player2_name = new JTextField("Player two");
+        player3_name = new JTextField("Player three");
+        player4_name = new JTextField("Player four");
+        player5_name = new JTextField("Player five");
+        player6_name = new JTextField("Player six");
 
-        // Display players colors based on selection on number of players.
+        // Display players name and colors based on selection on number of players.
         players_list.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				num_players=players_list.getSelectedIndex()+2;
@@ -159,6 +173,11 @@ public class StartUpPhase {
 				switch(num_players)
 	               {
 	                   case 3:
+	                	   player3_name.setVisible(true);
+	                       player4_name.setVisible(false);
+	                       player5_name.setVisible(false);
+	                       player6_name.setVisible(false);
+	                       
 	                	   player3_select.setVisible(true);
 	                	   player4_select.setVisible(false);
 	                       player5_select.setVisible(false);
@@ -166,6 +185,11 @@ public class StartUpPhase {
 	                       break;
 	                       
 	                   case 4:
+	                	   player3_name.setVisible(true);
+	                       player4_name.setVisible(true);
+	                       player5_name.setVisible(false);
+	                       player6_name.setVisible(false);
+	                       
 	                	   player3_select.setVisible(true);
 	                	   player4_select.setVisible(true);
 	                       player5_select.setVisible(false);
@@ -173,6 +197,11 @@ public class StartUpPhase {
 	                       break;
 	                       
 	                   case 5:
+	                	   player3_name.setVisible(true);
+	                       player4_name.setVisible(true);
+	                       player5_name.setVisible(true);
+	                       player6_name.setVisible(false);
+	                       
 	                	   player3_select.setVisible(true);
 	                	   player4_select.setVisible(true);
 	                       player5_select.setVisible(true);
@@ -180,6 +209,11 @@ public class StartUpPhase {
 	                      break;
 	                      
 	                   case 6:
+	                	   player3_name.setVisible(true);
+	                       player4_name.setVisible(true);
+	                       player5_name.setVisible(true);
+	                       player6_name.setVisible(true);
+	                       
 	                	   player3_select.setVisible(true);
 	                	   player4_select.setVisible(true);
 	                       player5_select.setVisible(true);
@@ -187,6 +221,11 @@ public class StartUpPhase {
 	                       break;
 	                       
 	                   default:
+	                	   player3_name.setVisible(false);
+	                       player4_name.setVisible(false);
+	                       player5_name.setVisible(false);
+	                       player6_name.setVisible(false);
+	                       
 	                	   player3_select.setVisible(false);
 	                	   player4_select.setVisible(false);
 	                	   player5_select.setVisible(false);
@@ -207,27 +246,39 @@ public class StartUpPhase {
         p1.add(countries_list);
         p1.add(troops_list);
        
-        //p2.add(player1_name);
-        p2.add(player1_select);
-        p2.add(player2_select);
-        p2.add(player3_select);
-        p2.add(player4_select);
-        p2.add(player5_select);
-        p2.add(player6_select);
+        p2.add(player1_name);
+        p2.add(player2_name);
+        p2.add(player3_name);
+        p2.add(player4_name);
+        p2.add(player5_name);
+        p2.add(player6_name);
+        
+        p3.add(player1_select);
+        p3.add(player2_select);
+        p3.add(player3_select);
+        p3.add(player4_select);
+        p3.add(player5_select);
+        p3.add(player6_select);
+        
+        player3_name.setVisible(false);
+        player4_name.setVisible(false);
+        player5_name.setVisible(false);
+        player6_name.setVisible(false);
         
         player3_select.setVisible(false);
         player4_select.setVisible(false);
         player5_select.setVisible(false);
         player6_select.setVisible(false);
                                        
-        p3.add(jb_ok);
-        p3.add(jb_cancel);
+        p4.add(selectMap);
+        p4.add(jb_cancel);
         
         jf.getContentPane().add(p1);
         jf.getContentPane().add(p2);
         jf.getContentPane().add(p3);
+        jf.getContentPane().add(p4);
   
-        jb_ok.addActionListener(new ActionListener()
+        selectMap.addActionListener(new ActionListener()
 		{
 		  public void actionPerformed(ActionEvent e)
 		  {
@@ -285,15 +336,21 @@ public class StartUpPhase {
 	
 	// Action Listener for start game button.
 	public void startGameAction(ActionListener newAction) {
-		this.start_game.addActionListener(newAction);
+		this.startGame.addActionListener(newAction);
 	}
+	
 	
 	// Action Listener for start game button.
 	public void selectMapAction(ActionListener n) {
 		System.out.println('a');
-		this.jb_ok.addActionListener(n);
+		this.selectMap.addActionListener(n);
 	}
 	
+	// Action Listener for start game button.
+	public void mapEditorAction(ActionListener newAction) {
+		this.mapEditor.addActionListener(newAction);
+	}
+		
 	/**
 	 * 
 	 */
