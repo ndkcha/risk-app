@@ -29,7 +29,7 @@ public class Main {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
           public void run() {
               Controller c = new Controller();
-              c.initialize();;
+              c.initialize();
           }
       });
 	}

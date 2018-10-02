@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import Controller.Controller;
+
 /**
  * Start of the game: Main screen and game settings.
  * 
@@ -39,6 +41,7 @@ public class StartUpPhase {
 	//Stores the path of the map file.
 	private String map_path = null;
 	
+	// First screen on game load
 	public void startUpPhase() {
 		// New JFrame Object.
 		frame = new JFrame("Risk: The Conquest Game");
@@ -228,8 +231,12 @@ public class StartUpPhase {
 		{
 		  public void actionPerformed(ActionEvent e)
 		  {
-			  map_selector("map");
-			  map_selector("bmp");
+			  chooseOptionFrame().dispose();
+			  String map_file = map_selector("map");
+			  String bmp_file = map_selector("bmp");
+			  Controller con = new Controller();
+              con.gameStart(map_file, bmp_file);
+			  
 		  }
 		});
         
@@ -258,7 +265,7 @@ public class StartUpPhase {
 			map_path = selectedFile.getAbsolutePath();
 			frame.dispose();
 			if(map_path.substring(map_path.lastIndexOf("."),map_path.length()).equalsIgnoreCase("."+ext)){
-				System.out.println(map_path);
+				//System.out.println(map_path);
 				return map_path;
 			}
 		}
@@ -283,6 +290,7 @@ public class StartUpPhase {
 	
 	// Action Listener for start game button.
 	public void selectMapAction(ActionListener n) {
+		System.out.println('a');
 		this.jb_ok.addActionListener(n);
 	}
 	
