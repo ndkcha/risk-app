@@ -13,8 +13,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
+import View.MapEditotView;
 import View.StartUpPhase;
-import View.MapView;
+//import View.MapView;
 //import risk.view.MapView;
 
 /**
@@ -27,11 +28,16 @@ public class Controller {
     // Store object of StartUpPhase class.
 	private StartUpPhase start_up_process;
 	
+	private MapEditotView map_editor;
+	
 	//ActionListener for "Start Game" button.
 	private ActionListener startGameListener;
 	
+	//ActionListener for "Start Game" button.
+	private ActionListener mapEditorListener;
+	
 	//Stores object of MapView class.
-	private MapView mapGUI;
+	//private MapView mapGUI;
 	
 	/**
 	 * BufferedReader Object to read the image file.
@@ -53,8 +59,9 @@ public class Controller {
 	public void initialize() {
 		start_up_process = new StartUpPhase();
 		start_up_process.startUpPhase();
+		map_editor = new MapEditotView();
 		startGameListener();
-		//selectMapListener();
+		mapEditorListener();
 		//gameStart();
 	}
 	
@@ -62,9 +69,9 @@ public class Controller {
 		// TODO Auto-generated method stub
 		System.out.println(map_file);
 		if(bmp_file!=null) {
-    		mapGUI = new MapView(bmp_file);
+    		//mapGUI = new MapView(bmp_file);
 	    }else {
-	    		mapGUI = new MapView();
+	    		//mapGUI = new MapView();
 	    }
 	}
 
@@ -80,6 +87,15 @@ public class Controller {
 		this.start_up_process.startGameAction(startGameListener);
 	}
 	
+	public void mapEditorListener() {
+		mapEditorListener =  new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				map_editor.mapEditorUI();
+			}
+		};
+		this.start_up_process.mapEditorAction(mapEditorListener);
+	}
 	/**
 	 * 
 	 */
