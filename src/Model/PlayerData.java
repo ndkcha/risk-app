@@ -14,10 +14,11 @@ public class PlayerData {
 	/**
 	 * 
 	 */
-	public PlayerData() {
+	public PlayerData(String playerName, String playerColor, String playerType) {
 		// TODO Auto-generated constructor stub
+		
 	}
-
+	
 	/**
 	 * @param args
 	 */

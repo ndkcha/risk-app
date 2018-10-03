@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -77,6 +78,7 @@ public class GameSettingsView {
 	 * @author Jay
 	 */
 	public void gameSettings() {
+		System.out.println("Game Setting panel is opened");
 		// TODO Auto-generated method stub
 		final JFrame jf = new JFrame();
 		jf.setBounds(100,100,width*8,height*4);
@@ -176,7 +178,7 @@ public class GameSettingsView {
         players_list.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				num_players=players_list.getSelectedIndex()+2;
-               
+				
 				switch(num_players)
 	               {
 	                   case 3:
@@ -289,11 +291,64 @@ public class GameSettingsView {
 		{
 		  public void actionPerformed(ActionEvent e)
 		  {
+			  System.out.println("number of player selected: " + num_players);
+			  String player1Name = null, 
+					  player2Name =null, 
+					  player3Name = null, 
+					  player4Name = null, 
+					  player5Name = null, 
+					  player6Name = null;
+			  String player1Color = null,
+					  player2Color= null, 
+					  player3Color = null, 
+					  player4Color = null,
+					  player5Color = null, 
+					  player6Color = null;
+			  
+			  player1Name =  player1_name.getText();
+			  player1Color =  " BLUE ";
+			  player2Name =  player2_name.getText();
+			  player2Color =  " GREEN ";
+			  if(num_players >= 3){
+				  player3Name =  player3_name.getText();
+				  player3Color =  " YELLOW ";
+			  }
+			  if(num_players >= 4){
+				  player4Name =  player4_name.getText();
+				  player4Color =  " MAGENTA ";
+			  }
+			  if(num_players >= 5){
+				  player5Name =  player5_name.getText();
+				  player5Color =  " RED ";
+			  }
+			  if(num_players == 6){
+				  player6Name =  player6_name.getText();
+				  player6Color =  " ORANGE ";
+			  }
+			  
+			  String[][] anArrayOfStrings = new String[6][2];
+			  anArrayOfStrings[0][0] = player1Name;
+			  anArrayOfStrings[0][1] = player1Color;
+			  anArrayOfStrings[1][0] = player2Name;
+			  anArrayOfStrings[1][1] = player2Color;
+			  anArrayOfStrings[2][0] = player3Name;
+			  anArrayOfStrings[2][1] = player3Color;
+			  anArrayOfStrings[3][0] = player4Name;
+			  anArrayOfStrings[3][1] = player4Color;
+			  anArrayOfStrings[4][0] = player5Name;
+			  anArrayOfStrings[4][1] = player5Color;
+			  anArrayOfStrings[5][0] = player6Name;
+			  anArrayOfStrings[5][1] = player6Color;
+	
+			  // Setting players data in controller
+			  Controller c = new Controller();
+              c.setGamePlayerData(anArrayOfStrings);              
+			  
+			  System.out.println("Select Map Button is clicked");
 			  chooseOptionFrame().dispose();
 			  String map_file = map_selector("map");
 			  String bmp_file = map_selector("bmp");
-			  Controller con = new Controller();
-              con.gameStart(map_file, bmp_file);
+              c.gameStart(map_file, bmp_file);
 			  
 		  }
 		});
@@ -308,6 +363,7 @@ public class GameSettingsView {
 	 * @return map_path Stores the absolute path of the map file and bmp file.
 	 */
 	public String map_selector(String ext){
+		System.out.println("Map and BMP file selector opened");
 		JFrame frame = new JFrame("Select Map File");
 		
 		// Upload map file. https://coderanch.com/t/466536/java/closing-jFileChooser-window
@@ -338,13 +394,14 @@ public class GameSettingsView {
 	 * @return JFrame
 	 */
 	public JFrame chooseOptionFrame() {
+		System.out.println("");
 		return this.frame;
 	}
 	
 	/**
 	 * Action Listener for start game button.
 	 */
-	public void startGameAction(ActionListener newAction) {
+	public void startGameAction(ActionListener newAction) {		
 		this.startGame.addActionListener(newAction);
 	}
 	
@@ -352,7 +409,6 @@ public class GameSettingsView {
 	 * Action Listener for start game button.
 	 */
 	public void selectMapAction(ActionListener n) {
-		System.out.println('a');
 		this.selectMap.addActionListener(n);
 	}
 	

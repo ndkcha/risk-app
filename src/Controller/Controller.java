@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -44,8 +45,7 @@ public class Controller {
 	private Views diceRollGUI;
 	private Views playerInfoGUI;
 	
-	//Stores object of MapView class.
-	//private MapView mapGUI;
+	public static String[][] playerDataArray;
 	
 	/**
 	 * BufferedReader Object to read the image file.
@@ -95,6 +95,7 @@ public class Controller {
 		startGameListener =  new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Start Game Button is clicked");
 				gameSettings.gameSettings();
 				gameSettings.chooseOptionFrame().dispose();
 			}
@@ -106,11 +107,23 @@ public class Controller {
 		mapEditorListener =  new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Map Editor button is clicked");
 				map_editor.mapEditorUI();
 			}
 		};
 		this.gameSettings.mapEditorAction(mapEditorListener);
 	}
+	
+	public void setGamePlayerData(String[][] anArrayOfStrings)
+    {
+		playerDataArray = anArrayOfStrings;
+    }
+ 
+    public static String[][] getGamePlayerData()
+    {
+        return playerDataArray;
+    }
+    
 	/**
 	 * 
 	 */
