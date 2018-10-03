@@ -45,8 +45,6 @@ public class Controller {
 	private Views diceRollGUI;
 	private Views playerInfoGUI;
 	
-	public static String[][] playerDataArray;
-	
 	/**
 	 * BufferedReader Object to read the image file.
 	 */
@@ -113,16 +111,6 @@ public class Controller {
 		};
 		this.gameSettings.mapEditorAction(mapEditorListener);
 	}
-	
-	public void setGamePlayerData(String[][] anArrayOfStrings)
-    {
-		playerDataArray = anArrayOfStrings;
-    }
- 
-    public static String[][] getGamePlayerData()
-    {
-        return playerDataArray;
-    }
     
 	/**
 	 * 

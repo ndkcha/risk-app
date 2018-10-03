@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Controller.Controller;
+import Model.PlayerData;
 
 /**
  * Start of the game: Main screen and game settings.
@@ -341,13 +342,15 @@ public class GameSettingsView {
 			  anArrayOfStrings[5][1] = player6Color;
 	
 			  // Setting players data in controller
-			  Controller c = new Controller();
-              c.setGamePlayerData(anArrayOfStrings);              
+			  PlayerData pd = new PlayerData();
+			  pd.setGamePlayerData(anArrayOfStrings);              
 			  
 			  System.out.println("Select Map Button is clicked");
 			  chooseOptionFrame().dispose();
 			  String map_file = map_selector("map");
 			  String bmp_file = map_selector("bmp");
+			  
+			  Controller c = new Controller();
               c.gameStart(map_file, bmp_file);
 			  
 		  }
