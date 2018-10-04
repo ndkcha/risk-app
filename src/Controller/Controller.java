@@ -106,7 +106,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Map Editor button is clicked");
-				map_editor.mapEditorUI();
+				map_editor.initComponents();
 			}
 		};
 		this.gameSettings.mapEditorAction(mapEditorListener);
