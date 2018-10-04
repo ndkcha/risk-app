@@ -5,10 +5,6 @@ package Model;
 
 import java.util.ArrayList;
 
-import model.Card;
-import model.CountryNode;
-import model.MapNode;
-
 /**
  * This class represents a players id, name, country owned, armies details.
  * 
@@ -24,6 +20,9 @@ public class PlayerData {
 	private int armiesCount;
 	private boolean turn = false;
 	
+	public PlayerData() {
+		
+	}
 	/**
 	 * Player full data including name, armies, country owned, conteinents owned, cards owned.
 	 * 
@@ -49,7 +48,7 @@ public class PlayerData {
 	 * @param continent 
 	 *    continent to be added to list of continent owned by player.
 	 */
-	public void addContinent(String continent) {
+	public void addContinent(ContinentData continent) {
 		
 	}
 	
@@ -58,7 +57,7 @@ public class PlayerData {
 	 * @param continent 
 	 *    continent to be removed from list of continents owned by player.
 	 */
-	public void removeContinent(String continent) {
+	public void removeContinent(ContinentData continent) {
 		
 	}
 	
@@ -77,7 +76,7 @@ public class PlayerData {
 	 * @param country 
 	 *    country owned by player
 	 */
-	public void addCountry(String country) {
+	public void addCountry(CountryData country) {
 		
 	}
 	
@@ -86,7 +85,7 @@ public class PlayerData {
 	 * @param country 
 	 *    country owned by player
 	 */
-	public void removeCountry(String country) {
+	public void removeCountry(CountryData country) {
 		
 	}
 	
