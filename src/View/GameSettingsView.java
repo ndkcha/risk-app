@@ -9,7 +9,12 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -347,8 +352,8 @@ public class GameSettingsView {
 			  
 			  System.out.println("Select Map Button is clicked");
 			  chooseOptionFrame().dispose();
-			  String map_file = map_selector("map");
-			  String bmp_file = map_selector("bmp");
+			  File map_file = map_selector("map");
+			  File bmp_file = map_selector("bmp");
 			  
 			  Controller c = new Controller();
               c.gameStart(map_file, bmp_file);
@@ -365,7 +370,7 @@ public class GameSettingsView {
 	 * @param ext extension of the file.
 	 * @return map_path Stores the absolute path of the map file and bmp file.
 	 */
-	public String map_selector(String ext){
+	public File map_selector(String ext){
 		System.out.println("Map and BMP file selector opened");
 		JFrame frame = new JFrame("Select Map File");
 		
@@ -383,7 +388,7 @@ public class GameSettingsView {
 			frame.dispose();
 			if(map_path.substring(map_path.lastIndexOf("."),map_path.length()).equalsIgnoreCase("."+ext)){
 				//System.out.println(map_path);
-				return map_path;
+				return selectedFile;
 			}
 		}
 		if(ext.equals("map")) {

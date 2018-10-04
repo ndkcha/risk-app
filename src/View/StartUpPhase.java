@@ -9,6 +9,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,16 +30,14 @@ import Controller.Controller;
 /**
  * Start Up Phase view of the game.
  * 
- * @author Jay
+ * @author ndkcha
  *
  */
 public class StartUpPhase {
 	/**
 	 * 
 	 */
-	public StartUpPhase() {
-		// TODO Auto-generated constructor stub
-	}
+	public StartUpPhase() { }
 
 	/**
 	 * @param args

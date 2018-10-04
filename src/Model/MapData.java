@@ -1,27 +1,20 @@
-/**
- * 
- */
 package Model;
 
 /**
- * @author Jay
- *
+ * The basic details about the map
+ * @author Jay, ndkcha
  */
 public class MapData {
+    public String author, imageFileName, scrollType;
+    public boolean wrap, warn;
 
-	/**
-	 * 
-	 */
-	public MapData() {
-		// TODO Auto-generated constructor stub
-	}
+	public MapData() { }
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void cleanUpMapData() {
+	    this.author = "";
+	    this.imageFileName = "";
+	    this.scrollType = "";
+	    this.wrap = false;
+	    this.warn = false;
+    }
 }

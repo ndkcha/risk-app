@@ -14,11 +14,9 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
-import View.MapEditotView;
-import View.RiskMainInterface;
-import View.GameSettingsView;
+import View.*;
 //import View.MapView;
-import View.Views;
+
 
 /**
  * MVC - Controller to control the interaction between models and views.
@@ -60,6 +58,8 @@ public class Controller {
 	 * {@inheritDoc}
 	 */
 	private static final long serialVersionUID = 2353535256045293828L;
+
+	private StartupController startupController;
 	
 	// Initialization of Game and listeners.
 	public void initialize() {
@@ -70,16 +70,11 @@ public class Controller {
 		mapEditorListener();
 	}
 	
-	public void gameStart(String map_file, String bmp_file) {
-		// TODO Auto-generated method stub
-		System.out.println(map_file);
-		if(bmp_file!=null) {
-    		//mapGUI = new MapView(bmp_file);
-	    }else {
-	    		//mapGUI = new MapView();
-	    }
+	public void gameStart(File map_file, File bmp_file) {
 		mainGUI = new Views();
 		playerInfoGUI = new Views();
+		this.startupController = new StartupController(map_file, bmp_file);
+		this.startupController.processFiles();
 		RiskMainInterface.createInstance(playerInfoGUI);
 		setPlayerView(playerInfoGUI);
 	}
