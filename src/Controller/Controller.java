@@ -9,14 +9,16 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
 import View.MapEditotView;
-import View.StartUpPhase;
+import View.RiskMainInterface;
+import View.GameSettingsView;
 //import View.MapView;
-//import risk.view.MapView;
+import View.Views;
 
 /**
  * MVC - Controller to control the interaction between models and views.
@@ -24,9 +26,10 @@ import View.StartUpPhase;
  * @author Jay
  *
  */
-public class Controller {    
-    // Store object of StartUpPhase class.
-	private StartUpPhase start_up_process;
+public class Controller {  
+	
+    // Store object of GameSettingsView class.
+	private GameSettingsView gameSettings;
 	
 	private MapEditotView map_editor;
 	
@@ -36,8 +39,11 @@ public class Controller {
 	//ActionListener for "Start Game" button.
 	private ActionListener mapEditorListener;
 	
-	//Stores object of MapView class.
-	//private MapView mapGUI;
+	private Views mainGUI;
+	private Views cardsGUI;
+	private Views controlsGUI;
+	private Views diceRollGUI;
+	private Views playerInfoGUI;
 	
 	/**
 	 * BufferedReader Object to read the image file.
@@ -57,12 +63,11 @@ public class Controller {
 	
 	// Initialization of Game and listeners.
 	public void initialize() {
-		start_up_process = new StartUpPhase();
-		start_up_process.startUpPhase();
+		gameSettings = new GameSettingsView();
+		gameSettings.startGame();
 		map_editor = new MapEditotView();
 		startGameListener();
 		mapEditorListener();
-		//gameStart();
 	}
 	
 	public void gameStart(String map_file, String bmp_file) {
@@ -73,29 +78,40 @@ public class Controller {
 	    }else {
 	    		//mapGUI = new MapView();
 	    }
+		mainGUI = new Views();
+		playerInfoGUI = new Views();
+		RiskMainInterface.createInstance(playerInfoGUI);
+		setPlayerView(playerInfoGUI);
 	}
 
+	public void setPlayerView(Views newView) {
+		this.playerInfoGUI = newView;
+	}
+	
 	//Sets listener for Play Game button.
 	public void startGameListener() {
 		startGameListener =  new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				start_up_process.game_settings();
-				start_up_process.chooseOptionFrame().dispose();
+				System.out.println("Start Game Button is clicked");
+				gameSettings.gameSettings();
+				gameSettings.chooseOptionFrame().dispose();
 			}
 		};
-		this.start_up_process.startGameAction(startGameListener);
+		this.gameSettings.startGameAction(startGameListener);
 	}
 	
 	public void mapEditorListener() {
 		mapEditorListener =  new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Map Editor button is clicked");
 				map_editor.mapEditorUI();
 			}
 		};
-		this.start_up_process.mapEditorAction(mapEditorListener);
+		this.gameSettings.mapEditorAction(mapEditorListener);
 	}
+    
 	/**
 	 * 
 	 */
