@@ -85,6 +85,54 @@ public class StartupController {
         this.holder.updatePlayerList(Arrays.asList(players));
     }
 
+    void assignArmies() {
+        List<Player> players = this.holder.getPlayerList();
+        List<CountryData> countries = this.holder.getCountryDataList();
+
+        Random random = new Random();
+
+        int noOfArmiesToAssign = this.determineOfInitialArmy(players.size(), countries.size());
+
+        for (int i = 0; i < noOfArmiesToAssign; i++) {
+            for (Player player : players) {
+                HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+                Object[] entries =  countriesConquered.keySet().toArray();
+
+                int randomCountryIndex = random.nextInt(entries.length);
+                String randomCountry = (String) entries[randomCountryIndex];
+                int noOfArmies = countriesConquered.get(randomCountry);
+
+                player.updateCountry(randomCountry, ++noOfArmies);
+            }
+        }
+
+        this.holder.updatePlayerList(players);
+
+        System.out.println("Initial armies allocation:");
+        for (Player player : this.holder.getPlayerList()) {
+            System.out.println(player.getName() + ": ");
+
+            for (Map.Entry<String, Integer> country : player.getCountriesConquered().entrySet()) {
+                System.out.print(country.getKey() + " - " + country.getValue() + " | ");
+            }
+        }
+    }
+
+    private int determineOfInitialArmy(int noOfPlayers, int noOfCountries) {
+        switch (noOfPlayers) {
+            case 3:
+                return 35;
+            case 4:
+                return 30;
+            case 5:
+                return 25;
+            case 6:
+                return 20;
+            default:
+                return noOfCountries;
+        }
+    }
+
     private CountryData addCountry(String incoming) {
         String content[] = incoming.split(",");
         CountryData data = new CountryData(content[0], Integer.parseInt(content[1]), Integer.parseInt(content[2]), content[3]);

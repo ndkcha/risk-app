@@ -78,6 +78,7 @@ public class Controller {
 		this.startupController = new StartupController(map_file, bmp_file);
 		this.startupController.processFiles();
 		this.startupController.assignCountries();
+		this.startupController.assignArmies();
 		RiskMainInterface.createInstance(playerInfoGUI);
 		setPlayerView(playerInfoGUI);
 	}
