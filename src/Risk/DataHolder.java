@@ -29,6 +29,10 @@ public class DataHolder {
         return dataHolder;
     }
 
+    public void clearPlayers() {
+        this.playerList.clear();
+    }
+
     public void addPlayer(Player data) {
         this.playerList.add(data);
     }
