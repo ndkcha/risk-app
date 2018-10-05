@@ -56,4 +56,8 @@ public class DataHolder {
     public List<Player> getPlayerList() {
         return this.playerList;
     }
+
+    public void updatePlayerList(List<Player> players) {
+        this.playerList = players;
+    }
 }

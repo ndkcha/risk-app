@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,23 +12,23 @@ import java.util.List;
  */
 public class Player {
     private String name, color;
-    private List<PlayerCountry> countriesConquered;
+    // name being key and noOfArmies being the value
+    private HashMap<String, Integer> countriesConquered;
     private List<String> continentsConquered;
 
     public Player(String name, String color) {
         this.name = name;
         this.color = color;
-        this.countriesConquered = new ArrayList<>();
+        this.countriesConquered = new HashMap<>();
         this.continentsConquered = new ArrayList<>();
     }
 
-    public void conquerCountry(String name, int noOfArmies) {
-        PlayerCountry country = new PlayerCountry(name, noOfArmies);
-        this.countriesConquered.add(country);
+    public void initializeCountry(String name) {
+        this.countriesConquered.put(name, 1);
     }
 
     public void updateCountry(String name, int noOfArmies) {
-//        this.countriesConquered
+        this.countriesConquered.put(name, noOfArmies);
     }
 
     public String getName() {
@@ -38,7 +39,7 @@ public class Player {
         return color;
     }
 
-    public List<PlayerCountry> getCountriesConquered() {
+    public HashMap<String, Integer> getCountriesConquered() {
         return countriesConquered;
     }
 

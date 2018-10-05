@@ -2,11 +2,13 @@ package Controller;
 
 import Model.ContinentData;
 import Model.CountryData;
+import Model.Player;
 import Risk.DataHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class StartupController {
     private File mapFile, bmpFile;
@@ -48,6 +50,39 @@ public class StartupController {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    void assignCountries() {
+        List<CountryData> countries = this.holder.getCountryDataList();
+        List<Player> p= this.holder.getPlayerList();
+        List<Integer> countryIndexes = new ArrayList<>();
+        int playersTurn = 0;
+        Player[] players = new Player[p.size()];
+
+        for (int i = 0; i < p.size(); i++)
+            players[i] = p.get(i);
+
+        for (int i : IntStream.rangeClosed(0, countries.size() - 1).toArray())
+            countryIndexes.add(i);
+
+        Collections.shuffle(countryIndexes);
+
+        System.out.println("Total countries: " + countryIndexes.size());
+
+        for (int i : countryIndexes) {
+            if (playersTurn == players.length)
+                playersTurn = 0;
+
+            players[playersTurn].initializeCountry(countries.get(i).getName());
+
+            playersTurn++;
+        }
+
+        for (Player player : this.holder.getPlayerList()) {
+            System.out.println(player.getName() + " : " + player.getCountriesConquered().size());
+        }
+
+        this.holder.updatePlayerList(Arrays.asList(players));
     }
 
     private CountryData addCountry(String incoming) {

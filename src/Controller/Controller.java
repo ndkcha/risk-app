@@ -14,6 +14,7 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
+import Model.Player;
 import Risk.DataHolder;
 import View.*;
 //import View.MapView;
@@ -76,6 +77,7 @@ public class Controller {
 		playerInfoGUI = new Views();
 		this.startupController = new StartupController(map_file, bmp_file);
 		this.startupController.processFiles();
+		this.startupController.assignCountries();
 		RiskMainInterface.createInstance(playerInfoGUI);
 		setPlayerView(playerInfoGUI);
 	}
