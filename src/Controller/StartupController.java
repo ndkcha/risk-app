@@ -2,19 +2,15 @@ package Controller;
 
 import Model.ContinentData;
 import Model.CountryData;
-import Model.MapData;
+import Risk.DataHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class StartupController {
     private File mapFile, bmpFile;
-    private MapData mapData = new MapData();
-    private List<ContinentData> continentDataList = new ArrayList<>();
-    private List<CountryData> countryDataList = new ArrayList<>();
+    private DataHolder holder = DataHolder.getInstance();
 
     StartupController(File mapFile, File bmpFile) {
         this.mapFile = mapFile;
@@ -33,7 +29,7 @@ public class StartupController {
                 if (incoming.startsWith("[")) {
                     // start a segment
                     existingSegment = incoming;
-                    this.mapData.cleanUpMapData();
+                    this.holder.mapData.cleanUpMapData();
                     continue;
                 }
                 if (existingSegment.equalsIgnoreCase("[map]")) {
@@ -42,11 +38,11 @@ public class StartupController {
                 }
                 if (existingSegment.equalsIgnoreCase("[continents]")) {
                     ContinentData data = this.addContinent(incoming);
-                    this.continentDataList.add(data);
+                    this.holder.addContinent(data);
                 }
                 if (existingSegment.equalsIgnoreCase("[territories]")) {
                     CountryData data = this.addCountry(incoming);
-                    this.countryDataList.add(data);
+                    this.holder.addCountry(data);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -70,14 +66,18 @@ public class StartupController {
 
     private void addToMapData(String field, String value) {
         if (field.equalsIgnoreCase("image"))
-            this.mapData.imageFileName = value;
+            this.holder.mapData.imageFileName = value;
         if (field.equalsIgnoreCase("wrap"))
-            this.mapData.wrap = value.equalsIgnoreCase("yes");
+            this.holder.mapData.wrap = value.equalsIgnoreCase("yes");
         if (field.equalsIgnoreCase("scroll"))
-            this.mapData.scrollType = value;
+            this.holder.mapData.scrollType = value;
         if (field.equalsIgnoreCase("author"))
-            this.mapData.author = value;
+            this.holder.mapData.author = value;
         if (field.equalsIgnoreCase("warn"))
-            this.mapData.warn = value.equalsIgnoreCase("yes");
+            this.holder.mapData.warn = value.equalsIgnoreCase("yes");
+    }
+
+    public File getBmpFile() {
+        return this.bmpFile;
     }
 }

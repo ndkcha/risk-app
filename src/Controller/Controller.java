@@ -14,6 +14,7 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
+import Risk.DataHolder;
 import View.*;
 //import View.MapView;
 
@@ -24,8 +25,8 @@ import View.*;
  * @author Jay
  *
  */
-public class Controller {  
-	
+public class Controller {
+    private DataHolder holder = DataHolder.getInstance();
     // Store object of GameSettingsView class.
 	private GameSettingsView gameSettings;
 	
