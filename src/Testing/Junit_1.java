@@ -1,6 +1,8 @@
+package Testing;
+
 import junit.framework.*;
 
-public class JavaTest extends TestCase{
+public class Junit_1 extends TestCase{
       protected int value1, value2;
       
       //assigning the values

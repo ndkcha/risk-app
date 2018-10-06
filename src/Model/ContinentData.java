@@ -7,27 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The continent information, it consist of Continent name, Continent control points, 
- * ID, number of countries, playerID.
- * 
- * @author Jay
+ * The continent will hold the information about continents
+ * It shall hold only the name and the control value
+ * @author ndkcha, jay
  *
  */
 public class ContinentData {
+    private String name;
+    private int controlValue;
 
-	/**
-	 * 
-	 */
-	public ContinentData() {
-		// TODO Auto-generated constructor stub
+	public ContinentData(String name, int controlValue) {
+		this.name = name;
+		this.controlValue = controlValue;
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+    public String getName() {
+        return name;
+    }
 
-	}
-
+    public int getControlValue() {
+        return controlValue;
+    }
 }
