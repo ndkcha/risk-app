@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 
 
 /**
@@ -50,8 +51,8 @@ public class RiskMainInterface  extends JFrame{
 //        cardsArea = newCards;
 //        controlsArea = newControls;
         //this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        init();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        initi();
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 //        this.setVisible(true);
 	}
 	
@@ -59,9 +60,9 @@ public class RiskMainInterface  extends JFrame{
 		
 	}
 	
-	private void init(){
+	private void initi(){
 		//Create and set up the window.
-        JFrame frame = new JFrame("SpringDemo2");
+        JFrame frame = new JFrame("Risk: The Conquest Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
         //Set up the content pane.
@@ -71,71 +72,52 @@ public class RiskMainInterface  extends JFrame{
  
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        JLabel playerData = new JLabel("Map Here");
-		this.add(playerData);
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		//this.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        JLabel map = new JLabel("Map");
+		layout.putConstraint(SpringLayout.NORTH, map, -900, SpringLayout.NORTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, map, 5, SpringLayout.WEST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, map, 200, SpringLayout.SOUTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, map, 700, SpringLayout.EAST, frame.getContentPane());
 		
-        JLabel controlsArea = new JLabel("Controls Here.");
-		this.setLayout(new FlowLayout());
-		this.add(controlsArea);
-		//this.setBorder(BorderFactory.createLineBorder(Color.black));
+		JLabel diceArea = new JLabel("Roll Dice");
+		layout.putConstraint(SpringLayout.NORTH, diceArea, -900, SpringLayout.NORTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, diceArea, 1100, SpringLayout.WEST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, diceArea, 200, SpringLayout.SOUTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, diceArea, 700, SpringLayout.EAST, map);
+        
+        JLabel playerData = new JLabel("Players");
+        playerData.setBackground(UIManager.getColor("CheckBox.foreground"));
+        playerData.setForeground(Color.RED);
+        layout.putConstraint(SpringLayout.NORTH, playerData, -700, SpringLayout.NORTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, playerData, 1100, SpringLayout.WEST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, playerData, 200, SpringLayout.SOUTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, playerData, 300, SpringLayout.EAST, frame.getContentPane());
 		
-		JLabel diceArea = new JLabel("Player info");
-		this.setLayout(new FlowLayout());
-		this.add(diceArea);
-		//this.setBorder(BorderFactory.createLineBorder(Color.black));
-		diceArea.setPreferredSize(new Dimension(400,200));
+		JLabel gameHistory = new JLabel("Game History");
+		layout.putConstraint(SpringLayout.NORTH, gameHistory, -600, SpringLayout.NORTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, gameHistory, 1100, SpringLayout.WEST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, gameHistory, 300, SpringLayout.SOUTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, gameHistory, 300, SpringLayout.EAST, frame.getContentPane());
 		
-		JLabel cardsArea = new JLabel("Cards Here.");
-		this.setLayout(new FlowLayout());
-		this.add(cardsArea);
+		JLabel cardsArea = new JLabel("Cards");
+		layout.putConstraint(SpringLayout.NORTH, cardsArea, 210, SpringLayout.NORTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, cardsArea, 5, SpringLayout.WEST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, cardsArea, 200, SpringLayout.SOUTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, cardsArea, 100, SpringLayout.EAST, frame.getContentPane());
 		
-		//this.setBorder(BorderFactory.createLineBorder(Color.black));
-		cardsArea.setPreferredSize(new Dimension(400,150));
-		
-		JLabel map = new JLabel("Dice Here.");
-		this.setLayout(new FlowLayout());
-		this.add(map);
-		
-        //Create and add the components.
-        //JLabel label = new JLabel("Label: ");
-        //JTextField textField = new JTextField("Text field", 15);
+        JLabel controlsArea = new JLabel("Controls");
+        layout.putConstraint(SpringLayout.NORTH, controlsArea, 210, SpringLayout.NORTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, controlsArea, 400, SpringLayout.WEST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, controlsArea, 200, SpringLayout.SOUTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, controlsArea, 200, SpringLayout.EAST, frame.getContentPane());
+
 		contentPane.add(playerData);
         contentPane.add(map);
         contentPane.add(diceArea);
         contentPane.add(cardsArea);
         contentPane.add(controlsArea);
- 
-        /*playerData constraints.*/
-        layout.putConstraint(SpringLayout.WEST, playerData, 5,  SpringLayout.WEST, contentPane);
-        layout.putConstraint(SpringLayout.EAST, playerData, 0,  SpringLayout.EAST, cardsArea);
-        layout.putConstraint(SpringLayout.NORTH, playerData, 5, SpringLayout.NORTH, contentPane);
-        layout.putConstraint(SpringLayout.SOUTH, playerData, -5,  SpringLayout.NORTH, cardsArea);
+        contentPane.add(gameHistory);
         
-        /*map constraints.*/
-        layout.putConstraint(SpringLayout.WEST, map, 5,  SpringLayout.EAST, playerData);
-        layout.putConstraint(SpringLayout.NORTH, map, 5, SpringLayout.NORTH, contentPane);
-        layout.putConstraint(SpringLayout.SOUTH, map, 0, SpringLayout.SOUTH, playerData);
-        layout.putConstraint(SpringLayout.EAST, map, -5, SpringLayout.WEST, diceArea);
-        
-        /*diceArea constraints.*/
-        layout.putConstraint(SpringLayout.EAST, diceArea, -5,  SpringLayout.EAST, contentPane);
-        layout.putConstraint(SpringLayout.NORTH, diceArea, 5, SpringLayout.NORTH, contentPane);
-        layout.putConstraint(SpringLayout.SOUTH, diceArea, 0, SpringLayout.SOUTH, playerData);
-        
-        /*cardsArea constraints.*/
-        layout.putConstraint(SpringLayout.WEST, cardsArea, 5,  SpringLayout.WEST, contentPane);
-        layout.putConstraint(SpringLayout.SOUTH, cardsArea, -5, SpringLayout.SOUTH, contentPane);
-        
-        /*controlsArea constraints.*/
-        layout.putConstraint(SpringLayout.WEST, controlsArea, 5,  SpringLayout.EAST, cardsArea);
-        layout.putConstraint(SpringLayout.EAST, controlsArea, -5,  SpringLayout.EAST, contentPane);
-        layout.putConstraint(SpringLayout.NORTH, controlsArea, 0, SpringLayout.NORTH, cardsArea);
-        layout.putConstraint(SpringLayout.SOUTH, controlsArea, 0, SpringLayout.SOUTH, cardsArea);
-        this.pack();
- 
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //Display the window.
         frame.pack();
         frame.setVisible(true);
