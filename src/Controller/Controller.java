@@ -17,6 +17,7 @@ import javax.swing.BorderFactory;
 import Model.Player;
 import Risk.DataHolder;
 import View.*;
+import java.util.List;
 //import View.MapView;
 
 
@@ -62,6 +63,7 @@ public class Controller {
 	private static final long serialVersionUID = 2353535256045293828L;
 
 	private StartupController startupController;
+        private ReinforcementController reinforcementController;
 	
 	// Initialization of Game and listeners.
 	public void initialize() {
@@ -79,6 +81,26 @@ public class Controller {
 		this.startupController.processFiles();
 		this.startupController.assignCountries();
 		this.startupController.assignArmies();
+                
+                List<Player> p= this.holder.getPlayerList();
+                Player[] players = new Player[p.size()];
+                int playersTurn = 0;
+                
+                //players taking turn for each phase
+                
+                for(int i=playersTurn;i<p.size();i++){
+                
+                    if (playersTurn == players.length){
+                        playersTurn = 0;
+                    } else{
+                        playersTurn++;
+                    }
+                    
+                    System.out.println("\n Reinforcemnet phase of Player "+playersTurn);
+                    this.reinforcementController =new ReinforcementController();
+                    this.reinforcementController.calculateReinformentArmies(playersTurn);
+                }
+                
 		RiskMainInterface.createInstance(playerInfoGUI);
 		setPlayerView(playerInfoGUI);
 	}
