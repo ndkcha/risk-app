@@ -16,6 +16,7 @@ public class ContinentData {
     private String name;
     private int controlValue;
 
+
 	public ContinentData(String name, int controlValue) {
 		this.name = name;
 		this.controlValue = controlValue;
@@ -28,4 +29,13 @@ public class ContinentData {
     public int getControlValue() {
         return controlValue;
     }
+//    public ArrayList<CountryData> getCountries(){
+//        return countries;
+//    }
+//
+//    public void setCountries(ArrayList<CountryData> countries) {
+//        this.countries = countries;
+//    }
+    
+    
 }

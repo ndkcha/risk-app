@@ -82,6 +82,8 @@ public class Controller {
 		this.startupController.assignCountries();
 		this.startupController.assignArmies();
                 
+                
+                //temporary logic for simulating turns taking turns
                 List<Player> p= this.holder.getPlayerList();
                 Player[] players = new Player[p.size()];
                 int playersTurn = 0;
