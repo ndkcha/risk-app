@@ -61,8 +61,6 @@ public class ReinforcementController {
 
         System.out.println("The number of armies added due to conquering whole continent is: " + continentAddedArmies);
 
-        System.out.println("Calculating armies for player " + playerNumber);
-
         // number of countries owned divided by 3 and rounded down if the player owns more than 9 territores otherwise 3 territories
         if (countriesConquered.size() < 9) {
             newarmies = 3;
@@ -90,6 +88,7 @@ public class ReinforcementController {
         
         //retrieving the continents conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        
         
     }
 
