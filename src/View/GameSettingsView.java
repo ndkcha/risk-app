@@ -318,10 +318,10 @@ public class GameSettingsView{
 			  System.out.println("Select Map Button is clicked");
 			  chooseOptionFrame().dispose();
 			  File map_file = map_selector("map");
-			  File bmp_file = map_selector("bmp");
+			  holder.bmpFile = map_selector("bmp");
 			  
 			  Controller c = new Controller();
-              c.gameStart(map_file, bmp_file);
+              c.gameStart(map_file);
 			  
 		  }
 		});

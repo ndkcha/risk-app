@@ -11,12 +11,11 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class StartupController {
-    private File mapFile, bmpFile;
+    private File mapFile;
     private DataHolder holder = DataHolder.getInstance();
 
-    StartupController(File mapFile, File bmpFile) {
+    StartupController(File mapFile) {
         this.mapFile = mapFile;
-        this.bmpFile= bmpFile;
     }
 
     void processFiles() {
@@ -158,9 +157,5 @@ public class StartupController {
             this.holder.mapData.author = value;
         if (field.equalsIgnoreCase("warn"))
             this.holder.mapData.warn = value.equalsIgnoreCase("yes");
-    }
-
-    public File getBmpFile() {
-        return this.bmpFile;
     }
 }
