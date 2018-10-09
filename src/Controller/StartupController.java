@@ -110,7 +110,7 @@ public class StartupController {
 
         System.out.println("Initial armies allocation:");
         for (Player player : this.holder.getPlayerList()) {
-            System.out.println(player.getName() + ": ");
+            System.out.println("\n"+player.getName() + ": ");
 
             for (Map.Entry<String, Integer> country : player.getCountriesConquered().entrySet()) {
                 System.out.print(country.getKey() + " - " + country.getValue() + " | ");

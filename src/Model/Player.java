@@ -46,4 +46,9 @@ public class Player {
     public List<String> getContinentsConquered() {
         return continentsConquered;
     }
+
+    public void setCountriesConquered(HashMap<String, Integer> countriesConquered) {
+        this.countriesConquered = countriesConquered;
+    }
+    
 }

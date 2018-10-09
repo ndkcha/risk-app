@@ -321,8 +321,8 @@ public class GameSettingsView{
 			  File bmp_file = map_selector("bmp");
 			  
 			  Controller c = new Controller();
-              c.gameStart(map_file, bmp_file);
-			  
+                          c.gameStart(map_file, bmp_file);
+			  c.reinforcement();
 		  }
 		});
         

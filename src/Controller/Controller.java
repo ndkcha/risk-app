@@ -81,9 +81,14 @@ public class Controller {
 		this.startupController.processFiles();
 		this.startupController.assignCountries();
 		this.startupController.assignArmies();
-                
-                
-                //temporary logic for simulating turns taking turns
+                RiskMainInterface.createInstance(playerInfoGUI);
+		setPlayerView(playerInfoGUI);
+
+	}
+        
+        public void reinforcement(){
+            System.out.println("\n reinforcement phase");
+            //temporary logic for simulating turns taking turns
                 List<Player> p= this.holder.getPlayerList();
                 Player[] players = new Player[p.size()];
                 int playersTurn = 0;
@@ -98,14 +103,12 @@ public class Controller {
                         playersTurn++;
                     }
                     
-                    System.out.println("\n Reinforcemnet phase of Player "+playersTurn);
+                    System.out.println("\n\nReinforcemnet phase of Player "+playersTurn);
                     this.reinforcementController =new ReinforcementController();
-                    this.reinforcementController.calculateReinformentArmies(playersTurn);
+                    int armies=this.reinforcementController.calculateReinformentArmies(playersTurn);
+                    this.reinforcementController.updateArmiesInCountries(playersTurn, armies);
                 }
-                
-		RiskMainInterface.createInstance(playerInfoGUI);
-		setPlayerView(playerInfoGUI);
-	}
+        }
 
 	public void setPlayerView(Views newView) {
 		this.playerInfoGUI = newView;
