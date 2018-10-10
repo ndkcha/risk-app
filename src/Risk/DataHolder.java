@@ -24,9 +24,8 @@ public class DataHolder {
 
     public static DataHolder getInstance() {
         synchronized (dataHolderLock) {
-            if (dataHolder == null) {
+            if (dataHolder == null)
                 dataHolder = new DataHolder();
-            }
         }
         return dataHolder;
     }

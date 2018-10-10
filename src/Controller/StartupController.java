@@ -90,7 +90,7 @@ public class StartupController {
 
         Random random = new Random();
 
-        int noOfArmiesToAssign = this.determineOfInitialArmy(players.size(), countries.size());
+        int noOfArmiesToAssign = this.determineOfInitialArmy(players.size());
 
         for (int i = 0; i < noOfArmiesToAssign; i++) {
             for (Player player : players) {
@@ -117,19 +117,8 @@ public class StartupController {
         }
     }
 
-    private int determineOfInitialArmy(int noOfPlayers, int noOfCountries) {
-        switch (noOfPlayers) {
-            case 3:
-                return 35;
-            case 4:
-                return 30;
-            case 5:
-                return 25;
-            case 6:
-                return 20;
-            default:
-                return noOfCountries;
-        }
+    private int determineOfInitialArmy(int noOfPlayers) {
+        return 40 - ((noOfPlayers -2) * 5);
     }
 
     private CountryData addCountry(String incoming) {
