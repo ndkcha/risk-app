@@ -5,6 +5,7 @@ import Model.CountryData;
 import Model.MapData;
 import Model.Player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +20,18 @@ public class DataHolder {
     private List<CountryData> countryDataList = new ArrayList<>();
     private List<Player> playerList = new ArrayList<>();
     public MapData mapData = new MapData();
+    public File bmpFile;
 
     public static DataHolder getInstance() {
         synchronized (dataHolderLock) {
-            if (dataHolder == null) {
+            if (dataHolder == null)
                 dataHolder = new DataHolder();
-            }
         }
         return dataHolder;
+    }
+
+    public void cleanBmpFile() {
+        bmpFile = null;
     }
 
     public void clearPlayers() {

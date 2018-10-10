@@ -74,16 +74,19 @@ public class Controller {
 		mapEditorListener();
 	}
 	
-	public void gameStart(File map_file, File bmp_file) {
+	public void gameStart(File map_file) {
 		mainGUI = new Views();
 		playerInfoGUI = new Views();
-		this.startupController = new StartupController(map_file, bmp_file);
+		this.startupController = new StartupController(map_file);
 		this.startupController.processFiles();
 		this.startupController.assignCountries();
 		this.startupController.assignArmies();
                 RiskMainInterface.createInstance(playerInfoGUI);
 		setPlayerView(playerInfoGUI);
 
+		MapView mapView = new MapView();
+		mapView.paintUi();
+		mapView.plotPlayers();
 	}
         
         public void reinforcement(){
