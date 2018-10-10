@@ -11,12 +11,11 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class StartupController {
-    private File mapFile, bmpFile;
+    private File mapFile;
     private DataHolder holder = DataHolder.getInstance();
 
-    StartupController(File mapFile, File bmpFile) {
+    StartupController(File mapFile) {
         this.mapFile = mapFile;
-        this.bmpFile= bmpFile;
     }
 
     void processFiles() {
@@ -91,7 +90,7 @@ public class StartupController {
 
         Random random = new Random();
 
-        int noOfArmiesToAssign = this.determineOfInitialArmy(players.size(), countries.size());
+        int noOfArmiesToAssign = this.determineOfInitialArmy(players.size());
 
         for (int i = 0; i < noOfArmiesToAssign; i++) {
             for (Player player : players) {
@@ -118,19 +117,8 @@ public class StartupController {
         }
     }
 
-    private int determineOfInitialArmy(int noOfPlayers, int noOfCountries) {
-        switch (noOfPlayers) {
-            case 3:
-                return 35;
-            case 4:
-                return 30;
-            case 5:
-                return 25;
-            case 6:
-                return 20;
-            default:
-                return noOfCountries;
-        }
+    private int determineOfInitialArmy(int noOfPlayers) {
+        return 40 - ((noOfPlayers -2) * 5);
     }
 
     private CountryData addCountry(String incoming) {
@@ -158,9 +146,5 @@ public class StartupController {
             this.holder.mapData.author = value;
         if (field.equalsIgnoreCase("warn"))
             this.holder.mapData.warn = value.equalsIgnoreCase("yes");
-    }
-
-    public File getBmpFile() {
-        return this.bmpFile;
     }
 }
