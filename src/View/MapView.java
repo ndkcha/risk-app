@@ -11,9 +11,10 @@ import java.io.IOException;
 
 public class MapView {
     private JFrame mapFrame = new JFrame("Map | Risk: The Conquest Game");
-    private SpringLayout layout = new SpringLayout();
+//    private SpringLayout layout = new SpringLayout();
     private BufferedImage mapImage;
     private Container contentPane;
+    private JPanel canvas;
 
     private DataHolder holder = DataHolder.getInstance();
 
@@ -24,24 +25,20 @@ public class MapView {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
-        this.contentPane = this.mapFrame.getContentPane();
     }
 
     public void paintUi() {
-        JPanel canvas = new JPanel() {
+        this.canvas = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics graphics) {
                 super.paintComponent(graphics);
                 graphics.drawImage(mapImage, 0, 0, null);
             }
         };
-        canvas.setPreferredSize(new Dimension(this.mapImage.getWidth(), this.mapImage.getHeight()));
+        this.canvas.setPreferredSize(new Dimension(this.mapImage.getWidth(), this.mapImage.getHeight()));
         System.out.println("\nWidth: " + this.mapImage.getWidth() + " | Height: " + this.mapImage.getHeight());
 
         JScrollPane scrollPane = new JScrollPane(canvas);
-        this.contentPane.setLayout(layout);
-        this.contentPane.add(scrollPane);
         this.mapFrame.setContentPane(scrollPane);
 
         this.mapFrame.pack();
@@ -50,14 +47,10 @@ public class MapView {
 
     public void plotPlayers() {
         System.out.print("\nCountries: ");
+
         for (CountryData country : this.holder.getCountryDataList()) {
             System.out.print(country.getName() + " | ");
-            JLabel label = new JLabel(country.getName());
-            // X coordinate
-            label.setHorizontalAlignment(country.getLatitude());
-            // Y coordinate
-            label.setVerticalAlignment(country.getLongitude());
-            this.contentPane.add(label);
+            // X = latitude; Y = longitude
         }
     }
 }
