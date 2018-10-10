@@ -3,20 +3,18 @@
  */
 package View;
 
+import Risk.DataHolder;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.Spring;
-import javax.swing.SpringLayout;
-import javax.swing.UIManager;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 
 /**
@@ -39,30 +37,27 @@ public class RiskMainInterface  extends JFrame{
 	 * PlayerInfoView class object.
 	 */
 	private Views playerData;
+	private DataHolder holder = DataHolder.getInstance();
 	
 	/**
 	 * 
 	 */
 	public RiskMainInterface(Views playerInfoGUI) {
-		// TODO Auto-generated constructor stub
-		//playerData = playerInfoGUI;
-//        map = newMap;
-//        diceArea = newDice;
-//        cardsArea = newCards;
-//        controlsArea = newControls;
-        //this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        initi();
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-//        this.setVisible(true);
+	    try {
+	        initi();
+        } catch (IOException ioe) {
+	        ioe.printStackTrace();
+        }
 	}
 	
 	public void PlayerInfoView() {
 		
 	}
 	
-	private void initi(){
+	private void initi() throws IOException {
 		//Create and set up the window.
         JFrame frame = new JFrame("Risk: The Conquest Game");
+        BufferedImage image = ImageIO.read(this.holder.bmpFile);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
         //Set up the content pane.
@@ -78,7 +73,13 @@ public class RiskMainInterface  extends JFrame{
 		layout.putConstraint(SpringLayout.WEST, map, 5, SpringLayout.WEST, frame.getContentPane());
 		layout.putConstraint(SpringLayout.SOUTH, map, 200, SpringLayout.SOUTH, frame.getContentPane());
 		layout.putConstraint(SpringLayout.EAST, map, 700, SpringLayout.EAST, frame.getContentPane());
-		
+
+		JLabel mapImage = new JLabel();
+        layout.putConstraint(SpringLayout.NORTH, map, -900, SpringLayout.NORTH, frame.getContentPane());
+        layout.putConstraint(SpringLayout.WEST, map, 5, SpringLayout.WEST, frame.getContentPane());
+        layout.putConstraint(SpringLayout.SOUTH, map, 200, SpringLayout.SOUTH, frame.getContentPane());
+        layout.putConstraint(SpringLayout.EAST, map, 700, SpringLayout.EAST, frame.getContentPane());
+
 		JLabel diceArea = new JLabel("Roll Dice");
 		layout.putConstraint(SpringLayout.NORTH, diceArea, -900, SpringLayout.NORTH, frame.getContentPane());
 		layout.putConstraint(SpringLayout.WEST, diceArea, 1100, SpringLayout.WEST, frame.getContentPane());
@@ -113,6 +114,7 @@ public class RiskMainInterface  extends JFrame{
 
 		contentPane.add(playerData);
         contentPane.add(map);
+        contentPane.add(mapImage);
         contentPane.add(diceArea);
         contentPane.add(cardsArea);
         contentPane.add(controlsArea);

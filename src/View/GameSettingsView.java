@@ -301,27 +301,23 @@ public class GameSettingsView{
               holder.addPlayer(p2);
 
               switch (num_players) {
-                  case 3:
-                      holder.addPlayer(p3);
-                      break;
-                  case 4:
-                      holder.addPlayer(p4);
-                      break;
-                  case 5:
-                      holder.addPlayer(p5);
-                      break;
                   case 6:
                       holder.addPlayer(p6);
-                      break;
+                  case 5:
+                      holder.addPlayer(p5);
+                  case 4:
+                      holder.addPlayer(p4);
+                  case 3:
+                      holder.addPlayer(p3);
               }
 			  
 			  System.out.println("Select Map Button is clicked");
 			  chooseOptionFrame().dispose();
 			  File map_file = map_selector("map");
-			  File bmp_file = map_selector("bmp");
+			  holder.bmpFile = map_selector("bmp");
 			  
 			  Controller c = new Controller();
-              c.gameStart(map_file, bmp_file);
+              c.gameStart(map_file);
 			  
 		  }
 		});
