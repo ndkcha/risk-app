@@ -106,10 +106,10 @@ public class ReinforcementController {
                 countryNameForAddArmies = scanner.nextLine();
             }
             System.out.println("Enter the number of armies to be added: ");
-            newArmiesToAdd = scanner.nextInt();
+            newArmiesToAdd = Integer.parseInt(scanner.nextLine());
             while (newArmiesToAdd > numberOfArmies) {
                 System.out.println("Enter value less than the allowed armies i.e less than or equal to " + numberOfArmies);
-                newArmiesToAdd = scanner.nextInt();
+                newArmiesToAdd = Integer.parseInt(scanner.nextLine());
             }
 
             //update the number of armies in the selected conquered country
