@@ -122,6 +122,9 @@ local.properties
 .scala_dependencies
 .worksheet
 
-#ndkcha
+#ndkcha Jay
 RiskTheConquestGame.iml
+risk-app.iml
+.idea/*.xml
+.idea/*.iml
 
