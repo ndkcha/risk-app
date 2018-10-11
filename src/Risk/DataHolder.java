@@ -65,4 +65,17 @@ public class DataHolder {
     public void updatePlayerList(List<Player> players) {
         this.playerList = players;
     }
+    
+    public List<CountryData> countCountriesInContinent(String continentName) {
+        List<CountryData> countryDataList = new ArrayList<>();
+        
+        for (CountryData country : this.countryDataList) {
+            if (country.getContinent().equalsIgnoreCase(continentName))
+                countryDataList.add(country);
+        }
+        
+        return countryDataList;
+    }
+    
+    
 }

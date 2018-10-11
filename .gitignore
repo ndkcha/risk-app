@@ -128,3 +128,4 @@ risk-app.iml
 .idea/*.xml
 .idea/*.iml
 
+/risk-app/build/

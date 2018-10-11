@@ -17,6 +17,7 @@ import javax.swing.BorderFactory;
 import Model.Player;
 import Risk.DataHolder;
 import View.*;
+import java.util.List;
 //import View.MapView;
 
 
@@ -62,6 +63,7 @@ public class Controller {
 	private static final long serialVersionUID = 2353535256045293828L;
 
 	private StartupController startupController;
+        private ReinforcementController reinforcementController;
 	
 	// Initialization of Game and listeners.
 	public void initialize() {
@@ -79,13 +81,37 @@ public class Controller {
 		this.startupController.processFiles();
 		this.startupController.assignCountries();
 		this.startupController.assignArmies();
-		RiskMainInterface.createInstance(playerInfoGUI);
+                RiskMainInterface.createInstance(playerInfoGUI);
 		setPlayerView(playerInfoGUI);
 
 		MapView mapView = new MapView();
 		mapView.paintUi();
 		mapView.plotPlayers();
 	}
+        
+        public void reinforcement(){
+            System.out.println("\n reinforcement phase");
+            //temporary logic for simulating turns taking turns
+                List<Player> p= this.holder.getPlayerList();
+                Player[] players = new Player[p.size()];
+                int playersTurn = 0;
+                
+                //players taking turn for each phase
+                
+                for(int i=playersTurn;i<p.size();i++){
+                
+                    if (playersTurn == players.length){
+                        playersTurn = 0;
+                    } else{
+                        playersTurn++;
+                    }
+                    
+                    System.out.println("\n\nReinforcemnet phase of Player "+playersTurn);
+                    this.reinforcementController =new ReinforcementController();
+                    int armies=this.reinforcementController.calculateReinformentArmies(playersTurn);
+                    this.reinforcementController.updateArmiesInCountries(playersTurn, armies);
+                }
+        }
 
 	public void setPlayerView(Views newView) {
 		this.playerInfoGUI = newView;
