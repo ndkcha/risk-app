@@ -1,108 +1,131 @@
-/**
- * 
- */
 package View;
 
-import java.awt.FlowLayout;
+import Model.ContinentData;
+import Model.CountryData;
+import Risk.MapEditorDataHolder;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * @author Jay
- *
+ * The view that displays map editor
+ * @author Jay, ndkcha
  */
 public class MapEditotView extends JFrame{
+    private MapEditorDataHolder holder = MapEditorDataHolder.getInstance();
 
 	 // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add_continent_button;
-    private javax.swing.JTextField control_value;
-    private javax.swing.JButton delete_continent_button;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
-    private javax.swing.JList jList3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField new_continent_name;
-    private javax.swing.JButton update_button;
+    private JButton btnAddContinent, btnDeleteContinent, btnUpdateContinent;
+    private JButton btnSaveMap, btnUpdateMap, btnExit, btnAddCountry, btnUpdateCountry, btnDeleteCountry;
+    private Box.Filler filler1;
+    private JComboBox comboNeighbourCountry, comboContinents;
+    private DefaultComboBoxModel<String> comboModelContinents, comboModelNeighbourCountries;
+    private JLabel labelContinent, labelNeighbourCountry, labelAdjacentCountry, labelCountry, labelCountryName, labelContinentName;
+    private JLabel labelControlValue, labelCountryX, labelCountryContinent, labelCountryY;
+    private JList listContinents, listCountries, listNeighbourCountries;
+    private DefaultListModel<String> listModelContinents, listModelCountries, listModelNeighbourCountries;
+    private JPanel panel;
+    private JScrollPane jScrollPane1, jScrollPane4, jScrollPane5, jScrollPane6;
+    private JSeparator jSeparator2;
+    private JTable jTable1;
+    private JTextField textCountryName, textCountryX, textCountryY, textContinentName, textContinentControlValue;
     // End of variables declaration//GEN-END:variables
 
-	/**
-	 * 
-	 */
-//	public void MapEditotView() {
-//		// TODO Auto-generated constructor stub
-//		initComponents();
-//	}
+    private int selectedContinent = -1;
+    private int selectedCountry = -1;
+    private int selectedNeighbouringCountry = -1;
 
-    public void initComponents() {
+    /**
+     * A constructor that initializes all the UI elements and sets up the initial values.
+     * It also initializes the listeners.
+     */
+	public MapEditotView() {
+        jScrollPane1 = new JScrollPane();
+        jTable1 = new JTable();
+        panel = new JPanel();
+        labelContinent = new JLabel();
+        labelContinentName = new JLabel();
+        labelControlValue = new JLabel();
+        textContinentName = new JTextField();
+        textContinentControlValue = new JTextField();
+        btnAddContinent = new JButton();
+        btnUpdateContinent = new JButton();
+        btnDeleteContinent = new JButton();
+        jSeparator2 = new JSeparator();
+        filler1 = new Box.Filler(new java.awt.Dimension(0, 4), new java.awt.Dimension(0, 4), new java.awt.Dimension(32767, 4));
+        labelCountry = new JLabel();
+        labelCountryName = new JLabel();
+        textCountryName = new JTextField();
+        labelCountryX = new JLabel();
+        labelCountryContinent = new JLabel();
+        textCountryX = new JTextField();
+        labelCountryY = new JLabel();
+        textCountryY = new JTextField();
+        labelNeighbourCountry = new JLabel();
+        comboNeighbourCountry = new JComboBox();
+        comboContinents = new JComboBox();
+        btnAddCountry = new JButton();
+        btnUpdateCountry = new JButton();
+        btnDeleteCountry = new JButton();
+        jScrollPane4 = new JScrollPane();
+        listContinents = new JList();
+        jScrollPane5 = new JScrollPane();
+        listCountries = new JList();
+        jScrollPane6 = new JScrollPane();
+        listNeighbourCountries = new JList();
+        btnSaveMap = new JButton();
+        btnExit = new JButton();
+        labelAdjacentCountry = new JLabel();
+        btnUpdateMap = new JButton();
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        new_continent_name = new javax.swing.JTextField();
-        control_value = new javax.swing.JTextField();
-        add_continent_button = new javax.swing.JButton();
-        update_button = new javax.swing.JButton();
-        delete_continent_button = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 4), new java.awt.Dimension(0, 4), new java.awt.Dimension(32767, 4));
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        listModelContinents = new DefaultListModel<>();
+        comboModelContinents = new DefaultComboBoxModel<>();
+        listModelCountries = new DefaultListModel<>();
+        comboModelNeighbourCountries = new DefaultComboBoxModel<>();
+        listModelNeighbourCountries = new DefaultListModel<>();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        setValues();
+        initContinentListeners();
+        initCountryListeners();
+	}
+
+    /**
+     * Sets up the values in all the UI elements.
+     */
+    @SuppressWarnings("unchecked")
+	private void setValues() {
+        labelContinent.setText("Continent:");
+        labelContinentName.setText("Name");
+        labelControlValue.setText("Control value");
+        btnAddContinent.setText("Add");
+        btnUpdateContinent.setText("Update");
+        btnDeleteContinent.setText("Delete");
+
+        labelCountry.setText("Country:");
+        labelCountryName.setText("Name");
+        labelCountryX.setText("Latitude (x)");
+        labelCountryY.setText("Longitude (y)");
+        labelCountryContinent.setText("Continent");
+        labelNeighbourCountry.setText("Neighbour Country  :");
+
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+        comboContinents.setModel(comboModelContinents);
+
+        btnAddCountry.setText("Add");
+        btnUpdateCountry.setText("Update");
+        btnDeleteCountry.setText("Delete");
+        btnSaveMap.setText("Save Map");
+        btnExit.setText("EXIT");
+        labelAdjacentCountry.setText("Adjacent Country");
+        btnUpdateMap.setText("Update Map");
+        jTable1.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -113,284 +136,490 @@ public class MapEditotView extends JFrame{
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+
+        holder.clearContinents();
+    }
+
+    /**
+     * Initializes the UI components and displays the UI
+     */
+    public void initComponents() {
         jScrollPane1.setViewportView(jTable1);
+        jScrollPane4.setViewportView(listContinents);
+        jScrollPane5.setViewportView(listCountries);
+        jScrollPane6.setViewportView(listNeighbourCountries);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("CONTINENT:");
-
-        jLabel4.setText("NAME");
-
-        jLabel5.setText("Control value");
-
-        new_continent_name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                new_continent_nameActionPerformed(evt);
-            }
-        });
-
-        control_value.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                control_valueActionPerformed(evt);
-            }
-        });
-
-        add_continent_button.setText("ADD");
-        add_continent_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add_continent_buttonActionPerformed(evt);
-            }
-        });
-
-        update_button.setText("Update");
-        update_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                update_buttonActionPerformed(evt);
-            }
-        });
-
-        delete_continent_button.setText("Delete");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+        GroupLayout groupLayout = new GroupLayout(panel);
+        panel.setLayout(groupLayout);
+        groupLayout.setHorizontalGroup(
+            groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(groupLayout.createSequentialGroup()
+                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(groupLayout.createSequentialGroup()
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(groupLayout.createSequentialGroup()
                                 .addGap(13, 13, 13)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(labelContinentName, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(groupLayout.createSequentialGroup()
                                 .addGap(24, 24, 24)
-                                .addComponent(add_continent_button)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(new_continent_name, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAddContinent)))
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(groupLayout.createSequentialGroup()
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textContinentName, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(groupLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addComponent(update_button)
+                                .addComponent(btnUpdateContinent)
                                 .addGap(32, 32, 32)
-                                .addComponent(delete_continent_button))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnDeleteContinent))))
+                    .addGroup(groupLayout.createSequentialGroup()
                         .addGap(100, 100, 100)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelContinent, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE))
+                    .addGroup(groupLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(control_value, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(labelControlValue, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(textContinentControlValue, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(172, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        groupLayout.setVerticalGroup(
+            groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(groupLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(new_continent_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(control_value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(labelContinent, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelContinentName, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textContinentName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelControlValue, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textContinentControlValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(add_continent_button)
-                    .addComponent(update_button)
-                    .addComponent(delete_continent_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddContinent)
+                    .addComponent(btnUpdateContinent)
+                    .addComponent(btnDeleteContinent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jLabel2.setText("COUNTRY:");
-
-        jLabel3.setText("NAME");
-
-        jLabel6.setText("X AXIS");
-
-        jLabel7.setText("Continent");
-
-        jLabel8.setText(" : Label");
-
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setText("Y AXIS");
-
-        jLabel10.setText("Neibhour Country  :");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton4.setText("ADD");
-
-        jButton5.setText("Update");
-
-        jButton6.setText("Delete");
-
-        jScrollPane4.setViewportView(jList1);
-
-        jScrollPane5.setViewportView(jList2);
-
-        jScrollPane6.setViewportView(jList3);
-
-        jButton1.setText("Save Map");
-
-        jButton3.setText("EXIT");
-
-        jLabel11.setText("Adjacent Country");
-
-        jButton2.setText("Update Map");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, 851, GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, 312, GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(193, 193, 193)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(filler1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addGap(75, 75, 75)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(labelCountryY, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(labelCountryX, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(labelCountryContinent, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                                            .addComponent(labelCountryName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGap(52, 52, 52)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jTextField5)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(comboContinents, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(labelCountry, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(textCountryY)
+                                            .addComponent(textCountryX, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(textCountryName, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(61, 61, 61)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton4)
+                                                .addComponent(btnAddCountry)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jButton5)
+                                                .addComponent(btnUpdateCountry)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jButton6))
+                                                .addComponent(btnDeleteCountry))
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(labelNeighbourCountry, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                .addComponent(comboNeighbourCountry, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane5, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
                                 .addGap(74, 74, 74)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane6, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelAdjacentCountry, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(70, 70, 70)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(122, 122, 122)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnSaveMap, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelCountry, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCountryContinent, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboContinents))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCountryName, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textCountryName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCountryX, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textCountryX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCountryY, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textCountryY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboNeighbourCountry, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelNeighbourCountry))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAddCountry)
+                            .addComponent(btnUpdateCountry)
+                            .addComponent(btnDeleteCountry, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(labelAdjacentCountry)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane4, GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                     .addComponent(jScrollPane5)
                     .addComponent(jScrollPane6))
                 .addGap(108, 108, 108)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSaveMap, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
                 .addGap(711, 711, 711)
-                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filler1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
         );
-        
-        this.setVisible(true);
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void add_continent_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_continent_buttonActionPerformed
-         // TODO add   update_button.addActionListener(evt);your handling code here:
-    }//GEN-LAST:event_add_continent_buttonActionPerformed
+    /**
+     * Initializes the listeners associated to country data.
+     * Adding a country,
+     *  - It initializes the country object and pushes into
+     *  - It adds only one neighbour at a time.
+     * Update a country
+     *  - It updates the hashmap in the holder
+     *  - And also it adds only one neighbour at a time.
+     * Delete a country
+     *  - It deletes the country from hashmap in the holder
+     *  - But if the neighbouring country is selected, it will be deleted instead.
+     */
+    @SuppressWarnings("unchecked")
+    private void initCountryListeners() {
+	    this.btnAddCountry.addActionListener((ActionEvent e) -> {
+	        String name = textCountryName.getText();
+	        String latX = textCountryX.getText();
+	        String longY = textCountryY.getText();
+	        String continent = comboModelContinents.getElementAt(comboContinents.getSelectedIndex());
 
-    private void control_valueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_control_valueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_control_valueActionPerformed
+	        if (name.length() == 0)
+	            return;
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+            CountryData data = new CountryData(name, Double.parseDouble(latX), Double.parseDouble(longY), continent);
 
-    private void new_continent_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_new_continent_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_new_continent_nameActionPerformed
+            if ((comboNeighbourCountry.getSelectedIndex() != -1) &&
+                !comboModelNeighbourCountries.getElementAt(comboNeighbourCountry.getSelectedIndex()).equalsIgnoreCase("No country"))
+                data.addNeighbour(comboModelNeighbourCountries.getElementAt(comboNeighbourCountry.getSelectedIndex()));
 
-    private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
-         // TODO add your handling code here:
-    }//GEN-LAST:event_update_buttonActionPerformed
+            if (holder.doesCountryExist(name))
+                return;
 
-    
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-	}
+            holder.putCountry(data);
 
+            listModelCountries.addElement(name);
+            listCountries.setModel(listModelCountries);
+
+            textCountryName.setText("");
+            textCountryX.setText("");
+            textCountryY.setText("");
+
+            listCountries.clearSelection();
+            listNeighbourCountries.clearSelection();
+            this.selectedCountry = -1;
+            this.selectedNeighbouringCountry = -1;
+
+            System.out.println(name + " has been added!");
+
+            computeCountries();
+        });
+
+        this.btnUpdateCountry.addActionListener((ActionEvent e) -> {
+            if (this.selectedCountry == -1)
+                return;
+
+            String name = textCountryName.getText();
+            String latX = textCountryX.getText();
+            String longY = textCountryY.getText();
+            String continent = comboModelContinents.getElementAt(comboContinents.getSelectedIndex());
+
+            if (name.length() == 0)
+                return;
+
+            String originalName = listModelCountries.getElementAt(listCountries.getSelectedIndex());
+            CountryData data = holder.getCountry(originalName);
+            data.setValues(name, Double.parseDouble(latX), Double.parseDouble(longY), continent);
+
+            if ((comboNeighbourCountry.getSelectedIndex() != -1) &&
+                !comboModelNeighbourCountries.getElementAt(comboNeighbourCountry.getSelectedIndex()).equalsIgnoreCase("No country"))
+                data.addNeighbour(comboModelNeighbourCountries.getElementAt(comboNeighbourCountry.getSelectedIndex()));
+
+            holder.putCountry(data);
+            if (!originalName.equalsIgnoreCase(name)) {
+                holder.removeCountry(originalName);
+                listModelCountries.removeElementAt(this.selectedCountry);
+                listModelCountries.addElement(name);
+
+                listCountries.setModel(listModelCountries);
+            }
+
+            textCountryName.setText("");
+            textCountryX.setText("");
+            textCountryY.setText("");
+
+            listModelNeighbourCountries.removeAllElements();
+            listNeighbourCountries.setModel(listModelNeighbourCountries);
+
+            listCountries.clearSelection();
+            listNeighbourCountries.clearSelection();
+            this.selectedCountry = -1;
+            this.selectedNeighbouringCountry = -1;
+
+            System.out.println(name + " has been updated!");
+
+            computeCountries();
+        });
+
+	    this.listCountries.addListSelectionListener((ListSelectionEvent e) -> {
+	        this.selectedCountry = listCountries.getSelectedIndex();
+
+	        if (this.selectedCountry == -1)
+	            return;
+
+	        String name = listModelCountries.getElementAt(this.selectedCountry);
+
+	        CountryData countryData = holder.getCountries().get(name);
+	        textCountryName.setText(countryData.getName());
+	        textCountryX.setText(String.valueOf(countryData.getLatitude()));
+	        textCountryY.setText(String.valueOf(countryData.getLongitude()));
+	        int continentIndex = comboModelContinents.getIndexOf(countryData.getContinent());
+	        if (continentIndex != -1)
+	            comboContinents.setSelectedIndex(continentIndex);
+
+	        listModelNeighbourCountries.removeAllElements();
+	        List<String> neighbours = countryData.getNeighbours();
+
+	        for (String neighbour : neighbours) {
+	            listModelNeighbourCountries.addElement(neighbour);
+            }
+
+            listNeighbourCountries.setModel(listModelNeighbourCountries);
+
+	        listNeighbourCountries.clearSelection();
+	        this.selectedNeighbouringCountry = -1;
+
+	        computeCountries();
+        });
+
+	    this.btnDeleteCountry.addActionListener((ActionEvent e) -> {
+            if (this.selectedCountry == -1)
+                return;
+
+            String name = listModelCountries.getElementAt(this.selectedCountry);
+            CountryData data = holder.getCountry(name);
+
+            if (this.selectedNeighbouringCountry != -1) {
+                String neighbourName = listModelNeighbourCountries.getElementAt(this.selectedNeighbouringCountry);
+                data.removeNeighbour(neighbourName);
+                holder.putCountry(data);
+            } else {
+                holder.removeCountry(name);
+
+                listModelCountries.removeElementAt(this.selectedCountry);
+                listCountries.setModel(listModelCountries);
+            }
+
+            this.selectedCountry = -1;
+            this.selectedNeighbouringCountry = -1;
+
+            listModelNeighbourCountries.removeAllElements();
+            listNeighbourCountries.setModel(listModelNeighbourCountries);
+
+            listNeighbourCountries.clearSelection();
+            listCountries.clearSelection();
+        });
+
+	    this.listNeighbourCountries.addListSelectionListener((ListSelectionEvent e) -> {
+	        this.selectedNeighbouringCountry = listNeighbourCountries.getSelectedIndex();
+        });
+    }
+
+    /**
+     * Compute the list of neighbouring country.
+     * It ignores the selected country and already added neighbours.
+     */
+    @SuppressWarnings("unchecked")
+    private void computeCountries() {
+	    comboModelNeighbourCountries.removeAllElements();
+	    String selectedCountryName = null;
+        List<String> neighbours = new ArrayList<>();
+        HashMap<String, CountryData> countries = this.holder.getCountries();
+
+	    if (this.selectedCountry != -1) {
+            selectedCountryName = this.listModelCountries.getElementAt(this.selectedCountry);
+            neighbours = holder.getCountry(selectedCountryName).getNeighbours();
+        }
+
+        comboModelNeighbourCountries.addElement("No country");
+
+        for (Map.Entry<String, CountryData> country : countries.entrySet()) {
+            CountryData countryData = country.getValue();
+            if ((selectedCountryName != null) && selectedCountryName.equalsIgnoreCase(countryData.getName()))
+                continue;
+            if (neighbours.indexOf(countryData.getName()) != -1)
+                continue;
+            comboModelNeighbourCountries.addElement(countryData.getName());
+        }
+
+        this.selectedNeighbouringCountry = -1;
+        listNeighbourCountries.clearSelection();
+
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+    }
+
+    /**
+     * Initializes the listeners associated to continent data.
+     *      * Adding a continent,
+     *      *  - It initializes the continent object and pushes into
+     *      * Update a country
+     *      *  - It updates the hashmap in the holder
+     *      * Delete a country
+     *      *  - It deletes the continent from hashmap in the holder
+     */
+    @SuppressWarnings("unchecked")
+    private void initContinentListeners() {
+        this.btnAddContinent.addActionListener((ActionEvent e) -> {
+            String name = textContinentName.getText();
+            String controlValue = textContinentControlValue.getText();
+
+            if ((name.length() == 0) && (controlValue.length() == 0))
+                return;
+
+            if (holder.doesContinentExist(name))
+                return;
+
+            holder.putContinent(new ContinentData(name, Integer.parseInt(controlValue)));
+
+            listModelContinents.addElement(controlValue + " - " + name);
+            comboModelContinents.addElement(name);
+
+            listContinents.setModel(listModelContinents);
+            comboContinents.setModel(comboModelContinents);
+
+            textContinentName.setText("");
+            textContinentControlValue.setText("");
+
+            listContinents.clearSelection();
+            this.selectedContinent = -1;
+
+            System.out.println(name + " has been added!");
+        });
+
+        this.listContinents.addListSelectionListener((ListSelectionEvent e) -> {
+            this.selectedContinent = listContinents.getSelectedIndex();
+
+            if (this.selectedContinent == -1)
+                return;
+
+            String continent = listModelContinents.getElementAt(this.selectedContinent);
+            String[] temp = continent.split("-");
+            textContinentName.setText(temp[1].trim());
+            textContinentControlValue.setText(temp[0].trim());
+        });
+
+        this.btnDeleteContinent.addActionListener((ActionEvent e) -> {
+            if (this.selectedContinent == -1)
+                return;
+
+            String continent = listModelContinents.getElementAt(this.selectedContinent);
+            String name = continent.split("-")[1].trim();
+            System.out.println(name);
+
+            if (continent.contains(name)) {
+                holder.deleteContinent(name);
+                listModelContinents.removeElementAt(this.selectedContinent);
+                comboModelContinents.removeElement(name);
+            }
+
+            listContinents.setModel(listModelContinents);
+            comboContinents.setModel(comboModelContinents);
+
+            textContinentName.setText("");
+            textContinentControlValue.setText("");
+
+            listContinents.clearSelection();
+            this.selectedContinent = -1;
+
+            System.out.println(name + " has been removed!");
+        });
+
+        this.btnUpdateContinent.addActionListener((ActionEvent e) -> {
+            if (this.selectedContinent == -1)
+                return;
+
+            String name = this.textContinentName.getText();
+            String controlValue = this.textContinentControlValue.getText();
+
+            holder.deleteContinent(this.listModelContinents.getElementAt(this.selectedContinent).split("-")[1].trim());
+            holder.putContinent(new ContinentData(name, Integer.parseInt(controlValue)));
+            listModelContinents.removeElementAt(this.selectedContinent);
+            listModelContinents.addElement(controlValue + " - " + name);
+
+            listContinents.setModel(listModelContinents);
+
+            textContinentName.setText("");
+            textContinentControlValue.setText("");
+
+            listContinents.clearSelection();
+            this.selectedContinent = -1;
+
+            System.out.println(name + " has been updated!");
+        });
+    }
+
+    /**
+     * Initialize listeners from the controller.
+     * @param alSaveMap listener for saveMap
+     */
+    public void initPublicListeners(ActionListener alSaveMap) {
+	    this.btnSaveMap.addActionListener(alSaveMap);
+    }
+
+    /**
+     * Display the frame for the map editor.
+     */
+    public void display() {
+	    this.setVisible(true);
+	    pack();
+    }
 }

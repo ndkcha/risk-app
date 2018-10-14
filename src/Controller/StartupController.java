@@ -123,7 +123,7 @@ public class StartupController {
 
     private CountryData addCountry(String incoming) {
         String content[] = incoming.split(",");
-        CountryData data = new CountryData(content[0], Integer.parseInt(content[1]), Integer.parseInt(content[2]), content[3]);
+        CountryData data = new CountryData(content[0], Double.parseDouble(content[1]), Double.parseDouble(content[2]), content[3]);
         for (int i = 4; i < content.length; i++) {
             data.addNeighbour(content[i]);
         }
