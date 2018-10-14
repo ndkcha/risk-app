@@ -5,6 +5,8 @@ import Model.CountryData;
 import Risk.MapEditorDataHolder;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -36,6 +38,7 @@ public class MapEditotView extends JFrame{
     private JSeparator jSeparator2;
     private JTable jTable1;
     private JTextField textCountryName, textCountryX, textCountryY, textContinentName, textContinentControlValue;
+    private JTextField textMapName;
     // End of variables declaration//GEN-END:variables
 
     private int selectedContinent = -1;
@@ -84,6 +87,7 @@ public class MapEditotView extends JFrame{
         btnExit = new JButton();
         labelAdjacentCountry = new JLabel();
         btnUpdateMap = new JButton();
+        textMapName = new JTextField("Untitled Map");
 
         listModelContinents = new DefaultListModel<>();
         comboModelContinents = new DefaultComboBoxModel<>();
@@ -122,6 +126,7 @@ public class MapEditotView extends JFrame{
         btnUpdateCountry.setText("Update");
         btnDeleteCountry.setText("Delete");
         btnSaveMap.setText("Save Map");
+        btnSaveMap.setActionCommand("Untitled Map");
         btnExit.setText("EXIT");
         labelAdjacentCountry.setText("Adjacent Country");
         btnUpdateMap.setText("Update Map");
@@ -259,7 +264,9 @@ public class MapEditotView extends JFrame{
                                     .addComponent(labelAdjacentCountry, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(70, 70, 70)
-                        .addComponent(btnSaveMap, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textMapName, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnSaveMap, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -304,6 +311,7 @@ public class MapEditotView extends JFrame{
                     .addComponent(jScrollPane6))
                 .addGap(108, 108, 108)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(textMapName, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSaveMap, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
                 .addGap(711, 711, 711)
                 .addComponent(filler1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -613,6 +621,22 @@ public class MapEditotView extends JFrame{
      */
     public void initPublicListeners(ActionListener alSaveMap) {
 	    this.btnSaveMap.addActionListener(alSaveMap);
+	    this.textMapName.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                btnSaveMap.setActionCommand(textMapName.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                btnSaveMap.setActionCommand(textMapName.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
     }
 
     /**
