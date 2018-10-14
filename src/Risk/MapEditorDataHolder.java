@@ -40,7 +40,7 @@ public class MapEditorDataHolder {
     }
 
     public void clearCountries() {
-        this.continents.clear();
+        this.countries.clear();
     }
 
     public void putCountry(CountryData countryData) {

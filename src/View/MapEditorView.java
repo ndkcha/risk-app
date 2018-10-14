@@ -20,7 +20,7 @@ import java.util.Map;
  * The view that displays map editor
  * @author Jay, ndkcha
  */
-public class MapEditotView extends JFrame{
+public class MapEditorView extends JFrame{
     private MapEditorDataHolder holder = MapEditorDataHolder.getInstance();
 
 	 // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -49,7 +49,7 @@ public class MapEditotView extends JFrame{
      * A constructor that initializes all the UI elements and sets up the initial values.
      * It also initializes the listeners.
      */
-	public MapEditotView() {
+	public MapEditorView() {
         jScrollPane1 = new JScrollPane();
         jTable1 = new JTable();
         panel = new JPanel();
@@ -143,6 +143,27 @@ public class MapEditotView extends JFrame{
         ));
 
         holder.clearContinents();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setUpValues() {
+        listModelCountries.removeAllElements();
+
+        for (Map.Entry<String, CountryData> countryDataEntry : holder.getCountries().entrySet()) {
+            listModelCountries.addElement(countryDataEntry.getValue().getName());
+        }
+
+        listCountries.setModel(listModelCountries);
+
+        listModelContinents.removeAllElements();
+
+        for (Map.Entry<String, ContinentData> continentDataEntry : holder.getContinents().entrySet()) {
+            listModelContinents.addElement(continentDataEntry.getValue().getName());
+        }
+
+        listContinents.setModel(listModelContinents);
+
+        textMapName.setText(holder.mapData.mapFileName);
     }
 
     /**

@@ -5,7 +5,7 @@ package Model;
  * @author Jay, ndkcha
  */
 public class MapData {
-    public String author, imageFileName, scrollType;
+    public String author, imageFileName, scrollType, mapFileName;
     public boolean wrap, warn;
 
 	public MapData() {
@@ -14,6 +14,7 @@ public class MapData {
 	}
 
 	public void cleanUpMapData() {
+		this.mapFileName = "";
 	    this.author = "";
 	    this.imageFileName = "";
 	    this.scrollType = "";

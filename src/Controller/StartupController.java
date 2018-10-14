@@ -22,6 +22,7 @@ public class StartupController {
         try {
             String existingSegment = "";
             Scanner mapScanner = new Scanner(this.mapFile);
+            this.holder.mapData.cleanUpMapData();
 
             while (mapScanner.hasNextLine()) {
                 String incoming = mapScanner.nextLine();
@@ -30,7 +31,6 @@ public class StartupController {
                 if (incoming.startsWith("[")) {
                     // start a segment
                     existingSegment = incoming;
-                    this.holder.mapData.cleanUpMapData();
                     continue;
                 }
                 if (existingSegment.equalsIgnoreCase("[map]")) {
