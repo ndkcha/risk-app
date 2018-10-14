@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="866.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TitledPane animated="false" layoutY="-4.0" prefHeight="121.0" prefWidth="180.0" text="Dice :">
+         <content>
+            <Label prefHeight="17.0" prefWidth="64.0" text="Dice value" />
+         </content></TitledPane>
+      <TitledPane animated="false" layoutX="183.0" layoutY="1.0" prefHeight="114.0" prefWidth="203.0" text="Card :" />
+      <ListView layoutX="5.0" layoutY="288.0" prefHeight="506.0" prefWidth="382.0" />
+      <ScrollPane layoutX="420.0" layoutY="32.0" prefHeight="809.0" prefWidth="635.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
+      <Label layoutX="633.0" layoutY="14.0" prefHeight="17.0" prefWidth="180.0" text="MAP :" />
+    <AnchorPane layoutX="3.0" layoutY="122.0" minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="180.0">
+         <children>
+            <TitledPane animated="false" layoutX="-2.0" prefHeight="133.0" prefWidth="180.0" text="Phases :" />
+         </children>
+      </AnchorPane>
+    <AnchorPane layoutX="277.0" layoutY="122.0" minHeight="0.0" minWidth="0.0" prefHeight="95.0" prefWidth="111.0">
+         <children>
+            <TitledPane animated="false" layoutX="-95.0" layoutY="-2.0" prefHeight="139.0" prefWidth="203.0" text="Player :">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="88.0" prefWidth="181.0" />
+              </content>
+            </TitledPane>
+         </children>
+      </AnchorPane>
+    <AnchorPane layoutX="373.0" layoutY="148.0" minHeight="0.0" minWidth="0.0" prefHeight="85.0" prefWidth="167.0" />
+      <Label layoutX="126.0" layoutY="263.0" prefHeight="17.0" prefWidth="97.0" text="History :" />
+   </children>
+</Pane>
