@@ -159,7 +159,8 @@ public class MapEditorView extends JFrame{
         listModelContinents.removeAllElements();
 
         for (Map.Entry<String, ContinentData> continentDataEntry : holder.getContinents().entrySet()) {
-            listModelContinents.addElement(continentDataEntry.getValue().getName());
+            ContinentData data = continentDataEntry.getValue();
+            listModelContinents.addElement(data.getControlValue() + " - " + data.getName());
         }
 
         listContinents.setModel(listModelContinents);
