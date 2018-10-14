@@ -1,4 +1,4 @@
-package View;
+package Game.View;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -15,10 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import Controller.Controller;
-import Controller.MapEditorController;
-import Model.Player;
-import Risk.DataHolder;
+import Game.Controller.Controller;
+import Game.Controller.MapEditorController;
+import Game.Model.Player;
+import Game.Risk.DataHolder;
 
 /**
  * Start of the game: Main screen and game settings.
@@ -270,48 +270,43 @@ public class GameSettingsView {
         jf.getContentPane().add(p2);
         jf.getContentPane().add(p3);
         jf.getContentPane().add(p4);
-  
-        selectMap.addActionListener(new ActionListener()
-		{
-		  public void actionPerformed(ActionEvent e)
-		  {
-		      System.out.println(e.getActionCommand());
-              holder.clearPlayers();
-			  System.out.println("number of player selected: " + num_players);
 
-              Player p1 = new Player(player1_name.getText(), "BLUE");
-              Player p2 = new Player(player2_name.getText(), "GREEN");
-              Player p3 = new Player(player3_name.getText(), "YELLOW");
-              Player p4 = new Player(player4_name.getText(), "MAGENTA");
-              Player p5 = new Player(player5_name.getText(), "RED");
-              Player p6 = new Player(player6_name.getText(), "ORANGE");
+        selectMap.addActionListener((ActionEvent e) -> {
+            System.out.println(e.getActionCommand());
+            holder.clearPlayers();
+            System.out.println("number of player selected: " + num_players);
 
-              holder.addPlayer(p1);
-              holder.addPlayer(p2);
+            Player pl1 = new Player(player1_name.getText(), "BLUE");
+            Player pl2 = new Player(player2_name.getText(), "GREEN");
+            Player pl3 = new Player(player3_name.getText(), "YELLOW");
+            Player pl4 = new Player(player4_name.getText(), "MAGENTA");
+            Player pl5 = new Player(player5_name.getText(), "RED");
+            Player pl6 = new Player(player6_name.getText(), "ORANGE");
 
-              switch (num_players) {
-                  case 6:
-                      holder.addPlayer(p6);
-                  case 5:
-                      holder.addPlayer(p5);
-                  case 4:
-                      holder.addPlayer(p4);
-                  case 3:
-                      holder.addPlayer(p3);
-              }
-			  
-			  System.out.println("Select Map Button is clicked");
-			  chooseOptionFrame().dispose();
-			  File map_file = map_selector("map");
-			  holder.bmpFile = map_selector("bmp");
-			  
-			  Controller c = new Controller();
-			  //c.reinforcement();
-              c.gameStart(map_file);
-			  
-		  }
-		});
-        
+            holder.addPlayer(pl1);
+            holder.addPlayer(pl2);
+
+            switch (num_players) {
+                case 6:
+                    holder.addPlayer(pl6);
+                case 5:
+                    holder.addPlayer(pl5);
+                case 4:
+                    holder.addPlayer(pl4);
+                case 3:
+                    holder.addPlayer(pl3);
+            }
+
+            System.out.println("Select Map Button is clicked");
+            chooseOptionFrame().dispose();
+            File map_file = map_selector("map");
+            holder.bmpFile = map_selector("bmp");
+
+            Controller c = new Controller();
+            c.reinforcement();
+            c.gameStart(map_file);
+        });
+
         jf.setVisible(true);
     }
 

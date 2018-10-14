@@ -1,8 +1,8 @@
-package View;
+package Game.View;
 
-import Model.ContinentData;
-import Model.CountryData;
-import Risk.MapEditorDataHolder;
+import Game.Model.ContinentData;
+import Game.Model.CountryData;
+import Game.Risk.MapEditorDataHolder;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -145,6 +145,7 @@ public class MapEditorView extends JFrame{
         holder.clearContinents();
     }
 
+    /** Sets up values from the existing data structure (mainly used for loading the map from file) */
     @SuppressWarnings("unchecked")
     public void setUpValues() {
         listModelCountries.removeAllElements();

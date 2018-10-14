@@ -1,10 +1,4 @@
-/**
- * 
- */
-package Model;
-
-import java.util.ArrayList;
-import java.util.List;
+package Game.Model;
 
 /**
  * The continent will hold the information about continents
@@ -29,12 +23,6 @@ public class ContinentData {
     public int getControlValue() {
         return controlValue;
     }
-//    public ArrayList<CountryData> getCountries(){
-//        return countries;
-//    }
-//
-//    public void setCountries(ArrayList<CountryData> countries) {
-//        this.countries = countries;
 //    }
     
     

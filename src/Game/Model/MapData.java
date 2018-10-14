@@ -1,4 +1,4 @@
-package Model;
+package Game.Model;
 
 /**
  * The basic details about the map

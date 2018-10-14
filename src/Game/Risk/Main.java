@@ -1,9 +1,9 @@
 /**
  * @file Main file to run the Risk Game.
  */
-package Risk;
+package Game.Risk;
 
-import Controller.Controller;
+import Game.Controller.Controller;
 
 /**
  * Main class to run the Risk game with Runnable.

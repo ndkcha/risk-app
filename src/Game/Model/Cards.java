@@ -1,7 +1,4 @@
-/**
- * 
- */
-package Model;
+package Game.Model;
 
 import java.io.Serializable;
 

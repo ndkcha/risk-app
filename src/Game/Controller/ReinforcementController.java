@@ -1,10 +1,10 @@
-package Controller;
+package Game.Controller;
 
 import java.util.*;
-import Model.CountryData;
-import Model.ContinentData;
-import Risk.DataHolder;
-import Model.Player;
+import Game.Model.CountryData;
+import Game.Model.ContinentData;
+import Game.Risk.DataHolder;
+import Game.Model.Player;
 
 /**
  * This controller class is for the reinforcement phase

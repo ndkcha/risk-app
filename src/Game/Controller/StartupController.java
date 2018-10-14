@@ -1,23 +1,37 @@
-package Controller;
+package Game.Controller;
 
-import Model.ContinentData;
-import Model.CountryData;
-import Model.Player;
-import Risk.DataHolder;
+import Game.Model.ContinentData;
+import Game.Model.CountryData;
+import Game.Model.Player;
+import Game.Risk.DataHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.stream.IntStream;
 
+/**
+ * The controller for the startup phase that takes place between game settings and game play.
+ * @author ndkcha
+ * @version 1.0.0
+ */
 public class StartupController {
+    /** a file that holds the information about the map */
     private File mapFile;
+    /** the holder class for the data in the game play */
     private DataHolder holder = DataHolder.getInstance();
 
+    /**
+     * A constructor that initializes the default values.
+     * @param mapFile file descriptor of the map file.
+     */
     StartupController(File mapFile) {
         this.mapFile = mapFile;
     }
 
+    /**
+     * Process the map file and load the data inside the DataHolder object.
+     */
     void processFiles() {
         try {
             String existingSegment = "";
@@ -51,6 +65,11 @@ public class StartupController {
         }
     }
 
+    /**
+     * Assign countries to the players.
+     * It shuffles the list countries in order to give a random assignment to the players.
+     * It assigns the countries to the players in round robin fashion.
+     */
     void assignCountries() {
         List<CountryData> countries = this.holder.getCountryDataList();
         List<Player> p= this.holder.getPlayerList();
@@ -84,9 +103,12 @@ public class StartupController {
         this.holder.updatePlayerList(Arrays.asList(players));
     }
 
+    /**
+     * Assign armies to the initially conquered countries of the players.
+     * Based on number of players in the game, a specific number of armies are assigned to random countries that the players owns.
+     */
     void assignArmies() {
         List<Player> players = this.holder.getPlayerList();
-        List<CountryData> countries = this.holder.getCountryDataList();
 
         Random random = new Random();
 
@@ -117,10 +139,20 @@ public class StartupController {
         }
     }
 
+    /**
+     * Based on number of players, this method determines the number of armies allowed for the initial game play
+     * @param noOfPlayers number of players in the game play
+     * @return number of armies allowed.
+     */
     private int determineOfInitialArmy(int noOfPlayers) {
         return 40 - ((noOfPlayers -2) * 5);
     }
 
+    /**
+     * Add country inside the DataHolder hashmap
+     * @param incoming formatted string from the map file
+     * @return Data object of the country
+     */
     private CountryData addCountry(String incoming) {
         String content[] = incoming.split(",");
         CountryData data = new CountryData(content[0], Double.parseDouble(content[1]), Double.parseDouble(content[2]), content[3]);
@@ -130,11 +162,21 @@ public class StartupController {
         return data;
     }
 
+    /**
+     * Add continent inside the DataHolder hashmap
+     * @param incoming formatted string from the map file
+     * @return Data object of the continent
+     */
     private ContinentData addContinent(String incoming) {
         String[] contents = incoming.split("=");
         return new ContinentData(contents[0], Integer.parseInt(contents[1]));
     }
 
+    /**
+     * Adds the map meta data into the DataHolder hasmap
+     * @param field name of the field
+     * @param value value of the corresponding.
+     */
     private void addToMapData(String field, String value) {
         if (field.equalsIgnoreCase("image"))
             this.holder.mapData.imageFileName = value;

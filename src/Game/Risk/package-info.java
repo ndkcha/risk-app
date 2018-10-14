@@ -5,4 +5,4 @@
  * @author Jay
  *
  */
-package Controller;
+package Game.Risk;
