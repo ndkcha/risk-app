@@ -29,6 +29,9 @@ public class MapEditorController {
     /** the user interface for map editor */
     private MapEditorView view;
 
+    /** Error message to display */
+    private String errorMessage = "";
+
     /**
      * The constructor that initializes controller with initial values.
      * It also subscribes to different event listeners that are later passed to the view.
@@ -54,6 +57,7 @@ public class MapEditorController {
      */
     public boolean loadExistingMap(File mapFile) {
         boolean invalidFormatError = false;
+        this.errorMessage = "";
         try {
             String existingSegment = "";
             Scanner mapScanner = new Scanner(mapFile);
@@ -95,10 +99,12 @@ public class MapEditorController {
         }
         view.setUpValues();
 
-        if (invalidFormatError)
-            System.out.println("Invalid format of the file");
+        boolean otherErrors = this.checkForErrors();
 
-        return this.checkForErrors() || invalidFormatError;
+        JOptionPane.showMessageDialog(new JFrame(), this.errorMessage, "Error",
+            JOptionPane.ERROR_MESSAGE);
+
+        return otherErrors || invalidFormatError;
     }
 
     /**
@@ -114,10 +120,12 @@ public class MapEditorController {
             CountryData countryData = countryDataEntry.getValue();
             if (countryData.getNeighbours().size() == 0) {
                 noNeighbours = true;
+                this.errorMessage = this.errorMessage.concat("\n" + countryData.getName() + " has no neighbour");
                 System.out.println(countryData.getName() + " has no neighbour");
             }
             if (countryData.getContinent().length() == 0) {
                 noContinent = true;
+                this.errorMessage = this.errorMessage.concat("\n" + countryData.getName() + " is part of no continents");
                 System.out.println(countryData.getName() + " is part of no continents");
             }
         }
@@ -129,6 +137,7 @@ public class MapEditorController {
             List<CountryData> countries = holder.getCountriesInContinent(data.getName());
             if (countries.size() == 0) {
                 noCountryInContinent = true;
+                this.errorMessage = this.errorMessage.concat("\n" + data.getName() + " has no country inside");
                 System.out.println(data.getName() + " has no country inside");
             }
 
@@ -136,6 +145,7 @@ public class MapEditorController {
                 for (String neighbour : country.getNeighbours()) {
                     if (!holder.doesCountryExist(neighbour)) {
                         ghostNeighbours = true;
+                        this.errorMessage = this.errorMessage.concat("\n" + neighbour + " doesn't exist, but is a neighbour of " + country.getName());
                         System.out.println(neighbour + " doesn't exist, but is a neighbour of " + country.getName());
                     } else {
                         if (!holder.getCountry(neighbour).getContinent().equalsIgnoreCase(data.getName()))
@@ -146,6 +156,7 @@ public class MapEditorController {
 
             if (!hasLink) {
                 noLink = true;
+                this.errorMessage = this.errorMessage.concat("\n" + data.getName() + " has no link to any other continent");
                 System.out.println(data.getName() + " has no link to any other continent");
             }
         }
@@ -160,8 +171,11 @@ public class MapEditorController {
      */
     private CountryData addCountry(String incoming) {
         String content[] = incoming.split(",");
-        if (content.length < 4)
+        if (content.length < 4) {
+            this.errorMessage = this.errorMessage.concat("\n" + "Invalid format of the file");
+            System.out.println("Invalid format of the file");
             return null;
+        }
         CountryData data = new CountryData(content[0], Double.parseDouble(content[1]), Double.parseDouble(content[2]), content[3]);
         for (int i = 4; i < content.length; i++) {
             data.addNeighbour(content[i]);
@@ -176,6 +190,10 @@ public class MapEditorController {
      */
     private ContinentData addContinent(String incoming) {
         String[] contents = incoming.split("=");
+        if (contents.length != 2) {
+            this.errorMessage = this.errorMessage.concat("\n" + "Invalid format of the file");
+            System.out.println("Invalid format of the file");
+        }
         return contents.length == 2 ? new ContinentData(contents[0], Integer.parseInt(contents[1])) : null;
     }
 
