@@ -6,9 +6,12 @@ import Game.Model.MapData;
 import Game.Risk.MapEditorDataHolder;
 import Game.View.MapEditorView;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -47,8 +50,10 @@ public class MapEditorController {
      * The load existing map into the holder data structures.
      * It parses the map file followed by Conqueror standards.
      * @param mapFile input map file
+     * @return true if there are any errors
      */
-    public void loadExistingMap(File mapFile) {
+    public boolean loadExistingMap(File mapFile) {
+        boolean invalidFormatError = false;
         try {
             String existingSegment = "";
             Scanner mapScanner = new Scanner(mapFile);
@@ -70,10 +75,18 @@ public class MapEditorController {
                 }
                 if (existingSegment.equalsIgnoreCase("[continents]")) {
                     ContinentData data = this.addContinent(incoming);
+                    if (data == null) {
+                        invalidFormatError = true;
+                        continue;
+                    }
                     holder.putContinent(data);
                 }
                 if (existingSegment.equalsIgnoreCase("[territories]")) {
                     CountryData data = this.addCountry(incoming);
+                    if (data == null) {
+                        invalidFormatError = true;
+                        continue;
+                    }
                     holder.putCountry(data);
                 }
             }
@@ -81,6 +94,63 @@ public class MapEditorController {
             e.printStackTrace();
         }
         view.setUpValues();
+
+        if (invalidFormatError)
+            System.out.println("Invalid format of the file");
+
+        return this.checkForErrors() || invalidFormatError;
+    }
+
+    /**
+     * It checks for possible errors.
+     * @return true if there are any errors.
+     */
+    private boolean checkForErrors() {
+        // check for no neighbours
+        boolean noNeighbours = false, noContinent = false, noCountryInContinent = false;
+        boolean ghostNeighbours = false, noLink = false;
+
+        for (Map.Entry<String, CountryData> countryDataEntry : holder.getCountries().entrySet()) {
+            CountryData countryData = countryDataEntry.getValue();
+            if (countryData.getNeighbours().size() == 0) {
+                noNeighbours = true;
+                System.out.println(countryData.getName() + " has no neighbour");
+            }
+            if (countryData.getContinent().length() == 0) {
+                noContinent = true;
+                System.out.println(countryData.getName() + " is part of no continents");
+            }
+        }
+
+        for (Map.Entry<String, ContinentData> continentDataEntry : holder.getContinents().entrySet()) {
+            ContinentData data = continentDataEntry.getValue();
+            boolean hasLink = false;
+
+            List<CountryData> countries = holder.getCountriesInContinent(data.getName());
+            if (countries.size() == 0) {
+                noCountryInContinent = true;
+                System.out.println(data.getName() + " has no country inside");
+            }
+
+            for (CountryData country : countries) {
+                for (String neighbour : country.getNeighbours()) {
+                    if (!holder.doesCountryExist(neighbour)) {
+                        ghostNeighbours = true;
+                        System.out.println(neighbour + " doesn't exist, but is a neighbour of " + country.getName());
+                    } else {
+                        if (!holder.getCountry(neighbour).getContinent().equalsIgnoreCase(data.getName()))
+                            hasLink = true;
+                    }
+                }
+            }
+
+            if (!hasLink) {
+                noLink = true;
+                System.out.println(data.getName() + " has no link to any other continent");
+            }
+        }
+
+        return noNeighbours || noContinent || noCountryInContinent || ghostNeighbours || noLink;
     }
 
     /**
@@ -90,6 +160,8 @@ public class MapEditorController {
      */
     private CountryData addCountry(String incoming) {
         String content[] = incoming.split(",");
+        if (content.length < 4)
+            return null;
         CountryData data = new CountryData(content[0], Double.parseDouble(content[1]), Double.parseDouble(content[2]), content[3]);
         for (int i = 4; i < content.length; i++) {
             data.addNeighbour(content[i]);
@@ -104,7 +176,7 @@ public class MapEditorController {
      */
     private ContinentData addContinent(String incoming) {
         String[] contents = incoming.split("=");
-        return new ContinentData(contents[0], Integer.parseInt(contents[1]));
+        return contents.length == 2 ? new ContinentData(contents[0], Integer.parseInt(contents[1])) : null;
     }
 
     /**
@@ -141,8 +213,8 @@ public class MapEditorController {
                 if (holder.mapData.author != null)
                     writer.write("author=" + holder.mapData.author + "\n");
 
-                if (holder.mapData.imageFileName != null)
-                    writer.write("image=" + holder.mapData.imageFileName + "\n");
+                String fileName = (holder.mapData.imageFileName != null) ? holder.mapData.imageFileName : mapImageFileSelector();
+                writer.write("image=" + fileName + "\n");
 
                 writer.write("wrap=" + (holder.mapData.wrap ? "yes" : "no") + "\n");
 
@@ -175,11 +247,38 @@ public class MapEditorController {
                 }
 
                 writer.close();
+                view.dispose();
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
         };
 
         this.view.initPublicListeners(alSaveMap);
+    }
+
+    /**
+     * Upload .map along with .bmp file to be used for the game.
+     * @return the file descriptor.
+     */
+    private String mapImageFileSelector() {
+        System.out.println("BMP file selector opened");
+        JFrame frame = new JFrame("Select BMP File");
+
+        // Upload map file. https://coderanch.com/t/466536/java/closing-jFileChooser-window
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("./files/map"));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("BMP Files", "bmp");
+        fileChooser.setFileFilter(filter);
+
+        int returnValue = fileChooser.showOpenDialog(frame);
+        // Get the path of the file.
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String map_path = selectedFile.getAbsolutePath();
+            frame.dispose();
+            if (map_path.substring(map_path.lastIndexOf(".")).equalsIgnoreCase(".bmp"))
+                return selectedFile.getName();
+        }
+        return null;
     }
 }

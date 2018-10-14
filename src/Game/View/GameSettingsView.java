@@ -317,8 +317,11 @@ public class GameSettingsView {
             File mapFile = map_selector("map");
 
             MapEditorController editorController = new MapEditorController();
-            editorController.loadExistingMap(mapFile);
-            editorController.initAndDisplayView();
+            boolean anyErrors = editorController.loadExistingMap(mapFile);
+            if (!anyErrors) {
+                System.out.println("No errors found ");
+                editorController.initAndDisplayView();
+            }
         });
     }
 
