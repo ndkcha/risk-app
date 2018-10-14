@@ -18,6 +18,7 @@ public class MapEditorController {
     private MapEditotView view;
 
     MapEditorController() {
+        holder.mapData.author = "ndkcha";
         view = new MapEditotView();
         initActionListeners();
     }
@@ -34,9 +35,22 @@ public class MapEditorController {
                 BufferedWriter writer = new BufferedWriter(fileWriter);
 
                 writer.write("[Map]\n");
-                writer.write("author=ndkcha\n");
+
+                if (holder.mapData.author != null)
+                    writer.write("author=" + holder.mapData.author + "\n");
+
+                if (holder.mapData.imageFileName != null)
+                    writer.write("image=" + holder.mapData.imageFileName + "\n");
+
+                writer.write("wrap=" + (holder.mapData.wrap ? "yes" : "no") + "\n");
+
+                if (holder.mapData.scrollType != null)
+                    writer.write("scroll=" + holder.mapData.scrollType + "\n");
+
+                writer.write("warn=" + (holder.mapData.warn ? "yes" : "no") + "\n");
+
                 writer.write("\n");
-                writer.write("[Continent]\n");
+                writer.write("[Continents]\n");
 
                 for (Map.Entry<String, ContinentData> continentDataEntry : holder.getContinents().entrySet()) {
                     ContinentData data = continentDataEntry.getValue();

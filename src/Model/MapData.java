@@ -8,7 +8,10 @@ public class MapData {
     public String author, imageFileName, scrollType;
     public boolean wrap, warn;
 
-	public MapData() { }
+	public MapData() {
+		wrap = false;
+		warn = false;
+	}
 
 	public void cleanUpMapData() {
 	    this.author = "";
