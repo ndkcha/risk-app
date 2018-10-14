@@ -317,7 +317,7 @@ public class GameSettingsView{
 			  holder.bmpFile = map_selector("bmp");
 			  
 			  Controller c = new Controller();
-			  c.reinforcement();
+			  //c.reinforcement();
               c.gameStart(map_file);
 			  
 		  }
