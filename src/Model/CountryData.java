@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class CountryData {
     private String name, continent;
-    private int latitude, longitude; // x and y of the coordinate system respectively
+    private double latitude, longitude; // x and y of the coordinate system respectively
     private ArrayList<String> neighbours;
 
     /**
@@ -26,13 +26,24 @@ public class CountryData {
      * @param longitude Y coordinate of the map system
      * @param continent the continent it belongs into
      */
-	public CountryData(String name, int latitude, int longitude, String continent) {
+	public CountryData(String name, double latitude, double longitude, String continent) {
         this.name = name;
         this.continent = continent;
         this.latitude = latitude;
         this.longitude = longitude;
         this.neighbours = new ArrayList<>();
 	}
+
+	public void setValues(String name, double latitude, double longitude, String continent) {
+        this.name = name;
+        this.continent = continent;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public void removeNeighbour(String name) {
+	    this.neighbours.remove(name);
+    }
 
 	public void addNeighbour(String name) {
 	    this.neighbours.add(name);
@@ -46,11 +57,11 @@ public class CountryData {
         return continent;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

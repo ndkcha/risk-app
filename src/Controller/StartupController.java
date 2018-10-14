@@ -22,6 +22,7 @@ public class StartupController {
         try {
             String existingSegment = "";
             Scanner mapScanner = new Scanner(this.mapFile);
+            this.holder.mapData.cleanUpMapData();
 
             while (mapScanner.hasNextLine()) {
                 String incoming = mapScanner.nextLine();
@@ -30,7 +31,6 @@ public class StartupController {
                 if (incoming.startsWith("[")) {
                     // start a segment
                     existingSegment = incoming;
-                    this.holder.mapData.cleanUpMapData();
                     continue;
                 }
                 if (existingSegment.equalsIgnoreCase("[map]")) {
@@ -123,7 +123,7 @@ public class StartupController {
 
     private CountryData addCountry(String incoming) {
         String content[] = incoming.split(",");
-        CountryData data = new CountryData(content[0], Integer.parseInt(content[1]), Integer.parseInt(content[2]), content[3]);
+        CountryData data = new CountryData(content[0], Double.parseDouble(content[1]), Double.parseDouble(content[2]), content[3]);
         for (int i = 4; i < content.length; i++) {
             data.addNeighbour(content[i]);
         }
