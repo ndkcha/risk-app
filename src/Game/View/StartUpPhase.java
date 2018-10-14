@@ -1,7 +1,7 @@
 /**
  * @file the Start up Phase of the game. 
  */
-package View;
+package Game.View;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import Controller.Controller;
+import Game.Controller.Controller;
 
 /**
  * Start Up Phase view of the game.

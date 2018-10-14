@@ -1,7 +1,4 @@
-/**
- * 
- */
-package Model;
+package Game.Model;
 
 import java.util.Random;
 
@@ -26,8 +23,6 @@ public class RollDice {
 	/**
 	 * 
 	 */
-	public RollDice() {
-		// TODO Auto-generated constructor stub
-	}
+	public RollDice() { }
 
 }

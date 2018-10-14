@@ -5,4 +5,4 @@
  * @author Jay
  *
  */
-package Testing;
+package Game.Model;

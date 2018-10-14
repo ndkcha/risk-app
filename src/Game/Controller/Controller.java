@@ -1,12 +1,12 @@
-package Controller;
+package Game.Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import Model.Player;
-import Risk.DataHolder;
-import View.*;
+import Game.Model.Player;
+import Game.Risk.DataHolder;
+import Game.View.*;
 import java.util.List;
 
 

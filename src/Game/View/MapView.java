@@ -1,7 +1,7 @@
-package View;
+package Game.View;
 
-import Model.CountryData;
-import Risk.DataHolder;
+import Game.Model.CountryData;
+import Game.Risk.DataHolder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

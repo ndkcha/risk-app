@@ -1,7 +1,7 @@
 /**
  * 
  */
-package Model;
+package Game.Model;
 
 import java.util.ArrayList;
 

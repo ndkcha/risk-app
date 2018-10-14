@@ -1,4 +1,4 @@
-package Model;
+package Game.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +12,13 @@ import java.util.List;
  */
 public class Player {
     private String name, color;
-    // name being key and noOfArmies being the value
+    /**
+     * The countries conquered by the player.
+     * Key is the name of the country.
+     * Values is the number of armies inside that country.
+     */
     private HashMap<String, Integer> countriesConquered;
+    /** The continents conquered by the player */
     private List<String> continentsConquered;
 
     public Player(String name, String color) {
@@ -23,10 +28,20 @@ public class Player {
         this.continentsConquered = new ArrayList<>();
     }
 
+    /**
+     * Assign a country to the players.
+     * It will automatically award the player with one army inside that country.
+     * @param name name of the country
+     */
     public void initializeCountry(String name) {
         this.countriesConquered.put(name, 1);
     }
 
+    /**
+     * Update the number of armies assigned to that country
+     * @param name name of the country
+     * @param noOfArmies number of armies used for the country.
+     */
     public void updateCountry(String name, int noOfArmies) {
         this.countriesConquered.put(name, noOfArmies);
     }
