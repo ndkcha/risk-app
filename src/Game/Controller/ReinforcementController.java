@@ -10,6 +10,7 @@ import Game.Model.Player;
  * This controller class is for the reinforcement phase
  *
  * @author r-naik
+ * @version 1.0.0
  */
 public class ReinforcementController {
 
@@ -24,7 +25,7 @@ public class ReinforcementController {
      *
      * @param playerTurn The identity of the player to which armies is assigned
      */
-    int calculateReinformentArmies(int playerTurn) {
+    public int calculateReinformentArmies(int playerTurn) {
 
         //retrieving the player number whose turn is goin on
         player = p.get(playerTurn - 1);
