@@ -149,21 +149,28 @@ public class MapEditorView extends JFrame{
     @SuppressWarnings("unchecked")
     public void setUpValues() {
         listModelCountries.removeAllElements();
+        comboModelNeighbourCountries.removeAllElements();
 
         for (Map.Entry<String, CountryData> countryDataEntry : holder.getCountries().entrySet()) {
-            listModelCountries.addElement(countryDataEntry.getValue().getName());
+            CountryData countryData = countryDataEntry.getValue();
+            listModelCountries.addElement(countryData.getName());
+            comboModelNeighbourCountries.addElement(countryData.getName());
         }
 
         listCountries.setModel(listModelCountries);
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
 
         listModelContinents.removeAllElements();
+        comboModelContinents.removeAllElements();
 
         for (Map.Entry<String, ContinentData> continentDataEntry : holder.getContinents().entrySet()) {
             ContinentData data = continentDataEntry.getValue();
             listModelContinents.addElement(data.getControlValue() + " - " + data.getName());
+            comboModelContinents.addElement(data.getName());
         }
 
         listContinents.setModel(listModelContinents);
+        comboContinents.setModel(comboModelContinents);
 
         textMapName.setText(holder.mapData.mapFileName);
     }
@@ -479,6 +486,22 @@ public class MapEditorView extends JFrame{
             String name = listModelCountries.getElementAt(this.selectedCountry);
             CountryData data = holder.getCountry(name);
 
+            for (Map.Entry<String, CountryData> countryDataEntry : holder.getCountries().entrySet()) {
+                CountryData countryData = countryDataEntry.getValue();
+                if (countryData.getName().equalsIgnoreCase(name))
+                    continue;
+
+                for (String neighbour : countryData.getNeighbours()) {
+                    if (neighbour.equalsIgnoreCase(name)) {
+                        String message = name + " is already neighbour of " + countryData.getName() + ".\nCan not delete " + name;
+                        System.out.println(message);
+                        JOptionPane.showMessageDialog(new JFrame(), message, "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+            }
+
             if (this.selectedNeighbouringCountry != -1) {
                 String neighbourName = listModelNeighbourCountries.getElementAt(this.selectedNeighbouringCountry);
                 data.removeNeighbour(neighbourName);
@@ -595,6 +618,14 @@ public class MapEditorView extends JFrame{
             String continent = listModelContinents.getElementAt(this.selectedContinent);
             String name = continent.split("-")[1].trim();
             System.out.println(name);
+
+            if (holder.getCountriesInContinent(name).size() != 0) {
+                String message = "Can not delete continent. There are countries inside!";
+                System.out.println(message);
+                JOptionPane.showMessageDialog(new JFrame(), message, "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             if (continent.contains(name)) {
                 holder.deleteContinent(name);
