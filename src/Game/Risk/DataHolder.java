@@ -13,6 +13,9 @@ import java.util.Map;
 
 /**
  * A singleton class to hold the entire data set throughout the application.
+ * 
+ * @author Jay
+ * @version 1.0.0
  */
 public class DataHolder {
     public static final int REINFORCEMENT_PHASE = 0;
@@ -111,12 +114,12 @@ public class DataHolder {
      */
     public List<CountryData> countCountriesInContinent(String continentName) {
         List<CountryData> countryDataList = new ArrayList<>();
-        
+
         for (CountryData country : this.countryDataList) {
             if (country.getContinent().equalsIgnoreCase(continentName))
                 countryDataList.add(country);
         }
-        
+
         return countryDataList;
     }
 
