@@ -29,7 +29,7 @@ public class StartupController {
 	 * 
 	 * @param mapFile File descriptor of the map file.
 	 */
-	StartupController(File mapFile) {
+	public StartupController(File mapFile) {
 		this.mapFile = mapFile;
 	}
 
@@ -154,7 +154,7 @@ public class StartupController {
 	 * @param noOfPlayers Number of players in the game play
 	 * @return number of armies allowed.
 	 */
-	private int determineOfInitialArmy(int noOfPlayers) {
+	public int determineOfInitialArmy(int noOfPlayers) {
 		return 40 - ((noOfPlayers - 2) * 5);
 	}
 
