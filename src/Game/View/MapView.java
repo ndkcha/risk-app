@@ -22,6 +22,7 @@ public class MapView {
         try {
             if (this.holder.bmpFile != null)
                 this.mapImage = ImageIO.read(this.holder.bmpFile);
+            paintUi();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -39,10 +40,10 @@ public class MapView {
         System.out.println("\nWidth: " + this.mapImage.getWidth() + " | Height: " + this.mapImage.getHeight());
 
         JScrollPane scrollPane = new JScrollPane(canvas);
-        this.mapFrame.setContentPane(scrollPane);
-
-        this.mapFrame.pack();
-        this.mapFrame.setVisible(true);
+//        this.mapFrame.setContentPane(scrollPane);
+//
+//        this.mapFrame.pack();
+//        this.mapFrame.setVisible(true);
     }
 
     public void plotPlayers() {
