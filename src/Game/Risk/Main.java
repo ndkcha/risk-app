@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
  * Main class to run the Risk game with Runnable.
  * 
  * @author Jay
- *
+ * @version 1.0.0
  */
 public class Main {
 
