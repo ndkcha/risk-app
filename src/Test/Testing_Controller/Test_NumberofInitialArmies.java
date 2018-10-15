@@ -14,7 +14,7 @@ import org.junit.Test;
  */
 public class Test_NumberofInitialArmies {
 			
-   StartupController sc=new StartupController(new File(""));
+   StartupController sc = new StartupController(new File(""));
    
    /** 
 	 * 
