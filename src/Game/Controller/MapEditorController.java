@@ -43,7 +43,9 @@ public class MapEditorController {
         initActionListeners();
     }
 
-    /** Initializes the viewport of Map Editor. and displays on the screen. */
+    /** 
+     * Initializes the viewport of Map Editor. and displays on the screen.  
+     */
     public void initAndDisplayView() {
         view.initComponents();
         view.display();
