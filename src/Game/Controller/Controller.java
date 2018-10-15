@@ -1,9 +1,15 @@
 package Game.Controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
+import java.io.IOException;
+import java.util.Arrays;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 
 import Game.Model.Player;
 import Game.Risk.DataHolder;
@@ -23,6 +29,11 @@ public class Controller {
 	
 	// Store object of GameSettingsView class.
 	private GameSettingsView gameSettings;
+
+	private Views playerInfoGUI;
+	private StartupController startupController;
+        private ReinforcementController reinforcementController;
+        private FortificationController fortificationController;
 
 	/**
 	 * Run the game by calling startGame functions.
@@ -46,37 +57,53 @@ public class Controller {
 		startupController.assignCountries(); // assign the contries
 		startupController.assignArmies(); // assign armies
 
-		RiskMainInterface.createInstance(); // main GUI for the game
+		RiskMainInterface.createInstance();
+
+		MapView mapView = new MapView();
+		mapView.paintUi();
+		mapView.plotPlayers();
+                
+                 System.out.println("\n reinforcement phase");
+                //temporary logic for simulating turns taking turns
+                List<Player> p= this.holder.getPlayerList();
+                Player[] players = new Player[p.size()];
+                int playersTurn = 0;
+                
+                //players taking turn for each phase
+                
+                for(int i=playersTurn;i<p.size();i++){
+                
+                    if (playersTurn == players.length){
+                        playersTurn = 0;
+                    } else{
+                        playersTurn++;
+                    }
+                    //reinforcement(playersTurn);
+                    fortification(playersTurn);
+                }
+                
 	}
+        
+        public void reinforcement(int playersTurn){
+            //retrieving the player number whose turn is goin on
+            List<Player> p= this.holder.getPlayerList();
+            Player player = p.get(playersTurn - 1);
+                    
+                    System.out.println("\n\nReinforcemnet phase of Player "+player.getName());
+                    this.reinforcementController =new ReinforcementController();
+                    int armies=this.reinforcementController.calculateReinformentArmies(playersTurn);
+                    this.reinforcementController.updateArmiesInCountries(playersTurn, armies); 
+        }
+        
+        public void fortification(int playersTurn){
+            //retrieving the player number whose turn is goin on
+            List<Player> p= this.holder.getPlayerList();
+            Player player = p.get(playersTurn - 1);
+            System.out.println("\n\nFortification phase of Player "+player.getName());
+            this.fortificationController=new FortificationController();
+            this.fortificationController.fortification(playersTurn);
+        }
 
-	/**
-	 * The method is used to control the reinforcement logics
-	 */
-	public void reinforcement() {
-		System.out.println("\n Reinforcement phase");
-		
-		// Temporary logic for simulating turns taking turns
-		List<Player> p = this.holder.getPlayerList();
-		int playersTurn = 0;
-
-		// players taking turn for each phase
-		for (int i = playersTurn; i < p.size(); i++) {
-
-			if (playersTurn == p.size()) {
-				playersTurn = 0;
-			} else {
-				playersTurn++;
-			}
-
-			System.out.println(
-					"\n\nReinforcemnet phase of Player " + playersTurn);
-			ReinforcementController reinforcementController = new ReinforcementController();
-			int armies = reinforcementController
-					.calculateReinformentArmies(playersTurn);
-			reinforcementController.updateArmiesInCountries(playersTurn,
-					armies);
-		}
-	}
 
 	/**
 	 * Listener for Start Game button.
