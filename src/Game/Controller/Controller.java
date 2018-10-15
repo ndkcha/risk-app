@@ -30,7 +30,11 @@ public class Controller {
 		startGameListener();
 		mapEditorListener();
 	}
-	
+	/**
+ * 
+ * method game start functioning
+ * @param map_file file object
+ */
 	public void gameStart(File map_file) {
 		playerInfoGUI = new Views();
 
@@ -47,6 +51,12 @@ public class Controller {
 		mapView.plotPlayers();
 	}
         
+        
+        /**
+ * 
+ * method reinforcement functioning
+ 
+ */
 	public void reinforcement() {
 		System.out.println("\n reinforcement phase");
 		//temporary logic for simulating turns taking turns
@@ -69,7 +79,11 @@ public class Controller {
 			reinforcementController.updateArmiesInCountries(playersTurn, armies);
 		}
 	}
-
+/**
+ * 
+ * method setting the player view
+ * @param newView views object
+ */
 	private void setPlayerView(Views newView) {
 		this.playerInfoGUI = newView;
 	}
@@ -83,7 +97,7 @@ public class Controller {
 		};
 		this.gameSettings.startGameAction(startGameListener);
 	}
-	
+	//Sets listener for Map Editor button.
 	private void mapEditorListener() {
 		ActionListener mapEditorListener =  (ActionEvent e) -> {
 			MapEditorController controller = new MapEditorController();
@@ -92,6 +106,9 @@ public class Controller {
 		};
 		this.gameSettings.mapEditorAction(mapEditorListener);
 	}
-
+/**
+ * 
+ * method public is called
+ */
 	public Controller() { }
 }
