@@ -22,7 +22,7 @@ public class TestMapEditorController {
  @Test public void testIsMapInvalid() {
 	 
 	 
-		Boolean b = object.loadExistingMap(new File("C:\\Users\\vansh\\Documents\\NetBeansProjects\\risk-app\\src\\Test\\ik.map"));
+		Boolean b = object.loadExistingMap(new File("/ik.map"));
 		 
 		assertFalse(b);
 	 
