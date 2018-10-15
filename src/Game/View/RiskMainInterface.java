@@ -91,8 +91,6 @@ public class RiskMainInterface extends JFrame {
 	 */
 	public RiskMainInterface() {
 	    initComponents();
-	    GameSettingsView gs = new GameSettingsView();
-	    gs.chooseOptionFrame().dispose();
 	}
 	
      /**

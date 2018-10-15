@@ -15,6 +15,7 @@ import java.util.Scanner;
 import Game.Model.CountryData;
 import Game.Model.ContinentData;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -36,20 +37,40 @@ public class FortificationController {
     void fortification(int playersTurn) {
 
         Scanner scanner = new Scanner(System.in);
-        String transferingCountry, destinationCountry;
+        String transferingCountry = null, destinationCountry = null;
         List<CountryData> countryDataList = holder.getCountryDataList();
         int noOfArmies = 0; //armies to be transferred
 
         //retrieving the player number whose turn is goin on
         player = p.get(playersTurn - 1);
+        //retrieving the player type
+        int playerType=player.getType();
         //retrieving the continents conquered by the player
-        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-        System.out.println("The countries conquered by " + player.getName() + " is " + countriesConquered.keySet());
-        //taking input of two countries between which arnies have to be transfered
-        System.out.println("Enter the country name from which armies to be transfered: ");
-        transferingCountry = scanner.nextLine();
-        System.out.println("Enter the country name to which armies to be transfered: ");
-        destinationCountry = scanner.nextLine();
+            HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+            System.out.println("The countries conquered by " + player.getName() + " is " + countriesConquered.keySet());
+        
+        if(playerType==0){
+            //taking input of two countries between which arnies have to be transfered
+            System.out.println("Enter the country name from which armies to be transfered: ");
+            transferingCountry = scanner.nextLine();
+            System.out.println("Enter the country name to which armies to be transfered: ");
+            destinationCountry = scanner.nextLine();
+        }
+        else {
+            //generating random country name from conquered country list
+            while (!countriesConquered.keySet().contains(transferingCountry)) {
+                Random generator = new Random();
+                Object[] values = countriesConquered.keySet().toArray();
+                transferingCountry = (String) values[generator.nextInt(values.length)];
+                System.out.println("\nThe country from which " + player.getName() + " will transfer armies: " + transferingCountry);
+            }
+            while (!countriesConquered.keySet().contains(destinationCountry)) {
+                Random generator = new Random();
+                Object[] values = countriesConquered.keySet().toArray();
+                destinationCountry = (String) values[generator.nextInt(values.length)];
+                System.out.println("\nThe country to which " + player.getName() + " will add armies: " + destinationCountry);
+            }
+        }
 
         int existingArmiesA=0; //existing armies with transfereing country
         int existingArmiesB=0; // existing armies with destination country
@@ -64,10 +85,17 @@ public class FortificationController {
                 existingArmiesB=(int) pair.getValue();
             }
         }
-        System.out.println("Number of armies in country " + transferingCountry + " are: "+existingArmiesA);
-        System.out.println("Enter the armies to be transfered:");
-        noOfArmies = scanner.nextInt();
-
+        
+        if(playerType==0) {
+            System.out.println("Number of armies in country " + transferingCountry + " are: "+existingArmiesA);
+            System.out.println("Enter the armies to be transfered:");
+            noOfArmies = scanner.nextInt();  
+        }
+        else {
+            Random generator=new Random();
+                noOfArmies=generator.nextInt(existingArmiesA);
+                System.out.println("The armies to be transfered is "+noOfArmies);
+        }
         
         //check if countries connected or not
         boolean checkIfConnected=checkIfConnected(transferingCountry,destinationCountry,countriesConquered);

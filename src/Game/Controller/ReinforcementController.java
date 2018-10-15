@@ -102,7 +102,7 @@ public class ReinforcementController {
         while (numberOfArmies>0) {
             
             //check if player is human or computer. 0 is human and 1 is computer
-            if(playerType==1){
+            if(playerType==0){
                 
                 while (!countriesConquered.keySet().contains(countryNameForAddArmies)) {
                 System.out.println("\nEnter the country name to which you want to add armies: ");
@@ -115,10 +115,18 @@ public class ReinforcementController {
                     newArmiesToAdd = Integer.parseInt(scanner.nextLine());
                 }
             } else{
-                
+                //generating random country name from conquered country list
+                while(!countriesConquered.keySet().contains(countryNameForAddArmies)) {
+                    Random generator = new Random();
+                    Object[] values = countriesConquered.keySet().toArray();
+                    countryNameForAddArmies = (String) values[generator.nextInt(values.length)];
+                    System.out.println("\nThe country name to which "+player.getName()+" will add armies: "+countryNameForAddArmies);
+                }
+                //generating armies to add to the country
+                Random generator=new Random();
+                newArmiesToAdd=generator.nextInt(numberOfArmies);
+                System.out.println("The armies to be added is "+newArmiesToAdd); 
             }
-            
-            
 
             //update the number of armies in the selected conquered country
             Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureed by player
