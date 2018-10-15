@@ -10,6 +10,7 @@ import Game.Model.Player;
  * This controller class is for the reinforcement phase
  *
  * @author r-naik
+ * @version 1.0.0
  */
 public class ReinforcementController {
 
@@ -75,8 +76,7 @@ public class ReinforcementController {
 
         System.out.println("The number of armies available for reinforcement phase is " + newarmies);
 
-        //updating the total number of armies
-      // updateArmiesInCountries(playerTurn, newarmies);
+        
        return newarmies;
     }
 
@@ -85,32 +85,41 @@ public class ReinforcementController {
      * countries as part of the phase
      *
      * @param playerTurn the player whose turn is going on
-     * @param noOfArmies number of armies allowed to the player for
-     * reinforcement phase
+     * @param noOfArmies number of armies allowed to the player for reinforcement phase
      */
     void updateArmiesInCountries(int playerTurn, int noOfArmies) {
 
         //retrieving the player whose turn is going on
         player = p.get(playerTurn - 1);
-
+        
         //retrieving the continents conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
         Scanner scanner = new Scanner(System.in);
         String countryNameForAddArmies = null;
-        int numberOfArmies = noOfArmies;
+        int numberOfArmies = noOfArmies; 
         int newArmiesToAdd = 0;
-
+        int playerType=player.getType();
+        
         while (numberOfArmies>0) {
-            while (!countriesConquered.keySet().contains(countryNameForAddArmies)) {
+            
+            //check if player is human or computer. 0 is human and 1 is computer
+            if(playerType==1){
+                
+                while (!countriesConquered.keySet().contains(countryNameForAddArmies)) {
                 System.out.println("\nEnter the country name to which you want to add armies: ");
                 countryNameForAddArmies = scanner.nextLine();
-            }
-            System.out.println("Enter the number of armies to be added: ");
-            newArmiesToAdd = Integer.parseInt(scanner.nextLine());
-            while (newArmiesToAdd > numberOfArmies) {
-                System.out.println("Enter value less than the allowed armies i.e less than or equal to " + numberOfArmies);
+                }
+                System.out.println("Enter the number of armies to be added: ");
                 newArmiesToAdd = Integer.parseInt(scanner.nextLine());
+                while (newArmiesToAdd > numberOfArmies) {
+                    System.out.println("Enter value less than the allowed armies i.e less than or equal to " + numberOfArmies);
+                    newArmiesToAdd = Integer.parseInt(scanner.nextLine());
+                }
+            } else{
+                
             }
+            
+            
 
             //update the number of armies in the selected conquered country
             Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureed by player

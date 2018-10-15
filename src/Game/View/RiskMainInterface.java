@@ -7,8 +7,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 import Game.Risk.DataHolder;
+import Game.Model.CountryData;
+import Game.Model.Player;
+import Game.Model.RollDice;
 
 /**
  * Full Game Play Panel consist of Game Logs, Map, Dice info, Player Info, 
@@ -23,15 +27,13 @@ public class RiskMainInterface extends JFrame {
 	 * MainView object.
 	 */
 	private static RiskMainInterface mainView;
-	
-	/**
-	 * PlayerInfoView class object.
-	 */
-	private Views playerData;
 	private DataHolder holder = DataHolder.getInstance();
-	
 	private BufferedImage mapImage;
-
+	private Player player;
+	
+	private List<Player> p = this.holder.getPlayerList();
+	RollDice rd = new RollDice();
+	int diceValue = rd.roll();
     
     // Variables declaration - do not modify                     
     private javax.swing.JButton Card_A_button;
@@ -89,6 +91,8 @@ public class RiskMainInterface extends JFrame {
 	 */
 	public RiskMainInterface() {
 	    initComponents();
+	    GameSettingsView gs = new GameSettingsView();
+	    gs.chooseOptionFrame().dispose();
 	}
 	
      /**
@@ -334,6 +338,11 @@ public class RiskMainInterface extends JFrame {
   */
 
         Card_C_button.setText("Card 3");
+        Card_C_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Card_C_buttonActionPerformed(evt);
+            }
+        });
 
         
            
@@ -562,10 +571,11 @@ public class RiskMainInterface extends JFrame {
         );
         
         
+
       /* * GroupLayout is set to Visible to display.
          *  pack method is called.
-         */   
-setVisible(true);
+         */         
+        setVisible(true);
         pack();
     }
      /* * Card_A_button Action event listener.
@@ -581,10 +591,16 @@ setVisible(true);
     private void Card_D_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
     }                                             
-/* * method createInstance is called
-         * @param playerifoGui view object
-         */
-	public static void createInstance(Views playerInfoGUI)
+
+    
+    private void Card_C_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        // TODO add your handling code here:
+    } 
+
+    /* * method createInstance is called
+     * @param playerifoGui view object
+     */
+	public static void createInstance()
 	{
 		if(mainView == null){
 			mainView = new RiskMainInterface();
