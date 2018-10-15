@@ -2,7 +2,7 @@ package Game.Model;
 
 /**
  * The basic details about the map
- * @author Jay, ndkcha
+ * @author Jay, ndkcha,gunvansh
  */
 public class MapData {
     public String author, imageFileName, scrollType, mapFileName;
@@ -12,7 +12,11 @@ public class MapData {
 		wrap = false;
 		warn = false;
 	}
-
+/**
+     * 
+     *  cleanUpMapData  method
+     * 
+     */
 	public void cleanUpMapData() {
 		this.mapFileName = "";
 	    this.author = "";

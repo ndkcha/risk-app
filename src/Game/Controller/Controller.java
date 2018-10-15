@@ -34,7 +34,7 @@ public class Controller {
 
 	/**
 	 * This method fill start the game after game settings and uploading map file.
-	 * @param map_file The path of the map file.
+	 * @param map_file File object.
 	 */
 	public void gameStart(File map_file) {
 
