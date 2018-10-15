@@ -276,12 +276,12 @@ public class GameSettingsView {
             holder.clearPlayers();
             System.out.println("number of player selected: " + num_players);
 
-            Player pl1 = new Player(player1_name.getText(), "BLUE");
-            Player pl2 = new Player(player2_name.getText(), "GREEN");
-            Player pl3 = new Player(player3_name.getText(), "YELLOW");
-            Player pl4 = new Player(player4_name.getText(), "MAGENTA");
-            Player pl5 = new Player(player5_name.getText(), "RED");
-            Player pl6 = new Player(player6_name.getText(), "ORANGE");
+            Player pl1 = new Player(player1_name.getText(), player1_select.getSelectedIndex() ,"BLUE");
+            Player pl2 = new Player(player2_name.getText(), player2_select.getSelectedIndex(), "GREEN");
+            Player pl3 = new Player(player3_name.getText(), player3_select.getSelectedIndex(),  "YELLOW");
+            Player pl4 = new Player(player4_name.getText(), player4_select.getSelectedIndex(),  "MAGENTA");
+            Player pl5 = new Player(player5_name.getText(), player5_select.getSelectedIndex(), "RED");
+            Player pl6 = new Player(player6_name.getText(), player6_select.getSelectedIndex(), "ORANGE");
 
             holder.addPlayer(pl1);
             holder.addPlayer(pl2);
@@ -317,8 +317,11 @@ public class GameSettingsView {
             File mapFile = map_selector("map");
 
             MapEditorController editorController = new MapEditorController();
-            editorController.loadExistingMap(mapFile);
-            editorController.initAndDisplayView();
+            boolean anyErrors = editorController.loadExistingMap(mapFile);
+            if (!anyErrors) {
+                System.out.println("No errors found ");
+                editorController.initAndDisplayView();
+            }
         });
     }
 

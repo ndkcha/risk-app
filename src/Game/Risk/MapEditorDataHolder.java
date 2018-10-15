@@ -4,7 +4,10 @@ import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.MapData;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A singleton class to hold the data throughout the map editor phase.
@@ -115,5 +118,22 @@ public class MapEditorDataHolder {
 
     public HashMap<String, CountryData> getCountries() {
         return countries;
+    }
+
+    /**
+     * get the list of countries in the continent
+     * @param continentName name of the continent
+     * @return list of countries inside the continent
+     */
+    public List<CountryData> getCountriesInContinent(String continentName) {
+        List<CountryData> countryDataList = new ArrayList<>();
+
+        for (Map.Entry<String, CountryData> countryDataEntry : this.countries.entrySet()) {
+            CountryData country = countryDataEntry.getValue();
+            if (country.getContinent().equalsIgnoreCase(continentName))
+                countryDataList.add(country);
+        }
+
+        return countryDataList;
     }
 }
