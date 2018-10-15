@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * We'll keep the territory details on the country class.
  * it will hold the list of neighbours, assigned continent, and the coordinates
  * it won't need id, because the name is the primary index for the map file.
- * @author jay, ndkcha
+ * @author jay, ndkcha, gunvansh
  *
  */
 public class CountryData {
@@ -61,23 +61,43 @@ public class CountryData {
 	public void addNeighbour(String name) {
 	    this.neighbours.add(name);
     }
-
+/**
+     * get the name
+     * @return name string name
+     * 
+     */
 	public String getName() {
 	    return name;
     }
-
+/**
+     * get the continent 
+     * @return continent  
+     * 
+     */
     public String getContinent() {
         return continent;
     }
-
+/**
+     * get the Latitutde method 
+     * @return latitude 
+     * 
+     */
     public double getLatitude() {
         return latitude;
     }
-
+/**
+     * get the Longitude method 
+     * @return longitude 
+     * 
+     */
     public double getLongitude() {
         return longitude;
     }
-
+/**
+     * get the neibhours method
+     * @return neibhours list 
+     * 
+     */
     public ArrayList<String> getNeighbours() {
         return neighbours;
     }
