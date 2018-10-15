@@ -49,6 +49,15 @@ public class Player {
     }
 
     /**
+     * Get the number of armies the player has in the country
+     * @param name name of then country
+     * @return an integer that states the number of armies.
+     */
+    public int getArmiesInCountry(String name) {
+        return this.countriesConquered.get(name);
+    }
+
+    /**
      * This method will return the name of the player.
      * @return name THe name of the player
      */

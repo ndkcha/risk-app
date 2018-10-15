@@ -41,10 +41,6 @@ public class Controller {
 
 		RiskMainInterface.createInstance(playerInfoGUI);
 		setPlayerView(playerInfoGUI);
-
-		MapView mapView = new MapView();
-		mapView.paintUi();
-		mapView.plotPlayers();
 	}
         
 	public void reinforcement() {
