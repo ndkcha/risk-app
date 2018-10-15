@@ -600,7 +600,7 @@ public class RiskMainInterface extends JFrame {
     /* * method createInstance is called
      * @param playerifoGui view object
      */
-	public static void createInstance(Views playerInfoGUI)
+	public static void createInstance()
 	{
 		if(mainView == null){
 			mainView = new RiskMainInterface();

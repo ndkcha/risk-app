@@ -4,6 +4,7 @@
 package Game.Risk;
 
 import Game.Controller.Controller;
+import javax.swing.SwingUtilities;
 
 /**
  * Main class to run the Risk game with Runnable.
@@ -14,22 +15,16 @@ import Game.Controller.Controller;
 public class Main {
 
 	/**
-	 * 
-	 */
-	public Main() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
+	 * Main function to initialize and start the game.
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
           public void run() {
               Controller c = new Controller();
-              c.initialize();
+              c.gameInitializer();
           }
       });
 	}
