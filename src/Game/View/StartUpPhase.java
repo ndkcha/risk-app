@@ -30,14 +30,15 @@ import Game.Controller.Controller;
 /**
  * Start Up Phase view of the game.
  * 
- * @author ndkcha
+ * @author ndkcha, Jay
  *
  */
 public class StartUpPhase {
 	/**
 	 * 
 	 */
-	public StartUpPhase() { }
+	public StartUpPhase() {
+	}
 
 	/**
 	 * @param args

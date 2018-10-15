@@ -19,12 +19,14 @@ import Game.View.*;
  * MVC - Common Controller to control the interaction between models and views.
  * 
  * @author Jay
+ * @version 1.0.0
  *
  */
 public class Controller {
 	
-	// Game Driver: Hold all the data for gameplay
+	// Game Driver: Hold all the data for gameplay.
 	private DataHolder holder = DataHolder.getInstance();
+	
 	// Store object of GameSettingsView class.
 	private GameSettingsView gameSettings;
 
@@ -45,6 +47,7 @@ public class Controller {
 
 	/**
 	 * This method fill start the game after game settings and uploading map file.
+	 * 
 	 * @param map_file File object.
 	 */
 	public void gameStart(File map_file) {
