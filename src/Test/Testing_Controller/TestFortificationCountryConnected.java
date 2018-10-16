@@ -46,7 +46,6 @@ public class TestFortificationCountryConnected {
 		Boolean b = fc.checkIfConnected(transferingCountry,destinationCountry,countriesConquered);
 		System.out.println(b);
 		assertTrue(b);
-		
 	}
 
 }

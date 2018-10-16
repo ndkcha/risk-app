@@ -2,12 +2,18 @@ package Test.Testing_Controller;
 
 import Game.Controller.ReinforcementController;
 
+import static org.junit.Assert.*;
+import java.util.HashMap;
+import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+
+import Game.Controller.FortificationController;
+import Game.Model.CountryData;
+import Game.Risk.DataHolder;
 
 public class Test_ReinforcementController {
 	
-	ReinforcementController rfc=new ReinforcementController();
+	private ReinforcementController rfc=new ReinforcementController();
 	
 	@Test public void testcalculateReinformentArmies()
 	{
