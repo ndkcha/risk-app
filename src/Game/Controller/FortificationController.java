@@ -157,7 +157,15 @@ public class FortificationController {
         return neighbours;
     }
 
-    private boolean checkIfConnected(String transferingCountry, String destinationCountry, HashMap<String, Integer> countriesConquered) {
+    /**
+     * This method checks if countries are connected. 
+     * 
+     * @param transferingCountry From country
+     * @param destinationCountry To Country
+     * @param countriesConquered All the countries from player
+     * @return connected Boolean True/False
+     */
+    public boolean checkIfConnected(String transferingCountry, String destinationCountry, HashMap<String, Integer> countriesConquered) {
         //checing of countries are connected or not
         ArrayList<String> visitedCountries = new ArrayList<>();
         String tempCountry = transferingCountry;
