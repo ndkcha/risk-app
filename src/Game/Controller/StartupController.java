@@ -114,7 +114,6 @@ public class StartupController {
 	 * assigned to random countries that the players owns.
 	 */
 	public void assignArmies() {
-		
 		List<Player> players = this.holder.getPlayerList();
 		Random random = new Random();
 		int noOfArmiesToAssign = this.determineOfInitialArmy(players.size());

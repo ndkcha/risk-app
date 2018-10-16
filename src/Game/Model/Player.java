@@ -3,6 +3,7 @@ package Game.Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This holds the player data and the runtime data collected for player It holds
@@ -61,24 +62,32 @@ public class Player {
 		this.countriesConquered.put(name, noOfArmies);
 	}
 
-	/**
-	 * This method will return the name of the player.
-	 * 
-	 * @return name The name of the player
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Get the number of armies the player has in the country
+     * @param name name of then country
+     * @return an integer that states the number of armies.
+     */
+    public int getArmiesInCountry(String name) {
+        return this.countriesConquered.get(name);
+    }
 
-	/**
-	 * This method will return the type of the player. 0 = HUMAN and 1 =
-	 * Computer
-	 * 
-	 * @return type The name of the player
-	 */
-	public int getType() {
-		return type;
-	}
+    /**
+     * This method will return the name of the player.
+     * @return name THe name of the player
+     */
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * This method will return the type of the player.
+     * 0 = HUMAN and 1 = Computer
+     * 
+     * @return type THe name of the player
+     */
+    public int getType() {
+        return type;
+    }
 
 	/**
 	 * This method will return the color of the player.
@@ -96,6 +105,21 @@ public class Player {
 	 */
 	public HashMap<String, Integer> getCountriesConquered() {
 		return countriesConquered;
+	}
+
+	/**
+	 * Gets the nth country in the list of countries conquered
+	 * @param n index of the country
+	 * @return name of the country
+	 */
+	public String getNthCountry(int n) {
+		List<String> countries = new ArrayList<>();
+
+		for (Map.Entry<String, Integer> countryEntry : this.countriesConquered.entrySet()) {
+			countries.add(countryEntry.getKey());
+		}
+
+		return countries.get(n);
 	}
 
 	/**

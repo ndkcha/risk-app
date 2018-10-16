@@ -7,13 +7,16 @@ package Game.Controller;
 
 import Game.Model.Player;
 import Game.Risk.DataHolder;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
 import Game.Model.CountryData;
 import Game.Model.ContinentData;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
@@ -21,48 +24,40 @@ import java.util.Set;
 /**
  * This controller class performs tasks of fortification phase
  *
- * @author r-naik
+ * @author r-naik, ndkcha
+ * @version 1.0.0
  */
 public class FortificationController {
 
     private DataHolder holder = DataHolder.getInstance();
-    private Player player;
-    private List<Player> p = this.holder.getPlayerList();
 
     /**
      * This function initializes the fortification phase for each player
      *
-     * @param playerTurn The identity of the player
+     * @param destinationCountry  name of the destination country
+     * @param transferringCountry name of the source country
+     * @param noOfArmies          number of armies to transfer
+     * @return A message for game play
      */
-    void fortification(int playersTurn) {
-
-        Scanner scanner = new Scanner(System.in);
-        String transferingCountry = null, destinationCountry = null;
+    public String fortification(String transferringCountry, String destinationCountry, int noOfArmies) {
         List<CountryData> countryDataList = holder.getCountryDataList();
-        int noOfArmies = 0; //armies to be transferred
+        String message = "";
 
         //retrieving the player number whose turn is goin on
-        player = p.get(playersTurn - 1);
+        Player player = holder.getActivePlayer();
         //retrieving the player type
-        int playerType=player.getType();
+        int playerType = player.getType();
         //retrieving the continents conquered by the player
-            HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-            System.out.println("The countries conquered by " + player.getName() + " is " + countriesConquered.keySet());
-        
-        if(playerType==0){
-            //taking input of two countries between which arnies have to be transfered
-            System.out.println("Enter the country name from which armies to be transfered: ");
-            transferingCountry = scanner.nextLine();
-            System.out.println("Enter the country name to which armies to be transfered: ");
-            destinationCountry = scanner.nextLine();
-        }
-        else {
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        System.out.println("The countries conquered by " + player.getName() + " is " + countriesConquered.keySet());
+
+        if (playerType != 0) {
             //generating random country name from conquered country list
-            while (!countriesConquered.keySet().contains(transferingCountry)) {
+            while (!countriesConquered.keySet().contains(transferringCountry)) {
                 Random generator = new Random();
                 Object[] values = countriesConquered.keySet().toArray();
-                transferingCountry = (String) values[generator.nextInt(values.length)];
-                System.out.println("\nThe country from which " + player.getName() + " will transfer armies: " + transferingCountry);
+                transferringCountry = (String) values[generator.nextInt(values.length)];
+                System.out.println("\nThe country from which " + player.getName() + " will transfer armies: " + transferringCountry);
             }
             while (!countriesConquered.keySet().contains(destinationCountry)) {
                 Random generator = new Random();
@@ -72,50 +67,44 @@ public class FortificationController {
             }
         }
 
-        int existingArmiesA=0; //existing armies with transfereing country
-        int existingArmiesB=0; // existing armies with destination country
+        int existingArmiesA = 0; //existing armies with transfereing country
+        int existingArmiesB = 0; // existing armies with destination country
         Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
         while (itForCountriesConquered.hasNext()) {
             Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
             String countryName = (String) pair.getKey();
-            if(countryName.equals(transferingCountry)){
-                existingArmiesA=(int) pair.getValue();
+            if (countryName.equals(transferringCountry)) {
+                existingArmiesA = (int) pair.getValue();
             }
-            if(countryName.equals(destinationCountry)){
-                existingArmiesB=(int) pair.getValue();
+            if (countryName.equals(destinationCountry)) {
+                existingArmiesB = (int) pair.getValue();
             }
         }
-        
-        if(playerType==0) {
-            System.out.println("Number of armies in country " + transferingCountry + " are: "+existingArmiesA);
-            System.out.println("Enter the armies to be transfered:");
-            noOfArmies = scanner.nextInt();  
+
+        if (playerType != 0) {
+            Random generator = new Random();
+            noOfArmies = generator.nextInt(existingArmiesA);
+            System.out.println("The armies to be transfered is " + noOfArmies);
         }
-        else {
-            Random generator=new Random();
-                noOfArmies=generator.nextInt(existingArmiesA);
-                System.out.println("The armies to be transfered is "+noOfArmies);
-        }
-        
+
         //check if countries connected or not
-        boolean checkIfConnected=checkIfConnected(transferingCountry,destinationCountry,countriesConquered);
-        if(checkIfConnected==true){
+        boolean checkIfConnected = checkIfConnected(transferringCountry, destinationCountry, countriesConquered);
+        if (checkIfConnected) {
             //check if transfering countries have more than 2 armies
-            if(existingArmiesA<=2){
+            if (existingArmiesA <= 2) {
                 System.out.println("Cannot perform fortifiation. A transfering country should have minimum two armies");
-            }
-            else{
+            } else {
                 //check if number of armies to transfered is atleast one less than the existing armies in transfering country
-                if(noOfArmies<=(existingArmiesA-1)){
-                    existingArmiesB=existingArmiesB+noOfArmies; //adding armies to destination country
-                    existingArmiesA=existingArmiesA-noOfArmies; //subtracting armies from transfering country
-                    
+                if (noOfArmies <= (existingArmiesA - 1)) {
+                    existingArmiesB = existingArmiesB + noOfArmies; //adding armies to destination country
+                    existingArmiesA = existingArmiesA - noOfArmies; //subtracting armies from transfering country
+
                     //update the armies in conquered countries list
                     Iterator iteratorCountries = countriesConquered.entrySet().iterator(); //iterator for countries conqureeed by player
                     while (iteratorCountries.hasNext()) {
                         Map.Entry pair = (Map.Entry) iteratorCountries.next();
                         String countryName = (String) pair.getKey();
-                        if (countryName.equals(transferingCountry)) {
+                        if (countryName.equals(transferringCountry)) {
                             pair.setValue(existingArmiesA);
                         }
                         if (countryName.equals(destinationCountry)) {
@@ -123,26 +112,35 @@ public class FortificationController {
                         }
                     }
                     player.setCountriesConquered(countriesConquered);
+
+                    message = " transferred " + noOfArmies + " armies from " + transferringCountry + " to " +
+                        destinationCountry;
+
                     //The updated conquered countries list
                     System.out.println("The updated counquered country list");
                     for (Map.Entry<String, Integer> country : player.getCountriesConquered().entrySet()) {
                         System.out.print(country.getKey() + " - " + country.getValue() + " | ");
                     }
-                }
-                else{
+                } else {
                     System.out.println("not enough armies in transfering country");
                 }
             }
-        }
-        else {
+        } else {
             System.out.println("Cannot perform fortification, countries not connected");
         }
+
+        holder.updatePlayer(player);
+
+        if (message.length() == 0)
+            message = " skipped fortification";
+
+        return message;
     }
 
     /**
      * Get neighbours of specific country
      *
-     * @param country
+     * @param countryName name of the country
      * @return list of neighbouring countries
      */
     public List<String> getNeighbours(String countryName) {

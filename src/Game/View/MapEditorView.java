@@ -462,7 +462,7 @@ public class MapEditorView extends JFrame {
 										GroupLayout.PREFERRED_SIZE, 23,
 										GroupLayout.PREFERRED_SIZE)
 								.addGap(3, 3, 3)
-								.addGroup(layout
+                            .addGroup(layout
 										.createParallelGroup(
 												GroupLayout.Alignment.BASELINE)
 										.addComponent(labelCountryContinent,
