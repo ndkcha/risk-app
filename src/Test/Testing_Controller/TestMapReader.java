@@ -19,7 +19,7 @@ public class TestMapReader {
 
 	@Test public void testIsMapInvalid() 
 	{
-     	Boolean b = object.loadExistingMap(new File("C:\\Users\\kunal\\Documents\\NetBeansProjects\\risk-app\\src\\Test\\Testing_Controller\\testMap3.map"));
+     	Boolean b = object.loadExistingMap(new File("D:\\macs docs\\advance programming practices\\risk app project-github\\risk-app\\src\\Test\\testMap3.map"));
 		assertTrue(b);
 
 	}
