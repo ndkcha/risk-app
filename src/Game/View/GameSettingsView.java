@@ -164,12 +164,12 @@ public class GameSettingsView {
 		p2.setLayout(new GridLayout(1, 5));
 		p3.setLayout(new GridLayout(1, 5));
 
-		player1_name = new JTextField("Player One");
-		player2_name = new JTextField("Player two");
-		player3_name = new JTextField("Player three");
-		player4_name = new JTextField("Player four");
-		player5_name = new JTextField("Player five");
-		player6_name = new JTextField("Player six");
+		player1_name = new JTextField("ndkcha");
+		player2_name = new JTextField("jatin");
+		player3_name = new JTextField("gunnu");
+		player4_name = new JTextField("roohani");
+		player5_name = new JTextField("kunal");
+		player6_name = new JTextField("player");
 
 		// Display players name and colors based on selection on number of
 		// players.

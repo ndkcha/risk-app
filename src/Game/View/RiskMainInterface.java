@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
+import java.util.Random;
 
 import Game.Controller.FortificationController;
 import Game.Controller.ReinforcementController;
@@ -33,13 +34,7 @@ public class RiskMainInterface extends JFrame {
 
     private static RiskMainInterface mainView;
 
-    private Views playerData;
-
     private BufferedImage mapImage;
-
-    private List<Player> p = this.holder.getPlayerList();
-    RollDice rd = new RollDice();
-    int diceValue = rd.roll();
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton Card_A_button;
@@ -76,7 +71,7 @@ public class RiskMainInterface extends JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     // End of variables declaration
 
-    private DefaultListModel<String> listModelPlayers;
+    private DefaultListModel<String> listModelPlayers, listModelGamePlay;
     private DefaultComboBoxModel<String> comboModelCountries, comboModelNeighbourCountries;
     private DefaultComboBoxModel<Integer> comboModelNoOfArmies;
 
@@ -133,6 +128,7 @@ public class RiskMainInterface extends JFrame {
         comboModelCountries = new DefaultComboBoxModel<>();
         comboModelNoOfArmies = new DefaultComboBoxModel<>();
         comboModelNeighbourCountries = new DefaultComboBoxModel<>();
+        listModelGamePlay = new DefaultListModel<>();
 
         try {
             if (this.holder.bmpFile != null)
@@ -356,18 +352,6 @@ public class RiskMainInterface extends JFrame {
         jLabel5.setText("Map");
         jLabel7.setText("             Gameplay   :");
 
-
-        Gameplay_Jlist.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = {" "};
-
-            public int getSize() {
-                return strings.length;
-            }
-
-            public String getElementAt(int i) {
-                return strings[i];
-            }
-        });
         jScrollPane4.setViewportView(Gameplay_Jlist);
 
         javax.swing.GroupLayout Gameplay_panelLayout = new javax.swing.GroupLayout(Gameplay_panel);
@@ -514,6 +498,21 @@ public class RiskMainInterface extends JFrame {
 
         this.loadCountryListInCombo();
 
+        String message = currentPlayerName + "'s turn  - ";
+        switch (holder.currentPhase) {
+            case DataHolder.REINFORCEMENT_PHASE:
+                message += " Reinforcement Phase";
+                break;
+            case DataHolder.ATTACK_PHASE:
+                message += " Attack Phase";
+                break;
+            case DataHolder.FORTIFICATION_PHASE:
+                message += " Fortification Phase";
+                break;
+        }
+        listModelGamePlay.add(0, message);
+        Gameplay_Jlist.setModel(listModelGamePlay);
+
         Neibhour_country_combo.setModel(comboModelNeighbourCountries);
         Number_armies_Combo.setModel(comboModelNoOfArmies);
     }
@@ -542,10 +541,12 @@ public class RiskMainInterface extends JFrame {
                 btnPhases.setText("Attack");
                 this.reinforcementArmyAllocated = 0;
                 Neibhour_country_combo.setVisible(false);
+                automateReinforcementPhase();
                 break;
             case DataHolder.ATTACK_PHASE:
                 labelPhases.setText("Attack Phase");
                 btnPhases.setText("Fortify");
+                automateAttackPhase();
                 break;
             case DataHolder.FORTIFICATION_PHASE:
                 labelPhases.setText("Fortification Phase");
@@ -561,9 +562,8 @@ public class RiskMainInterface extends JFrame {
      */
     public void changePhase() {
         holder.changePhases();
-        System.out.println(holder.currentPhase + " | " + DataHolder.FORTIFICATION_PHASE);
-        setPhasesValues();
         initPlayerTurn();
+        setPhasesValues();
     }
 
     private void initListeners() {
@@ -631,6 +631,10 @@ public class RiskMainInterface extends JFrame {
 
         isFortificationDone = true;
 
+        listModelGamePlay.add(0, player.getName() + " sent " + noOfArmies
+            + " arm(ies) from " + country + " to " + neighbour);
+        Gameplay_Jlist.setModel(listModelGamePlay);
+
         loadCountryListInCombo();
         prepareForFinishingTurn();
     }
@@ -656,6 +660,9 @@ public class RiskMainInterface extends JFrame {
 
         holder.updatePlayer(player);
         this.reinforcementArmyAllocated += noOfArmies;
+
+        listModelGamePlay.add(0, player.getName() + " added " + noOfArmies + " armies to " + country);
+        Gameplay_Jlist.setModel(listModelGamePlay);
 
         loadCountryListInCombo();
         calculateReinforcementPhase();
@@ -690,8 +697,6 @@ public class RiskMainInterface extends JFrame {
                     neighboursToAdd.add(player.getCountriesConquered().get(neighbourName) + " - " + neighbourName);
             }
 
-            System.out.println("Number of armies: " + noOfArmies);
-
             if ((noOfArmies == 0) || (neighboursToAdd.size() == 0))
                 prepareForFinishingTurn();
             else {
@@ -713,6 +718,65 @@ public class RiskMainInterface extends JFrame {
     }
 
     /**
+     * Changes the visibility of the buttons that are used to play the game.
+     * @param visibility true if they are supposed to be visible
+     */
+    private void changeControlButtonVisibility(boolean visibility) {
+        btnPhases.setVisible(visibility);
+        Country_combo.setVisible(visibility);
+        Neibhour_country_combo.setVisible(visibility);
+        Number_armies_Combo.setVisible(visibility);
+    }
+
+    /** It automates the attack phase for computer users */
+    private void automateAttackPhase() {
+        this.changePhase();
+    }
+
+    /** It automates the reinforcement phase for computer users */
+    private void automateReinforcementPhase() {
+        Player player = holder.getActivePlayer();
+
+        if (player.getType() == 0)
+            return;
+
+        changeControlButtonVisibility(false);
+
+        int totalNumberOfArmies = reinforcementController.calculateReinformentArmies(holder.playerTurn);
+        int noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
+
+        if (noOfArmies != 0)  {
+            Random random = new Random();
+            do {
+                int armiesToAllocate = random.nextInt(noOfArmies);
+                if (armiesToAllocate == 0)
+                    armiesToAllocate = 1;
+
+                this.reinforcementArmyAllocated += armiesToAllocate;
+
+                Object countries[] = player.getCountriesConquered().keySet().toArray();
+                int countryIndex = random.nextInt(countries.length);
+                String country = (String) countries[countryIndex];
+
+                int existingArmies = player.getCountriesConquered().get(country);
+                existingArmies += armiesToAllocate;
+                player.updateCountry(country, existingArmies);
+
+                listModelGamePlay.add(0, player.getName() + " added " + armiesToAllocate + " armies to " + country);
+                Gameplay_Jlist.setModel(listModelGamePlay);
+
+                holder.updatePlayer(player);
+
+                noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
+            } while (noOfArmies != 0);
+        }
+
+        changeControlButtonVisibility(true);
+        prepareForAttackPhase();
+        changePhase();
+    }
+
+    /**
      * Calculate number of armies to assign in reinforcement phase
      */
     private void calculateReinforcementPhase() {
@@ -724,8 +788,6 @@ public class RiskMainInterface extends JFrame {
         if (Country_combo.getSelectedIndex() > 0) {
             int totalNumberOfArmies = reinforcementController.calculateReinformentArmies(holder.playerTurn);
             int noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
-
-            System.out.println("Number of armies: " + noOfArmies);
 
             if (noOfArmies == 0)
                 prepareForAttackPhase();

@@ -38,7 +38,7 @@ public class FortificationController {
      * @param transferringCountry name of the source country
      * @param noOfArmies          number of armies to transfer
      */
-    void fortification(String transferringCountry, String destinationCountry, int noOfArmies) {
+    public void fortification(String transferringCountry, String destinationCountry, int noOfArmies) {
         List<CountryData> countryDataList = holder.getCountryDataList();
 
         //retrieving the player number whose turn is goin on
