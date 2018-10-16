@@ -542,14 +542,14 @@ public class RiskMainInterface extends JFrame {
         switch (holder.currentPhase) {
             case DataHolder.REINFORCEMENT_PHASE:
                 labelPhases.setText("Reinforcement Phase");
-                btnPhases.setText("Attack");
+                btnPhases.setText("Next Phase");
                 this.reinforcementArmyAllocated = 0;
                 Neibhour_country_combo.setVisible(false);
                 automateReinforcementPhase();
                 break;
             case DataHolder.ATTACK_PHASE:
                 labelPhases.setText("Attack Phase");
-                btnPhases.setText("Fortify");
+                btnPhases.setText("Next Phase");
                 automateAttackPhase();
                 break;
             case DataHolder.FORTIFICATION_PHASE:
