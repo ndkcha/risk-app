@@ -3,6 +3,7 @@ package Game.Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This holds the player data and the runtime data collected for player It holds
@@ -104,6 +105,21 @@ public class Player {
 	 */
 	public HashMap<String, Integer> getCountriesConquered() {
 		return countriesConquered;
+	}
+
+	/**
+	 * Gets the nth country in the list of countries conquered
+	 * @param n index of the country
+	 * @return name of the country
+	 */
+	public String getNthCountry(int n) {
+		List<String> countries = new ArrayList<>();
+
+		for (Map.Entry<String, Integer> countryEntry : this.countriesConquered.entrySet()) {
+			countries.add(countryEntry.getKey());
+		}
+
+		return countries.get(n);
 	}
 
 	/**

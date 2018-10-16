@@ -37,9 +37,11 @@ public class FortificationController {
      * @param destinationCountry  name of the destination country
      * @param transferringCountry name of the source country
      * @param noOfArmies          number of armies to transfer
+     * @return A message for game play
      */
-    public void fortification(String transferringCountry, String destinationCountry, int noOfArmies) {
+    public String fortification(String transferringCountry, String destinationCountry, int noOfArmies) {
         List<CountryData> countryDataList = holder.getCountryDataList();
+        String message = "";
 
         //retrieving the player number whose turn is goin on
         Player player = holder.getActivePlayer();
@@ -110,6 +112,10 @@ public class FortificationController {
                         }
                     }
                     player.setCountriesConquered(countriesConquered);
+
+                    message = " transferred " + noOfArmies + " armies from " + transferringCountry + " to " +
+                        destinationCountry;
+
                     //The updated conquered countries list
                     System.out.println("The updated counquered country list");
                     for (Map.Entry<String, Integer> country : player.getCountriesConquered().entrySet()) {
@@ -124,6 +130,11 @@ public class FortificationController {
         }
 
         holder.updatePlayer(player);
+
+        if (message.length() == 0)
+            message = " skipped fortification";
+
+        return message;
     }
 
     /**

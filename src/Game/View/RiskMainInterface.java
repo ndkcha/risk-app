@@ -15,6 +15,7 @@ import java.util.Random;
 
 import Game.Controller.FortificationController;
 import Game.Controller.ReinforcementController;
+import Game.Model.CountryData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
 import Game.Model.RollDice;
@@ -534,6 +535,9 @@ public class RiskMainInterface extends JFrame {
         Country_combo.setModel(comboModelCountries);
     }
 
+    /**
+     * Set generic variables that are supposed to be changed because of the change in phases.
+     */
     public void setPhasesValues() {
         switch (holder.currentPhase) {
             case DataHolder.REINFORCEMENT_PHASE:
@@ -553,6 +557,7 @@ public class RiskMainInterface extends JFrame {
                 isFortificationDone = false;
                 Neibhour_country_combo.setVisible(true);
                 btnPhases.setText("Done!");
+                automateFortificationPhase();
                 break;
         }
     }
@@ -595,6 +600,7 @@ public class RiskMainInterface extends JFrame {
         });
     }
 
+    /** Transfers armies from one country to another country as part of the fortification state. */
     public void sendArmyInFortificationPhase() {
         int selectedCountry = Country_combo.getSelectedIndex();
         int selectedNoOfArmies = Number_armies_Combo.getSelectedIndex();
@@ -726,6 +732,72 @@ public class RiskMainInterface extends JFrame {
         Country_combo.setVisible(visibility);
         Neibhour_country_combo.setVisible(visibility);
         Number_armies_Combo.setVisible(visibility);
+    }
+
+    /**
+     * It automates the fortification phase
+     */
+    public void automateFortificationPhase() {
+        Player player = holder.getActivePlayer();
+        String message = "";
+        Random random = new Random();
+
+        if (player.getType() == 0)
+            return;
+
+        changeControlButtonVisibility(false);
+        int noOfCountriesConquered = player.getCountriesConquered().size();
+        int iterations = 0;
+
+        String countryName = "", targetCountry = "";
+
+        do {
+            int pickCountry = random.nextInt(noOfCountriesConquered - 1);
+
+            if (pickCountry < 0)
+                break;
+
+            countryName = player.getNthCountry(pickCountry);
+            if (player.getCountriesConquered().get(countryName) == 1) {
+                iterations++;
+                continue;
+            }
+
+            for (String neighbour : holder.getCountry(countryName).getNeighbours()) {
+                if (player.getCountriesConquered().containsKey(neighbour)) {
+                    targetCountry = neighbour;
+                    break;
+                }
+            }
+            iterations++;
+
+            if (iterations == 10)
+                break;
+        } while (targetCountry.length() != 0);
+
+        if (targetCountry.length() == 0)
+            message = " skipped fortification";
+        else {
+            int noOfArmies = player.getCountriesConquered().get(countryName);
+            int noOfArmiesToSend = random.nextInt(noOfArmies);
+
+            int armiesLeftInSource = noOfArmies - noOfArmiesToSend;
+            int armiesInTarget = player.getCountriesConquered().get(targetCountry) + noOfArmiesToSend;
+
+            player.updateCountry(countryName, armiesLeftInSource);
+            player.updateCountry(targetCountry, armiesInTarget);
+
+            holder.updatePlayer(player);
+
+            message = " transferred " + noOfArmiesToSend + " armies from " + countryName + " to " + targetCountry;
+        }
+
+        changeControlButtonVisibility(true);
+
+        listModelGamePlay.add(0, player.getName() + message);
+        Gameplay_Jlist.setModel(listModelGamePlay);
+
+        this.changePhase();
     }
 
     /** It automates the attack phase for computer users */
