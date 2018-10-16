@@ -87,6 +87,20 @@ public class DataHolder {
         return countryDataList;
     }
 
+    /**
+     * Get the country data object of a particular country
+     * @param name name of the country
+     * @return data object of the country
+     */
+    public CountryData getCountry(String name) {
+        for (CountryData countryData : this.countryDataList) {
+            if (countryData.getName().equalsIgnoreCase(name))
+                return countryData;
+        }
+
+        return null;
+    }
+
     public List<Player> getPlayerList() {
         List<Player> players = new ArrayList<>();
 
@@ -141,7 +155,7 @@ public class DataHolder {
 
     /** changes the phases in each turn. and it automatically changes the player turn */
     public void changePhases() {
-        if (this.currentPhase == 3) {
+        if (this.currentPhase == 2) {
             this.changeTurn();
             this.currentPhase = -1;
         }

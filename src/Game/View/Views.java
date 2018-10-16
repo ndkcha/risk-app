@@ -22,7 +22,7 @@ public class Views extends JPanel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 
 	}
 
