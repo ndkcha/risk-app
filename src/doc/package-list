@@ -1,5 +1,3 @@
-Game.Controller
-Game.Model
-Game.Risk
-Game.View
 Test.Testing_Controller
+Test.Testing_Model
+Test.Testing_View

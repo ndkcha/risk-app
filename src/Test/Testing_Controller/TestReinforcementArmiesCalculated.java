@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Test.Testing_Controller;
 
 import Game.Controller.ReinforcementController;
@@ -20,18 +15,23 @@ import Game.Risk.DataHolder;
 
 /**
  * Check if armies are calculated correctly
+ * 
  * @author r-naik
  */
 public class TestReinforcementArmiesCalculated {
-    ReinforcementController rc;
-    public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();;
-    private DataHolder holder = DataHolder.getInstance();
-    
-    @Before public void beforeTest(){
-        ContinentData continentData= new ContinentData("Cockpit", 5);
-        CountryData country1 = new CountryData("Cockpit01",658.0,355.0,"Cockpit");
-		CountryData country2 = new CountryData("Cockpit02",558.0,255.0,"Cockpit");
-		CountryData country3 = new CountryData("Cockpit03",758.0,155.0,"Cockpit");
+	ReinforcementController rc;
+	public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();;
+	private DataHolder holder = DataHolder.getInstance();
+
+	@Before
+	public void beforeTest() {
+		ContinentData continentData = new ContinentData("Cockpit", 5);
+		CountryData country1 = new CountryData("Cockpit01", 658.0, 355.0,
+				"Cockpit");
+		CountryData country2 = new CountryData("Cockpit02", 558.0, 255.0,
+				"Cockpit");
+		CountryData country3 = new CountryData("Cockpit03", 758.0, 155.0,
+				"Cockpit");
 		holder.addCountry(country1);
 		holder.addCountry(country2);
 		holder.addCountry(country3);
@@ -40,19 +40,20 @@ public class TestReinforcementArmiesCalculated {
 		Player player2 = new Player("xyz", 0, "red");
 		holder.addPlayer(player1);
 		holder.addPlayer(player2);
-		
-		rc= new ReinforcementController();
+
+		rc = new ReinforcementController();
 		this.countriesConquered.put("Cockpit01", 1);
 		this.countriesConquered.put("Cockpit02", 2);
 		this.countriesConquered.put("Cockpit03", 3);
-    }
-    
-    @Test
-    public void testCalculateReinforcementArmies() {
-        
-        int expected = 3;
-        int numberOfArmies=rc.calculateReinformentArmies(2);
-        System.out.println("number of armies: "+numberOfArmies);
-        assertEquals(expected, numberOfArmies);
-    }
+	}
+
+	@Test
+	public void testCalculateReinforcementArmies() {
+
+		int expected = 3;
+		int numberOfArmies = rc.calculateReinformentArmies(2);
+		System.out.println("number of armies: " + numberOfArmies);
+		assertEquals(expected, numberOfArmies);
+	}
+	
 }
