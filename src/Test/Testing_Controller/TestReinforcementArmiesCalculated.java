@@ -51,7 +51,7 @@ public class TestReinforcementArmiesCalculated {
 	public void testCalculateReinforcementArmies() {
 
 		int expected = 3;
-		int numberOfArmies = rc.calculateReinformentArmies(2);
+		int numberOfArmies = rc.calculateReinformentArmies(1);
 		System.out.println("number of armies: " + numberOfArmies);
 		assertEquals(expected, numberOfArmies);
 	}

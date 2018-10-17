@@ -16,12 +16,12 @@ public class TestMapValidation {
 	MapEditorController object = new MapEditorController();
 
 	/**
-	 * This method will do map vaildations.
+	 * This method will do map validations.
 	 */
 	@Test
 	public void validationtest() {
 		Boolean b = object.loadExistingMap(new File(
-				"D:\\macs docs\\advance programming practices\\risk app project-github\\risk-app\\src\\Test\\testMap.map"));
+				"C:\\Users\\vansh\\Documents\\NetBeansProjects\\risk-app\\data\\testMap.map "));
 		assertTrue(b);
 	}
 

@@ -25,6 +25,12 @@ public class TestContinentData {
 		continent = new ContinentData(name, controlValue);
 	}
 
+	
+	/**
+	 * This method Testgetname will test the  continent class getname method.
+	 * 
+	 * @author Vansh
+	 */
 	@Test
 	public void Testgetname() {
 		System.out.println("\nTesting for the name of \"Asia\" continent");
@@ -32,6 +38,11 @@ public class TestContinentData {
 
 	}
 
+	/**
+	 * This method Testcontrolvalue will test the getcontrolvalue method.
+	 * 
+	 * 
+	 */
 	@Test
 	public void Testcontrolvalue() {
 		System.out.println("\nTesting for the name of \"5\" controlvalue");
