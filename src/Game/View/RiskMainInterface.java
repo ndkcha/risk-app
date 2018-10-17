@@ -12,6 +12,7 @@ import java.util.*;
 
 import Game.Controller.FortificationController;
 import Game.Controller.ReinforcementController;
+import Game.Controller.StartupController;
 import Game.Model.CountryData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
@@ -485,8 +486,17 @@ public class RiskMainInterface extends JFrame {
         Number_armies_Combo.setVisible(false);
         Neibhour_country_combo.setVisible(false);
 
-        this.determineOfInitialArmy(holder.getPlayerList().size());
-        autoAssignArmies();
+        if (holder.isArmiesAutomatic) {
+            StartupController controller = new StartupController();
+            controller.assignArmies();
+
+            holder.currentPhase = 0;
+            setPhasesValues();
+            initPlayerTurn();
+        } else {
+            this.determineOfInitialArmy(holder.getPlayerList().size());
+            autoAssignArmies();
+        }
     }
 
     /** Autoassign armies for start up phase */

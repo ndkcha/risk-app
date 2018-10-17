@@ -37,6 +37,8 @@ public class DataHolder {
     public MapData mapData = new MapData();
     /** Image file of the map */
     public File bmpFile;
+    /** Is the armies distribution be automatic or manual? */
+    public boolean isArmiesAutomatic = false;
 
     /**
      * Get the instance of the singleton class.

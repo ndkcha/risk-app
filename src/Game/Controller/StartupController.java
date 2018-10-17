@@ -33,6 +33,9 @@ public class StartupController {
 		this.mapFile = mapFile;
 	}
 
+	/** A blank constructor */
+	public StartupController() { }
+
 	/**
 	 * Process the map file and load the data inside the DataHolder object.
 	 */
