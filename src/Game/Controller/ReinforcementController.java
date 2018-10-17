@@ -24,6 +24,7 @@ public class ReinforcementController {
      * phase
      *
      * @param playerTurn The identity of the player to which armies is assigned
+     * @return newarmies The number of armies available for reinforcement phase.
      */
     public int calculateReinformentArmies(int playerTurn) {
 

@@ -162,7 +162,11 @@ public class DataHolder {
         this.currentPhase++;
     }
 
-    /** get the active player on the board */
+    /** 
+     * get the active player on the board 
+     * 
+     * @return activePlayer The active player for the game.
+     */
     public Player getActivePlayer() {
         return this.getPlayerList().get(this.playerTurn);
     }

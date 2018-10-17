@@ -30,9 +30,9 @@ public class Player {
 	/**
 	 * This constructor set the player details.
 	 * 
-	 * @param name
-	 * @param type
-	 * @param color
+	 * @param name The name of player.
+	 * @param type The type of player human or computer.
+	 * @param color The color for player.
 	 */
 	public Player(String name, int type, String color) {
 		this.name = name;
@@ -133,6 +133,8 @@ public class Player {
 
 	/**
 	 * This method is to set the countriesConquered by player.
+	 * 
+	 * @param countriesConquered The key value pair of countries Conquered.
 	 */
 	public void setCountriesConquered(
 			HashMap<String, Integer> countriesConquered) {

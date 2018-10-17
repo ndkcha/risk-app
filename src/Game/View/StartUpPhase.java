@@ -41,7 +41,7 @@ public class StartUpPhase {
 	}
 
 	/**
-	 * @param args
+	 * @param args Array of String args for main function.
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
