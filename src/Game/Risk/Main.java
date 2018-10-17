@@ -16,7 +16,7 @@ public class Main {
 
 	/**
 	 * Main function to initialize and start the game.
-	 * @param args
+	 * @param args Array of String args for main function.
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

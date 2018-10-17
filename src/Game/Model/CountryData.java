@@ -37,7 +37,7 @@ public class CountryData {
 	 * Set up values of the country after the country is initialized. It is
 	 * mainly used to update the existing country's details.
 	 * 
-	 * @param nameName of the country
+	 * @param name of the country
 	 * @param latitude The X coordinate of the country
 	 * @param longitude The Y coordinate of the country
 	 * @param continent The continent in which the country is

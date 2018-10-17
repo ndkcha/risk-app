@@ -24,11 +24,12 @@ public class ReinforcementController {
      * phase
      *
      * @param playerTurn The identity of the player to which armies is assigned
+     * @return newarmies The number of armies available for reinforcement phase.
      */
     public int calculateReinformentArmies(int playerTurn) {
 
         //retrieving the player number whose turn is goin on
-        player = p.get(playerTurn - 1);
+        player = p.get(playerTurn);
         System.out.println("Calculating armies for player " + player.getName());
         int newarmies;
 
@@ -87,7 +88,7 @@ public class ReinforcementController {
      * @param playerTurn the player whose turn is going on
      * @param noOfArmies number of armies allowed to the player for reinforcement phase
      */
-    void updateArmiesInCountries(int playerTurn, int noOfArmies) {
+    public void updateArmiesInCountries(int playerTurn, int noOfArmies) {
 
         //retrieving the player whose turn is going on
         player = p.get(playerTurn - 1);
