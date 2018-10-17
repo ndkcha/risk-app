@@ -315,6 +315,8 @@ public class GameSettingsView {
 			File map_file = map_selector("map");
 			holder.bmpFile = map_selector("bmp");
 
+			holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
+
 			Controller c = new Controller();
 			// c.reinforcement();
 			c.gameStart(map_file);

@@ -8,13 +8,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import Game.Controller.FortificationController;
 import Game.Controller.ReinforcementController;
+import Game.Controller.StartupController;
 import Game.Model.CountryData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
@@ -31,6 +29,7 @@ public class RiskMainInterface extends JFrame {
     public static final String REINFORCEMENT_ADD_ARMY_ACTION = "reinforcement:add";
     public static final String FORTIFICATION_SEND_ARMY_ACTION = "fortification:add";
     public static final String SWITCH_PHASE = "switch:phase";
+    public static final String STARTUP_PHASE = "startup:phase";
     private DataHolder holder = DataHolder.getInstance();
 
     private static RiskMainInterface mainView;
@@ -81,6 +80,7 @@ public class RiskMainInterface extends JFrame {
 
     private int reinforcementArmyAllocated = -1;
     private boolean isFortificationDone = false;
+    private int noOfArmiesToAssign = -1;
 
     public RiskMainInterface() {
         initComponents();
@@ -474,16 +474,64 @@ public class RiskMainInterface extends JFrame {
         listModelPlayers.removeAllElements();
 
         for (Player player : holder.getPlayerList()) {
-            listModelPlayers.addElement(player.getName() + " (" + player.getColor() + ")");
+            listModelPlayers.addElement(player.getName() + " (" + player.getColor() + ") [" +
+                player.getCountriesConquered().size() + " countries]");
         }
 
         Player_Jlist.setEnabled(false);
-
         Player_Jlist.setModel(listModelPlayers);
 
-        setPhasesValues();
+        labelPhases.setText("Startup Phase");
+        Country_combo.setVisible(true);
+        Number_armies_Combo.setVisible(false);
+        Neibhour_country_combo.setVisible(false);
 
-        initPlayerTurn();
+        if (holder.isArmiesAutomatic) {
+            StartupController controller = new StartupController();
+            controller.assignArmies();
+
+            holder.currentPhase = 0;
+            setPhasesValues();
+            initPlayerTurn();
+        } else {
+            this.determineOfInitialArmy(holder.getPlayerList().size());
+            autoAssignArmies();
+        }
+    }
+
+    /** Autoassign armies for start up phase */
+    public void autoAssignArmies() {
+        if (noOfArmiesToAssign == 0) {
+            holder.currentPhase = 0;
+            this.setPhasesValues();
+            initPlayerTurn();
+            return;
+        }
+
+        Random random = new Random();
+        Player player = holder.getActivePlayer();
+
+        labelPlayerTitle.setText("Player: (turn: " + player.getName() + ")");
+
+        if (player.getType() == 1) {
+            HashMap<String, Integer> countriesConquered = player
+                .getCountriesConquered();
+            Object[] entries = countriesConquered.keySet().toArray();
+
+            int randomCountryIndex = random.nextInt(entries.length);
+            String randomCountry = (String) entries[randomCountryIndex];
+            int noOfArmies = countriesConquered.get(randomCountry);
+
+            player.updateCountry(randomCountry, ++noOfArmies);
+            holder.updatePlayer(player);
+
+            holder.changeTurn();
+            autoAssignArmies();
+        } else {
+            loadCountryListInCombo();
+            btnPhases.setText("Add Army");
+            btnPhases.setActionCommand(STARTUP_PHASE);
+        }
     }
 
     /**
@@ -545,21 +593,37 @@ public class RiskMainInterface extends JFrame {
                 btnPhases.setText("Next Phase");
                 this.reinforcementArmyAllocated = 0;
                 Neibhour_country_combo.setVisible(false);
+                Country_combo.setVisible(true);
+                Number_armies_Combo.setVisible(true);
                 automateReinforcementPhase();
                 break;
             case DataHolder.ATTACK_PHASE:
                 labelPhases.setText("Attack Phase");
                 btnPhases.setText("Next Phase");
+                Country_combo.setVisible(false);
+                Number_armies_Combo.setVisible(false);
                 automateAttackPhase();
                 break;
             case DataHolder.FORTIFICATION_PHASE:
                 labelPhases.setText("Fortification Phase");
                 isFortificationDone = false;
                 Neibhour_country_combo.setVisible(true);
+                Country_combo.setVisible(true);
+                Number_armies_Combo.setVisible(true);
                 btnPhases.setText("Done!");
                 automateFortificationPhase();
                 break;
         }
+    }
+
+    /**
+     * Based on number of players, this method determines the number of armies
+     * allowed for the initial game play
+     *
+     * @param noOfPlayers Number of players in the game play
+     */
+    public void determineOfInitialArmy(int noOfPlayers) {
+        this.noOfArmiesToAssign = 40 - ((noOfPlayers - 2) * 5);
     }
 
     /**
@@ -569,6 +633,27 @@ public class RiskMainInterface extends JFrame {
         holder.changePhases();
         initPlayerTurn();
         setPhasesValues();
+    }
+
+    /** Assign armies in start up phase */
+    public void assignArmies() {
+        int selectedCountry = Country_combo.getSelectedIndex();
+
+        if (selectedCountry < 1)
+            return;
+
+        Player player = holder.getActivePlayer();
+
+        String country = comboModelCountries.getElementAt(selectedCountry).split("-")[1].trim();
+        int noOfArmies = player.getCountriesConquered().get(country);
+
+        player.updateCountry(country, ++noOfArmies);
+        holder.updatePlayer(player);
+
+        holder.changeTurn();
+        this.noOfArmiesToAssign--;
+        System.out.println(this.noOfArmiesToAssign + " left");
+        autoAssignArmies();
     }
 
     private void initListeners() {
@@ -587,6 +672,9 @@ public class RiskMainInterface extends JFrame {
             String actionCommands = btnPhases.getActionCommand();
 
             switch (actionCommands) {
+                case STARTUP_PHASE:
+                    assignArmies();
+                    break;
                 case REINFORCEMENT_ADD_ARMY_ACTION:
                     addArmyInReinforcementPhase();
                     break;
@@ -738,6 +826,7 @@ public class RiskMainInterface extends JFrame {
      * It automates the fortification phase
      */
     public void automateFortificationPhase() {
+        System.out.println("Entered fortification phase [automated]");
         Player player = holder.getActivePlayer();
         String message = "";
         Random random = new Random();
@@ -759,7 +848,11 @@ public class RiskMainInterface extends JFrame {
 
             countryName = player.getNthCountry(pickCountry);
             if (player.getCountriesConquered().get(countryName) == 1) {
+                System.out.println(countryName + " has only one army");
                 iterations++;
+
+                if (iterations == 10)
+                    break;
                 continue;
             }
 
@@ -822,7 +915,7 @@ public class RiskMainInterface extends JFrame {
             do {
                 int armiesToAllocate = random.nextInt(noOfArmies);
                 if (armiesToAllocate == 0)
-                    armiesToAllocate = 1;
+                    break;
 
                 this.reinforcementArmyAllocated += armiesToAllocate;
 
@@ -841,6 +934,8 @@ public class RiskMainInterface extends JFrame {
 
                 noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
             } while (noOfArmies != 0);
+
+            System.out.println("Armies allocation has been completed!");
         }
 
         changeControlButtonVisibility(true);
