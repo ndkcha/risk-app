@@ -5,7 +5,7 @@ import Game.Controller.ReinforcementController;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class Test_ReinforcementController {
+public class TestReinforcementController {
 
 	ReinforcementController rfc = new ReinforcementController();
 

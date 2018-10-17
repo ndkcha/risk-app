@@ -4,7 +4,7 @@ import Game.View.GameSettingsView;
 import org.junit.Test;
 import org.junit.Assert.*;
 
-public class Test_GameSettingsView {
+public class TestGameSettingsView {
 	
 	GameSettingsView gsv=new GameSettingsView();
 	
