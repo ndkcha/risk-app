@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class Views extends JPanel {
 
 	/**
-	 * @param args
+	 * @param args Array of String args for main function.
 	 */
 	public static void main(String[] args) {
 

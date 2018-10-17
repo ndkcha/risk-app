@@ -15,8 +15,8 @@ public class ContinentData {
 	/**
 	 * This constructor will set the name and control value of an constructor.
 	 * 
-	 * @param name
-	 * @param controlValue
+	 * @param name The name of the continent.
+	 * @param controlValue The control value of continent.
 	 */
 	public ContinentData(String name, int controlValue) {
 		this.name = name;

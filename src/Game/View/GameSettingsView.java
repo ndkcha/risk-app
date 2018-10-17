@@ -386,7 +386,7 @@ public class GameSettingsView {
 	/**
 	 * Action Listener for start game button.
 	 * 
-	 * @param newAction
+	 * @param newAction Action Listenser object.
 	 */
 	public void startGameAction(ActionListener newAction) {
 		this.startGame.addActionListener(newAction);
@@ -395,7 +395,7 @@ public class GameSettingsView {
 	/**
 	 * Action Listener for Map Editor button.
 	 * 
-	 * @param newAction
+	 * @param newAction Action Listenser object.
 	 */
 	public void mapEditorAction(ActionListener newAction) {
 		this.mapEditor.addActionListener(newAction);

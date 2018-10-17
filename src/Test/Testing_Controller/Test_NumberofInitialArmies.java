@@ -9,7 +9,6 @@ import org.junit.Test;
  * number of armies distributed at start of the game is tested object of class
  * StartupController is initialized
  * 
- * @param File is passed
  * @author kunal ghai
  */
 public class Test_NumberofInitialArmies {
