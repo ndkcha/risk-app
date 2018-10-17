@@ -58,6 +58,8 @@ public class MapEditorView extends JFrame {
 	 * initial values. It also initializes the listeners.
 	 */
 	public MapEditorView() {
+		holder.clearMapHolder();
+
 		jScrollPane1 = new JScrollPane();
 		jTable1 = new JTable();
 		panel = new JPanel();

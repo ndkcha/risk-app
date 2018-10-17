@@ -106,8 +106,10 @@ public class MapEditorController {
 
 		boolean otherErrors = this.checkForErrors();
 
-		JOptionPane.showMessageDialog(new JFrame(), this.errorMessage, "Error",
+		if (otherErrors || invalidFormatError) {
+			JOptionPane.showMessageDialog(new JFrame(), this.errorMessage, "Error",
 				JOptionPane.ERROR_MESSAGE);
+		}
 
 		return otherErrors || invalidFormatError;
 	}
@@ -117,7 +119,7 @@ public class MapEditorController {
 	 * 
 	 * @return true If there are any errors.
 	 */
-	private boolean checkForErrors() {
+	public boolean checkForErrors() {
 		// check for no neighbours
 		boolean noNeighbours = false, noContinent = false,
 				noCountryInContinent = false;
@@ -257,6 +259,12 @@ public class MapEditorController {
 	 */
 	private void initActionListeners() {
 		ActionListener alSaveMap = (ActionEvent e) -> {
+			this.errorMessage = "";
+			if (this.checkForErrors()) {
+				JOptionPane.showMessageDialog(new JFrame(), this.errorMessage, "Error",
+					JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			System.out.println(e.getActionCommand());
 			try (FileWriter fileWriter = new FileWriter(
 					e.getActionCommand() + ".map")) {

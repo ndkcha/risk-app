@@ -474,7 +474,8 @@ public class RiskMainInterface extends JFrame {
         listModelPlayers.removeAllElements();
 
         for (Player player : holder.getPlayerList()) {
-            listModelPlayers.addElement(player.getName() + " (" + player.getColor() + ")");
+            listModelPlayers.addElement(player.getName() + " (" + player.getColor() + ") [" +
+                player.getCountriesConquered().size() + " countries]");
         }
 
         Player_Jlist.setEnabled(false);
@@ -738,6 +739,7 @@ public class RiskMainInterface extends JFrame {
      * It automates the fortification phase
      */
     public void automateFortificationPhase() {
+        System.out.println("Entered fortification phase [automated]");
         Player player = holder.getActivePlayer();
         String message = "";
         Random random = new Random();
@@ -759,7 +761,11 @@ public class RiskMainInterface extends JFrame {
 
             countryName = player.getNthCountry(pickCountry);
             if (player.getCountriesConquered().get(countryName) == 1) {
+                System.out.println(countryName + " has only one army");
                 iterations++;
+
+                if (iterations == 10)
+                    break;
                 continue;
             }
 
@@ -822,7 +828,7 @@ public class RiskMainInterface extends JFrame {
             do {
                 int armiesToAllocate = random.nextInt(noOfArmies);
                 if (armiesToAllocate == 0)
-                    armiesToAllocate = 1;
+                    break;
 
                 this.reinforcementArmyAllocated += armiesToAllocate;
 
@@ -841,6 +847,8 @@ public class RiskMainInterface extends JFrame {
 
                 noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
             } while (noOfArmies != 0);
+
+            System.out.println("Armies allocation has been completed!");
         }
 
         changeControlButtonVisibility(true);
