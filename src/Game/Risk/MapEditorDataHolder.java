@@ -48,6 +48,15 @@ public class MapEditorDataHolder {
 	}
 
 	/**
+	 * Clear the entire map holder data.
+	 */
+	public void clearMapHolder() {
+		this.mapData = new MapData();
+		this.countries.clear();
+		this.continents.clear();
+	}
+
+	/**
 	 * Checks if the continent exists on the map
 	 * 
 	 * @param name Name of the continent

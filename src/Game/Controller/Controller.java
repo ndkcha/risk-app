@@ -53,7 +53,7 @@ public class Controller {
 		StartupController startupController = new StartupController(map_file);
 		startupController.processFiles(); // Reads the Map file
 		startupController.assignCountries(); // assign the contries
-		startupController.assignArmies(); // assign armies
+//		startupController.assignArmies(); // assign armies
 
 		RiskMainInterface.createInstance();
 	}

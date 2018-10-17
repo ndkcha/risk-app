@@ -22,7 +22,7 @@ public class DataHolder {
     public static final int ATTACK_PHASE = 1;
     public static final int FORTIFICATION_PHASE = 2;
 
-    public int currentPhase = 0;
+    public int currentPhase = -1;
     public int playerTurn = 0;
     /** instance of the singleton class */
     private static DataHolder dataHolder;
@@ -37,6 +37,8 @@ public class DataHolder {
     public MapData mapData = new MapData();
     /** Image file of the map */
     public File bmpFile;
+    /** Is the armies distribution be automatic or manual? */
+    public boolean isArmiesAutomatic = false;
 
     /**
      * Get the instance of the singleton class.
