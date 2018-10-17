@@ -8,16 +8,22 @@ import org.junit.Test;
 
 import Game.Controller.MapEditorController;
 
-
+/**
+ * This test class checks the validity of the Map Editor.
+ */
 public class TestMapEditorController {
 //	private String Path;
 	
 	
-	
+	/**
+	 *  Contructor of Map editor controller called
+	 */
 	
  MapEditorController object= new MapEditorController();
  
- 
+ /**
+  * This method is checking the validty of map
+  */
  
  @Test public void testIsMapInvalid() {
 	 
