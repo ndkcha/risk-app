@@ -57,7 +57,8 @@ public class MapEditorController {
 	 * The load existing map into the holder data structures. It parses the map
 	 * file followed by Conqueror standards.
 	 * 
-	 * @param mapFile Input map file
+	 * @param mapFile
+	 *            Input map file
 	 * @return true If there are any errors
 	 */
 	public boolean loadExistingMap(File mapFile) {
@@ -107,23 +108,43 @@ public class MapEditorController {
 		boolean otherErrors = this.checkForErrors();
 
 		if (otherErrors || invalidFormatError) {
-			JOptionPane.showMessageDialog(new JFrame(), this.errorMessage, "Error",
-				JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(new JFrame(), this.errorMessage,
+					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return otherErrors || invalidFormatError;
 	}
 
 	/**
-	 * It checks for possible errors.
+	 * This Method checks if country is part of any continent.
 	 * 
 	 * @return true If there are any errors.
 	 */
-	public boolean checkForErrors() {
-		// check for no neighbours
-		boolean noNeighbours = false, noContinent = false,
-				noCountryInContinent = false;
-		boolean ghostNeighbours = false, noLink = false;
+	public boolean validateNoContinent() {
+		boolean noContinent = false;
+
+		for (Map.Entry<String, CountryData> countryDataEntry : holder
+				.getCountries().entrySet()) {
+			CountryData countryData = countryDataEntry.getValue();
+			if (countryData.getContinent().length() == 0) {
+				noContinent = true;
+				this.errorMessage = this.errorMessage.concat("\n"
+						+ countryData.getName() + " is part of no continents");
+				System.out.println(
+						countryData.getName() + " is part of no continents");
+			}
+		}
+
+		return noContinent;
+	}
+
+	/**
+	 * This Method checks if country has neighbours.
+	 * 
+	 * @return true If there are any errors.
+	 */
+	public boolean validateNoNeighbours() {
+		boolean noNeighbours = false;
 
 		for (Map.Entry<String, CountryData> countryDataEntry : holder
 				.getCountries().entrySet()) {
@@ -134,14 +155,18 @@ public class MapEditorController {
 						"\n" + countryData.getName() + " has no neighbour");
 				System.out.println(countryData.getName() + " has no neighbour");
 			}
-			if (countryData.getContinent().length() == 0) {
-				noContinent = true;
-				this.errorMessage = this.errorMessage.concat("\n"
-						+ countryData.getName() + " is part of no continents");
-				System.out.println(
-						countryData.getName() + " is part of no continents");
-			}
 		}
+
+		return noNeighbours;
+	}
+
+	/**
+	 * This Method checks if continent has country/countries inside.
+	 * 
+	 * @return true If there are any errors.
+	 */
+	public boolean validateNoCountryInContinent() {
+		boolean noCountryInContinent = false;
 
 		for (Map.Entry<String, ContinentData> continentDataEntry : holder
 				.getContinents().entrySet()) {
@@ -156,6 +181,28 @@ public class MapEditorController {
 						"\n" + data.getName() + " has no country inside");
 				System.out.println(data.getName() + " has no country inside");
 			}
+		}
+
+		return noCountryInContinent;
+	}
+
+	/**
+	 * This Method checks if the country does not exist but is a neighbour of
+	 * any country. and has no link to other continents.
+	 * 
+	 * @return true If there are any errors.
+	 */
+	public boolean validateGhostNeighboursNolink() {
+		boolean ghostNeighbours = false;
+		boolean noLink = false;
+
+		for (Map.Entry<String, ContinentData> continentDataEntry : holder
+				.getContinents().entrySet()) {
+			ContinentData data = continentDataEntry.getValue();
+			boolean hasLink = false;
+
+			List<CountryData> countries = holder
+					.getCountriesInContinent(data.getName());
 
 			for (CountryData country : countries) {
 				for (String neighbour : country.getNeighbours()) {
@@ -186,15 +233,35 @@ public class MapEditorController {
 			}
 		}
 
+		return ghostNeighbours || noLink;
+	}
+
+	/**
+	 * It checks for possible errors.
+	 * 
+	 * @return true If there are any errors.
+	 */
+	public boolean checkForErrors() {
+		boolean noNeighbours = false, 
+				noContinent = false,
+				noCountryInContinent = false,
+				ghostNeighbours = false;
+
+		noContinent = this.validateNoContinent();
+		noNeighbours = this.validateNoNeighbours();
+		noCountryInContinent = this.validateNoCountryInContinent();
+		ghostNeighbours = this.validateGhostNeighboursNolink();
+
 		return noNeighbours || noContinent || noCountryInContinent
-				|| ghostNeighbours || noLink;
+				|| ghostNeighbours;
 	}
 
 	/**
 	 * Constructs the country data object in order to fill it inside the
 	 * DataHolder hashmap
 	 * 
-	 * @param incoming Collected string from the map file
+	 * @param incoming
+	 *            Collected string from the map file
 	 * @return Data Object of the parsed string.
 	 */
 	private CountryData addCountry(String incoming) {
@@ -218,7 +285,8 @@ public class MapEditorController {
 	 * Constructs the continent data object in order to fill it inside the
 	 * DataHolder hashmap
 	 * 
-	 * @param incoming Collected string from the map file
+	 * @param incoming
+	 *            Collected string from the map file
 	 * @return Data Object of the parsed string.
 	 */
 	private ContinentData addContinent(String incoming) {
@@ -236,8 +304,10 @@ public class MapEditorController {
 	/**
 	 * Adds the map meta data into the DataHolder hasmap
 	 * 
-	 * @param field Name of the field
-	 * @param value value of the corresponding.
+	 * @param field
+	 *            Name of the field
+	 * @param value
+	 *            value of the corresponding.
 	 */
 	private void addToMapData(String field, String value) {
 		if (field.equalsIgnoreCase("image"))
@@ -261,8 +331,8 @@ public class MapEditorController {
 		ActionListener alSaveMap = (ActionEvent e) -> {
 			this.errorMessage = "";
 			if (this.checkForErrors()) {
-				JOptionPane.showMessageDialog(new JFrame(), this.errorMessage, "Error",
-					JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), this.errorMessage,
+						"Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			System.out.println(e.getActionCommand());
