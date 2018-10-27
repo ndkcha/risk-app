@@ -140,5 +140,29 @@ public class Player {
 			HashMap<String, Integer> countriesConquered) {
 		this.countriesConquered = countriesConquered;
 	}
+	
+	/**
+	 * Refactoring 2: All phases in player model.
+	 * Reinforcement Phase
+	 */
+	public void reinforcementPhase() {
+		
+	}
+	
+	/**
+	 * Refactoring 2: All phases in player model.
+	 * Attack Phase
+	 */
+	public void attackPhase() {
+		
+	}
+	
+	/**
+	 * Refactoring 2: All phases in player model.
+	 * Fortification Phase
+	 */
+	public void fortificationPhase() {
+		
+	}
 
 }

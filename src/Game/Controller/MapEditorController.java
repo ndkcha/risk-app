@@ -116,6 +116,7 @@ public class MapEditorController {
 	}
 
 	/**
+	 * Refactoring 1
 	 * This Method checks if country is part of any continent.
 	 * 
 	 * @return true If there are any errors.
@@ -139,6 +140,7 @@ public class MapEditorController {
 	}
 
 	/**
+	 * Refactoring 1
 	 * This Method checks if country has neighbours.
 	 * 
 	 * @return true If there are any errors.
@@ -161,6 +163,7 @@ public class MapEditorController {
 	}
 
 	/**
+	 * Refactoring 1
 	 * This Method checks if continent has country/countries inside.
 	 * 
 	 * @return true If there are any errors.
@@ -187,6 +190,7 @@ public class MapEditorController {
 	}
 
 	/**
+	 * Refactoring 1
 	 * This Method checks if the country does not exist but is a neighbour of
 	 * any country. and has no link to other continents.
 	 * 
@@ -237,6 +241,7 @@ public class MapEditorController {
 	}
 
 	/**
+	 * Refactoring 1
 	 * It checks for possible errors.
 	 * 
 	 * @return true If there are any errors.
