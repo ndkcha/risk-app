@@ -33,7 +33,7 @@ public class RiskMainInterface extends JFrame {
     private DataHolder holder = DataHolder.getInstance();
 
     private static RiskMainInterface mainView;
-
+    private MapView mapView;
     private BufferedImage mapImage;
 
     // Variables declaration - do not modify                     
@@ -131,43 +131,49 @@ public class RiskMainInterface extends JFrame {
         comboModelNeighbourCountries = new DefaultComboBoxModel<>();
         listModelGamePlay = new DefaultListModel<>();
 
-        try {
-            if (this.holder.bmpFile != null)
-                this.mapImage = ImageIO.read(this.holder.bmpFile);
+        //mapView = new MapView();
+        
+        /**
+         * new MapView();
+         * new CardView();
+         * new DiceView();
+         * new GameLogsView();
+         * new PhaseView();
+         * new WorldDominationView();s
+         */
+        
+        // Map View Start
+//        try {
+//            if (this.holder.bmpFile != null)
+//                this.mapImage = ImageIO.read(this.holder.bmpFile);
+//
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace();
+//        }
+//
+//        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+//        jLabel9.setIcon(new javax.swing.ImageIcon(mapImage)); // NOI18N
+//
+//        javax.swing.GroupLayout Image_PanelLayout = new javax.swing.GroupLayout(Image_Panel);
+//        Image_Panel.setLayout(Image_PanelLayout);
+//        Image_PanelLayout.setHorizontalGroup(
+//            Image_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                .addGroup(Image_PanelLayout.createSequentialGroup()
+//                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                    .addGap(572, 572, 572))
+//        );
+//        Image_PanelLayout.setVerticalGroup(
+//            Image_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//        );
+//        jScrollPane1.setViewportView(Image_Panel);
+        // Map View Ends
 
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(mapImage)); // NOI18N
-
-
-        javax.swing.GroupLayout Image_PanelLayout = new javax.swing.GroupLayout(Image_Panel);
-        Image_Panel.setLayout(Image_PanelLayout);
-        Image_PanelLayout.setHorizontalGroup(
-            Image_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Image_PanelLayout.createSequentialGroup()
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(572, 572, 572))
-        );
-        Image_PanelLayout.setVerticalGroup(
-            Image_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-
-        jScrollPane1.setViewportView(Image_Panel);
-
-
+        // Dice View Starts
         jLabel1.setText("Dice");
+        DiceValue.setText("Roll");
 
-
-        DiceValue.setText("Value");
-
-
-        Dice_Jlist.setModel(new javax.swing.AbstractListModel<String>() {
+        Dice_Jlist.setModel(new AbstractListModel<String>() {
             String[] strings = {" "};
 
             public int getSize() {
@@ -208,9 +214,10 @@ public class RiskMainInterface extends JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                     .addContainerGap())
         );
-
+        // Dice Panel ENds
+        
+        // Phase Control start
         labelPhases.setText("Phases :");
-
         btnPhases.setText("Phases :");
 
         javax.swing.GroupLayout Phases_panelLayout = new javax.swing.GroupLayout(Phases_panel);
@@ -243,6 +250,9 @@ public class RiskMainInterface extends JFrame {
                     .addComponent(Country_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(22, Short.MAX_VALUE))
         );
+        // Phase COntrol Ends
+        
+        // Cards view Start.
         jLabel3.setText("Card");
 
         Card_A_button.setText("Card 1");
@@ -308,8 +318,9 @@ public class RiskMainInterface extends JFrame {
                         .addComponent(Card_D_button))
                     .addGap(0, 8, Short.MAX_VALUE))
         );
+        // Cards view ends
 
-
+        // World Domination View Start.
         Player_Jlist.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = {" "};
 
@@ -350,7 +361,10 @@ public class RiskMainInterface extends JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(28, Short.MAX_VALUE))
         );
-        jLabel5.setText("Map");
+        // WDV Ends
+        
+        // Game Log start
+        
         jLabel7.setText("             Gameplay   :");
 
         jScrollPane4.setViewportView(Gameplay_Jlist);
@@ -387,6 +401,7 @@ public class RiskMainInterface extends JFrame {
 
         jLabel4.setText("MAP :");
 
+        // Full layout
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
