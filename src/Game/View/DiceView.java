@@ -9,8 +9,9 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
+ * Class for the Dice View on RIsk Main screen.
+ * 
  * @author Jay
- *
  */
 public class DiceView implements Observer {
 
@@ -21,12 +22,17 @@ public class DiceView implements Observer {
 	private JScrollPane jScrollPane2;
 	
 	/**
-	 * 
+	 * Constructor for the Dice View.
 	 */
 	public DiceView() {
 		// TODO Auto-generated constructor stub
 		
 		jLabel1 = new JLabel();
+		DiceValue = new JButton();
+		Dice_Jlist = new JList<>();
+		Dice_Panel = new JPanel();
+		jScrollPane2 = new JScrollPane();
+		
 		jLabel1.setText("Dice");
         DiceValue.setText("Roll");
 
@@ -75,11 +81,12 @@ public class DiceView implements Observer {
 	}
 
 	/**
-	 * @param args
+	 * Return Dice Panel for main risk view.
+	 * 
+	 * @return Dice_Panel Panel for Dice View.
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public JPanel getPanel() {
+		 return this.Dice_Panel;
 	}
 
 	@Override

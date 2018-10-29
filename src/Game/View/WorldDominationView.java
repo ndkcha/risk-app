@@ -72,11 +72,12 @@ public class WorldDominationView implements Observer {
 	}
 
 	/**
-	 * @param args
+	 * Return Phase Panel for main risk view.
+	 * 
+	 * @return Player_Panel Panel for Phase View.
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public JPanel getPanel() {
+		 return this.Player_Panel;
 	}
 
 	@Override

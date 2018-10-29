@@ -4,13 +4,16 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-
 import Game.Risk.DataHolder;
 
+/**
+ * Map View observer implementation.
+ * 
+ * @author Jay
+ */
 public class MapView implements Observer {
 
 	private DataHolder holder = DataHolder.getInstance();
@@ -23,6 +26,10 @@ public class MapView implements Observer {
 	
 	public MapView() {
 		// TODO Auto-generated constructor stub
+		jLabel9 = new JLabel();
+		jLabel5 = new JLabel();
+		Image_Panel = new JPanel();
+		jScrollPane1 = new JScrollPane();
 		
 		jLabel5.setText("Map");
 		
@@ -34,8 +41,7 @@ public class MapView implements Observer {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-		
-		
+
 		jLabel9.setIcon(new ImageIcon(mapImage)); // NOI18N
 		
 		GroupLayout Image_PanelLayout = new GroupLayout(Image_Panel);
@@ -51,13 +57,21 @@ public class MapView implements Observer {
                 .addComponent(jLabel9, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jScrollPane1.setViewportView(Image_Panel);
+	}
+	
+	/**
+	 * Return Map Panel for main risk view.
+	 * 
+	 * @return Image_Panel Panel for Map View.
+	 */
+	public JPanel getPanel() {
+		 return this.Image_Panel;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

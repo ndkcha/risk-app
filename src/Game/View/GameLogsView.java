@@ -66,11 +66,12 @@ public class GameLogsView implements Observer {
 	}
 
 	/**
-	 * @param args
+	 * Return game logs Panel for main risk view.
+	 * 
+	 * @return Gameplay_panel Panel for gamelog View.
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public JPanel getPanel() {
+		 return this.Gameplay_panel;
 	}
 
 	@Override

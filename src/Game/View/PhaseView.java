@@ -8,8 +8,9 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
+ * This class represent the Phase View for the Main game.
+ * 
  * @author Jay
- *
  */
 public class PhaseView implements Observer {
 
@@ -21,12 +22,16 @@ public class PhaseView implements Observer {
     private JComboBox<String> Country_combo;
     
 	/**
-	 * 
+	 * Constructor for the phase view interface.
 	 */
 	public PhaseView() {
 		// TODO Auto-generated constructor stub
 		labelPhases = new JLabel();
         btnPhases = new JButton();
+        Phases_panel = new JPanel();
+        Number_armies_Combo = new JComboBox<>();
+        Country_combo = new JComboBox<>();
+        Neibhour_country_combo = new JComboBox<>();
         
 		labelPhases.setText("Phases :");
         btnPhases.setText("Phases :");
@@ -64,11 +69,12 @@ public class PhaseView implements Observer {
 	}
 
 	/**
-	 * @param args
+	 * Return Phases Panel for main risk view.
+	 * 
+	 * @return Phases_panel Panel for Phases View.
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public JPanel getPanel() {
+		 return this.Phases_panel;
 	}
 
 	@Override
