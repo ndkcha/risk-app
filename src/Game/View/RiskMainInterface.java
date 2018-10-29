@@ -124,17 +124,16 @@ public class RiskMainInterface extends JFrame {
         jScrollPane4 = new JScrollPane();
         Gameplay_Jlist = new JList<>();
         jLabel4 = new JLabel();
+        
+        JPanel mapPanel = new JPanel();
 
         listModelPlayers = new DefaultListModel<>();
         comboModelCountries = new DefaultComboBoxModel<>();
         comboModelNoOfArmies = new DefaultComboBoxModel<>();
         comboModelNeighbourCountries = new DefaultComboBoxModel<>();
-        listModelGamePlay = new DefaultListModel<>();
-
-        //mapView = new MapView();
+        listModelGamePlay = new DefaultListModel<>();  
         
         /**
-         * new MapView();
          * new CardView();
          * new DiceView();
          * new GameLogsView();
@@ -142,34 +141,13 @@ public class RiskMainInterface extends JFrame {
          * new WorldDominationView();s
          */
         
-        // Map View Start
-        try {
-            if (this.holder.bmpFile != null)
-                this.mapImage = ImageIO.read(this.holder.bmpFile);
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        jLabel9.setIcon(new javax.swing.ImageIcon(mapImage)); // NOI18N
-
-        javax.swing.GroupLayout Image_PanelLayout = new javax.swing.GroupLayout(Image_Panel);
-        Image_Panel.setLayout(Image_PanelLayout);
-        Image_PanelLayout.setHorizontalGroup(
-            Image_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Image_PanelLayout.createSequentialGroup()
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(572, 572, 572))
-        );
-        Image_PanelLayout.setVerticalGroup(
-            Image_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jScrollPane1.setViewportView(Image_Panel);
+        // Map View Start.
+        mapView = new MapView();
+        mapPanel = mapView.getPanel();
+        jScrollPane1.setViewportView(mapPanel);
         // Map View Ends
 
-        // Dice View Starts
+        // Dice View Starts.
         jLabel1.setText("Dice");
         DiceValue.setText("Roll");
 
