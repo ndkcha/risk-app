@@ -103,11 +103,12 @@ public class CardsView implements Observer {
 	}
 
 	/**
-	 * @param args
+	 * Return Cards Panel for main risk view.
+	 * 
+	 * @return Card_panel Panel for Cards View.
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public JPanel getPanel() {
+		 return this.Card_panel;
 	}
 
 	@Override

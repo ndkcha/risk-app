@@ -33,42 +33,33 @@ public class RiskMainInterface extends JFrame {
     private DataHolder holder = DataHolder.getInstance();
 
     private static RiskMainInterface mainView;
+    
     private MapView mapView;
-    private BufferedImage mapImage;
+    private DiceView diceView;
+    private CardsView cardsView;
+    private PhaseView phaseView;
+    private WorldDominationView worldDominationView;
+    private GameLogsView gameLogsView;
 
-    // Variables declaration - do not modify                     
-    private javax.swing.JButton Card_A_button;
-    private javax.swing.JButton Card_B_button;
-    private javax.swing.JButton Card_C_button;
-    private javax.swing.JButton Card_D_button;
-    private javax.swing.JButton Card_E_button;
-    private javax.swing.JPanel Card_panel;
-    private javax.swing.JComboBox<String> Country_combo;
-    private javax.swing.JButton DiceValue;
-    private javax.swing.JList<String> Dice_Jlist;
-    private javax.swing.JPanel Dice_Panel;
-    private javax.swing.JList<String> Gameplay_Jlist;
-    private javax.swing.JPanel Gameplay_panel;
-    private javax.swing.JPanel Image_Panel;
-    private javax.swing.JComboBox<String> Neibhour_country_combo;
-    private javax.swing.JComboBox<Integer> Number_armies_Combo;
-    private javax.swing.JButton btnPhases;
-    private javax.swing.JPanel Phases_panel;
-    private javax.swing.JList<String> Player_Jlist;
-    private javax.swing.JPanel Player_Panel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel labelPhases;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel labelPlayerTitle;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    // Variables declaration - do not modify
+    private JPanel Card_panel;
+    private JComboBox<String> Country_combo;
+    private JPanel Dice_Panel;
+    private JList<String> Gameplay_Jlist;
+    private JPanel Gameplay_panel;
+    private JComboBox<String> Neibhour_country_combo;
+    private JComboBox<Integer> Number_armies_Combo;
+    private JButton btnPhases;
+    private JPanel Phases_panel;
+    private JList<String> Player_Jlist;
+    private JPanel Player_Panel;
+    private JLabel labelPhases;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel5;
+    private JLabel labelPlayerTitle;
+    private JScrollPane jScrollPane1;
+    private JPanel mapPanel;
     // End of variables declaration
 
     private DefaultListModel<String> listModelPlayers, listModelGamePlay;
@@ -93,13 +84,6 @@ public class RiskMainInterface extends JFrame {
      */
     private void initComponents() {
         jScrollPane1 = new JScrollPane();
-        Image_Panel = new JPanel();
-        jLabel9 = new JLabel();
-        Dice_Panel = new JPanel();
-        jLabel1 = new JLabel();
-        DiceValue = new JButton();
-        jScrollPane2 = new JScrollPane();
-        Dice_Jlist = new JList<>();
         Phases_panel = new JPanel();
         labelPhases = new JLabel();
         btnPhases = new JButton();
@@ -108,24 +92,15 @@ public class RiskMainInterface extends JFrame {
         Neibhour_country_combo = new JComboBox<>();
         Card_panel = new JPanel();
         jLabel3 = new JLabel();
-        Card_A_button = new JButton();
-        Card_B_button = new JButton();
-        Card_C_button = new JButton();
-        Card_D_button = new JButton();
-        Card_E_button = new JButton();
         Player_Panel = new JPanel();
-        jScrollPane3 = new JScrollPane();
         Player_Jlist = new JList<>();
         labelPlayerTitle = new JLabel();
         jLabel5 = new JLabel();
         Gameplay_panel = new JPanel();
-        jLabel6 = new JLabel();
-        jLabel7 = new JLabel();
-        jScrollPane4 = new JScrollPane();
         Gameplay_Jlist = new JList<>();
         jLabel4 = new JLabel();
-        
-        JPanel mapPanel = new JPanel();
+        mapPanel = new JPanel();
+        Dice_Panel = new JPanel();
 
         listModelPlayers = new DefaultListModel<>();
         comboModelCountries = new DefaultComboBoxModel<>();
@@ -133,324 +108,113 @@ public class RiskMainInterface extends JFrame {
         comboModelNeighbourCountries = new DefaultComboBoxModel<>();
         listModelGamePlay = new DefaultListModel<>();  
         
-        /**
-         * new CardView();
-         * new DiceView();
-         * new GameLogsView();
-         * new PhaseView();
-         * new WorldDominationView();s
-         */
-        
         // Map View Start.
         mapView = new MapView();
         mapPanel = mapView.getPanel();
+        jLabel5.setText("Map");
+        jLabel4.setText("MAP :");
         jScrollPane1.setViewportView(mapPanel);
         // Map View Ends
 
         // Dice View Starts.
-        jLabel1.setText("Dice");
-        DiceValue.setText("Roll");
-
-        Dice_Jlist.setModel(new AbstractListModel<String>() {
-            String[] strings = {" "};
-
-            public int getSize() {
-                return strings.length;
-            }
-
-            public String getElementAt(int i) {
-                return strings[i];
-            }
-        });
-        jScrollPane2.setViewportView(Dice_Jlist);
-
-        javax.swing.GroupLayout Dice_PanelLayout = new javax.swing.GroupLayout(Dice_Panel);
-        Dice_Panel.setLayout(Dice_PanelLayout);
-        Dice_PanelLayout.setHorizontalGroup(
-            Dice_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Dice_PanelLayout.createSequentialGroup()
-                    .addGroup(Dice_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(Dice_PanelLayout.createSequentialGroup()
-                            .addGroup(Dice_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(Dice_PanelLayout.createSequentialGroup()
-                                    .addGap(56, 56, 56)
-                                    .addComponent(jLabel1))
-                                .addGroup(Dice_PanelLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(DiceValue, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(0, 118, Short.MAX_VALUE))
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addContainerGap())
-        );
-        Dice_PanelLayout.setVerticalGroup(
-            Dice_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Dice_PanelLayout.createSequentialGroup()
-                    .addComponent(jLabel1)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(DiceValue)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                    .addContainerGap())
-        );
+        diceView = new DiceView();
+        Dice_Panel = diceView.getPanel();
         // Dice Panel ENds
         
         // Phase Control start
-        labelPhases.setText("Phases :");
-        btnPhases.setText("Phases :");
-
-        javax.swing.GroupLayout Phases_panelLayout = new javax.swing.GroupLayout(Phases_panel);
-        Phases_panel.setLayout(Phases_panelLayout);
-        Phases_panelLayout.setHorizontalGroup(
-            Phases_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Phases_panelLayout.createSequentialGroup()
-                    .addGap(21, 21, 21)
-                    .addComponent(labelPhases, javax.swing.GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(Phases_panelLayout.createSequentialGroup()
-                    .addComponent(btnPhases)
-                    .addGap(18, 18, 18)
-                    .addComponent(Number_armies_Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(Phases_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Neibhour_country_combo, 0, 47, Short.MAX_VALUE)
-                    .addComponent(Country_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        Phases_panelLayout.setVerticalGroup(
-            Phases_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Phases_panelLayout.createSequentialGroup()
-                    .addComponent(labelPhases)
-                    .addGap(26, 26, 26)
-                    .addGroup(Phases_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnPhases)
-                        .addComponent(Number_armies_Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(Neibhour_country_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Country_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(22, Short.MAX_VALUE))
-        );
+        phaseView = new PhaseView();
+        Phases_panel = phaseView.getPanel();
         // Phase COntrol Ends
         
         // Cards view Start.
+        cardsView = new CardsView();
+        Card_panel = cardsView.getPanel();
         jLabel3.setText("Card");
-
-        Card_A_button.setText("Card 1");
-        Card_B_button.setText("Card 2");
-        Card_C_button.setText("Card 3");
-        Card_D_button.setText("Card 4");
-        Card_E_button.setText("Card 5");
-
-
-        javax.swing.GroupLayout Card_panelLayout = new javax.swing.GroupLayout(Card_panel);
-        Card_panel.setLayout(Card_panelLayout);
-        Card_panelLayout.setHorizontalGroup(
-            Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Card_panelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGap(46, 46, 46)
-                            .addComponent(jLabel3)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_A_button, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                                .addComponent(Card_C_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_B_button, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                                .addComponent(Card_D_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                            .addComponent(Card_E_button, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap())
-                .addGroup(Card_panelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGap(46, 46, 46)
-                            .addComponent(jLabel3)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_A_button, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                                .addComponent(Card_C_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_B_button, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                                .addComponent(Card_D_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                            .addComponent(Card_E_button, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap())
-        );
-        Card_panelLayout.setVerticalGroup(
-            Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Card_panelLayout.createSequentialGroup()
-                    .addComponent(jLabel3)
-                    .addGap(18, 18, 18)
-                    .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Card_A_button)
-                        .addComponent(Card_B_button)
-                        .addComponent(Card_E_button))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Card_C_button)
-                        .addComponent(Card_D_button))
-                    .addGap(0, 8, Short.MAX_VALUE))
-        );
         // Cards view ends
 
         // World Domination View Start.
-        Player_Jlist.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = {" "};
-
-            public int getSize() {
-                return strings.length;
-            }
-
-            public String getElementAt(int i) {
-                return strings[i];
-            }
-        });
-        jScrollPane3.setViewportView(Player_Jlist);
-
-        labelPlayerTitle.setText("Player :");
-
-        jScrollPane3.setViewportView(Player_Jlist);
-
-        javax.swing.GroupLayout Player_PanelLayout = new javax.swing.GroupLayout(Player_Panel);
-        Player_Panel.setLayout(Player_PanelLayout);
-        Player_PanelLayout.setHorizontalGroup(
-            Player_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Player_PanelLayout.createSequentialGroup()
-                    .addGroup(Player_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(Player_PanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(Player_PanelLayout.createSequentialGroup()
-                            .addGap(8, 8, 8)
-                            .addComponent(labelPlayerTitle)))
-                    .addContainerGap(15, Short.MAX_VALUE))
-        );
-        Player_PanelLayout.setVerticalGroup(
-            Player_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Player_PanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(labelPlayerTitle)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(28, Short.MAX_VALUE))
-        );
+        worldDominationView = new WorldDominationView();
+        Player_Panel = worldDominationView.getPanel();
         // WDV Ends
         
         // Game Log start
+        GameLogsView
+        gameLogsView = new GameLogsView();
+        Gameplay_panel = gameLogsView.getPanel();
+        // Game Log ends
         
-        jLabel7.setText("             Gameplay   :");
-
-        jScrollPane4.setViewportView(Gameplay_Jlist);
-
-        javax.swing.GroupLayout Gameplay_panelLayout = new javax.swing.GroupLayout(Gameplay_panel);
-        Gameplay_panel.setLayout(Gameplay_panelLayout);
-        Gameplay_panelLayout.setHorizontalGroup(
-            Gameplay_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Gameplay_panelLayout.createSequentialGroup()
-                    .addGroup(Gameplay_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(Gameplay_panelLayout.createSequentialGroup()
-                            .addGap(145, 145, 145)
-                            .addComponent(jLabel6)
-                            .addGap(38, 38, 38)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(Gameplay_panelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        Gameplay_panelLayout.setVerticalGroup(
-            Gameplay_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Gameplay_panelLayout.createSequentialGroup()
-                    .addGroup(Gameplay_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(Gameplay_panelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel6))
-                        .addComponent(jLabel7))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-
-        jLabel4.setText("MAP :");
-
         // Full layout
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Phases_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Dice_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Card_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(Phases_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Dice_Panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(Card_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(38, 38, 38)
-                                    .addComponent(Player_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Player_Panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4)
                             .addGap(505, 505, 505)
                             .addComponent(jLabel5))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(Gameplay_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Gameplay_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 1132, GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap())
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Phases_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Dice_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Card_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(Phases_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Dice_Panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(Card_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(38, 38, 38)
-                                    .addComponent(Player_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Player_Panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4)
                             .addGap(505, 505, 505)
                             .addComponent(jLabel5))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(Gameplay_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Gameplay_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 740, GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(Card_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Card_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                     .addGap(22, 22, 22)
-                                    .addComponent(Player_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(Player_Panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(Dice_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(Phases_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(Gameplay_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(Dice_Panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(Phases_panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(Gameplay_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(16, 16, 16)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5)
                                 .addComponent(jLabel4))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jScrollPane1)))
                     .addContainerGap())
         );
