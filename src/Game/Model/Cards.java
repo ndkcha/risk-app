@@ -1,5 +1,7 @@
 package Game.Model;
 
+import java.util.HashMap;
+
 /**
  * This class is used to create cards according to the Risk rules. The created
  * cards can then be assigned to players, and they receive additional army for
@@ -9,6 +11,18 @@ package Game.Model;
  * @version 1.0.0
  */
 public class Cards {
+	
+	
+private static HashMap<String,Integer> cardType;
+	
+	static {
+		new HashMap<String, Integer>();
+		cardType.put("Infantry", 1);
+		cardType.put("Cavalry", 5);
+		cardType.put("Artillery", 10);
+	}
+	
+
 
 	private String name, type;
 

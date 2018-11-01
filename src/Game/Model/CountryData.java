@@ -15,6 +15,10 @@ public class CountryData {
 	private double latitude, longitude; // x and y of the coordinate system  respectively
 	private ArrayList<String> neighbours;
 
+	public CountryData() {
+		
+	}
+	
 	/**
 	 * 
 	 * Initializes the country data
