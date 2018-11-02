@@ -12,17 +12,17 @@ import java.util.HashMap;
  */
 public class Cards {
 	
+  public static HashMap<String,Integer> cardType;
+
+
+   public Cards() {
 	
-private static HashMap<String,Integer> cardType;
-	
-	static {
 		new HashMap<String, Integer>();
 		cardType.put("Infantry", 1);
 		cardType.put("Cavalry", 5);
 		cardType.put("Artillery", 10);
-	}
 	
-
+	}	
 
 	private String name, type;
 
@@ -41,6 +41,7 @@ private static HashMap<String,Integer> cardType;
 	 */
 	public Integer cardExchangeArmies = 15;
 
+	
 	/**
 	 * Constructor to assign value to name and type of the card.
 	 * 
@@ -48,44 +49,58 @@ private static HashMap<String,Integer> cardType;
 	 * @param name The name of the card.
 	 * @param type The type of the card.
 	 */
+	/*
 	public Cards(Integer cardId, String name, String type) {
 		this.cardId = cardId;
 		this.name = name;
 		this.type = type;
 	}
+	*/
 
 	/**
 	 * Function to get the name of the card.
 	 * 
 	 * @return name of the card.
 	 */
-	public String getName() {
+	
+	/*
+	 * public String getName() {
 		return this.name;
 	}
+	*/
 
 	/**
 	 * Function to get the type of the card.
 	 * 
 	 * @return type of the card.
 	 */
+	
+	/*
 	public String getType() {
 		return this.type;
 	}
-
+     */
+    
 	/**
 	 * @return This method get the player id
 	 */
+	
+	/*
 	public Integer getOwnerId() {
 		return this.playerId;
 	}
-
+     */
+   
 	/**
 	 * This method set owner id
 	 *
 	 * @param id The new card player ID
 	 */
+	
+	/*
 	public void setOwnerId(Integer id) {
 		this.playerId = id;
 	}
-
+	
+   */
 }
