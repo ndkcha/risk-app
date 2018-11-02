@@ -1,6 +1,8 @@
 package Game.Controller;
 
 import Game.Risk.DataHolder;
+import Game.Risk.MapEditorDataHolder;
+import Game.Model.Cards;
 import Game.Model.CountryData;
 import Game.Model.Player;
 import java.util.*;
@@ -8,28 +10,41 @@ import java.util.*;
 
 public class Cardlogic {
 	private DataHolder holder = DataHolder.getInstance();
+	private MapEditorDataHolder mapeditorholder=MapEditorDataHolder.getInstance();
 	private Player player;
     private List<Player> p = this.holder.getPlayerList();
-    CountryData countryname=new CountryData();
+   // CountryData countryname=new CountryData();
+	
+    String[] cardKeys=(String[]) Cards.cardType.keySet().toArray();
     
-	
-	
 	public void cardDistribution() { // should this function be static or not
 		
 		 HashMap<String,String> cardAssociatedWithEachCountry=new HashMap<String,String>();  
-	     private List<CountryData> country 
+	     //private List<CountryData> country; 
 	     Random cardDistributionToCountries=new Random();
 	     
-	     for(int i=0;i<holder.getCountryDataList().size();i++)
+	     
+	     for(String countryname: mapeditorholder.getCountries().keySet())
 	     {
-	    	 cardAssociatedWithEachCountry.put(holder.getCountryDataList(), value)
+	    	String randomstring=cardKeys[cardDistributionToCountries.nextInt(cardKeys.length)];
+	    	cardAssociatedWithEachCountry.put(countryname,randomstring);
+	    	System.out.println(countryname+" is assigned"+randomstring+" card");
 	     }
 	}
 	
-	public String cardReceived(String name) {
-		
-    
+/*	public String cardReceived(String name) {
+
      
      return null;
 	}
+*/
+	
+	public static void main(String args[])
+	{
+		Cardlogic cl=new Cardlogic();
+		cl.cardDistribution();
+		Cards c=new Cards();
+		
+	}
+
 }
