@@ -17,7 +17,7 @@ public class Cardlogic {
 	
     String[] cardKeys=(String[]) Cards.cardType.keySet().toArray();
     
-	public void cardDistribution() { // should this function be static or not
+	public void cardDistribution() { 
 		
 		 HashMap<String,String> cardAssociatedWithEachCountry=new HashMap<String,String>();  
 	     //private List<CountryData> country; 
@@ -32,19 +32,7 @@ public class Cardlogic {
 	     }
 	}
 	
-/*	public String cardReceived(String name) {
-
-     
-     return null;
-	}
-*/
 	
-	public static void main(String args[])
-	{
-		Cardlogic cl=new Cardlogic();
-		cl.cardDistribution();
-		Cards c=new Cards();
-		
-	}
+	
 
 }
