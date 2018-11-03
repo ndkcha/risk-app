@@ -1,9 +1,6 @@
 package Game.Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This holds the player data and the runtime data collected for player It holds
@@ -13,7 +10,7 @@ import java.util.Map;
  * @author ndkcha, Jay
  * @version 1.0.0
  */
-public class Player {
+public class Player extends Observable {
 	
 	private String name, color;
 	private int type;

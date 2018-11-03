@@ -1,15 +1,9 @@
 package Game.Risk;
 
-import Game.Model.ContinentData;
-import Game.Model.CountryData;
-import Game.Model.MapData;
-import Game.Model.Player;
+import Game.Model.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A singleton class to hold the entire data set throughout the application.
@@ -22,6 +16,8 @@ public class DataHolder {
     public static final int ATTACK_PHASE = 1;
     public static final int FORTIFICATION_PHASE = 2;
 
+    /** a holder that manipulates the phases */
+    private PhaseData phaseData = new PhaseData();
     public int currentPhase = -1;
     public int playerTurn = 0;
     /** instance of the singleton class */
@@ -39,6 +35,32 @@ public class DataHolder {
     public File bmpFile;
     /** Is the armies distribution be automatic or manual? */
     public boolean isArmiesAutomatic = false;
+
+    /** Returns the active phase */
+    public int getCurrentPhase() {
+        return this.phaseData.getCurrentPhase();
+    }
+
+    /**
+     * Attaches the observer to the phase data to detect changes in phases
+     * @param object the observer to attach
+     */
+    public void attachObserverToPhase(Observer object) {
+        this.phaseData.deleteObserver(object);
+        this.phaseData.addObserver(object);
+    }
+
+    /**
+     * Attaches the observer to all the players
+     * @param object the observer to attach
+     */
+    public void attachObserverToPlayers(Observer object) {
+        for (Map.Entry<String, Player> entry : this.playerList.entrySet()) {
+            Player player = entry.getValue();
+            player.deleteObserver(object);
+            player.addObserver(object);
+        }
+    }
 
     /**
      * Get the instance of the singleton class.
@@ -63,6 +85,7 @@ public class DataHolder {
      */
     public void addPlayer(Player data) {
         this.playerList.put(data.getName(), data);
+        this.phaseData.setTotalPlayers(this.playerList.size());
     }
 
     /**
@@ -141,9 +164,7 @@ public class DataHolder {
 
     /** Changes the player for the turn */
     public void changeTurn() {
-        this.playerTurn++;
-        if (this.playerTurn == this.playerList.size())
-            this.playerTurn = 0;
+        this.phaseData.changeTurn();
     }
 
     /**
@@ -157,11 +178,7 @@ public class DataHolder {
 
     /** changes the phases in each turn. and it automatically changes the player turn */
     public void changePhases() {
-        if (this.currentPhase == 2) {
-            this.changeTurn();
-            this.currentPhase = -1;
-        }
-        this.currentPhase++;
+        this.phaseData.changePhase();
     }
 
     /** 
@@ -170,7 +187,7 @@ public class DataHolder {
      * @return activePlayer The active player for the game.
      */
     public Player getActivePlayer() {
-        return this.getPlayerList().get(this.playerTurn);
+        return this.getPlayerList().get(this.phaseData.getPlayerTurn());
     }
 
     /**
