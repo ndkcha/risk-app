@@ -3,6 +3,9 @@
  */
 package Game.View;
 
+import Game.Model.Player;
+import Game.Risk.DataHolder;
+
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
@@ -12,42 +15,28 @@ import javax.swing.*;
  *
  */
 public class WorldDominationView implements Observer {
+	private DataHolder holder = DataHolder.getInstance();
 
-	private JScrollPane jScrollPane3;
-	private JList<String> Player_Jlist;
-    private JPanel Player_Panel;
-    private JLabel labelPlayerTitle;
+	private JList<String> listPlayer = new JList<>();
+    private JPanel playerPanel = new JPanel();
+    private JLabel labelPlayerTitle = new JLabel();
+
+	private DefaultListModel<String> listModelPlayers = new DefaultListModel<>();
     
 	/**
 	 * 
 	 */
 	public WorldDominationView() {
-		// TODO Auto-generated constructor stub
-		
-		Player_Panel = new JPanel();
-	    jScrollPane3 = new JScrollPane();
-	    Player_Jlist = new JList<>();
-	    labelPlayerTitle = new JLabel();
-	    
-		Player_Jlist.setModel(new AbstractListModel<String>() {
-            String[] strings = {" "};
-
-            public int getSize() {
-                return strings.length;
-            }
-
-            public String getElementAt(int i) {
-                return strings[i];
-            }
-        });
-        jScrollPane3.setViewportView(Player_Jlist);
+		listPlayer.setEnabled(false);
+		JScrollPane jScrollPane3 = new JScrollPane();
+        jScrollPane3.setViewportView(listPlayer);
 
         labelPlayerTitle.setText("Player :");
 
-        jScrollPane3.setViewportView(Player_Jlist);
+        jScrollPane3.setViewportView(listPlayer);
 
-        GroupLayout Player_PanelLayout = new GroupLayout(Player_Panel);
-        Player_Panel.setLayout(Player_PanelLayout);
+        GroupLayout Player_PanelLayout = new GroupLayout(playerPanel);
+        playerPanel.setLayout(Player_PanelLayout);
         Player_PanelLayout.setHorizontalGroup(
             Player_PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(Player_PanelLayout.createSequentialGroup()
@@ -73,17 +62,34 @@ public class WorldDominationView implements Observer {
 
 	/**
 	 * Return Phase Panel for main risk view.
-	 * 
-	 * @return Player_Panel Panel for Phase View.
+	 * @return playerPanel Panel for Phase View.
 	 */
 	public JPanel getPanel() {
-		 return this.Player_Panel;
+		 return this.playerPanel;
+	}
+
+	/** reloads the list of players on UI */
+	void reloadTheList() {
+		listModelPlayers.removeAllElements();
+
+		for (Player player: holder.getPlayerList()) {
+			listModelPlayers.addElement(player.getName() + " (" + player.getColor() + ") [" +
+				player.getCountriesConquered().size() + " countries]");
+		}
+
+		listPlayer.setModel(listModelPlayers);
+	}
+
+	/** sets the label according to the active player */
+	void setActivePlayerLabel() {
+		Player player = holder.getActivePlayer();
+
+		labelPlayerTitle.setText("Player: (turn: " + player.getName() + ")");
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(arg1);
 	}
 
 }
