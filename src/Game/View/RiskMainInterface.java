@@ -26,18 +26,22 @@ public class RiskMainInterface extends JFrame {
     private static RiskMainInterface mainView;
 
     // Variables declaration - do not modify
-    private JComboBox<String> Country_combo;
-    private JList<String> Gameplay_Jlist;
-    private JComboBox<String> Neibhour_country_combo;
-    private JComboBox<Integer> Number_armies_Combo;
-    private JButton btnPhases;
-    private JLabel labelPhases;
-    private JLabel labelPlayerTitle;
+    private JComboBox<String> comboCountry = new JComboBox<>();
+    private JList<String> listGamePlay = new JList<>();
+    private JComboBox<String> comboNeighbourCountry = new JComboBox<>();
+    private JComboBox<Integer> comboNumberArmy = new JComboBox<>();
+    private JButton btnPhases = new JButton();
+    private JLabel labelPhases = new JLabel();
+    private JLabel labelPlayerTitle = new JLabel();
+    private JLabel jLabel5 = new JLabel();
+    private JLabel jLabel4 = new JLabel();
+    private JLabel labelCardTitle = new JLabel();
     // End of variables declaration
 
-    private DefaultListModel<String> listModelGamePlay;
-    private DefaultComboBoxModel<String> comboModelCountries, comboModelNeighbourCountries;
-    private DefaultComboBoxModel<Integer> comboModelNoOfArmies;
+    private DefaultListModel<String> listModelGamePlay = new DefaultListModel<>();
+    private DefaultComboBoxModel<String> comboModelCountries = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel<String> comboModelNeighbourCountries = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel<Integer> comboModelNoOfArmies = new DefaultComboBoxModel<>();
 
     private ReinforcementController reinforcementController = new ReinforcementController();
 
@@ -52,64 +56,14 @@ public class RiskMainInterface extends JFrame {
     /** Various panel components are initialised in initComponents method */
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        JScrollPane jScrollPane1 = new JScrollPane();
-        JLabel jLabel4 = new JLabel();
-        JLabel jLabel5 = new JLabel();
-        JLabel labelCardTitle = new JLabel();
-        labelPhases = new JLabel();
-        btnPhases = new JButton();
-        Number_armies_Combo = new JComboBox<>();
-        Country_combo = new JComboBox<>();
-        Neibhour_country_combo = new JComboBox<>();
-        labelPlayerTitle = new JLabel();
-        Gameplay_Jlist = new JList<>();
-
-        comboModelCountries = new DefaultComboBoxModel<>();
-        comboModelNoOfArmies = new DefaultComboBoxModel<>();
-        comboModelNeighbourCountries = new DefaultComboBoxModel<>();
-        listModelGamePlay = new DefaultListModel<>();  
+        JPanel panelMap = this.initializeMapView();
+        JPanel panelDice = this.initializeDiceView();
+        JPanel panelPhases = this.initializePhaseView();
+        JPanel panelCard = this.initializeCardView();
+        JPanel panelPlayers = this.initializeWorldDominationView();
+        JPanel panelGamePlay = this.initializeGameLogsView();
         
-        // Map View Start.
-        MapView mapView = new MapView();
-        JPanel mapPanel = mapView.getPanel();
-        jLabel5.setText("Map");
-        jLabel4.setText("MAP :");
-        jScrollPane1.setViewportView(mapPanel);
-        // Map View Ends
-
-        // Dice View Starts.
-        DiceView diceView = new DiceView();
-        JPanel dicePanel = diceView.getPanel();
-        // Dice Panel ENds
-        
-        // Phase Control start
-        PhaseView phaseView = new PhaseView();
-        JPanel panelPhases = phaseView.getPanel();
-        phaseView.changePhaseTitle();
-        holder.attachObserverToPhase(phaseView);
-        // Phase Control Ends
-        
-        // Cards view Start.
-        CardsView cardsView = new CardsView();
-        JPanel panelCard = cardsView.getPanel();
-        labelCardTitle.setText("Card");
-        // Cards view ends
-
-        // World Domination View Start.
-        WorldDominationView worldDominationView = new WorldDominationView();
-        JPanel panelPlayers = worldDominationView.getPanel();
-        worldDominationView.reloadTheList();
-        worldDominationView.setActivePlayerLabel();
-        holder.attachObserverToPlayers(worldDominationView);
-        holder.attachObserverToPhase(worldDominationView);
-        // WDV Ends
-        
-        // Game Log start
-        GameLogsView gameLogsView = new GameLogsView();
-        JPanel panelGamePlay = gameLogsView.getPanel();
-        // Game Log ends
-        
-//        organizeLayout();
+        organizeLayout(panelPhases, panelDice, panelCard, panelPlayers, panelGamePlay, panelMap);
 
         initValues();
         initListeners();
@@ -118,9 +72,92 @@ public class RiskMainInterface extends JFrame {
         pack();
     }
 
+    /**
+     * Initialize the map view.
+     * @return the panel in which the map area is loaded
+     */
+    private JPanel initializeMapView() {
+        MapView mapView = new MapView();
+        jLabel5.setText("Map");
+        jLabel4.setText("MAP :");
+
+        return mapView.getPanel();
+    }
+
+    /**
+     * Initialize the dice view
+     * @return the panel in which the dice area is loaded
+     */
+    private JPanel initializeDiceView() {
+        DiceView diceView = new DiceView();
+
+        return diceView.getPanel();
+    }
+
+    /**
+     * Initialize the phase view.
+     * It also attaches the relevant observers in order to keep the view updated.
+     * @return the panel in which the phase area is loaded
+     */
+    private JPanel initializePhaseView() {
+        PhaseView phaseView = new PhaseView();
+        phaseView.changePhaseTitle();
+        holder.attachObserverToPhase(phaseView);
+
+        return phaseView.getPanel();
+    }
+
+    /**
+     * Initialize the card view.
+     * @return the panel in which the card area is loaded
+     */
+    private JPanel initializeCardView() {
+        CardsView cardsView = new CardsView();
+        labelCardTitle.setText("Card");
+
+        return cardsView.getPanel();
+    }
+
+    /**
+     * Initialize the world domination view.
+     * It contains the information about the player in the game.
+     * It also attaches the relevant observers in order to keep the view updated.
+     * @return the panel in which the domination view is loaded
+     */
+    private JPanel initializeWorldDominationView() {
+        WorldDominationView worldDominationView = new WorldDominationView();
+        worldDominationView.reloadTheList();
+        worldDominationView.setActivePlayerLabel();
+        holder.attachObserverToPlayers(worldDominationView);
+        holder.attachObserverToPhase(worldDominationView);
+
+        return worldDominationView.getPanel();
+    }
+
+    /**
+     * Initializes the game logs view.
+     * It contains all the information about the game.
+     * @return the panel in which the logs view is loaded
+     */
+    private JPanel initializeGameLogsView() {
+        GameLogsView gameLogsView = new GameLogsView();
+
+        return gameLogsView.getPanel();
+    }
+
+    /**
+     * It organizes the main content layout
+     * @param panelPhases the phases view
+     * @param dicePanel the dice view
+     * @param panelCard the card view
+     * @param panelPlayers the players view
+     * @param panelGamePlay the gameplay view
+     * @param mapPanel the map view
+     */
     private void organizeLayout(JPanel panelPhases, JPanel dicePanel, JPanel panelCard, JPanel panelPlayers,
-                                JPanel panelGamePlay, JLabel jLabel4, JLabel jLabel5) {
+                                JPanel panelGamePlay, JPanel mapPanel) {
         JScrollPane jScrollPane1 = new JScrollPane();
+        jScrollPane1.setViewportView(mapPanel);
 
         // Full layout
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -201,9 +238,9 @@ public class RiskMainInterface extends JFrame {
 
     /** Initialize values for the first time in the game instance */
     private void initValues() {
-        Country_combo.setVisible(true);
-        Number_armies_Combo.setVisible(false);
-        Neibhour_country_combo.setVisible(false);
+        comboCountry.setVisible(true);
+        comboNumberArmy.setVisible(false);
+        comboNeighbourCountry.setVisible(false);
 
         if (holder.isArmiesAutomatic) {
             StartupController controller = new StartupController();
@@ -279,10 +316,10 @@ public class RiskMainInterface extends JFrame {
                 break;
         }
         listModelGamePlay.add(0, message);
-        Gameplay_Jlist.setModel(listModelGamePlay);
+        listGamePlay.setModel(listModelGamePlay);
 
-        Neibhour_country_combo.setModel(comboModelNeighbourCountries);
-        Number_armies_Combo.setModel(comboModelNoOfArmies);
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+        comboNumberArmy.setModel(comboModelNoOfArmies);
     }
 
     /**
@@ -299,7 +336,7 @@ public class RiskMainInterface extends JFrame {
             comboModelCountries.addElement(countryName.getValue() + " - " + countryName.getKey());
         }
 
-        Country_combo.setModel(comboModelCountries);
+        comboCountry.setModel(comboModelCountries);
     }
 
     /**
@@ -311,24 +348,24 @@ public class RiskMainInterface extends JFrame {
                 labelPhases.setText("Reinforcement Phase");
                 btnPhases.setText("Next Phase");
                 this.reinforcementArmyAllocated = 0;
-                Neibhour_country_combo.setVisible(false);
-                Country_combo.setVisible(true);
-                Number_armies_Combo.setVisible(true);
+                comboNeighbourCountry.setVisible(false);
+                comboCountry.setVisible(true);
+                comboNumberArmy.setVisible(true);
                 automateReinforcementPhase();
                 break;
             case DataHolder.ATTACK_PHASE:
                 labelPhases.setText("Attack Phase");
                 btnPhases.setText("Next Phase");
-                Country_combo.setVisible(false);
-                Number_armies_Combo.setVisible(false);
+                comboCountry.setVisible(false);
+                comboNumberArmy.setVisible(false);
                 automateAttackPhase();
                 break;
             case DataHolder.FORTIFICATION_PHASE:
                 labelPhases.setText("Fortification Phase");
                 isFortificationDone = false;
-                Neibhour_country_combo.setVisible(true);
-                Country_combo.setVisible(true);
-                Number_armies_Combo.setVisible(true);
+                comboNeighbourCountry.setVisible(true);
+                comboCountry.setVisible(true);
+                comboNumberArmy.setVisible(true);
                 btnPhases.setText("Done!");
                 automateFortificationPhase();
                 break;
@@ -356,7 +393,7 @@ public class RiskMainInterface extends JFrame {
 
     /** Assign armies in start up phase */
     private void assignArmies() {
-        int selectedCountry = Country_combo.getSelectedIndex();
+        int selectedCountry = comboCountry.getSelectedIndex();
 
         if (selectedCountry < 1)
             return;
@@ -376,7 +413,7 @@ public class RiskMainInterface extends JFrame {
     }
 
     private void initListeners() {
-        Country_combo.addActionListener((ActionEvent e) -> {
+        comboCountry.addActionListener((ActionEvent e) -> {
             switch (holder.currentPhase) {
                 case DataHolder.REINFORCEMENT_PHASE:
                     calculateReinforcementPhase();
@@ -409,9 +446,9 @@ public class RiskMainInterface extends JFrame {
 
     /** Transfers armies from one country to another country as part of the fortification state. */
     private void sendArmyInFortificationPhase() {
-        int selectedCountry = Country_combo.getSelectedIndex();
-        int selectedNoOfArmies = Number_armies_Combo.getSelectedIndex();
-        int selectedNeighbourCountry = Neibhour_country_combo.getSelectedIndex();
+        int selectedCountry = comboCountry.getSelectedIndex();
+        int selectedNoOfArmies = comboNumberArmy.getSelectedIndex();
+        int selectedNeighbourCountry = comboNeighbourCountry.getSelectedIndex();
 
         if ((selectedCountry == -1) || (selectedNoOfArmies == -1) || (selectedNeighbourCountry == -1))
             return;
@@ -439,14 +476,14 @@ public class RiskMainInterface extends JFrame {
         comboModelNoOfArmies.removeAllElements();
         comboModelNeighbourCountries.removeAllElements();
 
-        Number_armies_Combo.setModel(comboModelNoOfArmies);
-        Neibhour_country_combo.setModel(comboModelNeighbourCountries);
+        comboNumberArmy.setModel(comboModelNoOfArmies);
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
 
         isFortificationDone = true;
 
         listModelGamePlay.add(0, player.getName() + " sent " + noOfArmies
             + " arm(ies) from " + country + " to " + neighbour);
-        Gameplay_Jlist.setModel(listModelGamePlay);
+        listGamePlay.setModel(listModelGamePlay);
 
         loadCountryListInCombo();
         prepareForFinishingTurn();
@@ -456,8 +493,8 @@ public class RiskMainInterface extends JFrame {
      * Add selected number of armies to the country in reinforcement phase
      */
     private void addArmyInReinforcementPhase() {
-        int selectedCountry = Country_combo.getSelectedIndex();
-        int selectedNoOfArmies = Number_armies_Combo.getSelectedIndex();
+        int selectedCountry = comboCountry.getSelectedIndex();
+        int selectedNoOfArmies = comboNumberArmy.getSelectedIndex();
 
         if ((selectedCountry == -1) || (selectedNoOfArmies == -1))
             return;
@@ -475,7 +512,7 @@ public class RiskMainInterface extends JFrame {
         this.reinforcementArmyAllocated += noOfArmies;
 
         listModelGamePlay.add(0, player.getName() + " added " + noOfArmies + " armies to " + country);
-        Gameplay_Jlist.setModel(listModelGamePlay);
+        listGamePlay.setModel(listModelGamePlay);
 
         loadCountryListInCombo();
         calculateReinforcementPhase();
@@ -492,7 +529,7 @@ public class RiskMainInterface extends JFrame {
         comboModelNoOfArmies.removeAllElements();
         comboModelNeighbourCountries.removeAllElements();
 
-        int selectedCountry = Country_combo.getSelectedIndex();
+        int selectedCountry = comboCountry.getSelectedIndex();
         Player player = holder.getActivePlayer();
 
         if (selectedCountry == -1)
@@ -526,8 +563,8 @@ public class RiskMainInterface extends JFrame {
             }
         }
 
-        Neibhour_country_combo.setModel(comboModelNeighbourCountries);
-        Number_armies_Combo.setModel(comboModelNoOfArmies);
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+        comboNumberArmy.setModel(comboModelNoOfArmies);
     }
 
     /**
@@ -536,9 +573,9 @@ public class RiskMainInterface extends JFrame {
      */
     private void changeControlButtonVisibility(boolean visibility) {
         btnPhases.setVisible(visibility);
-        Country_combo.setVisible(visibility);
-        Neibhour_country_combo.setVisible(visibility);
-        Number_armies_Combo.setVisible(visibility);
+        comboCountry.setVisible(visibility);
+        comboNeighbourCountry.setVisible(visibility);
+        comboNumberArmy.setVisible(visibility);
     }
 
     /**
@@ -607,7 +644,7 @@ public class RiskMainInterface extends JFrame {
         changeControlButtonVisibility(true);
 
         listModelGamePlay.add(0, player.getName() + message);
-        Gameplay_Jlist.setModel(listModelGamePlay);
+        listGamePlay.setModel(listModelGamePlay);
 
         this.changePhase();
     }
@@ -647,7 +684,7 @@ public class RiskMainInterface extends JFrame {
                 player.updateCountry(country, existingArmies);
 
                 listModelGamePlay.add(0, player.getName() + " added " + armiesToAllocate + " armies to " + country);
-                Gameplay_Jlist.setModel(listModelGamePlay);
+                listGamePlay.setModel(listModelGamePlay);
 
                 holder.updatePlayer(player);
 
@@ -668,10 +705,10 @@ public class RiskMainInterface extends JFrame {
     private void calculateReinforcementPhase() {
         comboModelNoOfArmies.removeAllElements();
 
-        if (Country_combo.getSelectedIndex() == -1)
+        if (comboCountry.getSelectedIndex() == -1)
             return;
 
-        if (Country_combo.getSelectedIndex() > 0) {
+        if (comboCountry.getSelectedIndex() > 0) {
             int totalNumberOfArmies = reinforcementController.calculateReinformentArmies(holder.playerTurn);
             int noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
 
@@ -688,7 +725,7 @@ public class RiskMainInterface extends JFrame {
         } else
             prepareForAttackPhase();
 
-        Number_armies_Combo.setModel(comboModelNoOfArmies);
+        comboNumberArmy.setModel(comboModelNoOfArmies);
     }
 
     private void prepareForFinishingTurn() {
