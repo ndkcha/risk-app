@@ -1,6 +1,8 @@
 package Game.Model;
 
-import java.util.HashMap;
+import java.util.*;
+import Game.Risk.DataHolder;
+import java.util.Observable;
 
 /**
  * This class is used to create cards according to the Risk rules. The created
@@ -10,12 +12,12 @@ import java.util.HashMap;
  * @author Jay
  * @version 1.0.0
  */
-public class Cards {
+public class Cards extends Observable{
 	
-  public static HashMap<String,Integer> cardType;
-
-
-   public Cards() {
+  private DataHolder holder = DataHolder.getInstance();	
+  private static HashMap<String,Integer> cardType;
+  private HashMap<CountryData,String> cardAssociatedWithEachCountry;
+  static {
 	
 		new HashMap<String, Integer>();
 		cardType.put("Infantry", 1);
@@ -23,18 +25,38 @@ public class Cards {
 		cardType.put("Artillery", 10);
 	
 	}	
+   
+   
+   String[] cardKeys=(String[]) cardType.keySet().toArray();
+   
+   public void cardDistribution() { 
+		
+		 cardAssociatedWithEachCountry=new HashMap<CountryData,String>();  
+	     Random cardDistributionToCountries=new Random();
+	     
+	     
+	     for(CountryData countryname: holder.getCountryDataList())
+	     {
+	    	String randomstring=cardKeys[cardDistributionToCountries.nextInt(cardKeys.length)];
+	    	cardAssociatedWithEachCountry.put(countryname,randomstring);
+	    	//System.out.println(countryname+" is assigned"+randomstring+" card");
+	     }
+	}
+	
+   
+   public HashMap<CountryData, String> getCardAssociatedWithEachCountry() {
+		return cardAssociatedWithEachCountry;
+	}
 
-	private String name, type;
-
-	/**
-	 * The card's unique ID.
-	 */
-	private Integer cardId = null;
-
+	public void setCardAssociatedWithEachCountry(HashMap<CountryData, String> cardAssociatedWithEachCountry) {
+		this.cardAssociatedWithEachCountry = cardAssociatedWithEachCountry;
+	}
+   
+   
 	/**
 	 * The card's player ID. Every card has only one owner.
 	 */
-	private Integer playerId = null;
+	private Integer playerId = 0;
 
 	/**
 	 * The number of armies rewarded for exchanging cards.
