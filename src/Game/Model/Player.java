@@ -11,7 +11,7 @@ import java.util.*;
  * @version 1.0.0
  */
 public class Player extends Observable {
-	
+	private int noOfArmiesToAssign = 0;
 	private String name, color;
 	private int type;
 	
@@ -23,6 +23,14 @@ public class Player extends Observable {
 	
 	/** The continents conquered by the player */
 	private List<String> continentsConquered;
+
+	/**
+	 * Gets the number of armies left to assign
+	 * @return number of armies
+	 */
+	public int getNoOfArmiesToAssign() {
+		return noOfArmiesToAssign;
+	}
 
 	/**
 	 * This constructor set the player details.
@@ -37,6 +45,20 @@ public class Player extends Observable {
 		this.color = color;
 		this.countriesConquered = new HashMap<>();
 		this.continentsConquered = new ArrayList<>();
+	}
+
+	/** when an army is assigned, it decrements the count from the total. */
+	public void assignInitialArmies() {
+		this.noOfArmiesToAssign--;
+	}
+
+	/**
+	 * Assigns the maximum number of armies to assign
+	 *
+	 * @param noOfArmies number of armies to assign
+	 */
+	public void setMaxInitialArmies(int noOfArmies) {
+		this.noOfArmiesToAssign = noOfArmies;
 	}
 
 	/**

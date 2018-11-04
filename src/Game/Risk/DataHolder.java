@@ -42,12 +42,44 @@ public class DataHolder {
     }
 
     /**
+     * Checks if armies are assigned for everyone
+     * @return true if all the armies are allocated to a country
+     */
+    public boolean isArmiesAssignedForAll() {
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            Player player = playerEntry.getValue();
+
+            if (player.getNoOfArmiesToAssign() != 0)
+                return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Based on number of players, this method determines the number of armies
+     * allowed for the initial game play
+     */
+    public void determineOfInitialArmy() {
+//        int noOfArmiesToAssign = 40 - ((this.playerList.size() - 2) * 5);
+        int noOfArmiesToAssign = 3;
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            Player player = playerEntry.getValue();
+            player.setMaxInitialArmies(noOfArmiesToAssign);
+            this.playerList.put(playerEntry.getKey(), player);
+        }
+    }
+
+    /**
      * Attaches the observer to the phase data to detect changes in phases
      * @param object the observer to attach
      */
     public void attachObserverToPhase(Observer object) {
+
         this.phaseData.deleteObserver(object);
         this.phaseData.addObserver(object);
+        System.out.println(object);
+        System.out.println(this.phaseData.countObservers() + " observers are added to PhaseData");
     }
 
     /**

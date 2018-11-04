@@ -3,6 +3,9 @@ package Game.Model;
 import java.util.Observable;
 
 public class PhaseData extends Observable {
+    public static final String CHANGE_TURN = "change:turn";
+    public static final String CHANGE_PHASE = "change:phase";
+
     public static final int REINFORCEMENT_PHASE = 0;
     public static final int ATTACK_PHASE = 1;
     public static final int FORTIFICATION_PHASE = 2;
@@ -46,7 +49,8 @@ public class PhaseData extends Observable {
     /** Changes player turn */
     public void changeTurn() {
         this.nextPlayer();
-        this.notifyObservers("change:turn");
+        this.setChanged();
+        this.notifyObservers(CHANGE_TURN);
     }
 
     /**
@@ -59,6 +63,7 @@ public class PhaseData extends Observable {
             this.currentPhase = -1;
         }
         this.currentPhase++;
-        this.notifyObservers("change:phase");
+        this.setChanged();
+        this.notifyObservers(CHANGE_PHASE);
     }
 }

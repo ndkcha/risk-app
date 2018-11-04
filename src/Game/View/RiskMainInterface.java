@@ -56,16 +56,18 @@ public class RiskMainInterface extends JFrame {
     /** Various panel components are initialised in initComponents method */
     @SuppressWarnings("unchecked")
     private void initComponents() {
+        PhaseView phaseView = this.initializePhaseView();
+
         JPanel panelMap = this.initializeMapView();
         JPanel panelDice = this.initializeDiceView();
-        JPanel panelPhases = this.initializePhaseView();
+        JPanel panelPhases = phaseView.getPanel();
         JPanel panelCard = this.initializeCardView();
         JPanel panelPlayers = this.initializeWorldDominationView();
         JPanel panelGamePlay = this.initializeGameLogsView();
         
         organizeLayout(panelPhases, panelDice, panelCard, panelPlayers, panelGamePlay, panelMap);
 
-        initValues();
+        initValues(phaseView);
         initListeners();
 
         setVisible(true);
@@ -97,14 +99,14 @@ public class RiskMainInterface extends JFrame {
     /**
      * Initialize the phase view.
      * It also attaches the relevant observers in order to keep the view updated.
-     * @return the panel in which the phase area is loaded
+     * @return the view in which the phase area is loaded
      */
-    private JPanel initializePhaseView() {
+    private PhaseView initializePhaseView() {
         PhaseView phaseView = new PhaseView();
         phaseView.changePhaseTitle();
         holder.attachObserverToPhase(phaseView);
 
-        return phaseView.getPanel();
+        return phaseView;
     }
 
     /**
@@ -237,21 +239,15 @@ public class RiskMainInterface extends JFrame {
     }
 
     /** Initialize values for the first time in the game instance */
-    private void initValues() {
-        comboCountry.setVisible(true);
-        comboNumberArmy.setVisible(false);
-        comboNeighbourCountry.setVisible(false);
-
+    private void initValues(PhaseView phaseView) {
         if (holder.isArmiesAutomatic) {
             StartupController controller = new StartupController();
             controller.assignArmies();
 
-            holder.currentPhase = 0;
-            setPhasesValues();
-            initPlayerTurn();
+            holder.changePhases();
         } else {
-            this.determineOfInitialArmy(holder.getPlayerList().size());
-            autoAssignArmies();
+            holder.determineOfInitialArmy();
+            phaseView.startInitialArmyAssignment();
         }
     }
 
@@ -370,16 +366,6 @@ public class RiskMainInterface extends JFrame {
                 automateFortificationPhase();
                 break;
         }
-    }
-
-    /**
-     * Based on number of players, this method determines the number of armies
-     * allowed for the initial game play
-     *
-     * @param noOfPlayers Number of players in the game play
-     */
-    private void determineOfInitialArmy(int noOfPlayers) {
-        this.noOfArmiesToAssign = 40 - ((noOfPlayers - 2) * 5);
     }
 
     /**
