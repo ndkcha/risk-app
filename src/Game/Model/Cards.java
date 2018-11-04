@@ -48,10 +48,6 @@ public class Cards extends Observable{
 		return cardAssociatedWithEachCountry;
 	}
 
-	public void setCardAssociatedWithEachCountry(HashMap<CountryData, String> cardAssociatedWithEachCountry) {
-		this.cardAssociatedWithEachCountry = cardAssociatedWithEachCountry;
-	}
-   
    
 	/**
 	 * The card's player ID. Every card has only one owner.
