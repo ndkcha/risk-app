@@ -14,12 +14,10 @@ import javax.swing.*;
 public class CardsView implements Observer {
 
 	 private JLabel jLabel3;
-	 private JButton Card_A_button;
-	 private JButton Card_B_button;
-	 private JButton Card_C_button;
-	 private JButton Card_D_button;
-	 private JButton Card_E_button;
+	 private JButton Exchange_card_button;
 	 private JPanel Card_panel;
+	 private JList<String> Card_Jlist = new JList<>();
+	 private JScrollPane jScrollPane1;
 	    
 	/**
 	 * 
@@ -29,76 +27,51 @@ public class CardsView implements Observer {
 		
 		Card_panel = new JPanel();
         jLabel3 = new JLabel();
-		Card_A_button = new JButton();
-        Card_B_button = new JButton();
-        Card_C_button = new JButton();
-        Card_D_button = new JButton();
-        Card_E_button = new JButton();
-        
+        Card_Jlist = new JList<>();
+        Exchange_card_button = new JButton();
+        jScrollPane1 = new JScrollPane();
 		jLabel3.setText("Card");
 
-        Card_A_button.setText("Card 1");
-        Card_B_button.setText("Card 2");
-        Card_C_button.setText("Card 3");
-        Card_D_button.setText("Card 4");
-        Card_E_button.setText("Card 5");
+		Exchange_card_button.setText("Exchange");
+        Exchange_card_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Exchange_card_buttonActionPerformed(evt);
+            }
+        });
 
+        Card_Jlist.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { " " };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(Card_Jlist);
 
-        GroupLayout Card_panelLayout = new GroupLayout(Card_panel);
+        javax.swing.GroupLayout Card_panelLayout = new javax.swing.GroupLayout(Card_panel);
         Card_panel.setLayout(Card_panelLayout);
         Card_panelLayout.setHorizontalGroup(
-            Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(Card_panelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGap(46, 46, 46)
-                            .addComponent(jLabel3)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_A_button, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                                .addComponent(Card_C_button, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_B_button, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                                .addComponent(Card_D_button, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                            .addComponent(Card_E_button, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap())
-                .addGroup(Card_panelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGap(46, 46, 46)
-                            .addComponent(jLabel3)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(Card_panelLayout.createSequentialGroup()
-                            .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_A_button, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                                .addComponent(Card_C_button, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Card_B_button, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                                .addComponent(Card_D_button, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                            .addComponent(Card_E_button, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap())
+            Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Card_panelLayout.createSequentialGroup()
+                .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Card_panelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Card_panelLayout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(Exchange_card_button)))
+                .addGap(0, 27, Short.MAX_VALUE))
+            .addGroup(Card_panelLayout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         Card_panelLayout.setVerticalGroup(
-            Card_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(Card_panelLayout.createSequentialGroup()
-                    .addComponent(jLabel3)
-                    .addGap(18, 18, 18)
-                    .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(Card_A_button)
-                        .addComponent(Card_B_button)
-                        .addComponent(Card_E_button))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(Card_panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(Card_C_button)
-                        .addComponent(Card_D_button))
-                    .addGap(0, 8, Short.MAX_VALUE))
+            Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Card_panelLayout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Exchange_card_button))
         );
 	}
 
@@ -110,10 +83,16 @@ public class CardsView implements Observer {
 	public JPanel getPanel() {
 		 return this.Card_panel;
 	}
+	
+	private void Exchange_card_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Exchange_card_buttonActionPerformed
+        // TODO add your handling code here:
+    }
 
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
+		
+		// Add the data from CardController to manupulate card exchange.
 		
 	}
 
