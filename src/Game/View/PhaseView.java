@@ -304,6 +304,7 @@ public class PhaseView implements Observer {
 				break;
 			case PhaseData.FORTIFICATION_PHASE:
 				this.setupFortificationPhase();
+				this.startFortificationPhase();
 				break;
 		}
 	}
@@ -359,6 +360,25 @@ public class PhaseView implements Observer {
 
 			System.out.println("Armies allocation has been completed!");
 		}
+
+		changeControlButtonVisibility(true);
+		holder.changePhases();
+	}
+
+	/**
+	 * Start the fortification phase
+	 */
+	private void startFortificationPhase() {
+		Player player = holder.getActivePlayer();
+
+		if (player.getType() == 0) {
+			loadCountryListInCombo();
+			return;
+		}
+
+		changeControlButtonVisibility(false);
+
+		player.fortificationPhase(null, null, -1);
 
 		changeControlButtonVisibility(true);
 		holder.changePhases();

@@ -192,10 +192,56 @@ public class Player extends Observable {
 	
 	/**
 	 * Refactoring 2: All phases in player model.
-	 * Fortification Phase
+	 * Implementation of Fortification Phase
 	 */
-	public void fortificationPhase() {
-		
+	public void fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
+		Random random = new Random();
+		if (sourceCountry == null) {
+			int iterations = 10;
+			do {
+				int pickCountry = random.nextInt(this.getCountriesConquered().size());
+
+				if (pickCountry < 0)
+					return;
+
+				sourceCountry = this.getNthCountry(pickCountry);
+				if (this.getArmiesInCountry(sourceCountry) != 1) {
+					sourceCountry = null;
+					break;
+				}
+
+				iterations--;
+			} while (iterations != 0);
+		}
+
+		if (sourceCountry == null)
+			return;
+
+		if (targetCountry == null) {
+			int pickCountry = random.nextInt(this.getCountriesConquered().size());
+
+			if (pickCountry < 0)
+				pickCountry++;
+
+			targetCountry = this.getNthCountry(pickCountry);
+
+			if (targetCountry.equalsIgnoreCase(sourceCountry))
+				return;
+		}
+
+		if (noOfArmies == -1) {
+			noOfArmies = this.getArmiesInCountry(sourceCountry);
+			noOfArmies = random.nextInt(noOfArmies - 1);
+		}
+
+		// the transfer the armies
+		int armiesLeftInSource = this.getArmiesInCountry(sourceCountry) - noOfArmies;
+		int armiesInTarget = this.getArmiesInCountry(targetCountry) + noOfArmies;
+
+		this.updateCountry(sourceCountry, armiesLeftInSource);
+		this.updateCountry(targetCountry, armiesInTarget);
+
+		return;
 	}
 
 }
