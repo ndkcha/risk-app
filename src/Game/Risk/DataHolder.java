@@ -12,14 +12,8 @@ import java.util.*;
  * @version 1.0.0
  */
 public class DataHolder {
-    public static final int REINFORCEMENT_PHASE = 0;
-    public static final int ATTACK_PHASE = 1;
-    public static final int FORTIFICATION_PHASE = 2;
-
     /** a holder that manipulates the phases */
     private PhaseData phaseData = new PhaseData();
-    public int currentPhase = -1;
-    public int playerTurn = 0;
     /** instance of the singleton class */
     private static DataHolder dataHolder;
 
@@ -61,8 +55,7 @@ public class DataHolder {
      * allowed for the initial game play
      */
     public void determineOfInitialArmy() {
-//        int noOfArmiesToAssign = 40 - ((this.playerList.size() - 2) * 5);
-        int noOfArmiesToAssign = 3;
+        int noOfArmiesToAssign = 40 - ((this.playerList.size() - 2) * 5);
         for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
             Player player = playerEntry.getValue();
             player.setMaxInitialArmies(noOfArmiesToAssign);
