@@ -649,7 +649,8 @@ public class RiskMainInterface extends JFrame {
 
         changeControlButtonVisibility(false);
 
-        int totalNumberOfArmies = reinforcementController.calculateReinformentArmies(holder.playerTurn);
+//        int totalNumberOfArmies = reinforcementController.calculateReinforcementArmies(holder.playerTurn);
+        int totalNumberOfArmies = 1;
         int noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
 
         if (noOfArmies != 0)  {
@@ -695,7 +696,8 @@ public class RiskMainInterface extends JFrame {
             return;
 
         if (comboCountry.getSelectedIndex() > 0) {
-            int totalNumberOfArmies = reinforcementController.calculateReinformentArmies(holder.playerTurn);
+//            int totalNumberOfArmies = reinforcementController.calculateReinforcementArmies(holder.playerTurn);
+            int totalNumberOfArmies = 1;
             int noOfArmies = totalNumberOfArmies - this.reinforcementArmyAllocated;
 
             if (noOfArmies == 0)

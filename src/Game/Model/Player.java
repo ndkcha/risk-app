@@ -1,5 +1,7 @@
 package Game.Model;
 
+import Game.Controller.ReinforcementController;
+
 import java.util.*;
 
 /**
@@ -162,10 +164,22 @@ public class Player extends Observable {
 	
 	/**
 	 * Refactoring 2: All phases in player model.
-	 * Reinforcement Phase
+	 * Performs the reinforcement phase for the player.
+	 * @param armiesToAllocate total armies to allocated to a country.
+	 * @param country the name of the country to allocated armies to
 	 */
-	public void reinforcementPhase() {
-		
+	public void reinforcementPhase(int armiesToAllocate, String country) {
+		if (country == null) {
+			Random random = new Random();
+			Object countries[] = this.getCountriesConquered().keySet().toArray();
+			int countryIndex = random.nextInt(countries.length);
+			country = (String) countries[countryIndex];
+		}
+
+		int existingArmies = this.getCountriesConquered().get(country);
+		existingArmies += armiesToAllocate;
+
+		this.updateCountry(country, existingArmies);
 	}
 	
 	/**

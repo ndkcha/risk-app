@@ -7,7 +7,6 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import Game.Controller.FortificationController;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.Player;
@@ -51,7 +50,7 @@ public class TestReinforcementArmiesCalculated {
 	public void testCalculateReinforcementArmies() {
 
 		int expected = 3;
-		int numberOfArmies = rc.calculateReinformentArmies(1);
+		int numberOfArmies = rc.calculateReinforcementArmies(holder.getPlayer("abc"));
 		System.out.println("number of armies: " + numberOfArmies);
 		assertEquals(expected, numberOfArmies);
 	}
