@@ -88,39 +88,21 @@ public class CardsView implements Observer {
 	private void Exchange_card_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Exchange_card_buttonActionPerformed
         // TODO add your handling code here:
 		
-		JPanel panel = new JPanel();
-//	    JButton calculate = new JButton("Calculate");
-//	    JButton exchange = new JButton("Exchange");
-	    
-	    Object[] options = {"Calculate",
-                "Exchange"};
+		JPanel panel = new JPanel();	    
+	    Object[] options = {"Calculate", "Exchange"};
 	    
 	    panel.add(new JLabel("Select the cards: "));
 	    JCheckBox checkBox1 = new JCheckBox("card1");  
-        checkBox1.setBounds(100,100, 50,50);  
+        //checkBox1.setBounds(100,100, 50,50);  
         JCheckBox checkBox2 = new JCheckBox("card2", true);  
-        checkBox2.setBounds(100,150, 50,50); 
+        //checkBox2.setBounds(100,150, 50,50); 
         
 	    panel.add(checkBox1);
 	    panel.add(checkBox2);
-//	    panel.add(calculate);
-//	    panel.add(exchange);
-	    
+	 
 	    int result = JOptionPane.showOptionDialog(null, panel, "Exchange Cards",
 	            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 	            null, options, null);
-	    
-	    //panel.setVisible(true);
-	    //this.pack();
-//		calculate.addActionListener((ActionEvent evt) -> {
-//			CardsController cc = new CardsController();
-//			cc.calculateExchangeArmies(); // Calculate armies on card exchange      
-//		});
-//		
-//		exchange.addActionListener((ActionEvent evnt) -> {
-//			CardsController cc = new CardsController();
-//			cc.assignPlayerCards("attacker", "defender", "country"); // send data need for cards exchange
-//		});
     }
 
 	@Override
