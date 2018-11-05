@@ -1,6 +1,3 @@
-/**
- * 
- */
 package Game.View;
 
 import Game.Controller.ReinforcementController;
@@ -22,18 +19,20 @@ public class PhaseView implements Observer {
 	private static final String STARTUP_ADD_ARMY = "startup:add_army";
 	private static final String CHANGE_PHASE = "change:phase";
 	private static final String REINFORCEMENT_ADD_ARMY_ACTION = "reinforcement:add";
+	private static final String FORTIFICATION_SEND_ARMY_ACTION = "fortification:send";
 	private DataHolder holder = DataHolder.getInstance();
 	private int reinforcementArmyAllocated = 0;
+	private boolean isFortificationDone = false;
 
 	private JButton btnPhases = new JButton();
     private JPanel panelPhases = new JPanel();
     private JLabel labelPhases = new JLabel();
-    private JComboBox<String> neighbourCountryCombo = new JComboBox<>();
+    private JComboBox<String> comboNeighbourCountry = new JComboBox<>();
     private JComboBox<Integer> comboNoOfArmies = new JComboBox<>();
     private JComboBox<String> comboCountry = new JComboBox<>();
 
     private DefaultComboBoxModel<String> comboModelCountries = new DefaultComboBoxModel<>();
-    private DefaultComboBoxModel<String> comboBoxModelNeighbourCountries = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel<String> comboModelNeighbourCountries = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel<Integer> comboModelNoOfArmies = new DefaultComboBoxModel<>();
     
 	/**
@@ -56,7 +55,7 @@ public class PhaseView implements Observer {
                     .addGap(18, 18, 18)
                     .addComponent(comboNoOfArmies, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGroup(Phases_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                    .addComponent(neighbourCountryCombo, 0, 47, Short.MAX_VALUE)
+                    .addComponent(comboNeighbourCountry, 0, 47, Short.MAX_VALUE)
                     .addComponent(comboCountry, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -69,7 +68,7 @@ public class PhaseView implements Observer {
                         .addComponent(btnPhases)
                         .addComponent(comboNoOfArmies, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(neighbourCountryCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboNeighbourCountry, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboCountry, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -166,6 +165,9 @@ public class PhaseView implements Observer {
 				case REINFORCEMENT_ADD_ARMY_ACTION:
 					addArmyInReinforcementPhase();
 					break;
+				case FORTIFICATION_SEND_ARMY_ACTION:
+					sendArmyInFortificationPhase();
+					break;
 			}
 		});
 
@@ -173,6 +175,9 @@ public class PhaseView implements Observer {
 			switch (holder.getCurrentPhase()) {
 				case PhaseData.REINFORCEMENT_PHASE:
 					setupManualReinforcementPhase();
+					break;
+				case PhaseData.FORTIFICATION_PHASE:
+					setupManualFortificationPhase();
 					break;
 			}
 		});
@@ -193,9 +198,8 @@ public class PhaseView implements Observer {
 
 		Player player = holder.getActivePlayer();
 		country = country.split("-")[1].trim();
-		int existingArmies = player.getArmiesInCountry(country);
 
-		player.updateCountry(country, noOfArmies + existingArmies);
+		player.reinforcementPhase(noOfArmies, country);
 
 		holder.updatePlayer(player);
 		this.reinforcementArmyAllocated += noOfArmies;
@@ -224,13 +228,14 @@ public class PhaseView implements Observer {
 				for (int i = 1; i <= noOfArmies; i++) {
 					comboModelNoOfArmies.addElement(i);
 				}
-				comboNoOfArmies.setModel(comboModelNoOfArmies);
 
 				btnPhases.setText("Add");
 				btnPhases.setActionCommand(REINFORCEMENT_ADD_ARMY_ACTION);
 			}
 		} else
 			this.changePhaseAhead();
+
+		comboNoOfArmies.setModel(comboModelNoOfArmies);
 	}
 
 	/**
@@ -259,10 +264,93 @@ public class PhaseView implements Observer {
 	}
 
 	/**
+	 * Setup manual entries for fortification phase.
+	 * It will help user to continue with the phase from UI.
+	 */
+	private void setupManualFortificationPhase() {
+		if (this.isFortificationDone)
+			return;
+
+		comboModelNoOfArmies.removeAllElements();
+		comboModelNeighbourCountries.removeAllElements();
+
+		int selectedCountry = comboCountry.getSelectedIndex();
+
+		if (selectedCountry == -1)
+			return;
+
+		Player player = holder.getActivePlayer();
+
+		if (selectedCountry > 0) {
+			String countryName = comboModelCountries.getElementAt(selectedCountry);
+			countryName = countryName.split("-")[1].trim();
+			int noOfArmies = player.getArmiesInCountry(countryName) - 1;
+			List<String> neighbours = holder.getCountry(countryName).getNeighbours();
+			List<String> neighboursToAdd = new ArrayList<>();
+
+			for (String neighbourName : neighbours) {
+				if (player.getCountriesConquered().containsKey(neighbourName))
+					neighboursToAdd.add(player.getCountriesConquered().get(neighbourName) + " - " + neighbourName);
+			}
+
+			if ((noOfArmies == 0) || (neighboursToAdd.size() == 0))
+				this.changePhaseAhead();
+			else {
+				for (int i = 1; i <= noOfArmies; i++) {
+					comboModelNoOfArmies.addElement(i);
+				}
+
+				for (String neighbour : neighboursToAdd) {
+					comboModelNeighbourCountries.addElement(neighbour);
+				}
+
+				btnPhases.setText("Send");
+				btnPhases.setActionCommand(FORTIFICATION_SEND_ARMY_ACTION);
+			}
+		}
+
+		comboNoOfArmies.setModel(comboModelNoOfArmies);
+		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+	}
+
+	/** Transfers armies from one country to another country as part of the fortification state. */
+	private void sendArmyInFortificationPhase() {
+		int selectedCountry = comboCountry.getSelectedIndex();
+		int selectedNoOfArmies = comboNoOfArmies.getSelectedIndex();
+		int selectedNeighbourCountry = comboNeighbourCountry.getSelectedIndex();
+
+		if ((selectedCountry == -1) || (selectedNoOfArmies == -1) || (selectedNeighbourCountry == -1))
+			return;
+
+		Player player = holder.getActivePlayer();
+
+		String country = comboModelCountries.getElementAt(selectedCountry);
+		int noOfArmies = comboModelNoOfArmies.getElementAt(selectedNoOfArmies);
+		String neighbour = comboModelNeighbourCountries.getElementAt(selectedNeighbourCountry);
+
+		country = country.split("-")[1].trim();
+		neighbour = neighbour.split("-")[1].trim();
+
+		player.fortificationPhase(country, neighbour, noOfArmies);
+		holder.updatePlayer(player);
+
+		this.isFortificationDone = true;
+		comboModelNeighbourCountries.removeAllElements();
+		comboModelNoOfArmies.removeAllElements();
+
+		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+		comboNoOfArmies.setModel(comboModelNoOfArmies);
+
+		loadCountryListInCombo();
+		changePhaseAhead();
+		setupManualFortificationPhase();
+	}
+
+	/**
 	 * Loads country list in the combo box.
 	 * It takes an account of the active player.
 	 */
-	public void loadCountryListInCombo() {
+	private void loadCountryListInCombo() {
 		comboModelCountries.removeAllElements();
 		Player player = holder.getActivePlayer();
 
@@ -293,7 +381,7 @@ public class PhaseView implements Observer {
 	/**
 	 * Reacts to the changes in the phases
 	 */
-	public void setupPhaseValues() {
+	private void setupPhaseValues() {
 		switch (holder.getCurrentPhase()) {
 			case PhaseData.REINFORCEMENT_PHASE:
 				this.setupReinforcementPhase();
@@ -316,7 +404,7 @@ public class PhaseView implements Observer {
 		labelPhases.setText("Reinforcement Phase");
 		this.changePhaseAhead();
 		this.reinforcementArmyAllocated = 0;
-		neighbourCountryCombo.setVisible(false);
+		comboNeighbourCountry.setVisible(false);
 		comboCountry.setVisible(true);
 		comboNoOfArmies.setVisible(true);
 	}
@@ -390,7 +478,7 @@ public class PhaseView implements Observer {
 	private void setupAttackPhase() {
 		labelPhases.setText("Attack Phase");
 		this.changePhaseAhead();
-		neighbourCountryCombo.setVisible(false);
+		comboNeighbourCountry.setVisible(false);
 		comboCountry.setVisible(false);
 		comboNoOfArmies.setVisible(false);
 	}
@@ -401,7 +489,8 @@ public class PhaseView implements Observer {
 	private void setupFortificationPhase() {
 		labelPhases.setText("Fortification Phase");
 		this.changePhaseAhead();
-		neighbourCountryCombo.setVisible(true);
+		this.isFortificationDone = false;
+		comboNeighbourCountry.setVisible(true);
 		comboCountry.setVisible(true);
 		comboNoOfArmies.setVisible(true);
 	}
@@ -421,7 +510,7 @@ public class PhaseView implements Observer {
 	private void changeControlButtonVisibility(boolean visibility) {
 		btnPhases.setVisible(visibility);
 		comboCountry.setVisible(visibility);
-		neighbourCountryCombo.setVisible(visibility);
+		comboNeighbourCountry.setVisible(visibility);
 		comboNoOfArmies.setVisible(visibility);
 	}
 }
