@@ -78,6 +78,9 @@ public class StartupController {
 	 * the players in round robin fashion.
 	 */
 	public void assignCountries() {
+		CardsController cc = new CardsController();
+		cc.createRandomCards();
+		
 		List<CountryData> countries = this.holder.getCountryDataList();
 		List<Player> p = this.holder.getPlayerList();
 		List<Integer> countryIndexes = new ArrayList<>();

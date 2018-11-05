@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * A singleton class to hold the entire data set throughout the application.
  * 
- * @author Jay
+ * @author ndkcha, Jay
  * @version 1.0.0
  */
 public class DataHolder {
@@ -29,6 +29,9 @@ public class DataHolder {
     private List<CountryData> countryDataList = new ArrayList<>();
     /** List of player in the game */
     private HashMap<String, Player> playerList = new HashMap<>();
+    private HashMap<String, String> countryCards = new HashMap<String, String>();
+    private HashMap<String, String> playerCards = new HashMap<String, String>();
+    private HashMap<String, Integer> cardExchangeCounter = new HashMap<String, Integer>();
     /** Meta data of the map */
     public MapData mapData = new MapData();
     /** Image file of the map */
@@ -86,6 +89,32 @@ public class DataHolder {
     public void addPlayer(Player data) {
         this.playerList.put(data.getName(), data);
         this.phaseData.setTotalPlayers(this.playerList.size());
+    }
+    
+    /**
+     * Add a card for the player
+     * @param player Player name.
+     * @param card Card type of country.
+     */
+    public void addPlayerCards(String player, String card) {
+        this.playerCards.put(player, card);
+    }
+    
+    /**
+     * Increase a counter for very exchange.
+     * @param player Player name.
+     */
+    public void addPlayerCards(String player) {
+    	int count =0; //get the count by reading hasMap value and increase it by 1
+        this.cardExchangeCounter.put(player, count);
+    }
+    
+    /**
+     * Add country cards to hashmap
+     * @param countryCards HashMap of the country cards.
+     */
+    public void addCardList(HashMap<String, String> countryCard) {
+    	this.countryCards = countryCard;
     }
 
     /**

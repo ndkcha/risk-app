@@ -20,7 +20,7 @@ public class Player extends Observable {
 	 * Values is the number of armies inside that country.
 	 */
 	private HashMap<String, Integer> countriesConquered;
-	
+	private HashMap<String, String> countriesConqueredCards;
 	/** The continents conquered by the player */
 	private List<String> continentsConquered;
 
@@ -36,6 +36,7 @@ public class Player extends Observable {
 		this.type = type;
 		this.color = color;
 		this.countriesConquered = new HashMap<>();
+		this.countriesConqueredCards = new HashMap<>();
 		this.continentsConquered = new ArrayList<>();
 	}
 
@@ -57,6 +58,10 @@ public class Player extends Observable {
 	 */
 	public void updateCountry(String name, int noOfArmies) {
 		this.countriesConquered.put(name, noOfArmies);
+	}
+	
+	public void updateCountryCards(String name, String card) {
+		this.countriesConqueredCards.put(name, card);
 	}
 
     /**

@@ -90,7 +90,7 @@ public class RiskMainInterface extends JFrame {
      */
     private JPanel initializeDiceView() {
         DiceView diceView = new DiceView();
-
+        
         return diceView.getPanel();
     }
 
@@ -423,6 +423,35 @@ public class RiskMainInterface extends JFrame {
                     break;
             }
         });
+        
+//        Card_A_button.addActionListener((ActionEvent e) -> {
+//
+//		    JPanel panel = new JPanel();
+//		    JButton calculate = new JButton("Calculate");
+//		    JButton exchange = new JButton("Exchange");
+//		    
+//		    panel.add(new JLabel("Select the cards: "));
+//		    JCheckBox checkBox1 = new JCheckBox("card1");  
+//	        checkBox1.setBounds(100,100, 50,50);  
+//	        JCheckBox checkBox2 = new JCheckBox("card2", true);  
+//	        checkBox2.setBounds(100,150, 50,50); 
+//	        
+//		    panel.add(checkBox1);
+//		    panel.add(checkBox2);
+//		    panel.add(calculate);
+//		    panel.add(exchange);
+//		    
+//			calculate.addActionListener((ActionEvent evt) -> {
+//				CardsController cc = new CardsController();
+//				cc.calculateExchangeArmies(); // Calculate armies on card exchange      
+//			});
+//			
+//			exchange.addActionListener((ActionEvent evnt) -> {
+//				CardsController cc = new CardsController();
+//				cc.assignPlayerCards("attacker", "defender", "country"); // send data need for cards exchange
+//			});
+//		
+//        });
 
         btnPhases.addActionListener((ActionEvent e) -> {
             String actionCommands = btnPhases.getActionCommand();
