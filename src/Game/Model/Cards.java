@@ -40,13 +40,11 @@ public class Cards extends Observable{
 	 * @param type The type of the card.
 	 */
 	
-	public Cards() {
-	
-	}
 	
 	public Cards(String name, String type) {
 		this.name = name;
 		this.type = type;
+	
 	}
 	
 	/**
@@ -72,6 +70,7 @@ public class Cards extends Observable{
 		return this.type;
 	}
   
+	
   
 	/**
 	 * @return This method get the player id
@@ -94,21 +93,20 @@ public class Cards extends Observable{
 		this.playerId = id;
 	}
    
-   public static ArrayList<Cards> generateCardPile() {
-		ArrayList<Cards> cardPile = new ArrayList<Cards>();
-		for(int i=0;i<20;i++) {
-			cardPile.add(new Cards("Artillery","Normal"));
-			cardPile.add(new Cards("Cavalry","Normal"));
-			cardPile.add(new Cards("Infantry","Normal"));
+   public static ArrayList<Cards> generateCardDeck() {
+		ArrayList<Cards> cardDeck = new ArrayList<Cards>();
+		for(int i=0;i<14;i++) {
+			cardDeck.add(new Cards("Artillery","Normal"));
+			cardDeck.add(new Cards("Cavalry","Normal"));
+			cardDeck.add(new Cards("Infantry","Normal"));
 		}
-		return cardPile;
+		return cardDeck;
 	}
-   
 
-	/*
-	 
+   
+   
 	  private static HashMap<String,Integer> cardType;
-      private HashMap<CountryData,String> cardAssociatedWithEachCountry;
+   private HashMap<CountryData,String> cardAssociatedWithEachCountry;
 	 
 	 static {
 	
@@ -118,10 +116,10 @@ public class Cards extends Observable{
 		cardType.put("Artillery", 10);
 	
 	}	
-   
-   String[] cardKeys=(String[]) cardType.keySet().toArray();
-   
-   public void cardDistribution() { 
+
+String[] cardKeys=(String[]) cardType.keySet().toArray();
+
+public void cardDistribution() { 
 		
 		 cardAssociatedWithEachCountry=new HashMap<CountryData,String>();  
 	     Random cardDistributionToCountries=new Random();
@@ -135,13 +133,10 @@ public class Cards extends Observable{
 	     }
 	}
 	
-   
-   public HashMap<CountryData, String> getCardAssociatedWithEachCountry() {
+
+public HashMap<CountryData, String> getCardAssociatedWithEachCountry() {
 		return cardAssociatedWithEachCountry;
 	}
 
-	  
-	 */
 	
-	
-   }
+  }
