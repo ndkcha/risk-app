@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/*
+/**
  * cardPile generated is tested 
  * Object of Cards class is initialized
  * 
