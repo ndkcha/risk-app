@@ -11,7 +11,6 @@ public class CardController {
 	private DataHolder holder = DataHolder.getInstance();
 	private Player player;
     private List<Player> p = this.holder.getPlayerList();
-    Cards card=new Cards();
     HashMap<CountryData,String> updatedPlayerCards;
 	ArrayList<Cards> updatedlistOfPlayerCards;
 	int cardexchangecounter=0;
@@ -28,7 +27,9 @@ public class CardController {
 		{
 			updatedPlayerCards=new HashMap<CountryData,String>();
 			updatedlistOfPlayerCards=new ArrayList<Cards>();
-			//updatedPlayerCards=player.getPlayerCards();
+			
+			updatedPlayerCards=player.getPlayerCards();
+			
 			HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
 			
 			if (holder.eliminatedplayerlist().size() > 0) // check for eliminated players in data holder
@@ -62,8 +63,8 @@ public class CardController {
 					} else {
 						
                         noOfCards++;
-                      //updatedPlayerCards.put(holder.getCountry(key), card.getCardAssociatedWithEachCountry().get(holder.getCountry(key)));
-                        updatedPlayerCards.add(noOfCards,card.generateCardPile[cardGivenToPlayer.nextInt(card.generateCardPile().size())]);
+                       // updatedPlayerCards.put(holder.getCountry(key), Cards.getCardAssociatedWithEachCountry().get(holder.getCountry(key)));
+                      //  updatedPlayerCards.add(noOfCards,Cards.generateCardDeck[cardGivenToPlayer.nextInt(Cards.generateCardDeck().size())]);
                         player.setPlayerCards(updatedPlayerCards);
                         
 		               
@@ -89,7 +90,7 @@ public class CardController {
 	
 	public void displayPlayerCardsWithCountries(HashMap<CountryData,String> playerCards){
 		// display country name with its card of a player
-		HashMap<CountryData,String> displayCards=getCards();
+		//HashMap<CountryData,String> displayCards=getCards();
 	}
 	
 	
@@ -104,7 +105,7 @@ public class CardController {
 		
 		if(noOfCards>5)
 		{
-			for()
+			//for()
 		}
 		
 		else if (noOfCards<=5){
@@ -117,7 +118,7 @@ public class CardController {
 	
 	public void calculate(int playerTurn) {
 		
-		HashMap<CountryData,String> calculationOfArmies=showPlayerCards();
+		//HashMap<CountryData,String> calculationOfArmies=showPlayerCards();
 		
 	}
 	
@@ -128,5 +129,203 @@ public class CardController {
 		
 	}
 	
+	
+	/**
+	 * Removes the card from the list of cards.
+	 * @param card card to be removed from list. 
+	 */
+	@SuppressWarnings("unlikely-arg-type")
+	public void removeCard(Cards card) {
+		updatedPlayerCards.remove(card);
+	}
+	
+	
+	/**
+	 * Checks if player have Infantry Card
+	 * @return true if player have Infantry Card otherwise false
+	 */
+	public boolean haveInfantryCard(){
+		for (Cards card: this.cards){
+			if (card.getName().equals("Infantry")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if player have Cavalry Card
+	 * @return true if player have Cavalry Card otherwise false
+	 */
+	public boolean haveCavalryCard(){
+		for (Cards card: this.cards){
+			if (card.getName().equals("Cavalry")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if player have Artillery Card
+	 * @return true if player have Artillery Card otherwise false
+	 */
+	public boolean haveArtilleryCard(){
+		for (Cards card: this.cards){
+			if (card.getName().equals("Artillery")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if player have Infantry, Artillery and Cavalry Cards
+	 * @return true if player have Infantry, Artillery and Cavalry Cards otherwise false
+	 */
+	public boolean haveDistinctCards(){
+		if (this.haveInfantryCard() && this.haveArtilleryCard() && this.haveCavalryCard()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks if player have three Artillery cards
+	 * @return true if player have three Artillery cards otherwise false
+	 */
+	public boolean haveThreeArtilleryCards(){
+		int artillery = 0;
+		for (Cards card :this.cards){
+			if (card.getName().equals("Artillery")){
+				artillery++;
+			}
+		}
+		if(artillery == 3){
+			return true;
+		}
+		else{
+			return false;
+		}
+			
+	}
+	
+	/**
+	 * Checks if player have three Cavalry cards
+	 * @return true if player have three Cavalry cards otherwise false
+	 */
+	public boolean haveThreeCavalryCards(){
+		int cavalry = 0;
+		for (Cards card :this.cards){
+			if (card.getName().equals("Cavalry")){
+				cavalry++;
+			}
+		}
+		if(cavalry == 3){
+			return true;
+		}
+		else{
+			return false;
+		}
+			
+	}
+	
+	/**
+	 * Checks if player have three Infantry cards
+	 * @return true if player have three Infantry Cards otherwise false
+	 */
+	public boolean haveThreeInfantryCards(){
+		int infantry = 0;
+		for (Cards card :this.cards){
+			if (card.getName().equals("Infantry")){
+				infantry++;
+			}
+		}
+		if(infantry == 3){
+			return true;
+		}
+		else{
+			return false;
+		}
+			
+	}
+	
+	/**
+	 * Checks if player have either three Cavalry, Artillery or Infantry cards
+	 * @return true if player have either three Cavalry, Artillery or Infantry cards otherwise false
+	 */
+	public boolean haveThreeSameTypeCards(){
+		if(this.haveThreeCavalryCards() || this.haveThreeArtilleryCards() || this.haveThreeInfantryCards()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+
+	/**
+	 * 
+	 * @return list of cards player has.
+	 */
+	public ArrayList<Cards> getCards(){
+		return this.getCards();
+	}
+	
+	/**
+	 * Removes one Infantry, Artillery and Cavalry cards
+	 */
+	public void removeDistinctCards(){
+		this.removeCard(this.getCard("Cavalry"));
+		this.removeCard(this.getCard("Infantry"));
+		this.removeCard(this.getCard("Artillery"));
+		this.assignArmies(5*this.cardexchangecounter++);
+	}
+	
+	/**
+	 * Returns the card from player cardlist
+	 * @param cardname name of the card
+	 * @return card with cardname equals to parameter
+	 */
+	public Cards getCard(String cardname){
+		for (Cards card : ){
+			if ( card.getName().equals(cardname)){
+				return card;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Removes either of three Infantry or Artillery or Cavalry cards
+	 */
+	public void removeSimilarThreeCards(){
+		if (this.haveThreeArtilleryCards()){
+			this.removeCard(this.getCard("Artillery"));
+			this.removeCard(this.getCard("Artillery"));
+			this.removeCard(this.getCard("Artillery"));
+		}
+		else if (this.haveThreeCavalryCards()){
+			this.removeCard(this.getCard("Cavalry"));
+			this.removeCard(this.getCard("Cavalry"));
+			this.removeCard(this.getCard("Cavalry"));
+		}
+		else if (this.haveThreeInfantryCards()){
+			this.removeCard(this.getCard("Infantry"));
+			this.removeCard(this.getCard("Infantry"));
+			this.removeCard(this.getCard("Infantry"));
+		}
+		this.assignArmies(5*this.cardexchangecounter++);
+		
+	}
+
+
+	private void assignArmies(int i) {
+		
+		
+	}
+
 	
 }
