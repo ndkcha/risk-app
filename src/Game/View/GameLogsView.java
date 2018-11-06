@@ -3,13 +3,15 @@
  */
 package Game.View;
 
+import Game.Model.GameLogsData;
+
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.*;
 
 /**
- * @author Jay
+ * @author Jay, ndkcha
  *
  */
 public class GameLogsView implements Observer {
@@ -19,6 +21,7 @@ public class GameLogsView implements Observer {
 	private JPanel panelGamePlay = new JPanel();
     private JLabel jLabel7 = new JLabel();
     private JLabel jLabel6 = new JLabel();
+    private DefaultListModel<String> listModelGamePlay = new DefaultListModel<>();
     
 	/**
 	 * Initialize the view
@@ -69,7 +72,22 @@ public class GameLogsView implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-
+		if (arg instanceof String) {
+			switch ((String) arg) {
+				case GameLogsData.GAME_LOG:
+					GameLogsData logs = (GameLogsData) o;
+					this.printLog(logs.log);
+					break;
+			}
+		}
 	}
 
+	/**
+	 * Attaches the log in to the list
+	 * @param log the log to attach
+	 */
+	private void printLog(String log) {
+		listModelGamePlay.add(0, log);
+		listGamePlay.setModel(listModelGamePlay);
+	}
 }

@@ -199,9 +199,10 @@ public class PhaseView implements Observer {
 		Player player = holder.getActivePlayer();
 		country = country.split("-")[1].trim();
 
-		player.reinforcementPhase(noOfArmies, country);
-
+		String message = player.reinforcementPhase(noOfArmies, country);
 		holder.updatePlayer(player);
+		holder.sendGameLog(message);
+
 		this.reinforcementArmyAllocated += noOfArmies;
 
 		loadCountryListInCombo();
@@ -331,8 +332,9 @@ public class PhaseView implements Observer {
 		country = country.split("-")[1].trim();
 		neighbour = neighbour.split("-")[1].trim();
 
-		player.fortificationPhase(country, neighbour, noOfArmies);
+		String message = player.fortificationPhase(country, neighbour, noOfArmies);
 		holder.updatePlayer(player);
+		holder.sendGameLog(message);
 
 		this.isFortificationDone = true;
 		comboModelNeighbourCountries.removeAllElements();
@@ -382,19 +384,27 @@ public class PhaseView implements Observer {
 	 * Reacts to the changes in the phases
 	 */
 	private void setupPhaseValues() {
+		String message = holder.getActivePlayer().getName() + "'s turn: ";
 		switch (holder.getCurrentPhase()) {
 			case PhaseData.REINFORCEMENT_PHASE:
 				this.setupReinforcementPhase();
 				this.startReinforcement();
+				message = message.concat("Reinforcement Phase");
 				break;
 			case PhaseData.ATTACK_PHASE:
 				this.setupAttackPhase();
+				message = message.concat("Attack Phase");
 				break;
 			case PhaseData.FORTIFICATION_PHASE:
 				this.setupFortificationPhase();
 				this.startFortificationPhase();
+				message = message.concat("Fortification Phase");
+				break;
+			default:
+				message = message.concat("Startup Phase");
 				break;
 		}
+		holder.sendGameLog(message);
 	}
 
 	/**
@@ -441,11 +451,12 @@ public class PhaseView implements Observer {
 
 				this.reinforcementArmyAllocated += armiesToAllocate;
 
-				player.reinforcementPhase(armiesToAllocate, null);
+				String message = player.reinforcementPhase(armiesToAllocate, null);
+				holder.sendGameLog(message);
 
 				noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
 			} while (noOfArmies > 0);
-
+			holder.updatePlayer(player);
 			System.out.println("Armies allocation has been completed!");
 		}
 
@@ -466,7 +477,9 @@ public class PhaseView implements Observer {
 
 		changeControlButtonVisibility(false);
 
-		player.fortificationPhase(null, null, -1);
+		String message = player.fortificationPhase(null, null, -1);
+		holder.updatePlayer(player);
+		holder.sendGameLog(message);
 
 		changeControlButtonVisibility(true);
 		holder.changePhases();

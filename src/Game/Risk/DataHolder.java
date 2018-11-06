@@ -1,6 +1,7 @@
 package Game.Risk;
 
 import Game.Model.*;
+import javafx.beans.Observable;
 
 import java.io.File;
 import java.util.*;
@@ -12,6 +13,8 @@ import java.util.*;
  * @version 1.0.0
  */
 public class DataHolder {
+    /** A communication bridge to get the GameLogs flowing thru the application */
+    GameLogsData gameLogs = new GameLogsData();
     /** a holder that manipulates the phases */
     private PhaseData phaseData = new PhaseData();
     /** instance of the singleton class */
@@ -33,6 +36,22 @@ public class DataHolder {
     /** Returns the active phase */
     public int getCurrentPhase() {
         return this.phaseData.getCurrentPhase();
+    }
+
+    /**
+     * Attaches the observer to feed data into the logs view
+     * @param obj the object to attach
+     */
+    public void attachObserverToLogsView(Observer obj) {
+        this.gameLogs.addObserver(obj);
+    }
+
+    /**
+     * It sends the game logs to the appropriate view.
+     * @param log the log to display
+     */
+    public void sendGameLog(String log) {
+        this.gameLogs.sendLogs(log);
     }
 
     /**

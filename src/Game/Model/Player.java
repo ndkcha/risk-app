@@ -166,9 +166,10 @@ public class Player extends Observable {
 	 * Refactoring 2: All phases in player model.
 	 * Performs the reinforcement phase for the player.
 	 * @param armiesToAllocate total armies to allocated to a country.
-	 * @param country the name of the country to allocated armies to
+	 * @param country the name of the country to allocated armies to.
+	 * @return message produced from the fortification phase
 	 */
-	public void reinforcementPhase(int armiesToAllocate, String country) {
+	public String reinforcementPhase(int armiesToAllocate, String country) {
 		if (country == null) {
 			Random random = new Random();
 			Object countries[] = this.getCountriesConquered().keySet().toArray();
@@ -180,6 +181,8 @@ public class Player extends Observable {
 		existingArmies += armiesToAllocate;
 
 		this.updateCountry(country, existingArmies);
+
+		return name + " added " + armiesToAllocate + " armies to " + country;
 	}
 	
 	/**
@@ -192,9 +195,10 @@ public class Player extends Observable {
 	
 	/**
 	 * Refactoring 2: All phases in player model.
-	 * Implementation of Fortification Phase
+	 * Implementation of Fortification Phase.
+	 * @return message produced from the fortification phase
 	 */
-	public void fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
+	public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
 		Random random = new Random();
 		if (sourceCountry == null) {
 			int iterations = 10;
@@ -202,7 +206,7 @@ public class Player extends Observable {
 				int pickCountry = random.nextInt(this.getCountriesConquered().size());
 
 				if (pickCountry < 0)
-					return;
+					return name + " skipped the fortification phase!";
 
 				sourceCountry = this.getNthCountry(pickCountry);
 				if (this.getArmiesInCountry(sourceCountry) != 1) {
@@ -215,7 +219,7 @@ public class Player extends Observable {
 		}
 
 		if (sourceCountry == null)
-			return;
+			return name + " skipped the fortification phase!";
 
 		if (targetCountry == null) {
 			int pickCountry = random.nextInt(this.getCountriesConquered().size());
@@ -226,7 +230,7 @@ public class Player extends Observable {
 			targetCountry = this.getNthCountry(pickCountry);
 
 			if (targetCountry.equalsIgnoreCase(sourceCountry))
-				return;
+				return name + " skipped the fortification phase!";
 		}
 
 		if (noOfArmies == -1) {
@@ -241,7 +245,7 @@ public class Player extends Observable {
 		this.updateCountry(sourceCountry, armiesLeftInSource);
 		this.updateCountry(targetCountry, armiesInTarget);
 
-		return;
+		return name + " sent " + noOfArmies + " arm(ies) from " + sourceCountry + " to " + targetCountry;
 	}
 
 }
