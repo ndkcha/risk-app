@@ -6,9 +6,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/*
+ * cardPile generated is tested 
+ * Object of Cards class is initialized
+ * 
+ * @author kunal ghai
+ */
+
 public class TestCardModel {
 	
-	Cards card=new Cards();
+	Cards card;
 	
 	@Before
 	public void beforeTest() {
