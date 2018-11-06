@@ -1,7 +1,6 @@
 package Game.Risk;
 
 import Game.Model.*;
-import javafx.beans.Observable;
 
 import java.io.File;
 import java.util.*;
