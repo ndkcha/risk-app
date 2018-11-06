@@ -23,7 +23,18 @@ public class Player extends Observable {
 	
 	/** The continents conquered by the player */
 	private List<String> continentsConquered;
+ 
+	/**
+	 * countries & cards of player where country data object is key 
+	 * and type of card is value 
+	 */
+   	private HashMap<CountryData,String> playerCards;  
+	 
 
+   /** keep count of cards a player has*/
+   	private ArrayList<Cards> listOfPlayerCards;  
+	 
+	
 	/**
 	 * This constructor set the player details.
 	 * 
@@ -37,6 +48,8 @@ public class Player extends Observable {
 		this.color = color;
 		this.countriesConquered = new HashMap<>();
 		this.continentsConquered = new ArrayList<>();
+		this.playerCards=new HashMap<>();
+		this.listOfPlayerCards= new ArrayList<>();
 	}
 
 	/**
@@ -133,9 +146,53 @@ public class Player extends Observable {
 	 * 
 	 * @param countriesConquered The key value pair of countries Conquered.
 	 */
-	public void setCountriesConquered(
-			HashMap<String, Integer> countriesConquered) {
+	public void setCountriesConquered(HashMap<String, Integer> countriesConquered) {
 		this.countriesConquered = countriesConquered;
+	}
+	
+	/**
+	 * This method is to get countries & cards of a player
+	 * 
+	 * @return playerCards The key value pair of countries associated with cards
+	 */
+	public HashMap<CountryData, String> getPlayerCards() {
+		return playerCards;
+	}
+
+	/**
+	 * This method is to get countries & cards of a player
+	 * 
+	 * @param playerCards The key value pair of countries associated with cards
+	 */
+	public void setPlayerCards(HashMap<CountryData, String> playerCards) {
+		this.playerCards = playerCards;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @return listOfPlayerCards
+	 */
+	public ArrayList<Cards> getlistOfPlayerCards() {
+		return listOfPlayerCards;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param listOfPlayerCards
+	 */
+	public void setlistOfPlayerCards(ArrayList<Cards> listOfPlayerCards) {
+		this.listOfPlayerCards = listOfPlayerCards;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int noOfCards() {
+		return listOfPlayerCards.size();
+		
 	}
 	
 	/**
@@ -162,4 +219,5 @@ public class Player extends Observable {
 		
 	}
 
+	
 }
