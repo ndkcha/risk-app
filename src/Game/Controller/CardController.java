@@ -7,26 +7,31 @@ import Game.Model.Player;
 import java.util.*;
 import java.lang.Object;
 
-public class Cardcontroller {
+public class CardController {
 	private DataHolder holder = DataHolder.getInstance();
 	private Player player;
     private List<Player> p = this.holder.getPlayerList();
     Cards card=new Cards();
-	HashMap<CountryData,String> playerCards=new HashMap<CountryData,String>();
+	ArrayList<Cards> updatedPlayerCards;
 	int cardexchangecounter=0;
 	int noOfCards=0;
-    
-	public HashMap<CountryData,String> getCards(int numberOfCountriesConqueredInAttackPhase, int playerTurn)
+	Random cardGivenToPlayer=new Random();
+	
+	public void getCards(int numberOfCountriesConqueredInAttackPhase, int playerTurn)
 	{
 	    
 		player = p.get(playerTurn);
-		HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+		
 
 		if (numberOfCountriesConqueredInAttackPhase > 0) 
 		{
-
+			updatedPlayerCards=new ArrayList<Cards>();
+			//updatedPlayerCards=player.getPlayerCards();
+			HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+			
 			if (holder.eliminatedplayerlist().size() > 0) // check for eliminated players in data holder
 			{
+				
 				// player gets all cards owned by opponent player, check for cards associated
 				// with each country
 				
@@ -34,11 +39,13 @@ public class Cardcontroller {
             /*
 				 current player gets all cards of opponent player
 				 no of cards= no of cards + no of cards eliminated opponent player
+				 check type of cards received
+				 playercards.put(
                  */
 			
 					// display countries he owns along with their card types
 
-				}
+				player.setPlayerCards(updatedPlayerCards);
 			 }
 
 			else
@@ -53,22 +60,26 @@ public class Cardcontroller {
 					} else {
 						
                         noOfCards++;
-						playerCards.put(holder.getCountry(key), card.getCardAssociatedWithEachCountry().get(holder.getCountry(key)));
-		
+                      //updatedPlayerCards.put(holder.getCountry(key), card.getCardAssociatedWithEachCountry().get(holder.getCountry(key)));
+                        updatedPlayerCards.add(noOfCards,card.generateCardPile[cardGivenToPlayer.nextInt(card.generateCardPile().size())]);
+                        player.setPlayerCards(updatedPlayerCards);
+                        
+		               
 					}
 					
 
 				 }
 				
-				// display countries he owns along with their card types
 				
+				//update countries & cards of a player
+				 player.setPlayerCards(updatedPlayerCards);
 				
 			}
 
 		}
 
 		else {
-			System.out.print("you don't get any new cards in this turn"); // display in a box in gui
+			System.out.print("no new cards in this turn"); // display in a box in gui
 		}
 		
 	}
@@ -87,9 +98,19 @@ public class Cardcontroller {
 	  else he can choose if he wants to skip exchange card view or not
 	 */
 	
-	public void cardExchangeView() {
+	public void exchange(int playerTurn) {
 		
+		if(noOfCards>5)
+		{
+			for()
+		}
 		
+		else if (noOfCards<=5){
+			
+		}
+		
+		else
+			System.out.println("no cards for exchange");
 	}
 	
 	public void calculate(int playerTurn) {
@@ -99,9 +120,11 @@ public class Cardcontroller {
 	}
 	
 	
-	public void exchange(int playerTurn, int totalarmiesreceivedafterexchange) {
+	public void finalExchange(int playerTurn, int totalarmiesreceivedafterexchange) {
 		
+		player.setPlayerCards(updatedPlayerCards);
 		
 	}
+	
 	
 }

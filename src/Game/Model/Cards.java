@@ -2,7 +2,7 @@ package Game.Model;
 
 import java.util.*;
 import Game.Risk.DataHolder;
-import java.util.Observable;
+
 
 /**
  * This class is used to create cards according to the Risk rules. The created
@@ -15,9 +15,102 @@ import java.util.Observable;
 public class Cards extends Observable{
 	
   private DataHolder holder = DataHolder.getInstance();	
-  private static HashMap<String,Integer> cardType;
-  private HashMap<CountryData,String> cardAssociatedWithEachCountry;
-  static {
+  private int totalarmies;
+  private int cardId;
+  private String name;
+  private String type;
+  
+  /**
+ 	 * The card's player ID. Every card has only one owner.
+ 	 */
+ 	private Integer playerId = 0;
+
+ 	
+ 	/**
+ 	 * The number of armies rewarded for exchanging cards.
+ 	 */
+ 	public Integer cardExchangeArmies = 15;
+ 
+ 	
+ 	/**
+	 * Constructor to assign value to name and type of the card.
+	 * 
+	 * @param cardId The ID for this card
+	 * @param name The name of the card.
+	 * @param type The type of the card.
+	 */
+	
+	public Cards() {
+	
+	}
+	
+	public Cards(String name, String type) {
+		this.name = name;
+		this.type = type;
+	}
+	
+	/**
+	 * Function to get the name of the card.
+	 * 
+	 * @return name of the card.
+	 */
+	
+	
+	 public String getName() {
+		return this.name;
+	}
+	
+
+	/**
+	 * Function to get the type of the card.
+	 * 
+	 * @return type of the card.
+	 */
+	
+	
+	public String getType() {
+		return this.type;
+	}
+  
+  
+	/**
+	 * @return This method get the player id
+	 */
+	
+	
+	public Integer getOwnerId() {
+		return this.playerId;
+	}
+   
+ 
+	/**
+	 * This method set owner id
+	 *
+	 * @param id The new card player ID
+	 */
+	
+
+	public void setOwnerId(Integer id) {
+		this.playerId = id;
+	}
+   
+   public static ArrayList<Cards> generateCardPile() {
+		ArrayList<Cards> cardPile = new ArrayList<Cards>();
+		for(int i=0;i<20;i++) {
+			cardPile.add(new Cards("Artillery","Normal"));
+			cardPile.add(new Cards("Cavalry","Normal"));
+			cardPile.add(new Cards("Infantry","Normal"));
+		}
+		return cardPile;
+	}
+   
+
+	/*
+	 
+	  private static HashMap<String,Integer> cardType;
+      private HashMap<CountryData,String> cardAssociatedWithEachCountry;
+	 
+	 static {
 	
 		new HashMap<String, Integer>();
 		cardType.put("Infantry", 1);
@@ -25,7 +118,6 @@ public class Cards extends Observable{
 		cardType.put("Artillery", 10);
 	
 	}	
-   
    
    String[] cardKeys=(String[]) cardType.keySet().toArray();
    
@@ -48,77 +140,8 @@ public class Cards extends Observable{
 		return cardAssociatedWithEachCountry;
 	}
 
-   
-	/**
-	 * The card's player ID. Every card has only one owner.
-	 */
-	private Integer playerId = 0;
-
-	/**
-	 * The number of armies rewarded for exchanging cards.
-	 */
-	public Integer cardExchangeArmies = 15;
-
-	
-	/**
-	 * Constructor to assign value to name and type of the card.
-	 * 
-	 * @param cardId The ID for this card
-	 * @param name The name of the card.
-	 * @param type The type of the card.
-	 */
-	/*
-	public Cards(Integer cardId, String name, String type) {
-		this.cardId = cardId;
-		this.name = name;
-		this.type = type;
-	}
-	*/
-
-	/**
-	 * Function to get the name of the card.
-	 * 
-	 * @return name of the card.
+	  
 	 */
 	
-	/*
-	 * public String getName() {
-		return this.name;
-	}
-	*/
-
-	/**
-	 * Function to get the type of the card.
-	 * 
-	 * @return type of the card.
-	 */
 	
-	/*
-	public String getType() {
-		return this.type;
-	}
-     */
-    
-	/**
-	 * @return This method get the player id
-	 */
-	
-	/*
-	public Integer getOwnerId() {
-		return this.playerId;
-	}
-     */
-   
-	/**
-	 * This method set owner id
-	 *
-	 * @param id The new card player ID
-	 */
-	
-	/*
-	public void setOwnerId(Integer id) {
-		this.playerId = id;
-	}
-	
-   */
-}
+   }
