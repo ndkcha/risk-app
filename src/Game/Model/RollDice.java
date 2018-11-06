@@ -19,10 +19,5 @@ public class RollDice {
 		Random dice = new Random();
 		return dice.nextInt(6) + 1;
 	}
-	
-	/**
-	 * 
-	 */
-	public RollDice() { }
 
 }

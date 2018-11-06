@@ -76,7 +76,7 @@ public class ReinforcementController {
         }
 
         System.out.println("The number of armies available for reinforcement phase is " + newarmies);
-
+        //holder.setPlayersArmiesList(playerTurn, newarmies);
         
        return newarmies;
     }
