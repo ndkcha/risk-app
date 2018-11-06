@@ -12,7 +12,8 @@ public class CardController {
 	private Player player;
     private List<Player> p = this.holder.getPlayerList();
     Cards card=new Cards();
-	ArrayList<Cards> updatedPlayerCards;
+    HashMap<CountryData,String> updatedPlayerCards;
+	ArrayList<Cards> updatedlistOfPlayerCards;
 	int cardexchangecounter=0;
 	int noOfCards=0;
 	Random cardGivenToPlayer=new Random();
@@ -25,7 +26,8 @@ public class CardController {
 
 		if (numberOfCountriesConqueredInAttackPhase > 0) 
 		{
-			updatedPlayerCards=new ArrayList<Cards>();
+			updatedPlayerCards=new HashMap<CountryData,String>();
+			updatedlistOfPlayerCards=new ArrayList<Cards>();
 			//updatedPlayerCards=player.getPlayerCards();
 			HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
 			
