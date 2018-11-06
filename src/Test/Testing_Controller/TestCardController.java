@@ -8,7 +8,7 @@ import java.io.File;
 import org.junit.Test;
 import java.util.*;
 
-/*
+/**
  * testing for cards received by player
  * 
  * @author kunal ghai
