@@ -89,7 +89,11 @@ public class WorldDominationView implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println(arg1);
+		if (arg1 instanceof String) {
+			if (((String) arg1).startsWith("change")) {
+				setActivePlayerLabel();
+			}
+		}
 	}
 
 }

@@ -1,5 +1,7 @@
 package Game.Model;
 
+import Game.Controller.ReinforcementController;
+
 import java.util.*;
 
 /**
@@ -11,7 +13,7 @@ import java.util.*;
  * @version 1.0.0
  */
 public class Player extends Observable {
-	
+	private int noOfArmiesToAssign = 0;
 	private String name, color;
 	private int type;
 	
@@ -23,6 +25,14 @@ public class Player extends Observable {
 	
 	/** The continents conquered by the player */
 	private List<String> continentsConquered;
+
+	/**
+	 * Gets the number of armies left to assign
+	 * @return number of armies
+	 */
+	public int getNoOfArmiesToAssign() {
+		return noOfArmiesToAssign;
+	}
 
 	/**
 	 * This constructor set the player details.
@@ -37,6 +47,20 @@ public class Player extends Observable {
 		this.color = color;
 		this.countriesConquered = new HashMap<>();
 		this.continentsConquered = new ArrayList<>();
+	}
+
+	/** when an army is assigned, it decrements the count from the total. */
+	public void assignInitialArmies() {
+		this.noOfArmiesToAssign--;
+	}
+
+	/**
+	 * Assigns the maximum number of armies to assign
+	 *
+	 * @param noOfArmies number of armies to assign
+	 */
+	public void setMaxInitialArmies(int noOfArmies) {
+		this.noOfArmiesToAssign = noOfArmies;
 	}
 
 	/**
@@ -140,10 +164,25 @@ public class Player extends Observable {
 	
 	/**
 	 * Refactoring 2: All phases in player model.
-	 * Reinforcement Phase
+	 * Performs the reinforcement phase for the player.
+	 * @param armiesToAllocate total armies to allocated to a country.
+	 * @param country the name of the country to allocated armies to.
+	 * @return message produced from the fortification phase
 	 */
-	public void reinforcementPhase() {
-		
+	public String reinforcementPhase(int armiesToAllocate, String country) {
+		if (country == null) {
+			Random random = new Random();
+			Object countries[] = this.getCountriesConquered().keySet().toArray();
+			int countryIndex = random.nextInt(countries.length);
+			country = (String) countries[countryIndex];
+		}
+
+		int existingArmies = this.getCountriesConquered().get(country);
+		existingArmies += armiesToAllocate;
+
+		this.updateCountry(country, existingArmies);
+
+		return name + " added " + armiesToAllocate + " armies to " + country;
 	}
 	
 	/**
@@ -156,10 +195,57 @@ public class Player extends Observable {
 	
 	/**
 	 * Refactoring 2: All phases in player model.
-	 * Fortification Phase
+	 * Implementation of Fortification Phase.
+	 * @return message produced from the fortification phase
 	 */
-	public void fortificationPhase() {
-		
+	public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
+		Random random = new Random();
+		if (sourceCountry == null) {
+			int iterations = 10;
+			do {
+				int pickCountry = random.nextInt(this.getCountriesConquered().size());
+
+				if (pickCountry < 0)
+					return name + " skipped the fortification phase!";
+
+				sourceCountry = this.getNthCountry(pickCountry);
+				if (this.getArmiesInCountry(sourceCountry) != 1) {
+					sourceCountry = null;
+					break;
+				}
+
+				iterations--;
+			} while (iterations != 0);
+		}
+
+		if (sourceCountry == null)
+			return name + " skipped the fortification phase!";
+
+		if (targetCountry == null) {
+			int pickCountry = random.nextInt(this.getCountriesConquered().size());
+
+			if (pickCountry < 0)
+				pickCountry++;
+
+			targetCountry = this.getNthCountry(pickCountry);
+
+			if (targetCountry.equalsIgnoreCase(sourceCountry))
+				return name + " skipped the fortification phase!";
+		}
+
+		if (noOfArmies == -1) {
+			noOfArmies = this.getArmiesInCountry(sourceCountry);
+			noOfArmies = random.nextInt(noOfArmies - 1);
+		}
+
+		// the transfer the armies
+		int armiesLeftInSource = this.getArmiesInCountry(sourceCountry) - noOfArmies;
+		int armiesInTarget = this.getArmiesInCountry(targetCountry) + noOfArmies;
+
+		this.updateCountry(sourceCountry, armiesLeftInSource);
+		this.updateCountry(targetCountry, armiesInTarget);
+
+		return name + " sent " + noOfArmies + " arm(ies) from " + sourceCountry + " to " + targetCountry;
 	}
 
 }
