@@ -2,6 +2,7 @@ package Game.Model;
 
 import java.util.*;
 
+
 /**
  * This holds the player data and the runtime data collected for player It holds
  * the countries he conquered and it can be updated anytime. It also holds list
@@ -49,7 +50,7 @@ public class Player extends Observable {
 		this.countriesConquered = new HashMap<>();
 		this.continentsConquered = new ArrayList<>();
 		this.playerCards=new HashMap<>();
-		this.listOfPlayerCards= new ArrayList<>();
+		this.listOfPlayerCards= new ArrayList<Cards>();
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class Player extends Observable {
 	}
 	
 	/**
-	 * 
+	 * This method is to get list of player cards
 	 * 
 	 * @return listOfPlayerCards
 	 */
@@ -178,7 +179,7 @@ public class Player extends Observable {
 	}
 
 	/**
-	 * 
+	 * This method is to set list of player cards
 	 * 
 	 * @param listOfPlayerCards
 	 */
@@ -187,8 +188,9 @@ public class Player extends Observable {
 	}
 
 	/**
+	 * This method returns count of player cards
 	 * 
-	 * @return
+	 * @return listOfPlayerCards.size()
 	 */
 	public int noOfCards() {
 		return listOfPlayerCards.size();
@@ -218,6 +220,5 @@ public class Player extends Observable {
 	public void fortificationPhase() {
 		
 	}
-
 	
 }
