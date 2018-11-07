@@ -6,6 +6,8 @@ package Game.View;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
@@ -75,8 +77,11 @@ public class WorldDominationView implements Observer {
 		listModelPlayers.removeAllElements();
 
 		for (Player player: holder.getPlayerList()) {
-			listModelPlayers.addElement(player.getName() + " (" + player.getColor() + ") [" +
-				player.getCountriesConquered().size() + " countries]");
+			int noOfOwnCountries = player.getCountriesConquered().size();
+			int totalCountries = holder.getCountryDataList().size();
+			double percent = ((double) noOfOwnCountries)/((double) totalCountries);
+			listModelPlayers.addElement(player.getName() + " [" + noOfOwnCountries + " c] " +
+				BigDecimal.valueOf(percent*100).setScale(2, RoundingMode.HALF_UP) + "%");
 		}
 
 		listPlayer.setModel(listModelPlayers);

@@ -1,5 +1,7 @@
 package Game.Model;
 
+import Game.Controller.AttackController;
+
 import java.util.*;
 
 /**
@@ -247,8 +249,9 @@ public class Player extends Observable {
      * Refactoring 2: All phases in player model.
      * Attack Phase
      */
-    public void attackPhase() {
-
+    public void attackPhase(String attackerCountry, String defendingCountry, int mode, int numberOfDice) {
+		AttackController controller = new AttackController();
+		controller.attack(attackerCountry, defendingCountry, mode, numberOfDice);
     }
 
     /**

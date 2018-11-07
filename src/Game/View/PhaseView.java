@@ -1,5 +1,6 @@
 package Game.View;
 
+import Game.Controller.AttackController;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.PhaseData;
@@ -20,8 +21,9 @@ public class PhaseView implements Observer {
 	private boolean isStartupPhaseActive = true;
 	private static final String STARTUP_ADD_ARMY = "startup:add_army";
 	private static final String CHANGE_PHASE = "change:phase";
-	private static final String REINFORCEMENT_ADD_ARMY_ACTION = "reinforcement:add";
-	private static final String FORTIFICATION_SEND_ARMY_ACTION = "fortification:send";
+	private static final String ACTION_REINFORCEMENT_ADD_ARMY = "reinforcement:add";
+	private static final String ACTION_FORTIFICATION_SEND_ARMY = "fortification:send";
+	private static final String ACTION_ATTACK = "attack:do";
 	private static final String CARD_EXCHANGE_ACTION = "card:exchange";
 	private DataHolder holder = DataHolder.getInstance();
 	private int reinforcementArmyAllocated = 0;
@@ -165,14 +167,17 @@ public class PhaseView implements Observer {
 				case CHANGE_PHASE:
 					holder.changePhases();
 					break;
-				case REINFORCEMENT_ADD_ARMY_ACTION:
+				case ACTION_REINFORCEMENT_ADD_ARMY:
 					addArmyInReinforcementPhase();
 					break;
-				case FORTIFICATION_SEND_ARMY_ACTION:
+				case ACTION_FORTIFICATION_SEND_ARMY:
 					sendArmyInFortificationPhase();
 					break;
 				case CARD_EXCHANGE_ACTION:
 					determineToSkipCardExchange();
+					break;
+				case ACTION_ATTACK:
+					doAttack();
 					break;
 			}
 		});
@@ -185,15 +190,47 @@ public class PhaseView implements Observer {
 				case PhaseData.FORTIFICATION_PHASE:
 					setupManualFortificationPhase();
 					break;
+				case PhaseData.ATTACK_PHASE:
+					setupManualAttackPhase();
+					break;
 			}
 		});
 	}
 
+	/**
+	 * Perform the attack phase
+	 */
+	private void doAttack() {
+		int attackerIndex = comboCountry.getSelectedIndex();
+		int defenderIndex = comboNeighbourCountry.getSelectedIndex();
+
+		if ((attackerIndex == -1) || (defenderIndex == -1))
+			return;
+
+		Player player = holder.getActivePlayer();
+
+		String attacker = comboModelCountries.getElementAt(attackerIndex);
+		attacker = attacker.split("-")[1].trim();
+		String defender = comboModelNeighbourCountries.getElementAt(defenderIndex);
+		defender = defender.split("-")[1].trim();
+
+		player.attackPhase(attacker, defender, AttackController.MODE_ALL_OUT, -1);
+
+		holder.updatePlayer(player);
+
+		comboModelNeighbourCountries.removeAllElements();
+		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+
+		this.loadCountryListInCombo();
+		this.changePhaseAhead();
+	}
+
+	/** Check if we need to skip the card exchange phase */
 	private void determineToSkipCardExchange() {
 		Player player = holder.getActivePlayer();
 
 		if (player.getCards().size() == 5) {
-			JOptionPane.showMessageDialog(new JFrame(), "You can hold more than 5 cards", "Error",
+			JOptionPane.showMessageDialog(new JFrame(), "You can't hold more than 5 cards", "Error",
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -255,7 +292,7 @@ public class PhaseView implements Observer {
 				}
 
 				btnPhases.setText("Add");
-				btnPhases.setActionCommand(REINFORCEMENT_ADD_ARMY_ACTION);
+				btnPhases.setActionCommand(ACTION_REINFORCEMENT_ADD_ARMY);
 			}
 		} else
 			this.changePhaseAhead();
@@ -286,6 +323,45 @@ public class PhaseView implements Observer {
 
 		System.out.println(player.getNoOfArmiesToAssign() + " left for " + player.getName());
 		holder.changeTurn();
+	}
+
+	/**
+	 * Setup manual entries for the attack phase.
+	 * It will help user to continue with the phase from UI.
+	 */
+	private void setupManualAttackPhase() {
+		comboModelNeighbourCountries.removeAllElements();
+
+		int selectedCountry = comboCountry.getSelectedIndex();
+
+		if (selectedCountry == 0)
+			return;
+
+		Player player = holder.getActivePlayer();
+
+		if (selectedCountry > 0) {
+			AttackController controller = new AttackController();
+			String countryName = comboModelCountries.getElementAt(selectedCountry);
+			countryName = countryName.split("-")[1].trim();
+
+			int noOfArmies = player.getArmiesInCountry(countryName);
+
+			if (noOfArmies == 1)
+				return;
+
+			List<String> neighboursToAttack = controller.getNeighboursForAttack(countryName, player);
+
+			for (String neighbour : neighboursToAttack) {
+				int army = controller.getArmiesOfDefendingCountry(neighbour);
+				comboModelNeighbourCountries.addElement(army + " - " + neighbour);
+			}
+
+			btnPhases.setText("Attack");
+			btnPhases.setActionCommand(ACTION_ATTACK);
+		} else
+			this.changePhaseAhead();
+
+		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
 	}
 
 	/**
@@ -330,7 +406,7 @@ public class PhaseView implements Observer {
 				}
 
 				btnPhases.setText("Send");
-				btnPhases.setActionCommand(FORTIFICATION_SEND_ARMY_ACTION);
+				btnPhases.setActionCommand(ACTION_FORTIFICATION_SEND_ARMY);
 			}
 		}
 
@@ -410,31 +486,25 @@ public class PhaseView implements Observer {
 	 * Reacts to the changes in the phases
 	 */
 	private void setupPhaseValues() {
-		String message = holder.getActivePlayer().getName() + "'s turn: ";
 		switch (holder.getCurrentPhase()) {
 			case PhaseData.CARD_EXCHANGE_PHASE:
 				this.setupCardExchangePhase();
-				message = message.concat("Card Exchange View");
 				break;
 			case PhaseData.REINFORCEMENT_PHASE:
 				this.setupReinforcementPhase();
 				this.startReinforcement();
-				message = message.concat("Reinforcement Phase");
 				break;
 			case PhaseData.ATTACK_PHASE:
 				this.setupAttackPhase();
-				message = message.concat("Attack Phase");
+				this.startAttackPhase();
 				break;
 			case PhaseData.FORTIFICATION_PHASE:
 				this.setupFortificationPhase();
 				this.startFortificationPhase();
-				message = message.concat("Fortification Phase");
 				break;
 			default:
-				message = message.concat("Startup Phase");
 				break;
 		}
-		holder.sendGameLog(message);
 	}
 
 	/** Initializes the card exchange phase */
@@ -502,6 +572,17 @@ public class PhaseView implements Observer {
 		holder.changePhases();
 	}
 
+	private void startAttackPhase() {
+		Player player = holder.getActivePlayer();
+
+		if (player.getType() == 0) {
+			this.loadCountryListInCombo();
+			return;
+		}
+
+		holder.changePhases();
+	}
+
 	/**
 	 * Start the fortification phase
 	 */
@@ -529,8 +610,8 @@ public class PhaseView implements Observer {
 	private void setupAttackPhase() {
 		labelPhases.setText("Attack Phase");
 		this.changePhaseAhead();
-		comboNeighbourCountry.setVisible(false);
-		comboCountry.setVisible(false);
+		comboNeighbourCountry.setVisible(true);
+		comboCountry.setVisible(true);
 		comboNoOfArmies.setVisible(false);
 	}
 
