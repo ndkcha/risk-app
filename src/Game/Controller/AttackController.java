@@ -286,3 +286,166 @@ public class AttackController {
         return neighbours;
     }
 
+    /**
+    * This function checks if attack is successful
+    * @param attackingCountry the attacking country name
+    * @param defendingCountry the country on which attack is done
+    * @param chosenNoOfDice number of dice used by attacker
+    * @param player the player who is attacking
+    * @return true if attack successful, false if not
+    */
+    public boolean attackBetweenTwoCoutries(String attackingCountry, String defendingCountry, int chosenNoOfDice, Player player) {
+       
+        Integer[] diceRollValuesOfAttacker= new Integer[chosenNoOfDice];
+        Integer[] diceRollValuesOfDefender= new Integer[chosenNoOfDice-1];
+        boolean attackstatus=false;
+        
+        //dice rolls for attacker
+        for(int i=0;i<chosenNoOfDice;i++){
+            diceRollValuesOfAttacker[i]=rollDice.roll();
+        }
+        //sorting the dice rolls in decreasing values
+        Arrays.sort(diceRollValuesOfAttacker, Collections.reverseOrder());
+        
+        //dice rolls for defender
+        for(int i=0;i<chosenNoOfDice-1;i++) {
+             diceRollValuesOfDefender[i]=rollDice.roll();
+        }
+        
+        //sorting the dice rolls in decreasing values
+        Arrays.sort(diceRollValuesOfDefender, Collections.reverseOrder());
+        
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        
+        //matching the dice roll values
+        for(int i=0;i<chosenNoOfDice-1;i++) {
+            //if the dice value of attacker is more than dice value of defender
+            if (diceRollValuesOfAttacker[i] > diceRollValuesOfDefender[i]) {
+                //decrement armies in defending country
+                decrementArmiesDefendingC(defendingCountry);
+            } 
+            //if the dice value of attacker is same as dice roll of defender
+            else if(diceRollValuesOfAttacker.equals(diceRollValuesOfDefender)) {
+                //decrement the armies in attacking country
+                Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    if (pair.getKey().equals(attackingCountry)) {
+                        int numberOfArmies = (int) pair.getValue();
+                        pair.setValue(numberOfArmies--);
+                    }
+                }
+            }
+            //if dice value of attacker is less then the dice value of defender
+            else {
+                //decrement the armies in attacking country
+                Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    if (pair.getKey().equals(attackingCountry)) {
+                        int numberOfArmies = (int) pair.getValue();
+                        pair.setValue(numberOfArmies--);
+                    }
+                }
+            }
+        }
+        //update the conquered country list of the player
+        player.setCountriesConquered(countriesConquered);
+        //if the defending country is left with zero countries then the country is conquered, thus attcak successful
+        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+        while (itForCountriesConquered.hasNext()) {
+            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+            if (pair.getKey().equals(defendingCountry)) {
+                int numberOfArmies = (int) pair.getValue();
+                if (numberOfArmies==0) {
+                    //attack successful
+                    attackstatus=true;
+                }
+            }
+        }
+        
+        //return the attack success status
+        return attackstatus;
+    }
+
+/**
+    * This function checks if attack is successful
+    * @param attackingCountry the attacking country name
+    * @param defendingCountry the country on which attack is done
+    * @param chosenNoOfDice number of dice used by attacker
+    * @param player the player who is attacking
+    * @return true if attack successful, false if not
+    */
+    public boolean attackBetweenTwoCoutries(String attackingCountry, String defendingCountry, int chosenNoOfDice, Player player) {
+       
+        Integer[] diceRollValuesOfAttacker= new Integer[chosenNoOfDice];
+        Integer[] diceRollValuesOfDefender= new Integer[chosenNoOfDice-1];
+        boolean attackstatus=false;
+        
+        //dice rolls for attacker
+        for(int i=0;i<chosenNoOfDice;i++){
+            diceRollValuesOfAttacker[i]=rollDice.roll();
+        }
+        //sorting the dice rolls in decreasing values
+        Arrays.sort(diceRollValuesOfAttacker, Collections.reverseOrder());
+        
+        //dice rolls for defender
+        for(int i=0;i<chosenNoOfDice-1;i++) {
+             diceRollValuesOfDefender[i]=rollDice.roll();
+        }
+        
+        //sorting the dice rolls in decreasing values
+        Arrays.sort(diceRollValuesOfDefender, Collections.reverseOrder());
+        
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        
+        //matching the dice roll values
+        for(int i=0;i<chosenNoOfDice-1;i++) {
+            //if the dice value of attacker is more than dice value of defender
+            if (diceRollValuesOfAttacker[i] > diceRollValuesOfDefender[i]) {
+                //decrement armies in defending country
+                decrementArmiesDefendingC(defendingCountry);
+            } 
+            //if the dice value of attacker is same as dice roll of defender
+            else if(diceRollValuesOfAttacker.equals(diceRollValuesOfDefender)) {
+                //decrement the armies in attacking country
+                Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    if (pair.getKey().equals(attackingCountry)) {
+                        int numberOfArmies = (int) pair.getValue();
+                        pair.setValue(numberOfArmies--);
+                    }
+                }
+            }
+            //if dice value of attacker is less then the dice value of defender
+            else {
+                //decrement the armies in attacking country
+                Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    if (pair.getKey().equals(attackingCountry)) {
+                        int numberOfArmies = (int) pair.getValue();
+                        pair.setValue(numberOfArmies--);
+                    }
+                }
+            }
+        }
+        //update the conquered country list of the player
+        player.setCountriesConquered(countriesConquered);
+        //if the defending country is left with zero countries then the country is conquered, thus attcak successful
+        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+        while (itForCountriesConquered.hasNext()) {
+            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+            if (pair.getKey().equals(defendingCountry)) {
+                int numberOfArmies = (int) pair.getValue();
+                if (numberOfArmies==0) {
+                    //attack successful
+                    attackstatus=true;
+                }
+            }
+        }
+        
+        //return the attack success status
+        return attackstatus;
+    }
