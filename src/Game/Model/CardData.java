@@ -7,11 +7,13 @@ import java.util.ArrayList;
  * cards can then be assigned to players, and they receive additional army for
  * exchanging cards.
  * 
- * @author Jay
+ * @author Jay, ndkcha
  * @version 1.0.0
  */
-public class Cards {
-
+public class CardData {
+    public static final String CARD_TYPE_INFANTRY = "Infantry";
+    public static final String CARD_TYPE_CAVALRY = "Cavalry";
+    public static final String CARD_TYPE_ARTILLERY = "Artillery";
 	 
 	private String name;
 	
@@ -25,7 +27,7 @@ public class Cards {
 	 * @param name Stores the name of the card.
 	 * @param type Stores the type of the card.
 	 */
-	public Cards(String name, String type) {
+	public CardData(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -50,10 +52,10 @@ public class Cards {
 	 * Generate a pile of 44 cards
 	 * @return ArrayList containing 44 cards.
 	 */
-	public static ArrayList<Cards> generateCardPile() {
-		ArrayList<Cards> cardPile = new ArrayList<Cards>();
+	public static ArrayList<CardData> generateCardPile() {
+		ArrayList<CardData> cardPile = new ArrayList<CardData>();
 		for(int i=0;i<44;i++) {
-			cardPile.add(new Cards("Artillery","Normal"));
+			cardPile.add(new CardData("Artillery","Normal"));
 		}
 		return cardPile;
 	}

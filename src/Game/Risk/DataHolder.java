@@ -12,8 +12,9 @@ import java.util.*;
  * @version 1.0.0
  */
 public class DataHolder {
+    public static final String CARD_TYPE_WILD = "Wild";
     /** A communication bridge to get the GameLogs flowing thru the application */
-    GameLogsData gameLogs = new GameLogsData();
+    private GameLogsData gameLogs = new GameLogsData();
     /** a holder that manipulates the phases */
     private PhaseData phaseData = new PhaseData();
     /** instance of the singleton class */

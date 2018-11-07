@@ -1,139 +1,157 @@
-/**
- * 
- */
 package Game.View;
 
+import Game.Model.CardData;
+import Game.Model.PhaseData;
 import Game.Model.Player;
+import Game.Risk.DataHolder;
+
+import java.awt.event.ActionEvent;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
 
 /**
- * @author Jay
- *
+ * @author Jay, ndkcha
  */
 public class CardsView implements Observer {
 
-	 private JLabel jLabel3;
-	 private JButton Exchange_card_button;
-	 private JPanel Card_panel;
-	 private JList<String> Card_Jlist = new JList<>();
-	 private JScrollPane jScrollPane1;
-	    
-	/**
-	 * 
-	 */
-	public CardsView() {
-		// TODO Auto-generated constructor stub
-		
-		Card_panel = new JPanel();
-        jLabel3 = new JLabel();
-        Card_Jlist = new JList<>();
-        Exchange_card_button = new JButton();
-        jScrollPane1 = new JScrollPane();
-		jLabel3.setText("Card");
+    private DataHolder holder = DataHolder.getInstance();
+    private JButton btnExchange = new JButton();
+    private JPanel panelCard = new JPanel();
+    private JList<String> listCard = new JList<>();
+    private JLabel labelCardTitle = new JLabel();
+    private DefaultListModel<String> listModelCards = new DefaultListModel<>();
+    private JScrollPane jScrollPane1 = new JScrollPane();
 
-		Exchange_card_button.setText("Exchange");
-        Exchange_card_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Exchange_card_buttonActionPerformed(evt);
-            }
-        });
+    /**
+     * Initialize the card view
+     */
+    CardsView() {
+        labelCardTitle.setText("Card");
+        listCard.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        Card_Jlist.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(Card_Jlist);
+        btnExchange.setText("Exchange");
+        jScrollPane1.setViewportView(listCard);
 
-        javax.swing.GroupLayout Card_panelLayout = new javax.swing.GroupLayout(Card_panel);
-        Card_panel.setLayout(Card_panelLayout);
+        javax.swing.GroupLayout Card_panelLayout = new javax.swing.GroupLayout(panelCard);
+        panelCard.setLayout(Card_panelLayout);
         Card_panelLayout.setHorizontalGroup(
             Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Card_panelLayout.createSequentialGroup()
-                .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Card_panelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(Card_panelLayout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(Exchange_card_button)))
-                .addGap(0, 27, Short.MAX_VALUE))
-            .addGroup(Card_panelLayout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(Card_panelLayout.createSequentialGroup()
+                    .addGroup(Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(Card_panelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(Card_panelLayout.createSequentialGroup()
+                            .addGap(71, 71, 71)
+                            .addComponent(btnExchange)))
+                    .addGap(0, 27, Short.MAX_VALUE))
+                .addGroup(Card_panelLayout.createSequentialGroup()
+                    .addGap(94, 94, 94)
+                    .addComponent(labelCardTitle)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         Card_panelLayout.setVerticalGroup(
             Card_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Card_panelLayout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Exchange_card_button))
+                .addGroup(Card_panelLayout.createSequentialGroup()
+                    .addComponent(labelCardTitle)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnExchange))
         );
-	}
-        
-        /**
-	 * Shows a dialog to the player to exchange the cards to get additional armies
-	 * @param player current player whose turn is going on
-	 */
-	public void showCards(Player player){
-		this.removeAll();
-		/*Cards exchange Dialog Box.*/
-		String cards = "";
-		for (Game.Model.Cards card : player.getCards()){ 
-			cards += (card.getName()+",");
-		}
-		int cardExchange = JOptionPane.showConfirmDialog (null, cards,"Warning",JOptionPane.YES_OPTION);
-		if(cardExchange == JOptionPane.YES_OPTION){
-			exchangeCards(player);
-		}
-		
 
-                
-          
-                
-                
-          
-	/**
-	 * Return Cards Panel for main risk view.
-	 * 
-	 * @return Card_panel Panel for Cards View.
-	 */
-        
-	public JPanel getPanel() {
-		 return this.Card_panel;
-	}
-	
-	private void Exchange_card_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Exchange_card_buttonActionPerformed
-        // TODO add your handling code here:
+        setVisibilityOfTheView(false);
+        this.initializeListeners();
     }
 
-        
-        
-        
-        /**
-	 * Removes cards from the player and assign additional armies
-	 * @param player current player whose turn is going on
-	 */
-	public void exchangeCards(Player player){
-		if (player.haveDistinctCards()){
-			player.removeDistinctCards();
-		}
-		else if (player.haveThreeSameTypeCards()){
-			player.removeSimilarThreeCards();
-		}
-	}
+    /**
+     * Initialize the action listeners.
+     */
+    private void initializeListeners() {
+        btnExchange.addActionListener((ActionEvent e) -> {
+            this.exchangeCard();
+        });
+    }
 
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-		// Add the data from CardController to manupulate card exchange.
-		
-	}
+    /** exchange the card */
+    private void exchangeCard() {
+        int[] selected = listCard.getSelectedIndices();
+        Player player = holder.getActivePlayer();
+
+        if (selected.length != 3)
+            return;
+
+        String[] selectedCards = new String[3];
+
+        for (int i = 0; i < selected.length; i++) {
+            selectedCards[i] = player.getCards().get(i);
+        }
+
+        if ((selectedCards[0].equalsIgnoreCase(selectedCards[1]) && selectedCards[1].equalsIgnoreCase(selectedCards[2]))) {
+            player.removeSimilarThreeCards(selectedCards[0]);
+        } else if (!selectedCards[0].equalsIgnoreCase(selectedCards[1]) && !selectedCards[1].equalsIgnoreCase(selectedCards[2])
+            && !selectedCards[0].equalsIgnoreCase(selectedCards[2])) {
+            player.removeDistinctCards();
+        }
+
+        player.cardHasBeenUsed();
+        holder.updatePlayer(player);
+
+        holder.changePhases();
+    }
+
+    /**
+     * Shows/hides the entire view
+     * @param visibility true if it is to be shown
+     */
+    private void setVisibilityOfTheView(boolean visibility) {
+        jScrollPane1.setVisible(visibility);
+        labelCardTitle.setVisible(visibility);
+        listCard.setVisible(visibility);
+        btnExchange.setVisible(visibility);
+    }
+
+    /**
+     * Return Cards Panel for main risk view.
+     *
+     * @return panelCard Panel for Cards View.
+     */
+
+    public JPanel getPanel() {
+        return this.panelCard;
+    }
+
+    /**
+     * Initializes the list for the card phase.
+     */
+    private void setupCardPhase() {
+        Player player = holder.getActivePlayer();
+        listModelCards.removeAllElements();
+
+        List<String> cards = player.getCards();
+        if (cards.size() == 0) {
+            setVisibilityOfTheView(false);
+            holder.changePhases();
+            return;
+        }
+
+        setVisibilityOfTheView(true);
+
+        for (String card : cards) {
+            listModelCards.addElement(card);
+        }
+
+        listCard.setModel(listModelCards);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // Add the data from CardController to manipulate card exchange.
+        if ((arg instanceof String) && (((String) arg).equalsIgnoreCase(PhaseData.CHANGE_PHASE)) &&
+            (holder.getCurrentPhase() == PhaseData.CARD_EXCHANGE_PHASE))
+            setupCardPhase();
+    }
 
 }

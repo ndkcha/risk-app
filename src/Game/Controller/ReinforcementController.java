@@ -13,6 +13,7 @@ import Game.Model.Player;
  * @version 1.0.0
  */
 public class ReinforcementController {
+    public ReinforcementController() { }
     private DataHolder holder = DataHolder.getInstance();
 
     /**
