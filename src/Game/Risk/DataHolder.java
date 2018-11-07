@@ -87,11 +87,8 @@ public class DataHolder {
      * @param object the observer to attach
      */
     public void attachObserverToPhase(Observer object) {
-
         this.phaseData.deleteObserver(object);
         this.phaseData.addObserver(object);
-        System.out.println(object);
-        System.out.println(this.phaseData.countObservers() + " observers are added to PhaseData");
     }
 
     /**
