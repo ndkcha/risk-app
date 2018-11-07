@@ -9,21 +9,15 @@ import java.util.Random;
  * @author Jay
  * @version 1.2.0
  */
-public class RollDice extends Observable {
-	private int currentDiceRoll = 0;
+public class RollDice {
 
 	/**
 	 * Gives a random value of the dice. 
 	 * nextInt(max - min)
 	 */
-	public void roll() {
+	public int roll() {
 		Random dice = new Random();
-		this.currentDiceRoll = dice.nextInt(6) + 1;
-		this.notifyObservers("roll:new");
-	}
-
-	public int getCurrentDiceRoll() {
-		return currentDiceRoll;
+		return dice.nextInt(6) + 1;
 	}
 
 	public RollDice() { }
