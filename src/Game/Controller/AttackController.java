@@ -84,7 +84,6 @@ public class AttackController {
         
         //if all out mode
         if(mode==0) {
-            
             //till the attack is not successful
             while(attackResult=false) {
                 attackResult=attackBetweenTwoCoutries(attackingCountry,defendingCountry,numberOfDice,player);
@@ -211,8 +210,8 @@ public class AttackController {
                 //set armies in the drop down box to select from
                 //get the selected armies
                 int selectedNoOfArmies=0;
-                moveArmies(selectedNoOfArmies,player); 
-            }
+                moveArmies(selectedNoOfArmies,player);
+                
                 
             }
             else {
@@ -223,7 +222,7 @@ public class AttackController {
         
         //Is attack possible again
         List<String> attackPossibleCountries=isAnotherAttackPossible(countriesConquered);
-        //call the attack function againn
+        //call the attack function again
         
         //number of countries conquered in this phase
         player.setCountriesConqueredCurrentPhase(countOfCountriesConquered);
@@ -235,8 +234,9 @@ public class AttackController {
         }
         
     }
-
-/**
+    
+    
+    /**
      * to calculate number of dice allowed depending upon the armies existing in the country
      * @param CountryName name of the country
      * @return number of dice allowed 
@@ -268,8 +268,8 @@ public class AttackController {
         
         return noOfDiceAllowed;
     }
-
-/**
+    
+    /**
      * Get neighbours of specific country
      * @param countryName name of the country
      * @return list of neighbouring countries
@@ -286,7 +286,7 @@ public class AttackController {
         return neighbours;
     }
 
-    /**
+   /**
     * This function checks if attack is successful
     * @param attackingCountry the attacking country name
     * @param defendingCountry the country on which attack is done
@@ -367,8 +367,8 @@ public class AttackController {
         //return the attack success status
         return attackstatus;
     }
-
-//**
+    
+    /**
      * This method is used to delete the defending country from the defending player's conquered country list
      * @param defendingCountry the country on which attack is taking place
      */
@@ -422,7 +422,8 @@ public class AttackController {
             temp.setCountriesConquered(countriesConqueredTmp);
         }
     }
-/**
+
+    /**
      * Get minimum number of armies that need to be transfered to conquered country
      * @param noOfDiceUsed number of dice used in the attack
      * @return 
@@ -472,7 +473,8 @@ public class AttackController {
         
         return result;
     }
-/**
+
+    /**
      * check if another attack is possible
      * @param countriesConquered list of conquered countries
      * @return list of countries that can attack
