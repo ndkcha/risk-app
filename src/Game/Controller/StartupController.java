@@ -1,5 +1,6 @@
 package Game.Controller;
 
+import Game.Model.CardData;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.Player;
@@ -44,6 +45,7 @@ public class StartupController {
 			String existingSegment = "";
 			Scanner mapScanner = new Scanner(this.mapFile);
 			this.holder.mapData.cleanUpMapData();
+			List<CountryData> countries = new ArrayList<>();
 
 			while (mapScanner.hasNextLine()) {
 				String incoming = mapScanner.nextLine();
@@ -64,8 +66,73 @@ public class StartupController {
 				}
 				if (existingSegment.equalsIgnoreCase("[territories]")) {
 					CountryData data = this.addCountry(incoming);
-					this.holder.addCountry(data);
+					countries.add(data);
 				}
+			}
+
+			int totalCountries = countries.size();
+			int assignment[] = new int[3];
+			assignment[0] = totalCountries/3; // infantry
+			assignment[1] = totalCountries/3; // cavalry
+			assignment[2] = totalCountries/3; // artillery
+			Random random = new Random();
+
+			for (int i = 0; i < totalCountries; i++) {
+				int s = random.nextInt(3);
+				if (s == 3) s--;
+
+				CountryData data = countries.get(i);
+				switch (s) {
+					case 0:
+						if (assignment[0] == 0) {
+							if (assignment[1] != 0) {
+								data.setCard(CardData.CARD_TYPE_CAVALRY);
+								assignment[1]--;
+								if (assignment[1] < 0) assignment[1] = 0;
+							} else {
+								data.setCard(CardData.CARD_TYPE_ARTILLERY);
+								assignment[2]--;
+								if (assignment[2] < 0) assignment[2] = 0;
+							}
+						} else {
+							data.setCard(CardData.CARD_TYPE_INFANTRY);
+							assignment[0]--;
+						}
+						break;
+					case 1:
+						if (assignment[1] == 0) {
+							if (assignment[0] != 0) {
+								data.setCard(CardData.CARD_TYPE_CAVALRY);
+								assignment[0]--;
+								if (assignment[0] < 0) assignment[0] = 0;
+							} else {
+								data.setCard(CardData.CARD_TYPE_ARTILLERY);
+								assignment[2]--;
+								if (assignment[2] < 0) assignment[2] = 0;
+							}
+						} else {
+							data.setCard(CardData.CARD_TYPE_INFANTRY);
+							assignment[1]--;
+						}
+						break;
+					case 2:
+						if (assignment[2] == 0) {
+							if (assignment[1] != 0) {
+								data.setCard(CardData.CARD_TYPE_CAVALRY);
+								assignment[1]--;
+								if (assignment[1] < 0) assignment[1] = 0;
+							} else {
+								data.setCard(CardData.CARD_TYPE_ARTILLERY);
+								assignment[0]--;
+								if (assignment[0] < 0) assignment[0] = 0;
+							}
+						} else {
+							data.setCard(CardData.CARD_TYPE_INFANTRY);
+							assignment[2]--;
+						}
+						break;
+				}
+				holder.addCountry(data);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -22,6 +22,7 @@ public class PhaseView implements Observer {
 	private static final String CHANGE_PHASE = "change:phase";
 	private static final String REINFORCEMENT_ADD_ARMY_ACTION = "reinforcement:add";
 	private static final String FORTIFICATION_SEND_ARMY_ACTION = "fortification:send";
+	private static final String CARD_EXCHANGE_ACTION = "card:exchange";
 	private DataHolder holder = DataHolder.getInstance();
 	private int reinforcementArmyAllocated = 0;
 	private boolean isFortificationDone = false;
@@ -170,6 +171,9 @@ public class PhaseView implements Observer {
 				case FORTIFICATION_SEND_ARMY_ACTION:
 					sendArmyInFortificationPhase();
 					break;
+				case CARD_EXCHANGE_ACTION:
+					determineToSkipCardExchange();
+					break;
 			}
 		});
 
@@ -183,6 +187,19 @@ public class PhaseView implements Observer {
 					break;
 			}
 		});
+	}
+
+	private void determineToSkipCardExchange() {
+		Player player = holder.getActivePlayer();
+
+		if (player.getCards().size() == 5) {
+			JOptionPane.showMessageDialog(new JFrame(), "You can hold more than 5 cards", "Error",
+				JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		this.changePhaseAhead();
+		holder.changePhases();
 	}
 
 	/**
@@ -221,7 +238,13 @@ public class PhaseView implements Observer {
 			return;
 
 		if (comboCountry.getSelectedIndex() > 0) {
-			int totalNoOfArmies = calculateReinforcementArmies(holder.getActivePlayer());
+			Player player = holder.getActivePlayer();
+			int cardArmies = player.isCardUsed() ? (player.getCardsUsedCount()*5) : 0;
+			int totalNoOfArmies = calculateReinforcementArmies(player) + cardArmies;
+			player.resetCardUsedFlag();
+
+			holder.updatePlayer(player);
+
 			int noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
 
 			if (noOfArmies == 0)
@@ -389,6 +412,10 @@ public class PhaseView implements Observer {
 	private void setupPhaseValues() {
 		String message = holder.getActivePlayer().getName() + "'s turn: ";
 		switch (holder.getCurrentPhase()) {
+			case PhaseData.CARD_EXCHANGE_PHASE:
+				this.setupCardExchangePhase();
+				message = message.concat("Card Exchange View");
+				break;
 			case PhaseData.REINFORCEMENT_PHASE:
 				this.setupReinforcementPhase();
 				this.startReinforcement();
@@ -408,6 +435,15 @@ public class PhaseView implements Observer {
 				break;
 		}
 		holder.sendGameLog(message);
+	}
+
+	/** Initializes the card exchange phase */
+	private void setupCardExchangePhase() {
+		labelPhases.setText("Card Exchange Phase");
+		comboNeighbourCountry.setVisible(false);
+		comboCountry.setVisible(false);
+		comboNoOfArmies.setVisible(false);
+		btnPhases.setActionCommand(CARD_EXCHANGE_ACTION);
 	}
 
 	/**

@@ -224,9 +224,6 @@ public class AttackController {
         List<String> attackPossibleCountries=isAnotherAttackPossible(countriesConquered);
         //call the attack function again
         
-        //number of countries conquered in this phase
-        player.setCountriesConqueredCurrentPhase(countOfCountriesConquered);
-        
         //check if whole map is conquered
         if(countriesConquered.keySet().equals(holder.getCountryDataList())) {
             System.out.println("the map is conquered");

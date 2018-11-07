@@ -12,9 +12,10 @@ public class PhaseData extends Observable {
     public static final String CHANGE_TURN = "change:turn";
     public static final String CHANGE_PHASE = "change:phase";
 
-    public static final int REINFORCEMENT_PHASE = 0;
-    public static final int ATTACK_PHASE = 1;
-    public static final int FORTIFICATION_PHASE = 2;
+    public static final int CARD_EXCHANGE_PHASE = 0;
+    public static final int REINFORCEMENT_PHASE = 1;
+    public static final int ATTACK_PHASE = 2;
+    public static final int FORTIFICATION_PHASE = 3;
 
     private int currentPhase;
     private int playerTurn;
@@ -64,7 +65,7 @@ public class PhaseData extends Observable {
      * It automatically changes the player turn
      */
     public void changePhase() {
-        if (this.currentPhase == 2) {
+        if (this.currentPhase == 3) {
             this.nextPlayer();
             this.currentPhase = -1;
         }

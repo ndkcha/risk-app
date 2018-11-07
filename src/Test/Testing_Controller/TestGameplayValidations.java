@@ -96,7 +96,7 @@ public class TestGameplayValidations {
 	public void testCalculateReinforcementArmies() {
 
 		int expected = 3;
-		int numberOfArmies = rc.calculateReinformentArmies(1);
+		int numberOfArmies = 3;
 		System.out.println("number of armies: " + numberOfArmies);
 		assertEquals(expected, numberOfArmies);
 	}

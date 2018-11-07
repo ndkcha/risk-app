@@ -7,11 +7,13 @@ import java.util.ArrayList;
  * cards can then be assigned to players, and they receive additional army for
  * exchanging cards.
  * 
- * @author Jay
+ * @author Jay, ndkcha
  * @version 1.2.0
  */
-public class Cards {
-
+public class CardData {
+    public static final String CARD_TYPE_INFANTRY = "Infantry";
+    public static final String CARD_TYPE_CAVALRY = "Cavalry";
+    public static final String CARD_TYPE_ARTILLERY = "Artillery";
 	 
 	private String name;
 	
@@ -25,7 +27,7 @@ public class Cards {
 	 * @param name Stores the name of the card.
 	 * @param type Stores the type of the card.
 	 */
-	public Cards(String name, String type) {
+	public CardData(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}

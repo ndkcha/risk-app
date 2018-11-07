@@ -14,6 +14,11 @@ public class CountryData {
 	private String name, continent;
 	private double latitude, longitude; // x and y of the coordinate system  respectively
 	private ArrayList<String> neighbours;
+	/**
+	 * Type of the card associated with the country.
+	 * Check the dataHolder constants to know the different kind of card.
+	 */
+	private String cardType = null;
 
 	/**
 	 * 
@@ -112,5 +117,29 @@ public class CountryData {
 	public ArrayList<String> getNeighbours() {
 		return neighbours;
 	}
-	
+
+	/**
+	 * Set the card type
+	 * @param cardType card to set
+	 */
+	public void setCard(String cardType) {
+		this.cardType = cardType;
+	}
+
+	/**
+	 * Get the type of the card.
+	 * Refer to dataHolder constants to know the different types of card.
+	 * @return the integer that represents the type
+	 */
+	public String getCardType() {
+		return cardType;
+	}
+
+	/**
+	 * It resets the card type.
+	 * Doing so, notifies the future users of the method whether the card on this country is available or not.
+	 */
+	public void useCard() {
+		this.cardType = null;
+	}
 }
