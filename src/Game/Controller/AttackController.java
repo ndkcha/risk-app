@@ -268,3 +268,21 @@ public class AttackController {
         
         return noOfDiceAllowed;
     }
+
+/**
+     * Get neighbours of specific country
+     * @param countryName name of the country
+     * @return list of neighbouring countries
+     */
+    public List<String> getNeighbours(String countryName) {
+        List<CountryData> countryDataList = holder.getCountryDataList();
+        int index = 0;
+        for (int i = 0; i < countryDataList.size(); i++) {
+            if (countryDataList.get(i).getName().equals(countryName)) {
+                index = i; //index of the country in countryDataList whose neighbouring countries have to be searched
+            }
+        }
+        ArrayList<String> neighbours = countryDataList.get(index).getNeighbours();
+        return neighbours;
+    }
+
