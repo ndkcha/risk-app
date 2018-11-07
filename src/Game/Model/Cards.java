@@ -1,5 +1,7 @@
 package Game.Model;
 
+import java.util.ArrayList;
+
 /**
  * This class is used to create cards according to the Risk rules. The created
  * cards can then be assigned to players, and they receive additional army for
@@ -10,68 +12,49 @@ package Game.Model;
  */
 public class Cards {
 
-	private String name, type;
-
+	 
+	private String name;
+	
 	/**
-	 * The card's unique ID.
+	 * Stores the type of the card.
 	 */
-	private Integer cardId = null;
-
-	/**
-	 * The card's player ID. Every card has only one owner.
-	 */
-	private Integer playerId = null;
-
-	/**
-	 * The number of armies rewarded for exchanging cards.
-	 */
-	public Integer cardExchangeArmies = 15;
-
+	private String type;
+	
 	/**
 	 * Constructor to assign value to name and type of the card.
-	 * 
-	 * @param cardId The ID for this card
-	 * @param name The name of the card.
-	 * @param type The type of the card.
+	 * @param name Stores the name of the card.
+	 * @param type Stores the type of the card.
 	 */
-	public Cards(Integer cardId, String name, String type) {
-		this.cardId = cardId;
+	public Cards(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}
-
+	
 	/**
 	 * Function to get the name of the card.
-	 * 
 	 * @return name of the card.
 	 */
 	public String getName() {
 		return this.name;
 	}
-
+	
 	/**
 	 * Function to get the type of the card.
-	 * 
 	 * @return type of the card.
 	 */
 	public String getType() {
 		return this.type;
 	}
-
+	
 	/**
-	 * @return This method get the player id
+	 * Generate a pile of 44 cards
+	 * @return ArrayList containing 44 cards.
 	 */
-	public Integer getOwnerId() {
-		return this.playerId;
+	public static ArrayList<Cards> generateCardPile() {
+		ArrayList<Cards> cardPile = new ArrayList<Cards>();
+		for(int i=0;i<44;i++) {
+			cardPile.add(new Cards("Artillery","Normal"));
+		}
+		return cardPile;
 	}
-
-	/**
-	 * This method set owner id
-	 *
-	 * @param id The new card player ID
-	 */
-	public void setOwnerId(Integer id) {
-		this.playerId = id;
-	}
-
 }

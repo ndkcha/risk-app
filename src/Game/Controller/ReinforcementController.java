@@ -13,23 +13,17 @@ import Game.Model.Player;
  * @version 1.0.0
  */
 public class ReinforcementController {
-
     private DataHolder holder = DataHolder.getInstance();
-    private Player player;
-
-    private List<Player> p = this.holder.getPlayerList();
 
     /**
      * This function calculates the armies a player avails in each reinforcement
      * phase
      *
-     * @param playerTurn The identity of the player to which armies is assigned
-     * @return newarmies The number of armies available for reinforcement phase.
+     * @return new armies The number of armies available for reinforcement phase.
      */
-    public int calculateReinformentArmies(int playerTurn) {
+    public int calculateReinforcementArmies(Player player) {
 
         //retrieving the player number whose turn is goin on
-        player = p.get(playerTurn);
         System.out.println("Calculating armies for player " + player.getName());
         int newarmies;
 
@@ -85,13 +79,10 @@ public class ReinforcementController {
      * This function is for adding the calculated reinforcement armies to the
      * countries as part of the phase
      *
-     * @param playerTurn the player whose turn is going on
+     * @param player the player whose turn is going on
      * @param noOfArmies number of armies allowed to the player for reinforcement phase
      */
-    public void updateArmiesInCountries(int playerTurn, int noOfArmies) {
-
-        //retrieving the player whose turn is going on
-        player = p.get(playerTurn - 1);
+    public void updateArmiesInCountries(Player player, int noOfArmies) {
         
         //retrieving the continents conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
