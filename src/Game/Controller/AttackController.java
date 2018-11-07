@@ -422,7 +422,6 @@ public class AttackController {
             temp.setCountriesConquered(countriesConqueredTmp);
         }
     }
-
 /**
      * Get minimum number of armies that need to be transfered to conquered country
      * @param noOfDiceUsed number of dice used in the attack
@@ -473,3 +472,45 @@ public class AttackController {
         
         return result;
     }
+/**
+     * check if another attack is possible
+     * @param countriesConquered list of conquered countries
+     * @return list of countries that can attack
+     */
+    public List<String> isAnotherAttackPossible(HashMap<String, Integer> countriesConquered) {
+       
+        List<String> countriesPossible= new ArrayList<>();
+        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();
+        while (itForCountriesConquered.hasNext()) {
+            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+            String countryName=(String) pair.getKey();
+            int numberOfArmies=(int) pair.getValue();
+            if(numberOfArmies>=2) {
+                countriesPossible.add(countryName);
+            }
+        }
+        return countriesPossible;
+    }
+
+    /**
+     * The list of neighbours that are not conquered
+     * @param attackingCountry name of the attacking country
+     * @return 
+     */
+    public List<String> getNeigboursForAttack(String attackingCountry, Player player) {
+        //get the list of neighbouring countries of the attacking country
+        List<String> CountryNeighbours = new ArrayList<>();
+        CountryNeighbours = getNeighbours(attackingCountry);
+        //retrieving the countries conquered by the player
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        //list of neighbours attacking country can attack - neighbouring countries that are not already conquered
+        List<String> tempCountryNeighbours = new ArrayList<>();
+        for (int i = 0; i < CountryNeighbours.size(); i++) {
+            if (!countriesConquered.containsKey(CountryNeighbours.get(i))) {
+                tempCountryNeighbours.add(CountryNeighbours.get(i));
+            }
+        }
+        return tempCountryNeighbours;
+    }
+}
+
