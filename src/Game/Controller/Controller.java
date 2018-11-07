@@ -19,7 +19,7 @@ import Game.View.*;
  * MVC - Common Controller to control the interaction between models and views.
  * 
  * @author Jay
- * @version 1.0.0
+ * @version 1..0
  *
  */
 public class Controller {

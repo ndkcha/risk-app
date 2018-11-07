@@ -13,7 +13,8 @@ import javax.swing.*;
 /**
  * This class represent the Phase View for the Main game.
  * 
- * @author Jay
+ * @author Jay, ndkcha
+ * @version 1.2.0
  */
 public class PhaseView implements Observer {
 	private boolean isStartupPhaseActive = true;
@@ -314,7 +315,9 @@ public class PhaseView implements Observer {
 		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
 	}
 
-	/** Transfers armies from one country to another country as part of the fortification state. */
+	/** 
+	 * Transfers armies from one country to another country as part of the fortification state. 
+	 */
 	private void sendArmyInFortificationPhase() {
 		int selectedCountry = comboCountry.getSelectedIndex();
 		int selectedNoOfArmies = comboNoOfArmies.getSelectedIndex();
@@ -550,10 +553,6 @@ public class PhaseView implements Observer {
             List<CountryData> countriesContinent = holder.countCountriesInContinent(continentName);//get COuntries of Continent
             int countrySize = countriesContinent.size();//size of the no of countries in continent
 
-//            System.out.println("The countries in a continent " + continentName + " are ");
-//            for (CountryData cd : countriesContinent) {
-//                System.out.println(cd.getName());
-//            }
             listSizeOfCountriesConquered = 0;
             for (CountryData countryData : countriesContinent) {///countires in continent loop
                 Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
@@ -584,6 +583,5 @@ public class PhaseView implements Observer {
 
        return newarmies;
     }
-
     
 }

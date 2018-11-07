@@ -10,7 +10,7 @@ import java.util.*;
  * of continents the he has conquered.
  * 
  * @author ndkcha, Jay
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class Player extends Observable {
 	private int noOfArmiesToAssign = 0;

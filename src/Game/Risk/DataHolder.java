@@ -8,8 +8,8 @@ import java.util.*;
 /**
  * A singleton class to hold the entire data set throughout the application.
  * 
- * @author Jay
- * @version 1.0.0
+ * @author Jay, ndkcha
+ * @version 1.2.0
  */
 public class DataHolder {
     /** A communication bridge to get the GameLogs flowing thru the application */
@@ -169,6 +169,10 @@ public class DataHolder {
         return null;
     }
 
+    /**
+     * Return the list of players
+     * @return players List of players
+     */
     public List<Player> getPlayerList() {
         List<Player> players = new ArrayList<>();
 

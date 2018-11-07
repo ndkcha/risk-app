@@ -5,7 +5,7 @@ package Game.Model;
  * the name and the control value
  * 
  * @author ndkcha, jay
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class ContinentData {
 	

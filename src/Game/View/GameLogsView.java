@@ -11,8 +11,10 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
+ * This View save all the logs in gamelogs.
+ * 
  * @author Jay, ndkcha
- *
+ * @version 1.2.0
  */
 public class GameLogsView implements Observer {
 

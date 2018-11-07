@@ -5,7 +5,9 @@ import java.util.Random;
 
 /**
  * This class is used for roll dice observable.
+ * 
  * @author Jay
+ * @version 1.2.0
  */
 public class RollDice extends Observable {
 	private int currentDiceRoll = 0;
