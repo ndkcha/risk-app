@@ -3,59 +3,55 @@
  */
 package Game.View;
 
+import Game.Model.GameLogsData;
+
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.*;
 
 /**
- * @author Jay
+ * @author Jay, ndkcha
  *
  */
 public class GameLogsView implements Observer {
 
-	private JScrollPane jScrollPane4;
-	private JList<String> Gameplay_Jlist;
-	private JPanel Gameplay_panel;
-    private JLabel jLabel7;
-    private JLabel jLabel6;
+	private JScrollPane jScrollPane4 = new JScrollPane();
+	private JList<String> listGamePlay = new JList<>();
+	private JPanel panelGamePlay = new JPanel();
+    private JLabel jLabel7 = new JLabel();
+    private JLabel jLabel6 = new JLabel();
+    private DefaultListModel<String> listModelGamePlay = new DefaultListModel<>();
     
 	/**
-	 * 
+	 * Initialize the view
 	 */
 	public GameLogsView() {
-		// TODO Auto-generated constructor stub
-		
-		Gameplay_panel = new JPanel();
-		jLabel6 = new JLabel();
-        jLabel7 = new JLabel();
-        jScrollPane4 = new JScrollPane();
-        Gameplay_Jlist = new JList<>();
 		
 		jLabel7.setText("             Gameplay   :");
-        jScrollPane4.setViewportView(Gameplay_Jlist);
+        jScrollPane4.setViewportView(listGamePlay);
 
-        GroupLayout Gameplay_panelLayout = new GroupLayout(Gameplay_panel);
-        Gameplay_panel.setLayout(Gameplay_panelLayout);
-        Gameplay_panelLayout.setHorizontalGroup(
-            Gameplay_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(Gameplay_panelLayout.createSequentialGroup()
-                    .addGroup(Gameplay_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(Gameplay_panelLayout.createSequentialGroup()
+        GroupLayout layoutPanel = new GroupLayout(panelGamePlay);
+        panelGamePlay.setLayout(layoutPanel);
+        layoutPanel.setHorizontalGroup(
+            layoutPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layoutPanel.createSequentialGroup()
+                    .addGroup(layoutPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layoutPanel.createSequentialGroup()
                             .addGap(145, 145, 145)
                             .addComponent(jLabel6)
                             .addGap(38, 38, 38)
                             .addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE))
-                        .addGroup(Gameplay_panelLayout.createSequentialGroup()
+                        .addGroup(layoutPanel.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, 512, GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        Gameplay_panelLayout.setVerticalGroup(
-            Gameplay_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(Gameplay_panelLayout.createSequentialGroup()
-                    .addGroup(Gameplay_panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(Gameplay_panelLayout.createSequentialGroup()
+        layoutPanel.setVerticalGroup(
+            layoutPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layoutPanel.createSequentialGroup()
+                    .addGroup(layoutPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layoutPanel.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jLabel6))
                         .addComponent(jLabel7))
@@ -68,16 +64,30 @@ public class GameLogsView implements Observer {
 	/**
 	 * Return game logs Panel for main risk view.
 	 * 
-	 * @return Gameplay_panel Panel for gamelog View.
+	 * @return panelGamePlay Panel for gamelog View.
 	 */
 	public JPanel getPanel() {
-		 return this.Gameplay_panel;
+		 return this.panelGamePlay;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		if (arg instanceof String) {
+			switch ((String) arg) {
+				case GameLogsData.GAME_LOG:
+					GameLogsData logs = (GameLogsData) o;
+					this.printLog(logs.log);
+					break;
+			}
+		}
 	}
 
+	/**
+	 * Attaches the log in to the list
+	 * @param log the log to attach
+	 */
+	private void printLog(String log) {
+		listModelGamePlay.add(0, log);
+		listGamePlay.setModel(listModelGamePlay);
+	}
 }
