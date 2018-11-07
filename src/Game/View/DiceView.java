@@ -9,9 +9,10 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
- * Class for the Dice View on RIsk Main screen.
+ * Class for the Dice View on Risk Main screen with observable pattern.
  * 
  * @author Jay
+ * @version 1.2.0
  */
 public class DiceView implements Observer {
 

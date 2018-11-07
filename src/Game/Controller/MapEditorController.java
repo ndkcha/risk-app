@@ -21,7 +21,7 @@ import java.util.Scanner;
  * map.
  * 
  * @author ndkcha
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class MapEditorController {
 	/** the data holder for the entire data set inside map editor */

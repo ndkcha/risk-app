@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
  * and game play.
  * 
  * @author ndkcha, Jay
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class StartupController {
 	

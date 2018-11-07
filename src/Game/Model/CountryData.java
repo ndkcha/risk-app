@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * because the name is the primary index for the map file.
  * 
  * @author jay, ndkcha, gunvansh
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class CountryData {
 	private String name, continent;
