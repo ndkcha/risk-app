@@ -11,8 +11,10 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
+ * Class for World Domination View using observable.
+ * 
  * @author Jay
- *
+ * @version 1.2.0
  */
 public class WorldDominationView implements Observer {
 	private DataHolder holder = DataHolder.getInstance();
@@ -24,7 +26,7 @@ public class WorldDominationView implements Observer {
 	private DefaultListModel<String> listModelPlayers = new DefaultListModel<>();
     
 	/**
-	 * 
+	 * Constructor for wolddomination view.
 	 */
 	public WorldDominationView() {
 		listPlayer.setEnabled(false);

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * exchanging cards.
  * 
  * @author Jay, ndkcha
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class CardData {
     public static final String CARD_TYPE_INFANTRY = "Infantry";
@@ -48,15 +48,4 @@ public class CardData {
 		return this.type;
 	}
 	
-	/**
-	 * Generate a pile of 44 cards
-	 * @return ArrayList containing 44 cards.
-	 */
-	public static ArrayList<CardData> generateCardPile() {
-		ArrayList<CardData> cardPile = new ArrayList<CardData>();
-		for(int i=0;i<44;i++) {
-			cardPile.add(new CardData("Artillery","Normal"));
-		}
-		return cardPile;
-	}
 }

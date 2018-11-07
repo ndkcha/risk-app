@@ -10,7 +10,7 @@ import Game.Model.Player;
  * This controller class is for the reinforcement phase
  *
  * @author r-naik
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class ReinforcementController {
     public ReinforcementController() { }
@@ -71,7 +71,7 @@ public class ReinforcementController {
         }
 
         System.out.println("The number of armies available for reinforcement phase is " + newarmies);
-
+        //holder.setPlayersArmiesList(playerTurn, newarmies);
         
        return newarmies;
     }

@@ -1,6 +1,7 @@
 package Game.View;
 
-import Game.Controller.ReinforcementController;
+import Game.Model.ContinentData;
+import Game.Model.CountryData;
 import Game.Model.PhaseData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
@@ -12,7 +13,8 @@ import javax.swing.*;
 /**
  * This class represent the Phase View for the Main game.
  * 
- * @author Jay
+ * @author Jay, ndkcha
+ * @version 1.2.0
  */
 public class PhaseView implements Observer {
 	private boolean isStartupPhaseActive = true;
@@ -237,9 +239,8 @@ public class PhaseView implements Observer {
 
 		if (comboCountry.getSelectedIndex() > 0) {
 			Player player = holder.getActivePlayer();
-			ReinforcementController controller = new ReinforcementController();
 			int cardArmies = player.isCardUsed() ? (player.getCardsUsedCount()*5) : 0;
-			int totalNoOfArmies = controller.calculateReinforcementArmies(player) + cardArmies;
+			int totalNoOfArmies = calculateReinforcementArmies(player) + cardArmies;
 			player.resetCardUsedFlag();
 
 			holder.updatePlayer(player);
@@ -337,7 +338,9 @@ public class PhaseView implements Observer {
 		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
 	}
 
-	/** Transfers armies from one country to another country as part of the fortification state. */
+	/** 
+	 * Transfers armies from one country to another country as part of the fortification state. 
+	 */
 	private void sendArmyInFortificationPhase() {
 		int selectedCountry = comboCountry.getSelectedIndex();
 		int selectedNoOfArmies = comboNoOfArmies.getSelectedIndex();
@@ -467,10 +470,9 @@ public class PhaseView implements Observer {
 			return;
 		}
 
-		ReinforcementController controller = new ReinforcementController();
 		changeControlButtonVisibility(false);
 
-		int totalNoOfArmies = controller.calculateReinforcementArmies(player);
+		int totalNoOfArmies = calculateReinforcementArmies(player);
 		int noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
 
 		if (totalNoOfArmies != 0) {
@@ -562,4 +564,60 @@ public class PhaseView implements Observer {
 		comboNeighbourCountry.setVisible(visibility);
 		comboNoOfArmies.setVisible(visibility);
 	}
+	
+    /**
+     * This function calculates the armies a player avails in each reinforcement
+     * phase
+     *
+     * @return new armies The number of armies available for reinforcement phase.
+     */
+    public int calculateReinforcementArmies(Player player) {
+
+        //retrieving the player number whose turn is goin on
+        System.out.println("Calculating armies for player " + player.getName());
+        int newarmies;
+
+        //retrieving the continents conquered by the player
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        System.out.println("The countries conquered by " + player.getName() + " is " + countriesConquered.keySet());
+
+        //get armies due to conquering whole continent
+        int listSizeOfCountriesConquered;
+        int continentAddedArmies = 0;
+        for (ContinentData continentData : holder.getContinentDataList()) {//get data for every continent
+            String continentName = continentData.getName();
+            List<CountryData> countriesContinent = holder.countCountriesInContinent(continentName);//get COuntries of Continent
+            int countrySize = countriesContinent.size();//size of the no of countries in continent
+
+            listSizeOfCountriesConquered = 0;
+            for (CountryData countryData : countriesContinent) {///countires in continent loop
+                Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    String countryName = (String) pair.getKey();
+                    if (countryData.getName().equalsIgnoreCase(countryName)) {
+                        listSizeOfCountriesConquered++;
+                    }
+                }
+            }
+            if (listSizeOfCountriesConquered == countrySize) {
+                continentAddedArmies += continentData.getControlValue();
+            }
+        }
+
+        System.out.println("The number of armies added due to conquering whole continent is: " + continentAddedArmies);
+
+        // number of countries owned divided by 3 and rounded down if the player owns more than 9 territores otherwise 3 territories
+        if (countriesConquered.size() < 9) {
+            newarmies = 3 + continentAddedArmies;
+        } else {
+            int armies = Math.floorDiv((countriesConquered.size()), 3);
+            newarmies = armies + continentAddedArmies;
+        }
+
+        System.out.println("The number of armies available for reinforcement phase is " + newarmies);
+
+       return newarmies;
+    }
+    
 }

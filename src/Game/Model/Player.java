@@ -6,9 +6,9 @@ import java.util.*;
  * This holds the player data and the runtime data collected for player It holds
  * the countries he conquered and it can be updated anytime. It also holds list
  * of continents the he has conquered.
- *
- * @author ndkcha, Jay
- * @version 1.0.0
+ * 
+ * @author ndkcha, Jay, r-naik
+ * @version 1.2.0
  */
 public class Player extends Observable {
     private int noOfArmiesToAssign = 0;

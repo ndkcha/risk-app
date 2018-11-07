@@ -12,7 +12,10 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
+ * This class is for card view with observable pattern.
+ * 
  * @author Jay, ndkcha
+ * @version 1.2.0
  */
 public class CardsView implements Observer {
 

@@ -25,7 +25,7 @@ import java.util.Set;
  * This controller class performs tasks of fortification phase
  *
  * @author r-naik, ndkcha
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class FortificationController {
 

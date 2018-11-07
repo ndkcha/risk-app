@@ -13,7 +13,7 @@ import java.util.Map;
  * A singleton class to hold the data throughout the map editor phase.
  * 
  * @author ndkcha
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class MapEditorDataHolder {
 

@@ -8,8 +8,8 @@ import java.util.*;
 /**
  * A singleton class to hold the entire data set throughout the application.
  * 
- * @author Jay
- * @version 1.0.0
+ * @author Jay, ndkcha
+ * @version 1.2.0
  */
 public class DataHolder {
     public static final String CARD_TYPE_WILD = "Wild";
@@ -26,6 +26,10 @@ public class DataHolder {
     private List<CountryData> countryDataList = new ArrayList<>();
     /** List of player in the game */
     private HashMap<String, Player> playerList = new HashMap<>();
+    /** List of number of armies a player has */
+    private HashMap<Integer,Integer> playersArmiesList=new HashMap<>();
+    /** list of players conquered in the game **/
+    private List<Player> conqueredPlayerList = new  ArrayList<>();
     /** Meta data of the map */
     public MapData mapData = new MapData();
     /** Image file of the map */
@@ -115,6 +119,14 @@ public class DataHolder {
         return dataHolder;
     }
 
+    public List<Player> getConqueredPlayerList() {
+        return conqueredPlayerList;
+    }
+
+    public void setConqueredPlayerList(List<Player> conqueredPlayerList) {
+        this.conqueredPlayerList = conqueredPlayerList;
+    }
+
     /** Deletes all the players from the game play */
     public void clearPlayers() {
         this.playerList.clear();
@@ -167,6 +179,10 @@ public class DataHolder {
         return null;
     }
 
+    /**
+     * Return the list of players
+     * @return players List of players
+     */
     public List<Player> getPlayerList() {
         List<Player> players = new ArrayList<>();
 
@@ -175,6 +191,19 @@ public class DataHolder {
         }
 
         return players;
+    }
+
+    public HashMap<Integer, Integer> getPlayersArmiesList() {
+        return playersArmiesList;
+    }
+
+    public void setPlayersArmiesList(int playerId, int noOfArmies) {
+        if(playersArmiesList.keySet().contains(playerId)) {
+            playersArmiesList.replace(playerId, noOfArmies);
+        }
+        else {
+            playersArmiesList.put(playerId, noOfArmies);
+        }
     }
 
     /**

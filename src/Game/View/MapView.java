@@ -13,6 +13,7 @@ import Game.Risk.DataHolder;
  * Map View observer implementation.
  * 
  * @author Jay
+ * @version 1.2.0
  */
 public class MapView implements Observer {
 

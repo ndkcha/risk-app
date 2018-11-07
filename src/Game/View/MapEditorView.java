@@ -20,7 +20,7 @@ import java.util.Map;
  * The view that displays map editor
  * 
  * @author Jay, ndkcha
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class MapEditorView extends JFrame {
 	private MapEditorDataHolder holder = MapEditorDataHolder.getInstance();
