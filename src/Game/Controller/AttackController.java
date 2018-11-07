@@ -34,6 +34,11 @@ public class AttackController {
     private RollDice rollDice=new RollDice();
     private List<Player> p = this.holder.getPlayerList();
 
+    //the attacker country and defending country
+    int indexOfAttackingCountry;
+    int indexOfDefendingCountry;
+    String attackingCountry;
+    String defendingCountry; //
 
     /**
      * called when to declare an attack
@@ -231,3 +236,35 @@ public class AttackController {
         
     }
 
+/**
+     * to calculate number of dice allowed depending upon the armies existing in the country
+     * @param CountryName name of the country
+     * @return number of dice allowed 
+     */
+    public int calculateNoOfDiceAllowed(String CountryName, Player player) {
+        
+        int noOfDiceAllowed = 0;
+        int numberOfArmies=0;
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+        while (itForCountriesConquered.hasNext()) {
+            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+            if(pair.getKey().equals(CountryName)) {
+                numberOfArmies=(int) pair.getValue();
+            }
+        }
+        if(numberOfArmies>3) {
+            noOfDiceAllowed=3;
+        }
+        else if ( numberOfArmies==3) {
+            noOfDiceAllowed=2;
+        }
+        else if (numberOfArmies==2) {
+            noOfDiceAllowed=1;
+        }
+        else {
+            noOfDiceAllowed=0;
+        }
+        
+        return noOfDiceAllowed;
+    }
