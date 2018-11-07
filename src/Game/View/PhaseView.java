@@ -220,7 +220,6 @@ public class PhaseView implements Observer {
 			return;
 
 		if (comboCountry.getSelectedIndex() > 0) {
-			//ReinforcementController controller = new ReinforcementController();
 			int totalNoOfArmies = calculateReinforcementArmies(holder.getActivePlayer());
 			int noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
 
@@ -432,7 +431,6 @@ public class PhaseView implements Observer {
 			return;
 		}
 
-		//ReinforcementController controller = new ReinforcementController();
 		changeControlButtonVisibility(false);
 
 		int totalNoOfArmies = calculateReinforcementArmies(player);
