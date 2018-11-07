@@ -422,3 +422,54 @@ public class AttackController {
             temp.setCountriesConquered(countriesConqueredTmp);
         }
     }
+
+/**
+     * Get minimum number of armies that need to be transfered to conquered country
+     * @param noOfDiceUsed number of dice used in the attack
+     * @return 
+     */
+    public int getMinArmies(int noOfDiceUsed) {
+        int minArmies=noOfDiceUsed;
+        return minArmies;
+    }
+
+    /**
+     * Move armies from one country to another
+     * @param selectedNoOfArmies number of armies to be moved
+     */
+    public void moveArmies(int selectedNoOfArmies, Player player) {
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        Iterator itForCountriesConquered=countriesConquered.entrySet().iterator();
+                while(itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    if (pair.getKey().equals(defendingCountry)) {
+                        int numberOfArmies=(int) pair.getValue();
+                        //armies added to the conquered Country
+                        pair.setValue(numberOfArmies+selectedNoOfArmies);
+                    }
+                    //armeis deducted from the attacking country
+                    if(pair.getKey().equals(attackingCountry)) {
+                        int numberOfArmies=(int) pair.getKey();
+                        pair.setValue(numberOfArmies-selectedNoOfArmies);
+                    }
+                }
+    }
+    
+    /**
+     * check if any player conquered in this phase?
+     * @return true if conquered and false if not
+     */
+    public boolean checkForConqueredPlayer(Player player) {
+        
+        boolean result=false;
+       
+            //get a particular player's conquered country list
+            HashMap<String, Integer> countriesConqueredTmp = player.getCountriesConquered();
+            if(countriesConqueredTmp.size()==0) {
+                //player is conquered
+                result=true;
+                
+            }
+        
+        return result;
+    }
