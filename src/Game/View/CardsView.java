@@ -9,6 +9,7 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
+ * This class is for card view with observable pattern.
  * @author Jay
  *
  */

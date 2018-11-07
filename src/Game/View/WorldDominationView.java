@@ -11,6 +11,7 @@ import java.util.Observer;
 import javax.swing.*;
 
 /**
+ * Class for World Domination View using observable.
  * @author Jay
  *
  */

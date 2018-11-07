@@ -2,6 +2,11 @@ package Game.Model;
 
 import java.util.Observable;
 
+/**
+ * This class will control the phases of gameplay.
+ * 
+ * @author ndkcha
+ */
 public class PhaseData extends Observable {
     public static final String CHANGE_TURN = "change:turn";
     public static final String CHANGE_PHASE = "change:phase";
