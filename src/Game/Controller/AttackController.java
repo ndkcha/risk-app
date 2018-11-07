@@ -166,7 +166,53 @@ public class AttackController {
             
         }
         else { //if the attack is normal mode
-            
+            attackResult=attackBetweenTwoCoutries(attackingCountry,defendingCountry,chosenNoOfDice,player);
+            //if attack is successful
+            if(attackResult=true) {
+                System.out.println("the attack between "+attackingCountry+" and "+defendingCountry+" was successful.");
+                //increment the number of countries Conquered
+                countOfCountriesConquered++;
+                //getting the armies in defending country
+                List<Player> allPlayersList;
+                allPlayersList = holder.getPlayerList();
+                for (int i = 0; i < allPlayersList.size(); i++) {
+                    Player tmp = allPlayersList.get(i);
+                    HashMap<String, Integer> countriesConqueredTmp = tmp.getCountriesConquered();
+                    Iterator itForCountriesConquered = countriesConqueredTmp.entrySet().iterator();//iterator for countries conqureeed by player
+                    while (itForCountriesConquered.hasNext()) {
+                        Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                        if (pair.getKey().equals(defendingCountry)) {
+                            numberOfArmiesDefenderC = (int) pair.getValue();
+                        }
+                    }
+                }
+                //deleting defending country from the defender's conquered country list
+                deleteDefendingCountry(defendingCountry);
+                //increment the number of Countries Conquered
+                countOfCountriesConquered++;
+                //check if any player conqured
+                Player tmp = null;
+                for (int i = 0; i < allPlayersList.size(); i++) {
+                    tmp = allPlayersList.get(i);
+                    boolean result=checkForConqueredPlayer(tmp);
+                    if(result=true) {
+                        List<Player> conqueredPlayerList=holder.getConqueredPlayerList();
+                        conqueredPlayerList.add(tmp);
+                        holder.setConqueredPlayerList(conqueredPlayerList);
+                    }
+                }
+                //putting defending country into the attacker's conquered country list
+                addCountryintoConqueredList(defendingCountry,numberOfArmiesDefenderC,player);
+                
+                //move armies from attacking country to newly conquered country
+                //minimum number of armies to move and maximum nmber of armies to move
+                int minArmies=getMinArmies(noOfDiceUsed);
+                int maxArmies=numberOfArmiesAttackerC-1;
+                //set armies in the drop down box to select from
+                //get the selected armies
+                int selectedNoOfArmies=0;
+                moveArmies(selectedNoOfArmies,player); 
+            }
                 
             }
             else {
