@@ -34,11 +34,6 @@ public class AttackController {
     private RollDice rollDice=new RollDice();
     private List<Player> p = this.holder.getPlayerList();
 
-    //the attacker country and defending country
-    int indexOfAttackingCountry;
-    int indexOfDefendingCountry;
-    String attackingCountry;
-    String defendingCountry; //
 
     /**
      * called when to declare an attack
@@ -223,7 +218,7 @@ public class AttackController {
         
         //Is attack possible again
         List<String> attackPossibleCountries=isAnotherAttackPossible(countriesConquered);
-        //call the attack function again
+        //call the attack function againn
         
         //number of countries conquered in this phase
         player.setCountriesConqueredCurrentPhase(countOfCountriesConquered);
