@@ -400,7 +400,6 @@ public class Player extends Observable {
 		this.removeCard(this.getCard("Cavalry"));
 		this.removeCard(this.getCard("Infantry"));
 		this.removeCard(this.getCard("Artillery"));
-		this.assignArmies(5*this.cardsUsedCount++);
 	}
 	
 	/**
@@ -436,7 +435,6 @@ public class Player extends Observable {
 			this.removeCard(this.getCard("Infantry"));
 			this.removeCard(this.getCard("Infantry"));
 		}
-		this.assignArmies(5*this.cardsUsedCount++);
 		
 	}
 
