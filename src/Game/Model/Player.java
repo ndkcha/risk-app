@@ -8,8 +8,8 @@ import java.util.*;
  * This holds the player data and the runtime data collected for player It holds
  * the countries he conquered and it can be updated anytime. It also holds list
  * of continents the he has conquered.
- * 
- * @author ndkcha, Jay
+ *
+ * @author ndkcha, Jay, r-naik
  * @version 1.0.0
  */
 public class Player extends Observable {
@@ -86,6 +86,7 @@ public class Player extends Observable {
 
     /**
      * Get the number of armies the player has in the country
+     *
      * @param name name of then country
      * @return an integer that states the number of armies.
      */
@@ -95,6 +96,7 @@ public class Player extends Observable {
 
     /**
      * This method will return the name of the player.
+     *
      * @return name THe name of the player
      */
     public String getName() {
@@ -113,9 +115,9 @@ public class Player extends Observable {
 		this.cards.remove(card);
 	}
     /**
-     * This method will return the type of the player.
-     * 0 = HUMAN and 1 = Computer
-     * 
+     * This method will return the type of the player. 0 = HUMAN and 1 =
+     * Computer
+     *
      * @return type THe name of the player
      */
     public int getType() {
@@ -398,7 +400,6 @@ public class Player extends Observable {
 		this.removeCard(this.getCard("Cavalry"));
 		this.removeCard(this.getCard("Infantry"));
 		this.removeCard(this.getCard("Artillery"));
-		this.assignArmies(5*this.cardsUsedCount++);
 	}
 	
 	/**
@@ -434,7 +435,6 @@ public class Player extends Observable {
 			this.removeCard(this.getCard("Infantry"));
 			this.removeCard(this.getCard("Infantry"));
 		}
-		this.assignArmies(5*this.cardsUsedCount++);
 		
 	}
 
