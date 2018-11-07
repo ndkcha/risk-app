@@ -12,14 +12,10 @@ import java.util.*;
  * @version 1.0.0
  */
 public class DataHolder {
-    public static final int REINFORCEMENT_PHASE = 0;
-    public static final int ATTACK_PHASE = 1;
-    public static final int FORTIFICATION_PHASE = 2;
-
+    /** A communication bridge to get the GameLogs flowing thru the application */
+    GameLogsData gameLogs = new GameLogsData();
     /** a holder that manipulates the phases */
     private PhaseData phaseData = new PhaseData();
-    public int currentPhase = -1;
-    public int playerTurn = 0;
     /** instance of the singleton class */
     private static DataHolder dataHolder;
 
@@ -45,12 +41,59 @@ public class DataHolder {
     }
 
     /**
+     * Attaches the observer to feed data into the logs view
+     * @param obj the object to attach
+     */
+    public void attachObserverToLogsView(Observer obj) {
+        this.gameLogs.addObserver(obj);
+    }
+
+    /**
+     * It sends the game logs to the appropriate view.
+     * @param log the log to display
+     */
+    public void sendGameLog(String log) {
+        this.gameLogs.sendLogs(log);
+    }
+
+    /**
+     * Checks if armies are assigned for everyone
+     * @return true if all the armies are allocated to a country
+     */
+    public boolean isArmiesAssignedForAll() {
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            Player player = playerEntry.getValue();
+
+            if (player.getNoOfArmiesToAssign() != 0)
+                return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Based on number of players, this method determines the number of armies
+     * allowed for the initial game play
+     */
+    public void determineOfInitialArmy() {
+        int noOfArmiesToAssign = 40 - ((this.playerList.size() - 2) * 5);
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            Player player = playerEntry.getValue();
+            player.setMaxInitialArmies(noOfArmiesToAssign);
+            this.playerList.put(playerEntry.getKey(), player);
+        }
+    }
+
+    /**
      * Attaches the observer to the phase data to detect changes in phases
      * @param object the observer to attach
      */
     public void attachObserverToPhase(Observer object) {
+
         this.phaseData.deleteObserver(object);
         this.phaseData.addObserver(object);
+        System.out.println(object);
+        System.out.println(this.phaseData.countObservers() + " observers are added to PhaseData");
     }
 
     /**

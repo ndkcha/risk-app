@@ -3,6 +3,7 @@
  */
 package Game.View;
 
+import Game.Model.Player;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
@@ -75,12 +76,35 @@ public class CardsView implements Observer {
                 .addComponent(Exchange_card_button))
         );
 	}
+        
+        /**
+	 * Shows a dialog to the player to exchange the cards to get additional armies
+	 * @param player current player whose turn is going on
+	 */
+	public void showCards(Player player){
+		this.removeAll();
+		/*Cards exchange Dialog Box.*/
+		String cards = "";
+		for (Game.Model.Cards card : player.getCards()){ 
+			cards += (card.getName()+",");
+		}
+		int cardExchange = JOptionPane.showConfirmDialog (null, cards,"Warning",JOptionPane.YES_OPTION);
+		if(cardExchange == JOptionPane.YES_OPTION){
+			exchangeCards(player);
+		}
+		
 
+                
+          
+                
+                
+          
 	/**
 	 * Return Cards Panel for main risk view.
 	 * 
 	 * @return Card_panel Panel for Cards View.
 	 */
+        
 	public JPanel getPanel() {
 		 return this.Card_panel;
 	}
@@ -104,6 +128,22 @@ public class CardsView implements Observer {
 	            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 	            null, options, null);
     }
+
+        
+        
+        
+        /**
+	 * Removes cards from the player and assign additional armies
+	 * @param player current player whose turn is going on
+	 */
+	public void exchangeCards(Player player){
+		if (player.haveDistinctCards()){
+			player.removeDistinctCards();
+		}
+		else if (player.haveThreeSameTypeCards()){
+			player.removeSimilarThreeCards();
+		}
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {

@@ -107,8 +107,8 @@ public class StartupController {
 		}
 
 		for (Player player : this.holder.getPlayerList()) {
-			System.out.println(player.getName() + " : "
-					+ player.getCountriesConquered().size());
+			System.out.println(player.getName() + " has "
+					+ player.getCountriesConquered().size() + " countries");
 		}
 
 		this.holder.updatePlayerList(Arrays.asList(players));
