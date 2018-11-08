@@ -263,7 +263,17 @@ public class PhaseView implements Observer {
 
         }
         player.resetAttackerAndDefender();
+
         holder.updatePlayer(player);
+
+        player = holder.getActivePlayer();
+        player.notifyChangeInPlayer();
+
+        if (holder.hasPlayerWon(player)) {
+			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
+				"Error", JOptionPane.ERROR_MESSAGE);
+        	return;
+		}
 
 		holder.changePhases();
 	}
@@ -310,6 +320,14 @@ public class PhaseView implements Observer {
         player = holder.getActivePlayer();
         player.resetAttackerAndDefender();
         holder.updatePlayer(player);
+
+        player = holder.getActivePlayer();
+		player.notifyChangeInPlayer();
+		if (holder.hasPlayerWon(player)) {
+			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
+				"Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
         comboModelNeighbourCountries.removeAllElements();
         comboNeighbourCountry.setModel(comboModelNeighbourCountries);
@@ -663,9 +681,15 @@ public class PhaseView implements Observer {
 		comboModelCountries.removeAllElements();
 		Player player = holder.getActivePlayer();
 
+		AttackController controller = new AttackController();
+
 		comboModelCountries.addElement("No country");
 
 		for (Map.Entry<String, Integer> countryName : player.getCountriesConquered().entrySet()) {
+			if ((holder.getCurrentPhase() == PhaseData.ATTACK_PHASE) &&
+				(controller.getNeighboursForAttack(countryName.getKey()).size() == 0)) {
+				continue;
+			}
 			comboModelCountries.addElement(countryName.getValue() + " - " + countryName.getKey());
 		}
 
