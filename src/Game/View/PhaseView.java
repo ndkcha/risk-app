@@ -366,7 +366,7 @@ public class PhaseView implements Observer {
 		JPanel panel = new JPanel();
 
 		panel.add(new JLabel("No of dices (for attack): "));
-		int noOfAttackerArmies = (noOfAttacker > 3) ? 3 : --noOfAttacker;
+		int noOfAttackerArmies = (noOfAttacker > 3) ? 3 : noOfAttacker;
 		int noOfDefenderArmies = (noOfDefender > 2) ? 2 : noOfDefender;
 
 		JComboBox<String> comboAttacker = new JComboBox<>();
