@@ -318,6 +318,11 @@ public class DataHolder {
         this.playerList.put(player.getName(), player);
     }
 
+    /**
+     * Gets number of continents of the player
+     * @param player player object
+     * @return number of continents conquered
+     */
     public int getNoOfContinents(Player player) {
         int noOfContinents = 0;
         for (ContinentData continentData : this.continentDataList) {
@@ -337,5 +342,19 @@ public class DataHolder {
         }
 
         return noOfContinents;
+    }
+
+    /**
+     * Checks if the player has won or not
+     * @param player player object
+     * @return true if won
+     */
+    public boolean hasPlayerWon(Player player) {
+        int totalCountries = this.countryDataList.size();
+        int playerCountries = player.getCountriesConquered().size();
+
+        double limit = ((double) totalCountries) * (3.0/4.0);
+
+        return (playerCountries >= limit);
     }
 }

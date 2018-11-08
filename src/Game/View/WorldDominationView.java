@@ -98,7 +98,7 @@ public class WorldDominationView implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof String) {
-			if (((String) arg1).startsWith("change")) {
+			if (((String) arg1).startsWith("change") || ((String) arg1).startsWith("player")) {
 				setActivePlayerLabel();
 				reloadTheList();
 			}
