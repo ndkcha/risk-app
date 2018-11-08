@@ -329,8 +329,6 @@ public class GameSettingsView {
 	 * This method will initialize the map loader.
 	 */
 	private void initializeLoadMap() {
-		System.out.println("Button: Load map");
-
 		btnLoadMap.addActionListener((ActionEvent e) -> {
 			File mapFile = map_selector("map");
 
