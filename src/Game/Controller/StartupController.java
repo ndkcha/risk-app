@@ -102,7 +102,7 @@ public class StartupController {
 					case 1:
 						if (assignment[1] == 0) {
 							if (assignment[0] != 0) {
-								data.setCard(CardData.CARD_TYPE_CAVALRY);
+								data.setCard(CardData.CARD_TYPE_INFANTRY);
 								assignment[0]--;
 								if (assignment[0] < 0) assignment[0] = 0;
 							} else {
@@ -111,7 +111,7 @@ public class StartupController {
 								if (assignment[2] < 0) assignment[2] = 0;
 							}
 						} else {
-							data.setCard(CardData.CARD_TYPE_INFANTRY);
+							data.setCard(CardData.CARD_TYPE_CAVALRY);
 							assignment[1]--;
 						}
 						break;
@@ -122,12 +122,12 @@ public class StartupController {
 								assignment[1]--;
 								if (assignment[1] < 0) assignment[1] = 0;
 							} else {
-								data.setCard(CardData.CARD_TYPE_ARTILLERY);
+								data.setCard(CardData.CARD_TYPE_INFANTRY);
 								assignment[0]--;
 								if (assignment[0] < 0) assignment[0] = 0;
 							}
 						} else {
-							data.setCard(CardData.CARD_TYPE_INFANTRY);
+							data.setCard(CardData.CARD_TYPE_ARTILLERY);
 							assignment[2]--;
 						}
 						break;
