@@ -228,6 +228,9 @@ public class PhaseView implements Observer {
 		holder.updatePlayer(player);
 
 		this.selectAttackArmies(noOfAttackerArmies, noOfDefenderArmies);
+                
+                player = holder.getActivePlayer();
+                player.attackPhase();
 	}
 
 	private void selectAttackArmies(int noOfAttacker, int noOfDefender) {
@@ -280,7 +283,7 @@ public class PhaseView implements Observer {
 		panel.add(comboDefender);
 		panel.add(checkAllOutMode);
 
-		int result = JOptionPane.showOptionDialog(null, panel, "Exchange Cards",
+		int result = JOptionPane.showOptionDialog(null, panel, "Select Dices",
 			JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 			null, null, null);
 

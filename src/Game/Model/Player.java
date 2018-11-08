@@ -290,9 +290,10 @@ public class Player extends Observable {
      * Refactoring 2: All phases in player model.
      * Attack Phase
      */
-    public void attackPhase(String attackerCountry, String defendingCountry, int mode, int numberOfDice) {
-		AttackController controller = new AttackController();
-		controller.attack(attackerCountry, defendingCountry, mode, numberOfDice);
+    public void attackPhase() {
+        AttackController controller = new AttackController();
+        String result=controller.attack(this.attacker, this.defender, 0, -1);
+        System.out.println(result);
     }
 
     /**
@@ -452,6 +453,13 @@ public class Player extends Observable {
         return (this.haveThreeCavalryCards() || this.haveThreeArtilleryCards() || this.haveThreeInfantryCards());
     }
 
+    /**
+     * Is it possible to add more cards for this player?
+     * @return true if you can add more cards
+     */
+    public boolean canAddMoreCards() {
+        return (this.cards.size() < 5);
+    }
 
     /**
      * @return list of cards player has.

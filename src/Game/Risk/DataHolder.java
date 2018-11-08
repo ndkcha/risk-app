@@ -131,6 +131,39 @@ public class DataHolder {
     public void clearPlayers() {
         this.playerList.clear();
     }
+    
+    /**
+     * Get card from the country in the map
+     * @param countryName name of the country
+     * @return type of the card
+     */
+    public String getCardFromCountry(String countryName) {
+        for (CountryData country : this.countryDataList) {
+            if (country.getName().equalsIgnoreCase(countryName))
+                return country.getCardType();
+        }
+        return null;
+    }
+    
+    public void useCardOfCountry(String countryName) {
+        int index = -1;
+        
+        for (int i = 0; i < this.countryDataList.size(); i++) {
+            if (this.countryDataList.get(i).getName().equalsIgnoreCase(countryName)) {
+                index = i;
+                break;
+            }
+        }
+        
+        if (index == -1)
+            return;
+        
+        CountryData country = this.countryDataList.get(index);
+        country.useCard();
+        
+        this.countryDataList.remove(index);
+        this.countryDataList.add(country);
+    }
 
     /**
      * Add a player into the game play
