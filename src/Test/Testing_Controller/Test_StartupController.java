@@ -9,23 +9,24 @@ import org.junit.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
-
-
-
+/**
+ * Test Number of countries assign to players.
+ * 
+ * @author Ku_ghai
+ */
 public class Test_StartupController {
-	
-	StartupController sc=new StartupController();
-	
+
+	StartupController sc = new StartupController();
+
 	private DataHolder holder = DataHolder.getInstance();
 	List<Integer> countryIndexes = new ArrayList<>();
 	int playersTurn = 0;
 	Player testplayer1;
 	Player testplayer2;
-		
+
 	@Before
 	public void testbefore() {
-		
-		
+
 		ContinentData continentData = new ContinentData("Cockpit", 5);
 		CountryData country1 = new CountryData("Cockpit01", 658.0, 355.0,
 				"Cockpit");
@@ -43,14 +44,13 @@ public class Test_StartupController {
 		holder.addCountry(country4);
 		holder.countCountriesInContinent("Cockpit");
 
-	    testplayer1 = new Player("abc", 1, "blue");
-	    testplayer2 = new Player("xyz", 0, "red");
-		
+		testplayer1 = new Player("abc", 1, "blue");
+		testplayer2 = new Player("xyz", 0, "red");
+
 		holder.addPlayer(testplayer1);
 		holder.addPlayer(testplayer2);
-      
+
 	}
-	
 
 	@Test
 	public void testassignCountries() {
@@ -86,9 +86,9 @@ public class Test_StartupController {
 		}
 
 		this.holder.updatePlayerList(Arrays.asList(players));
-		
-		assertTrue(testplayer1.getCountriesConquered().size()>0);
-		assertTrue(testplayer2.getCountriesConquered().size()>0);
+
+		assertTrue(testplayer1.getCountriesConquered().size() > 0);
+		assertTrue(testplayer2.getCountriesConquered().size() > 0);
 	}
- 
- }
+
+}

@@ -17,7 +17,7 @@ public class TestCountryData {
 
 	@Before
 	public void setup() {
-		
+
 		Name = "India";
 		Continent = "Asia";
 		Latitude = 45.6;
@@ -35,7 +35,7 @@ public class TestCountryData {
 	}
 
 	@Test
-	public void testcontinent()	{
+	public void testcontinent() {
 
 		System.out.println(
 				"testing the " + Continent + "in method getcontinent ");

@@ -10,20 +10,25 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.*;
 import java.util.*;
 
+/**
+ * Test Number of armies assign to players.
+ * 
+ * @author Ku_ghai
+ */
 public class Test_AssignArmies {
 
-	StartupController sc=new StartupController();
-	
+	StartupController sc = new StartupController();
+
 	private DataHolder holder = DataHolder.getInstance();
 	List<Integer> countryIndexes = new ArrayList<>();
 	int playersTurn = 0;
 	Player testplayer1;
 	Player testplayer2;
 	public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();
-	
+
 	@Before
 	public void testbefore() {
-		
+
 		ContinentData continentData = new ContinentData("Cockpit", 5);
 		CountryData country1 = new CountryData("Cockpit01", 658.0, 355.0,
 				"Cockpit");
@@ -41,31 +46,29 @@ public class Test_AssignArmies {
 		holder.addCountry(country4);
 		holder.countCountriesInContinent("Cockpit");
 
-	    testplayer1 = new Player("abc", 1, "blue");
-	    testplayer2 = new Player("xyz", 0, "red");
-		
+		testplayer1 = new Player("abc", 1, "blue");
+		testplayer2 = new Player("xyz", 0, "red");
+
 		holder.addPlayer(testplayer1);
 		holder.addPlayer(testplayer2);
-		
-		this.countriesConquered.put("Cockpit01",3);
+
+		this.countriesConquered.put("Cockpit01", 3);
 		this.countriesConquered.put("Cockpit02", 2);
-		
+
 		testplayer1.updateCountry("Cockpit01", 0);
 		testplayer1.updateCountry("Cockpit02", 0);
 		testplayer2.updateCountry("Cockpit03", 0);
 		testplayer2.updateCountry("Cockpit04", 0);
 
-		
 	}
-	
-	
+
 	@Test
 	public void testassignArmies() {
-	
+
 		List<CountryData> countries = this.holder.getCountryDataList();
 		List<Player> players = this.holder.getPlayerList();
 		Random random = new Random();
-		int noOfArmiesToAssign = this.determineOfInitialArmy(players.size());
+		int noOfArmiesToAssign = 40 - ((players.size() - 2) * 5);
 
 		for (int i = 0; i < noOfArmiesToAssign; i++) {
 			for (Player player : players) {
@@ -74,7 +77,6 @@ public class Test_AssignArmies {
 				Object[] entries = countriesConquered.keySet().toArray();
 
 				int randomCountryIndex = random.nextInt(entries.length);
-				System.out.println(randomCountryIndex + "  ");
 				String randomCountry = (String) entries[randomCountryIndex];
 				int noOfArmies = countriesConquered.get(randomCountry);
 
@@ -94,16 +96,10 @@ public class Test_AssignArmies {
 						country.getKey() + " - " + country.getValue() + " | ");
 			}
 		}
-		
-	int result=testplayer1.getTotalPlayerArmies();
-	
-	assertEquals(40, result);
- 
-	}	
 
-	public int determineOfInitialArmy(int noOfPlayers) {
-		return 40 - ((noOfPlayers - 2) * 5);
+		int result = testplayer1.getTotalPlayerArmies();
+		assertEquals(40, result);
+
 	}
 
-	 
 }
