@@ -89,6 +89,7 @@ public class RiskMainInterface extends JFrame {
     private JPanel initializeCardView() {
         CardsView cardsView = new CardsView();
         holder.attachObserverToPhase(cardsView);
+        holder.attachObserverToPlayers(cardsView);
         labelCardTitle.setText("Card");
 
         return cardsView.getPanel();

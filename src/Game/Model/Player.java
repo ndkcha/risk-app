@@ -25,6 +25,12 @@ public class Player extends Observable {
     private boolean isAllOutMode = true;
     private int armiesToMove = 0;
 
+    /** notify change in player */
+    public void notifyChangeInPlayer() {
+        setChanged();
+        notifyObservers("player:changed");
+    }
+
     /**
      * Gets the number of armies to move after attack phase
      * @return armies to move
