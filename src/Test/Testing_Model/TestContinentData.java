@@ -25,9 +25,8 @@ public class TestContinentData {
 		continent = new ContinentData(name, controlValue);
 	}
 
-	
 	/**
-	 * This method Testgetname will test the  continent class getname method.
+	 * This method Testgetname will test the continent class getname method.
 	 * 
 	 * @author Vansh
 	 */

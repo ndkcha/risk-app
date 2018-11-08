@@ -20,7 +20,7 @@ public class TestMapValidation {
 	MapEditorController mec = new MapEditorController();
 	public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();;
 	private MapEditorDataHolder holder = MapEditorDataHolder.getInstance();
-	
+
 	/**
 	 * This method will initialize the dummy values to validate before every
 	 * test.
@@ -35,58 +35,58 @@ public class TestMapValidation {
 				"Cockpit");
 		CountryData country3 = new CountryData("Cockpit03", 758.0, 155.0,
 				"Cockpit");
-		
+
 		CountryData country4 = new CountryData("Cockpit04", 658.0, 355.0,
 				"Cockpit1");
 		CountryData country5 = new CountryData("Cockpit05", 558.0, 255.0,
 				"Cockpit1");
-		
+
 		holder.putCountry(country1);
 		holder.putCountry(country2);
 		holder.putCountry(country3);
 		holder.putCountry(country4);
 		holder.putCountry(country5);
-		
+
 		// Continent 1 data
 		country1.addNeighbour("Cockpit02");
 		country2.addNeighbour("Cockpit01");
 		country3.addNeighbour("Cockpit01");
-		
+
 		// Continent 2 data
 		country4.addNeighbour("Cockpit05");
 		country5.addNeighbour("Cockpit04");
-				
+
 		// Connect continents
 		country3.addNeighbour("Cockpit04");
 		country4.addNeighbour("Cockpit03");
-		
+
 		holder.putContinent(continentData);
 		holder.putContinent(continentDatas);
 	}
 
 	@Test
-	public void testValidateNoContinent(){
+	public void testValidateNoContinent() {
 		Boolean countryInCOntinent = mec.validateNoContinent();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
 	}
-	
+
 	@Test
-	public void testValidateNoNeighbours(){
+	public void testValidateNoNeighbours() {
 		Boolean countryInCOntinent = mec.validateNoNeighbours();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
 	}
-	
+
 	@Test
-	public void testValidateNoCountryInContinent(){
+	public void testValidateNoCountryInContinent() {
 		Boolean countryInCOntinent = mec.validateNoCountryInContinent();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
 	}
-	
+
 	@Test
-	public void testValidateGhostNeighboursNolink(){
+	public void testValidateGhostNeighboursNolink() {
 		Boolean countryInCOntinent = mec.validateGhostNeighboursNolink();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);

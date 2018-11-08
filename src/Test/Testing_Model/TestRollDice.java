@@ -5,18 +5,17 @@ import java.util.Random;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 
-
 public class TestRollDice {
-	
+
 	@Test
 	public void testrolldice() {
-		
-		RollDice dice=new RollDice();
+
+		RollDice dice = new RollDice();
 		Random random = new Random();
-		
+
 		int expected = random.nextInt(6) + 1;
-		int testdice=dice.roll();
-		assertNotEquals(testdice,expected);
+		int testdice = dice.roll();
+		assertNotEquals(testdice, expected);
 	}
-	
+
 }
