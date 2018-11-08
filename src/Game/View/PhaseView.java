@@ -417,8 +417,8 @@ public class PhaseView implements Observer {
 			if (noOfArmies == 1)
 				return;
 
-			List<String> neighboursToAttack = controller.getNeighboursForAttack(countryName, player);
-
+			List<String> neighboursToAttack = controller.getNeighboursForAttack(countryName);
+                        player=holder.getActivePlayer();
 			for (String neighbour : neighboursToAttack) {
 				int army = controller.getArmiesOfDefendingCountry(neighbour);
 				comboModelNeighbourCountries.addElement(army + " - " + neighbour);
