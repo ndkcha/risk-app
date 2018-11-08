@@ -7,7 +7,7 @@ import org.junit.Test;
 import Game.Model.*;
 
 /**
- * Test class for Player Cards
+ * Test class for Player Cards full implementation
  * 
  * @author kunal ghai
  *
