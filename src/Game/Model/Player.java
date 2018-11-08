@@ -22,6 +22,23 @@ public class Player extends Observable {
 
     private String attacker, defender;
     private int attackerArmies, defenderArmies;
+    private boolean isAllOutMode = true;
+
+    /**
+     * Sets the all out mode
+     * @param mode true if active
+     */
+    public void setAllOutMode(boolean mode) {
+        this.isAllOutMode = mode;
+    }
+
+    /**
+     * returns the type of mode
+     * @return type
+     */
+    public boolean getAllOutMode() {
+        return isAllOutMode;
+    }
 
     public void logAttackerAndDefender() {
         System.out.println(attackerArmies + " - " + defenderArmies);
@@ -99,11 +116,6 @@ public class Player extends Observable {
     private HashMap<String, Integer> countriesConquered;
 
     /**
-     * The continents conquered by the player
-     */
-    private List<String> continentsConquered;
-
-    /**
      * Gets the number of armies left to assign
      *
      * @return number of armies
@@ -124,7 +136,6 @@ public class Player extends Observable {
         this.type = type;
         this.color = color;
         this.countriesConquered = new HashMap<>();
-        this.continentsConquered = new ArrayList<>();
     }
 
     /**
@@ -241,15 +252,6 @@ public class Player extends Observable {
         }
 
         return countries.get(n);
-    }
-
-    /**
-     * This method is to get the continentsConquered by player
-     *
-     * @return continentsConquered The list of continentsConquered by player
-     */
-    public List<String> getContinentsConquered() {
-        return continentsConquered;
     }
 
     /**

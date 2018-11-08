@@ -198,6 +198,59 @@ public class PhaseView implements Observer {
 	}
 
 	/**
+	 * start the attack phase
+	 */
+	private void startAttackPhase() {
+		Player player = holder.getActivePlayer();
+
+		if (player.getType() == 0) {
+			this.loadCountryListInCombo();
+			return;
+		}
+
+		AttackController controller = new AttackController();
+		List<String> neighboursForAttack;
+		changeControlButtonVisibility(false);
+		int iterations = 0;
+		Random random = new Random();
+		String attacker;
+
+		do {
+			int totalCountries = player.getCountriesConquered().size();
+
+			int pickCountry = random.nextInt(totalCountries);
+			pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
+
+			attacker = player.getNthCountry(pickCountry);
+
+			neighboursForAttack = controller.getNeighboursForAttack(attacker, player);
+
+			iterations++;
+
+			if (iterations == 10)
+				break;
+		} while (neighboursForAttack.size() == 0);
+
+		if (neighboursForAttack.size() == 0) {
+			holder.sendGameLog(player.getName() + " ended the attack phase");
+			holder.changePhases();
+			return;
+		}
+
+		int pickDefender = random.nextInt(neighboursForAttack.size());
+		pickDefender = (pickDefender == neighboursForAttack.size()) ? pickDefender - 1 : pickDefender;
+
+		String defender = neighboursForAttack.get(pickDefender);
+		player.setAttackerAndDefender(attacker, defender);
+		player.setAllOutMode(true);
+		holder.updatePlayer(player);
+
+		// do the attack
+
+		holder.changePhases();
+	}
+
+	/**
 	 * Perform the attack phase
 	 */
 	private void prepareAttack() {
@@ -233,10 +286,17 @@ public class PhaseView implements Observer {
                 player.attackPhase();
 	}
 
-	private void selectAttackArmies(int noOfAttacker, int noOfDefender) {
+	/**
+	 * Select armies for the attack phase
+	 * @param noOfAttacker max armies attacker can have
+	 * @param noOfDefender max armies defender can have
+	 */
+	private void selectAttackArmies(int noOfAttacker, int noOfDefender, int defenderType) {
 		JPanel panel = new JPanel();
 
 		panel.add(new JLabel("No of dices (for attack): "));
+		int noOfAttackerArmies = (noOfAttacker > 3) ? 3 : --noOfAttacker;
+		int noOfDefenderArmies = (noOfDefender > 2) ? 2 : noOfDefender;
 
 		JComboBox<String> comboAttacker = new JComboBox<>();
 		JComboBox<String> comboDefender = new JComboBox<>();
@@ -248,14 +308,20 @@ public class PhaseView implements Observer {
 		modelAttacker.removeAllElements();
 		modelDefender.removeAllElements();
 		modelAttacker.addElement("Attacker Armies");
-		for (int i = 1; i <= noOfAttacker; i++) {
+		for (int i = 1; i <= noOfAttackerArmies; i++) {
 			modelAttacker.addElement(String.valueOf(i));
 		}
-		if (noOfDefender > 0) {
+		if (defenderType == 1) {
 			modelDefender.addElement("Defender Armies");
-			for (int i = 1; i <= noOfDefender; i++) {
+			for (int i = 1; i <= noOfDefenderArmies; i++) {
 				modelDefender.addElement(String.valueOf(i));
 			}
+			Player player = holder.getActivePlayer();
+			Random random = new Random();
+			int n = random.nextInt(noOfDefenderArmies);
+			n = ((n == 0) && (noOfDefenderArmies != 0)) ? 1 : n;
+			player.setDefenderArmies(n);
+			holder.updatePlayer(player);
 		}
 
 		comboAttacker.setModel(modelAttacker);
@@ -290,6 +356,7 @@ public class PhaseView implements Observer {
 		System.out.println("All Out Mode: " + checkAllOutMode.isSelected());
 
 		Player player = holder.getActivePlayer();
+		player.setAllOutMode(checkAllOutMode.isSelected());
 		player.logAttackerAndDefender();
 	}
 
@@ -637,17 +704,6 @@ public class PhaseView implements Observer {
 		}
 
 		changeControlButtonVisibility(true);
-		holder.changePhases();
-	}
-
-	private void startAttackPhase() {
-		Player player = holder.getActivePlayer();
-
-		if (player.getType() == 0) {
-			this.loadCountryListInCombo();
-			return;
-		}
-
 		holder.changePhases();
 	}
 

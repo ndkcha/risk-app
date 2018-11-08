@@ -317,4 +317,25 @@ public class DataHolder {
     public void updatePlayer(Player player) {
         this.playerList.put(player.getName(), player);
     }
+
+    public int getNoOfContinents(Player player) {
+        int noOfContinents = 0;
+        for (ContinentData continentData : this.continentDataList) {
+            String continentName = continentData.getName();
+            boolean skipContinent = false;
+
+            List<CountryData> countries = this.countCountriesInContinent(continentName);
+            for (CountryData country : countries) {
+                if (!player.getCountriesConquered().containsKey(country.getName())) {
+                    skipContinent = true;
+                    break;
+                }
+            }
+
+            if (!skipContinent)
+                noOfContinents++;
+        }
+
+        return noOfContinents;
+    }
 }
