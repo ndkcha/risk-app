@@ -1,53 +1,77 @@
 package Test.Testing_Controller;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import java.io.File;
+import static org.junit.Assert.*;
+import java.util.HashMap;
+import org.junit.Before;
 import org.junit.Test;
 
 import Game.Controller.MapEditorController;
+import Game.Model.ContinentData;
+import Game.Model.CountryData;
+
+import Game.Risk.MapEditorDataHolder;
 
 /**
- * Check for map validation
+ * This class will test the map
  * 
- * @author kunal, Jay
+ * @author Jay
  */
 public class TestMapValidation {
 
-	MapEditorController object = new MapEditorController();
-
+	public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();;
+	private MapEditorDataHolder holder = MapEditorDataHolder.getInstance();
+	
 	/**
-	 * Refactoring 3: All map validation tests in one Test Class.
-	 * This method will do map validations.
+	 * This method will initialize the dummy values to validate before every
+	 * test.
 	 */
-	@Test
-	public void validationtest() {
-		Boolean b = object.loadExistingMap(new File(
-				"C:\\Users\\vansh\\Documents\\NetBeansProjects\\risk-app\\data\\testMap.map "));
-		assertTrue(b);
+	@Before
+	public void beforeTest() {
+		ContinentData continentData = new ContinentData("Cockpit", 5);
+		CountryData country1 = new CountryData("Cockpit01", 658.0, 355.0,
+				"Cockpit");
+		country1.addNeighbour("Cockpit02");
+		CountryData country2 = new CountryData("Cockpit02", 558.0, 255.0,
+				"Cockpit");
+		CountryData country3 = new CountryData("Cockpit03", 758.0, 155.0,
+				"Cockpit");
+		holder.putCountry(country1);
+		holder.putCountry(country2);
+		holder.putCountry(country3);
+		
+		holder.putContinent(continentData);
+		
 	}
 
-	/**
-	 * This method will test if the map is invalid.
-	 */
 	@Test
-	public void testIsMapInvalid() {
-		Boolean b = object.loadExistingMap(new File(
-				"D:\\macs docs\\advance programming practices\\risk app project-github\\risk-app\\src\\Test\\testMap3.map"));
-		assertTrue(b);
+	public void testValidateNoContinent(){
+		MapEditorController mec = new MapEditorController();
+		Boolean countryInCOntinent = mec.validateNoContinent();
+		System.out.println(countryInCOntinent);
+		assertFalse(countryInCOntinent);
 	}
-
-	/**
-	 * This method is checking the validty of map
-	 */
-
+	
 	@Test
-	public void testIsMapvalid() {
-
-		Boolean b = object.loadExistingMap(new File(
-				"C:\\Users\\vansh\\Documents\\NetBeansProjects\\risk-app\\src\\Test\\ik.map"));
-
-		assertFalse(b);
+	public void testValidateNoNeighbours(){
+		MapEditorController mec = new MapEditorController();
+		Boolean countryInCOntinent = mec.validateNoNeighbours();
+		System.out.println(countryInCOntinent);
+		assertFalse(countryInCOntinent);
 	}
-
+	
+	@Test
+	public void testValidateNoCountryInContinent(){
+		MapEditorController mec = new MapEditorController();
+		Boolean countryInCOntinent = mec.validateNoCountryInContinent();
+		System.out.println(countryInCOntinent);
+		assertFalse(countryInCOntinent);
+	}
+	
+	@Test
+	public void testValidateGhostNeighboursNolink(){
+		MapEditorController mec = new MapEditorController();
+		Boolean countryInCOntinent = mec.validateGhostNeighboursNolink();
+		System.out.println(countryInCOntinent);
+		assertFalse(countryInCOntinent);
+	}
 }
