@@ -20,6 +20,47 @@ public class Player extends Observable {
     private int cardsUsedCount = 0;
     private boolean isCardUsed = false;
 
+    private String attacker, defender;
+    private int attackerArmies, defenderArmies;
+
+    public void logAttackerAndDefender() {
+        System.out.println(attackerArmies + " - " + defenderArmies);
+    }
+
+    /**
+     * Set the attacker country and the defender country for the attack phase
+     * @param attacker name of the attacker country
+     * @param defender name of the defender country
+     */
+    public void setAttackerAndDefender(String attacker, String defender) {
+        this.attacker = attacker;
+        this.defender = defender;
+    }
+
+    /**
+     * Set the armies for attacker and defender both
+     * @param attackerArmies number of armies
+     */
+    public void setAttackerArmies(int attackerArmies) {
+        this.attackerArmies = attackerArmies;
+    }
+
+    /**
+     * Set the armies for attacker and defender both
+     * @param defenderArmies number of armies
+     */
+    public void setDefenderArmies(int defenderArmies) {
+        this.defenderArmies = defenderArmies;
+    }
+
+    /** Reset the attacker and defender countries */
+    public void resetAttackerAndDefender() {
+        this.attacker = null;
+        this.defender = null;
+        this.attackerArmies = 0;
+        this.defenderArmies = 0;
+    }
+
     /**
      * Has the card been used in this turn?
      * @return true if it has been

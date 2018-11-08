@@ -261,6 +261,22 @@ public class DataHolder {
     }
 
     /**
+     * Get the player object from the country he conquers.
+     * @param countryName name of country
+     * @return player object
+     */
+    public Player getPlayerFromCountryName(String countryName) {
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            Player player = playerEntry.getValue();
+
+            if (player.getCountriesConquered().containsKey(countryName))
+                return player;
+        }
+
+        return null;
+    }
+
+    /**
      * Update the active player object.
      * It's used in order to update the conquered countries and its armeis.
      * @param player data object of the player

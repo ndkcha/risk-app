@@ -23,7 +23,7 @@ public class PhaseView implements Observer {
 	private static final String CHANGE_PHASE = "change:phase";
 	private static final String ACTION_REINFORCEMENT_ADD_ARMY = "reinforcement:add";
 	private static final String ACTION_FORTIFICATION_SEND_ARMY = "fortification:send";
-	private static final String ACTION_ATTACK = "attack:do";
+	private static final String ACTION_PREPARE_ATTACK = "attack:prepare";
 	private static final String CARD_EXCHANGE_ACTION = "card:exchange";
 	private DataHolder holder = DataHolder.getInstance();
 	private int reinforcementArmyAllocated = 0;
@@ -176,8 +176,8 @@ public class PhaseView implements Observer {
 				case CARD_EXCHANGE_ACTION:
 					determineToSkipCardExchange();
 					break;
-				case ACTION_ATTACK:
-					doAttack();
+				case ACTION_PREPARE_ATTACK:
+					prepareAttack();
 					break;
 			}
 		});
@@ -200,7 +200,7 @@ public class PhaseView implements Observer {
 	/**
 	 * Perform the attack phase
 	 */
-	private void doAttack() {
+	private void prepareAttack() {
 		int attackerIndex = comboCountry.getSelectedIndex();
 		int defenderIndex = comboNeighbourCountry.getSelectedIndex();
 
@@ -214,15 +214,80 @@ public class PhaseView implements Observer {
 		String defender = comboModelNeighbourCountries.getElementAt(defenderIndex);
 		defender = defender.split("-")[1].trim();
 
-		player.attackPhase(attacker, defender, AttackController.MODE_ALL_OUT, -1);
+		Player foreignPlayer = holder.getPlayerFromCountryName(defender);
+		if (foreignPlayer == null)
+			return;
+		int noOfAttackerArmies = player.getArmiesInCountry(attacker);
+		int noOfDefenderArmies = foreignPlayer.getArmiesInCountry(defender);
+
+		noOfAttackerArmies = (noOfAttackerArmies > 3) ? 3 : --noOfAttackerArmies;
+		noOfDefenderArmies = (noOfDefenderArmies > 2) ? 2 : noOfDefenderArmies;
+
+		player.setAttackerAndDefender(attacker, defender);
 
 		holder.updatePlayer(player);
 
-		comboModelNeighbourCountries.removeAllElements();
-		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+		this.selectAttackArmies(noOfAttackerArmies, noOfDefenderArmies);
+	}
 
-		this.loadCountryListInCombo();
-		this.changePhaseAhead();
+	private void selectAttackArmies(int noOfAttacker, int noOfDefender) {
+		JPanel panel = new JPanel();
+
+		panel.add(new JLabel("No of dices (for attack): "));
+
+		JComboBox<String> comboAttacker = new JComboBox<>();
+		JComboBox<String> comboDefender = new JComboBox<>();
+		JCheckBox checkAllOutMode = new JCheckBox("All out mode", false);
+
+		DefaultComboBoxModel<String> modelAttacker = new DefaultComboBoxModel<>();
+		DefaultComboBoxModel<String> modelDefender = new DefaultComboBoxModel<>();
+
+		modelAttacker.removeAllElements();
+		modelDefender.removeAllElements();
+		modelAttacker.addElement("Attacker Armies");
+		for (int i = 1; i <= noOfAttacker; i++) {
+			modelAttacker.addElement(String.valueOf(i));
+		}
+		if (noOfDefender > 0) {
+			modelDefender.addElement("Defender Armies");
+			for (int i = 1; i <= noOfDefender; i++) {
+				modelDefender.addElement(String.valueOf(i));
+			}
+		}
+
+		comboAttacker.setModel(modelAttacker);
+		comboDefender.setModel(modelDefender);
+
+		comboAttacker.addActionListener((ActionEvent e) -> {
+			if (comboAttacker.getSelectedIndex() > 0) {
+				Player player = holder.getActivePlayer();
+				String attackerArmies = modelAttacker.getElementAt(comboAttacker.getSelectedIndex());
+				player.setAttackerArmies(Integer.parseInt(attackerArmies));
+				holder.updatePlayer(player);
+			}
+		});
+
+		comboDefender.addActionListener((ActionEvent e) -> {
+			if (comboDefender.getSelectedIndex() > 0) {
+				Player player = holder.getActivePlayer();
+				String defenderArmies = modelDefender.getElementAt(comboDefender.getSelectedIndex());
+				player.setDefenderArmies(Integer.parseInt(defenderArmies));
+				holder.updatePlayer(player);
+			}
+		});
+
+		panel.add(comboAttacker);
+		panel.add(comboDefender);
+		panel.add(checkAllOutMode);
+
+		int result = JOptionPane.showOptionDialog(null, panel, "Exchange Cards",
+			JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+			null, null, null);
+
+		System.out.println("All Out Mode: " + checkAllOutMode.isSelected());
+
+		Player player = holder.getActivePlayer();
+		player.logAttackerAndDefender();
 	}
 
 	/** Check if we need to skip the card exchange phase */
@@ -357,7 +422,7 @@ public class PhaseView implements Observer {
 			}
 
 			btnPhases.setText("Attack");
-			btnPhases.setActionCommand(ACTION_ATTACK);
+			btnPhases.setActionCommand(ACTION_PREPARE_ATTACK);
 		} else
 			this.changePhaseAhead();
 
