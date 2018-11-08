@@ -45,6 +45,7 @@ public class TestPlayerPhase {
 		holder.addCountry(country1);
 		holder.addCountry(country2);
 		holder.addCountry(country3);
+		holder.addCountry(country4);
 		holder.countCountriesInContinent("Cockpit");
 
 		this.transferingCountry = "Cockpit01";
