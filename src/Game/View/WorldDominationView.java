@@ -80,8 +80,8 @@ public class WorldDominationView implements Observer {
 			int noOfOwnCountries = player.getCountriesConquered().size();
 			int totalCountries = holder.getCountryDataList().size();
 			double percent = ((double) noOfOwnCountries)/((double) totalCountries);
-			listModelPlayers.addElement(player.getName() + " [" + noOfOwnCountries + " c] " +
-				BigDecimal.valueOf(percent*100).setScale(2, RoundingMode.HALF_UP) + "%");
+			listModelPlayers.addElement(player.getName() + " [" + holder.getNoOfContinents(player) + " c] " +
+				BigDecimal.valueOf(percent*100).setScale(2, RoundingMode.HALF_UP) + "% " + player.getTotalPlayerArmies());
 		}
 
 		listPlayer.setModel(listModelPlayers);
@@ -99,6 +99,7 @@ public class WorldDominationView implements Observer {
 		if (arg1 instanceof String) {
 			if (((String) arg1).startsWith("change")) {
 				setActivePlayerLabel();
+				reloadTheList();
 			}
 		}
 	}
