@@ -76,7 +76,7 @@ public class WorldDominationView implements Observer {
 
 		for (Player player: holder.getPlayerList()) {
 			listModelPlayers.addElement(player.getName() + " (" + player.getColor() + ") [" +
-				player.getCountriesConquered().size() + " countries]");
+				player.getCountriesConquered().size() + " countries] " + player.getTotalPlayerArmies() );
 		}
 
 		listPlayer.setModel(listModelPlayers);
@@ -94,6 +94,7 @@ public class WorldDominationView implements Observer {
 		if (arg1 instanceof String) {
 			if (((String) arg1).startsWith("change")) {
 				setActivePlayerLabel();
+				reloadTheList();
 			}
 		}
 	}
