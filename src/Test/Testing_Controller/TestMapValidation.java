@@ -17,7 +17,7 @@ import Game.Risk.MapEditorDataHolder;
  * @author Jay
  */
 public class TestMapValidation {
-
+	MapEditorController mec = new MapEditorController();
 	public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();;
 	private MapEditorDataHolder holder = MapEditorDataHolder.getInstance();
 	
@@ -40,12 +40,11 @@ public class TestMapValidation {
 		holder.putCountry(country3);
 		
 		holder.putContinent(continentData);
-		
 	}
 
 	@Test
 	public void testValidateNoContinent(){
-		MapEditorController mec = new MapEditorController();
+		System.out.println(holder.getCountries().size());
 		Boolean countryInCOntinent = mec.validateNoContinent();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
@@ -53,7 +52,6 @@ public class TestMapValidation {
 	
 	@Test
 	public void testValidateNoNeighbours(){
-		MapEditorController mec = new MapEditorController();
 		Boolean countryInCOntinent = mec.validateNoNeighbours();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
@@ -61,7 +59,6 @@ public class TestMapValidation {
 	
 	@Test
 	public void testValidateNoCountryInContinent(){
-		MapEditorController mec = new MapEditorController();
 		Boolean countryInCOntinent = mec.validateNoCountryInContinent();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
@@ -69,7 +66,6 @@ public class TestMapValidation {
 	
 	@Test
 	public void testValidateGhostNeighboursNolink(){
-		MapEditorController mec = new MapEditorController();
 		Boolean countryInCOntinent = mec.validateGhostNeighboursNolink();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
