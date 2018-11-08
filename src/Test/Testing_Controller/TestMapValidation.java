@@ -28,18 +28,40 @@ public class TestMapValidation {
 	@Before
 	public void beforeTest() {
 		ContinentData continentData = new ContinentData("Cockpit", 5);
+		ContinentData continentDatas = new ContinentData("Cockpit1", 3);
 		CountryData country1 = new CountryData("Cockpit01", 658.0, 355.0,
 				"Cockpit");
-		country1.addNeighbour("Cockpit02");
 		CountryData country2 = new CountryData("Cockpit02", 558.0, 255.0,
 				"Cockpit");
 		CountryData country3 = new CountryData("Cockpit03", 758.0, 155.0,
 				"Cockpit");
+		
+		CountryData country4 = new CountryData("Cockpit04", 658.0, 355.0,
+				"Cockpit1");
+		CountryData country5 = new CountryData("Cockpit05", 558.0, 255.0,
+				"Cockpit1");
+		
 		holder.putCountry(country1);
 		holder.putCountry(country2);
 		holder.putCountry(country3);
+		holder.putCountry(country4);
+		holder.putCountry(country5);
+		
+		// Continent 1 data
+		country1.addNeighbour("Cockpit02");
+		country2.addNeighbour("Cockpit01");
+		country3.addNeighbour("Cockpit01");
+		
+		// Continent 2 data
+		country4.addNeighbour("Cockpit05");
+		country5.addNeighbour("Cockpit04");
+				
+		// Connect continents
+		country3.addNeighbour("Cockpit04");
+		country4.addNeighbour("Cockpit03");
 		
 		holder.putContinent(continentData);
+		holder.putContinent(continentDatas);
 	}
 
 	@Test
