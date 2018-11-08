@@ -12,7 +12,7 @@ import Game.Model.CountryData;
 import Game.Risk.MapEditorDataHolder;
 
 /**
- * This class will test the map
+ * This class will test the map for No continent in countries, no neighbours and countries connection.
  * 
  * @author Jay
  */

@@ -5,6 +5,11 @@ import java.util.Random;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 
+/**
+ * This class test the rolling of dice for player attack
+ * 
+ * @author Jay
+ */
 public class TestRollDice {
 
 	@Test
