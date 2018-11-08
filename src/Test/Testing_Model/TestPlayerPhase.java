@@ -13,7 +13,7 @@ import Game.Model.CountryData;
 import Game.Model.Player;
 
 /**
- * This class tests reinforcement, attack & fortification phases
+ * This class tests reinforcement, attack and fortification phases
  * 
  * @author Kunal Ghai
  */
@@ -80,7 +80,7 @@ public class TestPlayerPhase {
 
 	@Test
 	public void testattackPhase() {
-
+		// if the player has 
 	}
 
 	/**

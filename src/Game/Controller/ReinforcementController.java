@@ -22,6 +22,7 @@ public class ReinforcementController {
 	 * This function calculates the armies a player avails in each reinforcement
 	 * phase
 	 *
+	 * @param player Player Object.
 	 * @return new armies The number of armies available for reinforcement
 	 *         phase.
 	 */

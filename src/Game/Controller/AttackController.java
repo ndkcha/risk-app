@@ -35,6 +35,13 @@ public class AttackController {
 
 	/**
 	 * called when to declare an attack. not relevant
+	 * 
+	 * @param attackingCountry  Attacking Country
+	 * @param defendingCountry  Defending Country
+	 * @param mode Mode of turn
+	 * @param numberOfDice Number of dice.
+	 * 
+	 * @return returnResult Number of armies to add.
 	 */
 	public int attack(String attackingCountry, String defendingCountry,
 			int mode, int numberOfDice) {
@@ -682,8 +689,10 @@ public class AttackController {
 	/**
 	 * Move armies from one country to another after attack
 	 *
-	 * @param selectedNoOfArmies
-	 *            number of armies to be moved
+	 * 
+	 * @param selectedNoOfArmies number of armies to be moved
+	 * @param attackingCountry Attacking country
+	 * @param defendingCountry  Defending country
 	 */
 	public void moveArmies(int selectedNoOfArmies, String attackingCountry,
 			String defendingCountry) {
@@ -711,6 +720,7 @@ public class AttackController {
 	/**
 	 * check if any player conquered in this phase?
 	 *
+	 * @param player Player Object.
 	 * @return true if conquered and false if not
 	 */
 	public boolean checkForConqueredPlayer(Player player) {
