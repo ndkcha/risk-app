@@ -131,6 +131,39 @@ public class DataHolder {
     public void clearPlayers() {
         this.playerList.clear();
     }
+    
+    /**
+     * Get card from the country in the map
+     * @param countryName name of the country
+     * @return type of the card
+     */
+    public String getCardFromCountry(String countryName) {
+        for (CountryData country : this.countryDataList) {
+            if (country.getName().equalsIgnoreCase(countryName))
+                return country.getCardType();
+        }
+        return null;
+    }
+    
+    public void useCardOfCountry(String countryName) {
+        int index = -1;
+        
+        for (int i = 0; i < this.countryDataList.size(); i++) {
+            if (this.countryDataList.get(i).getName().equalsIgnoreCase(countryName)) {
+                index = i;
+                break;
+            }
+        }
+        
+        if (index == -1)
+            return;
+        
+        CountryData country = this.countryDataList.get(index);
+        country.useCard();
+        
+        this.countryDataList.remove(index);
+        this.countryDataList.add(country);
+    }
 
     /**
      * Add a player into the game play
@@ -261,11 +294,48 @@ public class DataHolder {
     }
 
     /**
+     * Get the player object from the country he conquers.
+     * @param countryName name of country
+     * @return player object
+     */
+    public Player getPlayerFromCountryName(String countryName) {
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            Player player = playerEntry.getValue();
+
+            if (player.getCountriesConquered().containsKey(countryName))
+                return player;
+        }
+
+        return null;
+    }
+
+    /**
      * Update the active player object.
      * It's used in order to update the conquered countries and its armeis.
      * @param player data object of the player
      */
     public void updatePlayer(Player player) {
         this.playerList.put(player.getName(), player);
+    }
+
+    public int getNoOfContinents(Player player) {
+        int noOfContinents = 0;
+        for (ContinentData continentData : this.continentDataList) {
+            String continentName = continentData.getName();
+            boolean skipContinent = false;
+
+            List<CountryData> countries = this.countCountriesInContinent(continentName);
+            for (CountryData country : countries) {
+                if (!player.getCountriesConquered().containsKey(country.getName())) {
+                    skipContinent = true;
+                    break;
+                }
+            }
+
+            if (!skipContinent)
+                noOfContinents++;
+        }
+
+        return noOfContinents;
     }
 }

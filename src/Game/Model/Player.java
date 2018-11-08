@@ -1,5 +1,7 @@
 package Game.Model;
 
+import Game.Controller.AttackController;
+
 import java.util.*;
 
 /**
@@ -17,6 +19,82 @@ public class Player extends Observable {
     private List<String> cards = new ArrayList<>();
     private int cardsUsedCount = 0;
     private boolean isCardUsed = false;
+
+    private String attacker, defender;
+    private int attackerArmies, defenderArmies;
+    private boolean isAllOutMode = true;
+    private int armiesToMove = 0;
+
+    /**
+     * Gets the number of armies to move after attack phase
+     * @return armies to move
+     */
+    public int getArmiesToMove() {
+        return armiesToMove;
+    }
+
+    /**
+     * Sets the number of armies to move after attack phase
+     * @param armiesToMove armies to move
+     */
+    public void setArmiesToMove(int armiesToMove) {
+        this.armiesToMove = armiesToMove;
+    }
+
+    /**
+     * Sets the all out mode
+     * @param mode true if active
+     */
+    public void setAllOutMode(boolean mode) {
+        this.isAllOutMode = mode;
+    }
+
+    /**
+     * returns the type of mode
+     * @return type
+     */
+    public boolean getAllOutMode() {
+        return isAllOutMode;
+    }
+
+    public void logAttackerAndDefender() {
+        System.out.println(attackerArmies + " - " + defenderArmies);
+    }
+
+    /**
+     * Set the attacker country and the defender country for the attack phase
+     * @param attacker name of the attacker country
+     * @param defender name of the defender country
+     */
+    public void setAttackerAndDefender(String attacker, String defender) {
+        this.attacker = attacker;
+        this.defender = defender;
+    }
+
+    /**
+     * Set the armies for attacker and defender both
+     * @param attackerArmies number of armies
+     */
+    public void setAttackerArmies(int attackerArmies) {
+        this.attackerArmies = attackerArmies;
+    }
+
+    /**
+     * Set the armies for attacker and defender both
+     * @param defenderArmies number of armies
+     */
+    public void setDefenderArmies(int defenderArmies) {
+        this.defenderArmies = defenderArmies;
+    }
+
+    /** Reset the attacker and defender countries */
+    public void resetAttackerAndDefender() {
+        this.attacker = null;
+        this.defender = null;
+        this.attackerArmies = 0;
+        this.defenderArmies = 0;
+        this.armiesToMove = 0;
+    }
 
     /**
      * Has the card been used in this turn?
@@ -56,11 +134,6 @@ public class Player extends Observable {
     private HashMap<String, Integer> countriesConquered;
 
     /**
-     * The continents conquered by the player
-     */
-    private List<String> continentsConquered;
-
-    /**
      * Gets the number of armies left to assign
      *
      * @return number of armies
@@ -81,7 +154,6 @@ public class Player extends Observable {
         this.type = type;
         this.color = color;
         this.countriesConquered = new HashMap<>();
-        this.continentsConquered = new ArrayList<>();
     }
 
     /**
@@ -201,15 +273,6 @@ public class Player extends Observable {
     }
 
     /**
-     * This method is to get the continentsConquered by player
-     *
-     * @return continentsConquered The list of continentsConquered by player
-     */
-    public List<String> getContinentsConquered() {
-        return continentsConquered;
-    }
-
-    /**
      * This method is to set the countriesConquered by player.
      *
      * @param countriesConquered The key value pair of countries Conquered.
@@ -246,9 +309,25 @@ public class Player extends Observable {
     /**
      * Refactoring 2: All phases in player model.
      * Attack Phase
+     * @return noOfArmies to be moved (minimum)
      */
-    public void attackPhase() {
+    public int attackPhase() {
+        AttackController controller = new AttackController();
+        int result=controller.attack(this.attacker, this.defender, 0, -1);
+        System.out.println("no of armies to be minimum moved"+result);
+        return result;
+    }
 
+    /**
+     * Moves armies after attack from attacker to defender
+     * @param armiesToMove no of armies to move
+     */
+    public void moveArmiesAfterAttack(int armiesToMove) {
+        int existing = this.getArmiesInCountry(attacker);
+        int armiesLeftInAttacker = existing - armiesToMove;
+
+        this.updateCountry(defender, armiesToMove);
+        this.updateCountry(attacker, armiesLeftInAttacker);
     }
 
     /**
@@ -408,6 +487,13 @@ public class Player extends Observable {
         return (this.haveThreeCavalryCards() || this.haveThreeArtilleryCards() || this.haveThreeInfantryCards());
     }
 
+    /**
+     * Is it possible to add more cards for this player?
+     * @return true if you can add more cards
+     */
+    public boolean canAddMoreCards() {
+        return (this.cards.size() < 5);
+    }
 
     /**
      * @return list of cards player has.

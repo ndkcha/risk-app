@@ -1,5 +1,6 @@
 package Game.View;
 
+import Game.Controller.AttackController;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.PhaseData;
@@ -20,8 +21,9 @@ public class PhaseView implements Observer {
 	private boolean isStartupPhaseActive = true;
 	private static final String STARTUP_ADD_ARMY = "startup:add_army";
 	private static final String CHANGE_PHASE = "change:phase";
-	private static final String REINFORCEMENT_ADD_ARMY_ACTION = "reinforcement:add";
-	private static final String FORTIFICATION_SEND_ARMY_ACTION = "fortification:send";
+	private static final String ACTION_REINFORCEMENT_ADD_ARMY = "reinforcement:add";
+	private static final String ACTION_FORTIFICATION_SEND_ARMY = "fortification:send";
+	private static final String ACTION_PREPARE_ATTACK = "attack:prepare";
 	private static final String CARD_EXCHANGE_ACTION = "card:exchange";
 	private DataHolder holder = DataHolder.getInstance();
 	private int reinforcementArmyAllocated = 0;
@@ -165,14 +167,17 @@ public class PhaseView implements Observer {
 				case CHANGE_PHASE:
 					holder.changePhases();
 					break;
-				case REINFORCEMENT_ADD_ARMY_ACTION:
+				case ACTION_REINFORCEMENT_ADD_ARMY:
 					addArmyInReinforcementPhase();
 					break;
-				case FORTIFICATION_SEND_ARMY_ACTION:
+				case ACTION_FORTIFICATION_SEND_ARMY:
 					sendArmyInFortificationPhase();
 					break;
 				case CARD_EXCHANGE_ACTION:
 					determineToSkipCardExchange();
+					break;
+				case ACTION_PREPARE_ATTACK:
+					prepareAttack();
 					break;
 			}
 		});
@@ -185,15 +190,253 @@ public class PhaseView implements Observer {
 				case PhaseData.FORTIFICATION_PHASE:
 					setupManualFortificationPhase();
 					break;
+				case PhaseData.ATTACK_PHASE:
+					setupManualAttackPhase();
+					break;
 			}
 		});
 	}
 
+	/**
+	 * start the attack phase
+	 */
+	private void startAttackPhase() {
+		Player player = holder.getActivePlayer();
+
+		if (player.getType() == 0) {
+			this.loadCountryListInCombo();
+			return;
+		}
+
+		AttackController controller = new AttackController();
+		List<String> neighboursForAttack;
+		changeControlButtonVisibility(false);
+		int iterations = 0;
+		Random random = new Random();
+		String attacker;
+
+		do {
+			int totalCountries = player.getCountriesConquered().size();
+
+			int pickCountry = random.nextInt(totalCountries);
+			pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
+
+			attacker = player.getNthCountry(pickCountry);
+
+			neighboursForAttack = controller.getNeighboursForAttack(attacker);
+
+			iterations++;
+
+			if (iterations == 10)
+				break;
+		} while (neighboursForAttack.size() == 0);
+
+		if (neighboursForAttack.size() == 0) {
+			holder.sendGameLog(player.getName() + " ended the attack phase");
+			holder.changePhases();
+			return;
+		}
+
+		int pickDefender = random.nextInt(neighboursForAttack.size());
+		pickDefender = (pickDefender == neighboursForAttack.size()) ? pickDefender - 1 : pickDefender;
+
+		String defender = neighboursForAttack.get(pickDefender);
+		player.setAttackerAndDefender(attacker, defender);
+		player.setAllOutMode(true);
+		holder.updatePlayer(player);
+
+		player = holder.getActivePlayer();
+		int minArmiesToMove = player.attackPhase();
+
+        player = holder.getActivePlayer();
+
+		if (minArmiesToMove != -1) {
+            int armiesToMove = minArmiesToMove;
+
+            int existing = player.getArmiesInCountry(attacker) - 1;
+            if (existing > minArmiesToMove) {
+                armiesToMove = random.nextInt(existing - minArmiesToMove);
+                armiesToMove += minArmiesToMove;
+            }
+
+            player.moveArmiesAfterAttack(armiesToMove);
+
+        }
+        player.resetAttackerAndDefender();
+        holder.updatePlayer(player);
+
+		holder.changePhases();
+	}
+
+	/**
+	 * Perform the attack phase
+	 */
+	private void prepareAttack() {
+		int attackerIndex = comboCountry.getSelectedIndex();
+		int defenderIndex = comboNeighbourCountry.getSelectedIndex();
+
+		if ((attackerIndex == -1) || (defenderIndex == -1))
+			return;
+
+		Player player = holder.getActivePlayer();
+
+		String attacker = comboModelCountries.getElementAt(attackerIndex);
+		attacker = attacker.split("-")[1].trim();
+		String defender = comboModelNeighbourCountries.getElementAt(defenderIndex);
+		defender = defender.split("-")[1].trim();
+
+		Player foreignPlayer = holder.getPlayerFromCountryName(defender);
+		if (foreignPlayer == null)
+			return;
+		int noOfAttackerArmies = player.getArmiesInCountry(attacker);
+		int noOfDefenderArmies = foreignPlayer.getArmiesInCountry(defender);
+
+		noOfAttackerArmies = (noOfAttackerArmies > 3) ? 3 : --noOfAttackerArmies;
+		noOfDefenderArmies = (noOfDefenderArmies > 2) ? 2 : noOfDefenderArmies;
+
+		player.setAttackerAndDefender(attacker, defender);
+
+		holder.updatePlayer(player);
+
+		this.selectAttackArmies(noOfAttackerArmies, noOfDefenderArmies, foreignPlayer.getType());
+                
+        player = holder.getActivePlayer();
+        int minArmiesToMove = player.attackPhase();
+        player = holder.getActivePlayer();
+
+        if (minArmiesToMove != -1)
+            selectArmiesToMove(minArmiesToMove, player.getArmiesInCountry(attacker));
+
+        player = holder.getActivePlayer();
+        player.resetAttackerAndDefender();
+        holder.updatePlayer(player);
+
+        comboModelNeighbourCountries.removeAllElements();
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+        loadCountryListInCombo();
+        this.changePhaseAhead();
+	}
+
+	private void selectArmiesToMove(int min, int max) {
+	    JPanel panel = new JPanel();
+
+	    panel.add(new JLabel("Move armies from attacker to defender: "));
+
+	    JComboBox<Integer> comboArmies = new JComboBox<>();
+	    DefaultComboBoxModel<Integer> comboModelArmies = new DefaultComboBoxModel<>();
+
+	    comboModelArmies.removeAllElements();
+
+	    for (int i = min; i < max; i++) {
+	        comboModelArmies.addElement(i);
+        }
+
+        comboArmies.setModel(comboModelArmies);
+	    comboArmies.addActionListener((ActionEvent e) -> {
+            Player player = holder.getActivePlayer();
+	        int selectedOption = comboArmies.getSelectedIndex();
+	        selectedOption = (selectedOption == -1) ? 0 : selectedOption;
+
+	        player.setArmiesToMove(comboModelArmies.getElementAt(selectedOption));
+
+	        holder.updatePlayer(player);
+        });
+
+	    panel.add(comboArmies);
+
+        int result = JOptionPane.showOptionDialog(null, panel, "Select Armies to move",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+            null, null, null);
+
+        Player player = holder.getActivePlayer();
+        int armiesToMove = player.getArmiesToMove();
+        armiesToMove = (armiesToMove == 0) ? min : armiesToMove;
+
+        player.moveArmiesAfterAttack(armiesToMove);
+
+        holder.updatePlayer(player);
+    }
+
+	/**
+	 * Select armies for the attack phase
+	 * @param noOfAttacker max armies attacker can have
+	 * @param noOfDefender max armies defender can have
+	 */
+	private void selectAttackArmies(int noOfAttacker, int noOfDefender, int defenderType) {
+		JPanel panel = new JPanel();
+
+		panel.add(new JLabel("No of dices (for attack): "));
+		int noOfAttackerArmies = (noOfAttacker > 3) ? 3 : --noOfAttacker;
+		int noOfDefenderArmies = (noOfDefender > 2) ? 2 : noOfDefender;
+
+		JComboBox<String> comboAttacker = new JComboBox<>();
+		JComboBox<String> comboDefender = new JComboBox<>();
+		JCheckBox checkAllOutMode = new JCheckBox("All out mode", false);
+
+		DefaultComboBoxModel<String> modelAttacker = new DefaultComboBoxModel<>();
+		DefaultComboBoxModel<String> modelDefender = new DefaultComboBoxModel<>();
+
+		modelAttacker.removeAllElements();
+		modelDefender.removeAllElements();
+		modelAttacker.addElement("Attacker Armies");
+		for (int i = 1; i <= noOfAttackerArmies; i++) {
+			modelAttacker.addElement(String.valueOf(i));
+		}
+		if (defenderType == 1) {
+			modelDefender.addElement("Defender Armies");
+			for (int i = 1; i <= noOfDefenderArmies; i++) {
+				modelDefender.addElement(String.valueOf(i));
+			}
+			Player player = holder.getActivePlayer();
+			Random random = new Random();
+			int n = random.nextInt(noOfDefenderArmies);
+			n = ((n == 0) && (noOfDefenderArmies != 0)) ? 1 : n;
+			player.setDefenderArmies(n);
+			holder.updatePlayer(player);
+		}
+
+		comboAttacker.setModel(modelAttacker);
+		comboDefender.setModel(modelDefender);
+
+		comboAttacker.addActionListener((ActionEvent e) -> {
+			if (comboAttacker.getSelectedIndex() > 0) {
+				Player player = holder.getActivePlayer();
+				String attackerArmies = modelAttacker.getElementAt(comboAttacker.getSelectedIndex());
+				player.setAttackerArmies(Integer.parseInt(attackerArmies));
+				holder.updatePlayer(player);
+			}
+		});
+
+		comboDefender.addActionListener((ActionEvent e) -> {
+			if (comboDefender.getSelectedIndex() > 0) {
+				Player player = holder.getActivePlayer();
+				String defenderArmies = modelDefender.getElementAt(comboDefender.getSelectedIndex());
+				player.setDefenderArmies(Integer.parseInt(defenderArmies));
+				holder.updatePlayer(player);
+			}
+		});
+
+		panel.add(comboAttacker);
+		panel.add(comboDefender);
+		panel.add(checkAllOutMode);
+
+		int result = JOptionPane.showOptionDialog(null, panel, "Select Dices",
+			JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+			null, null, null);
+
+		System.out.println("All Out Mode: " + checkAllOutMode.isSelected());
+
+		Player player = holder.getActivePlayer();
+		player.setAllOutMode(checkAllOutMode.isSelected());
+		player.logAttackerAndDefender();
+	}
+
+	/** Check if we need to skip the card exchange phase */
 	private void determineToSkipCardExchange() {
 		Player player = holder.getActivePlayer();
 
 		if (player.getCards().size() == 5) {
-			JOptionPane.showMessageDialog(new JFrame(), "You can hold more than 5 cards", "Error",
+			JOptionPane.showMessageDialog(new JFrame(), "You can't hold more than 5 cards", "Error",
 				JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -255,7 +498,7 @@ public class PhaseView implements Observer {
 				}
 
 				btnPhases.setText("Add");
-				btnPhases.setActionCommand(REINFORCEMENT_ADD_ARMY_ACTION);
+				btnPhases.setActionCommand(ACTION_REINFORCEMENT_ADD_ARMY);
 			}
 		} else
 			this.changePhaseAhead();
@@ -286,6 +529,44 @@ public class PhaseView implements Observer {
 
 		System.out.println(player.getNoOfArmiesToAssign() + " left for " + player.getName());
 		holder.changeTurn();
+	}
+
+	/**
+	 * Setup manual entries for the attack phase.
+	 * It will help user to continue with the phase from UI.
+	 */
+	private void setupManualAttackPhase() {
+		comboModelNeighbourCountries.removeAllElements();
+
+		int selectedCountry = comboCountry.getSelectedIndex();
+
+		if (selectedCountry == 0)
+			return;
+
+		Player player = holder.getActivePlayer();
+
+		if (selectedCountry > 0) {
+			AttackController controller = new AttackController();
+			String countryName = comboModelCountries.getElementAt(selectedCountry);
+			countryName = countryName.split("-")[1].trim();
+
+			int noOfArmies = player.getArmiesInCountry(countryName);
+
+			if (noOfArmies == 1)
+				return;
+
+			List<String> neighboursToAttack = controller.getNeighboursForAttack(countryName);
+			for (String neighbour : neighboursToAttack) {
+				int army = controller.getArmiesOfDefendingCountry(neighbour);
+				comboModelNeighbourCountries.addElement(army + " - " + neighbour);
+			}
+
+			btnPhases.setText("Attack");
+			btnPhases.setActionCommand(ACTION_PREPARE_ATTACK);
+		} else
+			this.changePhaseAhead();
+
+		comboNeighbourCountry.setModel(comboModelNeighbourCountries);
 	}
 
 	/**
@@ -330,7 +611,7 @@ public class PhaseView implements Observer {
 				}
 
 				btnPhases.setText("Send");
-				btnPhases.setActionCommand(FORTIFICATION_SEND_ARMY_ACTION);
+				btnPhases.setActionCommand(ACTION_FORTIFICATION_SEND_ARMY);
 			}
 		}
 
@@ -410,31 +691,25 @@ public class PhaseView implements Observer {
 	 * Reacts to the changes in the phases
 	 */
 	private void setupPhaseValues() {
-		String message = holder.getActivePlayer().getName() + "'s turn: ";
 		switch (holder.getCurrentPhase()) {
 			case PhaseData.CARD_EXCHANGE_PHASE:
 				this.setupCardExchangePhase();
-				message = message.concat("Card Exchange View");
 				break;
 			case PhaseData.REINFORCEMENT_PHASE:
 				this.setupReinforcementPhase();
 				this.startReinforcement();
-				message = message.concat("Reinforcement Phase");
 				break;
 			case PhaseData.ATTACK_PHASE:
 				this.setupAttackPhase();
-				message = message.concat("Attack Phase");
+				this.startAttackPhase();
 				break;
 			case PhaseData.FORTIFICATION_PHASE:
 				this.setupFortificationPhase();
 				this.startFortificationPhase();
-				message = message.concat("Fortification Phase");
 				break;
 			default:
-				message = message.concat("Startup Phase");
 				break;
 		}
-		holder.sendGameLog(message);
 	}
 
 	/** Initializes the card exchange phase */
@@ -529,8 +804,8 @@ public class PhaseView implements Observer {
 	private void setupAttackPhase() {
 		labelPhases.setText("Attack Phase");
 		this.changePhaseAhead();
-		comboNeighbourCountry.setVisible(false);
-		comboCountry.setVisible(false);
+		comboNeighbourCountry.setVisible(true);
+		comboCountry.setVisible(true);
 		comboNoOfArmies.setVisible(false);
 	}
 
