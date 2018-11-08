@@ -23,10 +23,10 @@ import Game.View.*;
  *
  */
 public class Controller {
-	
+
 	// Game Driver: Hold all the data for gameplay.
 	private DataHolder holder = DataHolder.getInstance();
-	
+
 	// Store object of GameSettingsView class.
 	private GameSettingsView gameSettings;
 
@@ -44,20 +44,21 @@ public class Controller {
 	}
 
 	/**
-	 * This method fill start the game after game settings and uploading map file.
+	 * This method fill start the game after game settings and uploading map
+	 * file.
 	 * 
-	 * @param map_file File object.
+	 * @param map_file
+	 *            File object.
 	 */
 	public void gameStart(File map_file) {
 
 		StartupController startupController = new StartupController(map_file);
 		startupController.processFiles(); // Reads the Map file
 		startupController.assignCountries(); // assign the contries
-//		startupController.assignArmies(); // assign armies
+		// startupController.assignArmies(); // assign armies
 
 		RiskMainInterface.createInstance();
 	}
-
 
 	/**
 	 * Listener for Start Game button.
@@ -66,7 +67,8 @@ public class Controller {
 		ActionListener startGameListener = (ActionEvent e) -> {
 			System.out.println("Start Game Button is clicked");
 			gameSettings.gameSettings(); // Open game settings.
-			gameSettings.chooseOptionFrame().dispose(); // close the previous window.
+			gameSettings.chooseOptionFrame().dispose(); // close the previous
+														// window.
 		};
 		this.gameSettings.startGameAction(startGameListener);
 	}

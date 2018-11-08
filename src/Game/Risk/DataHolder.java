@@ -37,7 +37,10 @@ public class DataHolder {
     /** Is the armies distribution be automatic or manual? */
     public boolean isArmiesAutomatic = false;
 
-    /** Returns the active phase */
+    /** 
+     * Returns the active phase
+     * @return phaseData current phase 
+     */
     public int getCurrentPhase() {
         return this.phaseData.getCurrentPhase();
     }

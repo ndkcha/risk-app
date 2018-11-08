@@ -868,6 +868,7 @@ public class PhaseView implements Observer {
      * This function calculates the armies a player avails in each reinforcement
      * phase
      *
+     * @param player Player Object
      * @return new armies The number of armies available for reinforcement phase.
      */
     public int calculateReinforcementArmies(Player player) {
