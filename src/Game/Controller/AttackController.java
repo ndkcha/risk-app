@@ -84,8 +84,6 @@ public class AttackController {
                         System.out.println("numberOfArmiesAttackerC: " + numberOfArmiesAttackerC);
                         if (numberOfArmiesAttackerC == 1) {
                             System.out.println("Attack failed");
-                            holder.sendGameLog(player.getName() + ": the attack between " + attackingCountry + " and " +
-                    defendingCountry + " was successful.");
                             holder.sendGameLog(player.getName() + ": Attack failed and the attacker lost the country");
                             break;
 
@@ -282,6 +280,8 @@ public class AttackController {
         Player player = holder.getActivePlayer();
         System.out.println("chosenNoOfDice: " + chosenNoOfDice);
         int dice = (chosenNoOfDice == 1) ? 1 : chosenNoOfDice - 1;
+        if (dice < 1)
+            return false;
         Integer[] diceRollValuesOfAttacker = new Integer[chosenNoOfDice];
         Integer[] diceRollValuesOfDefender = new Integer[dice];
         boolean attackstatus = false;

@@ -151,6 +151,7 @@ public class CardsView implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        setVisibilityOfTheView(false);
         // Add the data from CardController to manipulate card exchange.
         if ((arg instanceof String) && (((String) arg).equalsIgnoreCase(PhaseData.CHANGE_PHASE)) &&
             (holder.getCurrentPhase() == PhaseData.CARD_EXCHANGE_PHASE))

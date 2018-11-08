@@ -223,7 +223,7 @@ public class PhaseView implements Observer {
 
 			attacker = player.getNthCountry(pickCountry);
 
-			neighboursForAttack = controller.getNeighboursForAttack(attacker, player);
+			neighboursForAttack = controller.getNeighboursForAttack(attacker);
 
 			iterations++;
 
@@ -245,7 +245,25 @@ public class PhaseView implements Observer {
 		player.setAllOutMode(true);
 		holder.updatePlayer(player);
 
-		// do the attack
+		player = holder.getActivePlayer();
+		int minArmiesToMove = player.attackPhase();
+
+        player = holder.getActivePlayer();
+
+		if (minArmiesToMove != -1) {
+            int armiesToMove = minArmiesToMove;
+
+            int existing = player.getArmiesInCountry(attacker) - 1;
+            if (existing > minArmiesToMove) {
+                armiesToMove = random.nextInt(existing - minArmiesToMove);
+                armiesToMove += minArmiesToMove;
+            }
+
+            player.moveArmiesAfterAttack(armiesToMove);
+
+        }
+        player.resetAttackerAndDefender();
+        holder.updatePlayer(player);
 
 		holder.changePhases();
 	}
@@ -280,11 +298,64 @@ public class PhaseView implements Observer {
 
 		holder.updatePlayer(player);
 
-		this.selectAttackArmies(noOfAttackerArmies, noOfDefenderArmies);
+		this.selectAttackArmies(noOfAttackerArmies, noOfDefenderArmies, foreignPlayer.getType());
                 
-                player = holder.getActivePlayer();
-                player.attackPhase();
+        player = holder.getActivePlayer();
+        int minArmiesToMove = player.attackPhase();
+        player = holder.getActivePlayer();
+
+        if (minArmiesToMove != -1)
+            selectArmiesToMove(minArmiesToMove, player.getArmiesInCountry(attacker));
+
+        player = holder.getActivePlayer();
+        player.resetAttackerAndDefender();
+        holder.updatePlayer(player);
+
+        comboModelNeighbourCountries.removeAllElements();
+        comboNeighbourCountry.setModel(comboModelNeighbourCountries);
+        loadCountryListInCombo();
+        this.changePhaseAhead();
 	}
+
+	private void selectArmiesToMove(int min, int max) {
+	    JPanel panel = new JPanel();
+
+	    panel.add(new JLabel("Move armies from attacker to defender: "));
+
+	    JComboBox<Integer> comboArmies = new JComboBox<>();
+	    DefaultComboBoxModel<Integer> comboModelArmies = new DefaultComboBoxModel<>();
+
+	    comboModelArmies.removeAllElements();
+
+	    for (int i = min; i < max; i++) {
+	        comboModelArmies.addElement(i);
+        }
+
+        comboArmies.setModel(comboModelArmies);
+	    comboArmies.addActionListener((ActionEvent e) -> {
+            Player player = holder.getActivePlayer();
+	        int selectedOption = comboArmies.getSelectedIndex();
+	        selectedOption = (selectedOption == -1) ? 0 : selectedOption;
+
+	        player.setArmiesToMove(comboModelArmies.getElementAt(selectedOption));
+
+	        holder.updatePlayer(player);
+        });
+
+	    panel.add(comboArmies);
+
+        int result = JOptionPane.showOptionDialog(null, panel, "Select Armies to move",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+            null, null, null);
+
+        Player player = holder.getActivePlayer();
+        int armiesToMove = player.getArmiesToMove();
+        armiesToMove = (armiesToMove == 0) ? min : armiesToMove;
+
+        player.moveArmiesAfterAttack(armiesToMove);
+
+        holder.updatePlayer(player);
+    }
 
 	/**
 	 * Select armies for the attack phase
@@ -485,7 +556,6 @@ public class PhaseView implements Observer {
 				return;
 
 			List<String> neighboursToAttack = controller.getNeighboursForAttack(countryName);
-                        player=holder.getActivePlayer();
 			for (String neighbour : neighboursToAttack) {
 				int army = controller.getArmiesOfDefendingCountry(neighbour);
 				comboModelNeighbourCountries.addElement(army + " - " + neighbour);

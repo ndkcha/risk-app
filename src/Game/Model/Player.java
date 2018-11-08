@@ -23,6 +23,23 @@ public class Player extends Observable {
     private String attacker, defender;
     private int attackerArmies, defenderArmies;
     private boolean isAllOutMode = true;
+    private int armiesToMove = 0;
+
+    /**
+     * Gets the number of armies to move after attack phase
+     * @return armies to move
+     */
+    public int getArmiesToMove() {
+        return armiesToMove;
+    }
+
+    /**
+     * Sets the number of armies to move after attack phase
+     * @param armiesToMove armies to move
+     */
+    public void setArmiesToMove(int armiesToMove) {
+        this.armiesToMove = armiesToMove;
+    }
 
     /**
      * Sets the all out mode
@@ -76,6 +93,7 @@ public class Player extends Observable {
         this.defender = null;
         this.attackerArmies = 0;
         this.defenderArmies = 0;
+        this.armiesToMove = 0;
     }
 
     /**
@@ -291,11 +309,25 @@ public class Player extends Observable {
     /**
      * Refactoring 2: All phases in player model.
      * Attack Phase
+     * @return noOfArmies to be moved (minimum)
      */
-    public void attackPhase() {
+    public int attackPhase() {
         AttackController controller = new AttackController();
         int result=controller.attack(this.attacker, this.defender, 0, -1);
         System.out.println("no of armies to be minimum moved"+result);
+        return result;
+    }
+
+    /**
+     * Moves armies after attack from attacker to defender
+     * @param armiesToMove no of armies to move
+     */
+    public void moveArmiesAfterAttack(int armiesToMove) {
+        int existing = this.getArmiesInCountry(attacker);
+        int armiesLeftInAttacker = existing - armiesToMove;
+
+        this.updateCountry(defender, armiesToMove);
+        this.updateCountry(attacker, armiesLeftInAttacker);
     }
 
     /**
