@@ -81,7 +81,8 @@ public class WorldDominationView implements Observer {
 			int totalCountries = holder.getCountryDataList().size();
 			double percent = ((double) noOfOwnCountries)/((double) totalCountries);
 			listModelPlayers.addElement(player.getName() + " [" + holder.getNoOfContinents(player) + " c] " +
-				BigDecimal.valueOf(percent*100).setScale(2, RoundingMode.HALF_UP) + "% " + player.getTotalPlayerArmies());
+				BigDecimal.valueOf(percent*100).setScale(2, RoundingMode.HALF_UP) + "% " +
+				player.getTotalPlayerArmies() + "a");
 		}
 
 		listPlayer.setModel(listModelPlayers);

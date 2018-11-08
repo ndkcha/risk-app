@@ -78,7 +78,8 @@ public class DiceView implements Observer {
                     .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                     .addContainerGap())
         );
-        
+
+        Dice_Panel.setVisible(false);
 	}
 
 	/**

@@ -313,7 +313,9 @@ public class Player extends Observable {
      */
     public int attackPhase() {
         AttackController controller = new AttackController();
-        int result=controller.attack(this.attacker, this.defender, 0, -1);
+        int attackerArmy = this.isAllOutMode ? -1 : this.attackerArmies;
+        int mode = this.isAllOutMode ? 0 : 1;
+        int result=controller.attack(this.attacker, this.defender, mode, attackerArmy);
         System.out.println("no of armies to be minimum moved"+result);
         return result;
     }
