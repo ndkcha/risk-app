@@ -44,7 +44,6 @@ public class TestMapValidation {
 
 	@Test
 	public void testValidateNoContinent(){
-		System.out.println(holder.getCountries().size());
 		Boolean countryInCOntinent = mec.validateNoContinent();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
