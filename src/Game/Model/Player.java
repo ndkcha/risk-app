@@ -448,4 +448,23 @@ public class Player extends Observable {
         this.cards.remove(type);
         this.cards.remove(type);
     }
+    
+    /**
+     * This method will return the total number of armies player have
+     * 
+     * @return totalArmies Return total number.
+     */
+    public int getTotalPlayerArmies(){
+    	int totalArmies = 0;
+    	int count = 0;
+        for (Map.Entry<String, Integer> country : this
+				.getCountriesConquered().entrySet()) {
+        	count++;
+        	System.out.println(country.getKey());
+        	System.out.println(country.getValue());
+			totalArmies += country.getValue();
+		}
+        System.out.println(count);
+        return totalArmies;
+    }
 }
