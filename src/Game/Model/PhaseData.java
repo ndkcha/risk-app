@@ -43,12 +43,17 @@ public class PhaseData extends Observable {
         this.totalPlayers = totalPlayers;
     }
 
-    /** Return the index of the current phase */
+    /** Return the index of the current phase
+     * @return currentPhase Current Phase
+     */
     public int getCurrentPhase() {
         return currentPhase;
     }
 
-    /** Returns the index of the active player */
+    /** Returns the index of the active player 
+     * 
+     * @return playerTurn Current player.
+     */
     public int getPlayerTurn() {
         return playerTurn;
     }

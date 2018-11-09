@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
  * @version 1.2.0
  */
 public class StartupController {
-	
+
 	/** a file that holds the information about the map */
 	private File mapFile;
 	/** the holder class for the data in the game play */
@@ -28,14 +28,16 @@ public class StartupController {
 	/**
 	 * A constructor that initializes the default values.
 	 * 
-	 * @param mapFile File descriptor of the map file.
+	 * @param mapFile
+	 *            File descriptor of the map file.
 	 */
 	public StartupController(File mapFile) {
 		this.mapFile = mapFile;
 	}
 
 	/** A blank constructor */
-	public StartupController() { }
+	public StartupController() {
+	}
 
 	/**
 	 * Process the map file and load the data inside the DataHolder object.
@@ -72,65 +74,72 @@ public class StartupController {
 
 			int totalCountries = countries.size();
 			int assignment[] = new int[3];
-			assignment[0] = totalCountries/3; // infantry
-			assignment[1] = totalCountries/3; // cavalry
-			assignment[2] = totalCountries/3; // artillery
+			assignment[0] = totalCountries / 3; // infantry
+			assignment[1] = totalCountries / 3; // cavalry
+			assignment[2] = totalCountries / 3; // artillery
 			Random random = new Random();
 
 			for (int i = 0; i < totalCountries; i++) {
 				int s = random.nextInt(3);
-				if (s == 3) s--;
+				if (s == 3)
+					s--;
 
 				CountryData data = countries.get(i);
 				switch (s) {
-					case 0:
-						if (assignment[0] == 0) {
-							if (assignment[1] != 0) {
-								data.setCard(CardData.CARD_TYPE_CAVALRY);
-								assignment[1]--;
-								if (assignment[1] < 0) assignment[1] = 0;
-							} else {
-								data.setCard(CardData.CARD_TYPE_ARTILLERY);
-								assignment[2]--;
-								if (assignment[2] < 0) assignment[2] = 0;
-							}
-						} else {
-							data.setCard(CardData.CARD_TYPE_INFANTRY);
-							assignment[0]--;
-						}
-						break;
-					case 1:
-						if (assignment[1] == 0) {
-							if (assignment[0] != 0) {
-								data.setCard(CardData.CARD_TYPE_INFANTRY);
-								assignment[0]--;
-								if (assignment[0] < 0) assignment[0] = 0;
-							} else {
-								data.setCard(CardData.CARD_TYPE_ARTILLERY);
-								assignment[2]--;
-								if (assignment[2] < 0) assignment[2] = 0;
-							}
-						} else {
+				case 0:
+					if (assignment[0] == 0) {
+						if (assignment[1] != 0) {
 							data.setCard(CardData.CARD_TYPE_CAVALRY);
 							assignment[1]--;
-						}
-						break;
-					case 2:
-						if (assignment[2] == 0) {
-							if (assignment[1] != 0) {
-								data.setCard(CardData.CARD_TYPE_CAVALRY);
-								assignment[1]--;
-								if (assignment[1] < 0) assignment[1] = 0;
-							} else {
-								data.setCard(CardData.CARD_TYPE_INFANTRY);
-								assignment[0]--;
-								if (assignment[0] < 0) assignment[0] = 0;
-							}
+							if (assignment[1] < 0)
+								assignment[1] = 0;
 						} else {
 							data.setCard(CardData.CARD_TYPE_ARTILLERY);
 							assignment[2]--;
+							if (assignment[2] < 0)
+								assignment[2] = 0;
 						}
-						break;
+					} else {
+						data.setCard(CardData.CARD_TYPE_INFANTRY);
+						assignment[0]--;
+					}
+					break;
+				case 1:
+					if (assignment[1] == 0) {
+						if (assignment[0] != 0) {
+							data.setCard(CardData.CARD_TYPE_INFANTRY);
+							assignment[0]--;
+							if (assignment[0] < 0)
+								assignment[0] = 0;
+						} else {
+							data.setCard(CardData.CARD_TYPE_ARTILLERY);
+							assignment[2]--;
+							if (assignment[2] < 0)
+								assignment[2] = 0;
+						}
+					} else {
+						data.setCard(CardData.CARD_TYPE_CAVALRY);
+						assignment[1]--;
+					}
+					break;
+				case 2:
+					if (assignment[2] == 0) {
+						if (assignment[1] != 0) {
+							data.setCard(CardData.CARD_TYPE_CAVALRY);
+							assignment[1]--;
+							if (assignment[1] < 0)
+								assignment[1] = 0;
+						} else {
+							data.setCard(CardData.CARD_TYPE_INFANTRY);
+							assignment[0]--;
+							if (assignment[0] < 0)
+								assignment[0] = 0;
+						}
+					} else {
+						data.setCard(CardData.CARD_TYPE_ARTILLERY);
+						assignment[2]--;
+					}
+					break;
 				}
 				holder.addCountry(data);
 			}
@@ -220,7 +229,8 @@ public class StartupController {
 	 * Based on number of players, this method determines the number of armies
 	 * allowed for the initial game play
 	 * 
-	 * @param noOfPlayers Number of players in the game play
+	 * @param noOfPlayers
+	 *            Number of players in the game play
 	 * @return number of armies allowed.
 	 */
 	public int determineOfInitialArmy(int noOfPlayers) {
@@ -230,7 +240,8 @@ public class StartupController {
 	/**
 	 * Add country inside the DataHolder hashmap
 	 * 
-	 * @param incoming Formatted string from the map file
+	 * @param incoming
+	 *            Formatted string from the map file
 	 * @return Data object of the country
 	 */
 	private CountryData addCountry(String incoming) {
@@ -247,7 +258,8 @@ public class StartupController {
 	/**
 	 * Add continent inside the DataHolder hashmap
 	 * 
-	 * @param incoming Formatted string from the map file
+	 * @param incoming
+	 *            Formatted string from the map file
 	 * @return Data object of the continent
 	 */
 	private ContinentData addContinent(String incoming) {
@@ -258,8 +270,10 @@ public class StartupController {
 	/**
 	 * Adds the map meta data into the DataHolder hasmap
 	 * 
-	 * @param field Name of the field
-	 * @param value Value of the corresponding.
+	 * @param field
+	 *            Name of the field
+	 * @param value
+	 *            Value of the corresponding.
 	 */
 	private void addToMapData(String field, String value) {
 		if (field.equalsIgnoreCase("image"))

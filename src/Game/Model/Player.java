@@ -342,6 +342,10 @@ public class Player extends Observable {
      * Refactoring 2: All phases in player model.
      * Implementation of Fortification Phase.
      *
+     * @param sourceCountry Source country
+     * @param targetCountry Target Country
+     * @param noOfArmies No of armies.
+     * 
      * @return message produced from the fortification phase
      */
     public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
@@ -536,6 +540,8 @@ public class Player extends Observable {
 
     /**
      * Removes either of three Infantry or Artillery or Cavalry cards
+     * 
+     * @param type Sting type of card
      */
     public void removeSimilarThreeCards(String type) {
         this.cards.remove(type);

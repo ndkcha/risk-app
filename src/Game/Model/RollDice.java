@@ -14,6 +14,8 @@ public class RollDice {
 	/**
 	 * Gives a random value of the dice. 
 	 * nextInt(max - min)
+	 * 
+	 * @return dice Dive Value
 	 */
 	public int roll() {
 		Random dice = new Random();
