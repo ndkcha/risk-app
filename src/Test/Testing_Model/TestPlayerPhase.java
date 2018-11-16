@@ -91,19 +91,13 @@ public class TestPlayerPhase {
 	 * This method will test number of dice allowed
 	 */
 	@Test
-//<<<<<<< HEAD
 	public void testcalculateNoOfDiceAllowed() {
 		
 		AttackController controller = new AttackController();
 		int noOfDiceAllowed=controller.calculateNoOfDiceAllowed("Cockpit01");
 	    assertEquals(2,noOfDiceAllowed);
 	}
-//=======
-	public void testattackPhase() {
-		// if the player has 
-//>>>>>>> 3eb9e0ae9c6c1d09a22567d7bac4733448665390
-	}
-	
+
 	/**
 	 * This method will test to get neighbors of a country
 	 */
