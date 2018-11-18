@@ -35,7 +35,7 @@ public class GameSettingsView {
 	private int num_players = 2; // Minimum number of players
 
 	private JFrame frame;
-	private JButton startGame, btnLoadMap, mapEditor;
+	private JButton startGame, btnLoadMap, mapEditor, loadGame, tournament;
 
 	private DataHolder holder = DataHolder.getInstance();
 
@@ -47,17 +47,17 @@ public class GameSettingsView {
 		frame = new JFrame("Risk: The Conquest Game");
 
 		// JButtons objects.
-		startGame = new JButton("Start Game");
+		startGame = new JButton("Single Mode");
 		btnLoadMap = new JButton("Load Map");
 		mapEditor = new JButton("Map Editor");
-		JButton credits = new JButton("credits");
-		JButton help = new JButton("Help");
+		loadGame = new JButton("Load Game");
+		tournament = new JButton("Tournament");
 
 		frame.add(startGame);
+		frame.add(tournament);
+		frame.add(loadGame);
 		frame.add(btnLoadMap);
 		frame.add(mapEditor);
-		frame.add(credits);
-		frame.add(help);
 
 		frame.setLayout(new FlowLayout());
 		frame.setSize(WIDTH, HEIGHT);
@@ -83,7 +83,8 @@ public class GameSettingsView {
 		JPanel p2 = new JPanel(); // Players Names Panel.
 		JPanel p3 = new JPanel(); // Players color Panel
 		JPanel p4 = new JPanel(); // Select map and Cancel panel
-
+		JPanel p5 = new JPanel();
+		
 		// Textfields for players name
 		final JTextField player1_name;
 		final JTextField player2_name;
@@ -100,6 +101,14 @@ public class GameSettingsView {
 		final JComboBox player5_select;
 		final JComboBox player6_select;
 
+		// Select list for player strategy.
+		final JComboBox player1_strategy;
+		final JComboBox player2_strategy;
+		final JComboBox player3_strategy;
+		final JComboBox player4_strategy;
+		final JComboBox player5_strategy;
+		final JComboBox player6_strategy;
+				
 		// Combo select lists
 		final JComboBox players_list;
 		final JComboBox difficulty_list;
@@ -108,7 +117,7 @@ public class GameSettingsView {
 
 		jf.setTitle("Game Settings");
 
-		String[] player1 = { "Human" };
+		String[] player1 = {"Human", "Computer"};
 		player1_select = new JComboBox(player1);
 		player1_select.setSelectedIndex(0);
 		player1_select.setBackground(Color.BLUE);
@@ -159,10 +168,11 @@ public class GameSettingsView {
 		JButton jb_cancel = new JButton("Cancel");
 
 		jf.getContentPane().setLayout(null);
-		jf.getContentPane().setLayout(new GridLayout(4, 6));
+		jf.getContentPane().setLayout(new GridLayout(5, 6));
 		p1.setLayout(new GridLayout(1, 5));
 		p2.setLayout(new GridLayout(1, 5));
 		p3.setLayout(new GridLayout(1, 5));
+		p5.setLayout(new GridLayout(1, 5));
 
 		player1_name = new JTextField("ndkcha");
 		player2_name = new JTextField("jatin");
@@ -170,6 +180,31 @@ public class GameSettingsView {
 		player4_name = new JTextField("roohani");
 		player5_name = new JTextField("kunal");
 		player6_name = new JTextField("player");
+		
+		String[] player_strategy1 = {"Agressive", "Bove", "Random", "Cheater"};
+		player1_strategy = new JComboBox(player_strategy1);
+		player1_strategy.setSelectedIndex(0);
+		
+		String[] player_strategy2 = {"Agressive", "Bove", "Random", "Cheater"};
+		player2_strategy = new JComboBox(player_strategy2);
+		player2_strategy.setSelectedIndex(0);
+		
+		String[] player_strategy3 = {"Agressive", "Bove", "Random", "Cheater"};
+		player3_strategy = new JComboBox(player_strategy3);
+		player3_strategy.setSelectedIndex(0);
+		
+		String[] player_strategy4 = {"Agressive", "Bove", "Random", "Cheater"};
+		player4_strategy = new JComboBox(player_strategy4);
+		player4_strategy.setSelectedIndex(0);
+		
+		String[] player_strategy5 = {"Agressive", "Bove", "Random", "Cheater"};
+		player5_strategy = new JComboBox(player_strategy5);
+		player5_strategy.setSelectedIndex(0);
+		
+		String[] player_strategy6 = {"Agressive", "Bove", "Random", "Cheater"};
+		player6_strategy = new JComboBox(player_strategy6);
+		player6_strategy.setSelectedIndex(0);
+		
 
 		// Display players name and colors based on selection on number of
 		// players.
@@ -187,6 +222,12 @@ public class GameSettingsView {
 				player4_select.setVisible(false);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
+				
+				player3_strategy.setVisible(true);
+				player4_strategy.setVisible(false);
+				player5_strategy.setVisible(false);
+				player6_strategy.setVisible(false);
+				
 				break;
 
 			case 4:
@@ -199,6 +240,12 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
+				
+				player3_strategy.setVisible(true);
+				player4_strategy.setVisible(true);
+				player5_strategy.setVisible(false);
+				player6_strategy.setVisible(false);
+				
 				break;
 
 			case 5:
@@ -211,6 +258,11 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(true);
 				player6_select.setVisible(false);
+				
+				player3_strategy.setVisible(true);
+				player4_strategy.setVisible(true);
+				player5_strategy.setVisible(true);
+				player6_strategy.setVisible(false);
 				break;
 
 			case 6:
@@ -223,6 +275,12 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(true);
 				player6_select.setVisible(true);
+				
+				player3_strategy.setVisible(true);
+				player4_strategy.setVisible(true);
+				player5_strategy.setVisible(true);
+				player6_strategy.setVisible(true);
+				
 				break;
 
 			default:
@@ -235,6 +293,12 @@ public class GameSettingsView {
 				player4_select.setVisible(false);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
+				
+				player3_strategy.setVisible(false);
+				player4_strategy.setVisible(false);
+				player5_strategy.setVisible(false);
+				player6_strategy.setVisible(false);
+				
 				break;
 			}
 		});
@@ -259,6 +323,13 @@ public class GameSettingsView {
 		p3.add(player4_select);
 		p3.add(player5_select);
 		p3.add(player6_select);
+		
+		p5.add(player1_strategy);
+		p5.add(player2_strategy);
+		p5.add(player3_strategy);
+		p5.add(player4_strategy);
+		p5.add(player5_strategy);
+		p5.add(player6_strategy);
 
 		player3_name.setVisible(false);
 		player4_name.setVisible(false);
@@ -270,12 +341,18 @@ public class GameSettingsView {
 		player5_select.setVisible(false);
 		player6_select.setVisible(false);
 
+		player3_strategy.setVisible(false);
+		player4_strategy.setVisible(false);
+		player5_strategy.setVisible(false);
+		player6_strategy.setVisible(false);
+		
 		p4.add(selectMap);
 		p4.add(jb_cancel);
 
 		jf.getContentPane().add(p1);
 		jf.getContentPane().add(p2);
 		jf.getContentPane().add(p3);
+		jf.getContentPane().add(p5);
 		jf.getContentPane().add(p4);
 
 		selectMap.addActionListener((ActionEvent e) -> {
