@@ -256,17 +256,27 @@ public class MapEditorController {
 				|| ghostNeighbours || subConnectedGraph;
 	}
 
+	/**
+	 * Checks if the sub-connected graph is valid or not for each continents
+	 * @return true if it is not valid.
+	 */
 	private boolean isErrorInSubConnectedGraph() {
 		for (Map.Entry<String, ContinentData> continentDataEntry : this.holder.getContinents().entrySet()) {
-			boolean isSubConnectedGraph = true;
+			boolean isSubConnectedGraph = false;
 
 			List<CountryData> countries = this.holder.getCountriesInContinent(continentDataEntry.getKey());
 			List<String> countryNames = this.countriesToName(countries);
 
+			if (countries.size() < 2)
+				continue;
+
 			for (CountryData countryData : countries) {
+				isSubConnectedGraph = false;
+
 				for (String neighbour : countryData.getNeighbours()) {
-					if (countryNames.indexOf(neighbour) == -1) {
-						isSubConnectedGraph = false;
+					System.out.println("continent: " + continentDataEntry.getKey() + " neighbour: " + neighbour);
+					if (countryNames.indexOf(neighbour) != -1) {
+						isSubConnectedGraph = true;
 						break;
 					}
 				}
@@ -285,11 +295,20 @@ public class MapEditorController {
 		return false;
 	}
 
+	/**
+	 * Convert the country data list to country names list
+	 * @param countryDataList the country data list
+	 * @return the country names list
+	 */
 	private List<String> countriesToName(List<CountryData> countryDataList) {
 		List<String> names = new ArrayList<>();
+		System.out.print("\n");
 		for (CountryData data : countryDataList) {
 			names.add(data.getName());
+			System.out.print(data.getName() + " ");
 		}
+
+		System.out.print("\n");
 
 		return names;
 	}
