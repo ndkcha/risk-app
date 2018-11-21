@@ -70,6 +70,8 @@ public class CountryData {
 	 * @param name Name of the country
 	 */
 	public void addNeighbour(String name) {
+		if (this.neighbours.indexOf(name) != -1)
+			return;
 		this.neighbours.add(name);
 	}
 

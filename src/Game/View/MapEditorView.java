@@ -634,12 +634,14 @@ public class MapEditorView extends JFrame {
 					Double.parseDouble(longY), continent);
 
 			if ((comboNeighbourCountry.getSelectedIndex() != -1)
-					&& !comboModelNeighbourCountries
-							.getElementAt(
-									comboNeighbourCountry.getSelectedIndex())
-							.equalsIgnoreCase("No country"))
-				data.addNeighbour(comboModelNeighbourCountries.getElementAt(
-						comboNeighbourCountry.getSelectedIndex()));
+					&& !comboModelNeighbourCountries.getElementAt(comboNeighbourCountry.getSelectedIndex())
+							.equalsIgnoreCase("No country")) {
+				String n = comboModelNeighbourCountries.getElementAt(comboNeighbourCountry.getSelectedIndex());
+				data.addNeighbour(n);
+				CountryData thatNeighbour = holder.getCountry(n);
+				thatNeighbour.addNeighbour(data.getName());
+				holder.putCountry(thatNeighbour);
+			}
 
 			holder.putCountry(data);
 			if (!originalName.equalsIgnoreCase(name)) {
