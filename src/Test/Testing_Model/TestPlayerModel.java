@@ -27,8 +27,8 @@ public class TestPlayerModel {
     @Before
     public void beforeTest() {
     	holder.addCountry(new CountryData("attacker", 2.2, 2.2, "Continent1"));
-        player = new Player("abc", 1, "blue");
-        player2 = new Player("a", 2, "red");
+        player = new Player("abc", 1, "blue", 0);
+        player2 = new Player("a", 2, "red", 1);
         player.updateCountry("attacker", 4);
     }
 

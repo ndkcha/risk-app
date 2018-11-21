@@ -24,8 +24,8 @@ public class TestPlayer_Cards {
 	@Before
 	public void beforeTest() {
 
-		player1 = new Player("abc", 1, "blue");
-		player2 = new Player("xyz", 0, "red");
+		player1 = new Player("abc", 1, "blue", 0);
+		player2 = new Player("xyz", 0, "red", 1);
 
 	}
 

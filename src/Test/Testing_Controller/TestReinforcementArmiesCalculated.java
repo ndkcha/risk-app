@@ -35,8 +35,8 @@ public class TestReinforcementArmiesCalculated {
 		holder.addCountry(country2);
 		holder.addCountry(country3);
 		holder.countCountriesInContinent("Cockpit");
-		Player player1 = new Player("abc", 1, "blue");
-		Player player2 = new Player("xyz", 0, "red");
+		Player player1 = new Player("abc", 1, "blue", 1);
+		Player player2 = new Player("xyz", 0, "red", 0);
 		holder.addPlayer(player1);
 		holder.addPlayer(player2);
 

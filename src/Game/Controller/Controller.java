@@ -41,6 +41,8 @@ public class Controller {
 		gameSettings.startGame();
 		startGameListener();
 		mapEditorListener();
+//		taurnamentListener();
+//		loadGameListener();
 	}
 
 	/**

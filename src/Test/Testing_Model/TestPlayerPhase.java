@@ -60,10 +60,15 @@ public class TestPlayerPhase {
 
 		this.transferingCountry = "Cockpit01";
 		this.destinationCountry = "Cockpit02";
-	
-		testplayer1 = new Player("abc", 1, "blue");
-		testplayer2 = new Player("xyz", 0, "red");
-		
+
+		this.countriesConquered.put("Cockpit01", 3);
+		this.countriesConquered.put("Cockpit02", 2);
+		this.countriesConquered.put("Cockpit03", 3);
+		this.countriesConquered.put("Cockpit04", 1);
+
+		testplayer1 = new Player("abc", 1, "blue", 0);
+		testplayer2 = new Player("xyz", 0, "red", 1);
+
 		holder.addPlayer(testplayer1);
 		holder.addPlayer(testplayer2);
 		
