@@ -11,6 +11,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -243,16 +244,54 @@ public class MapEditorController {
 	 * @return true If there are any errors.
 	 */
 	public boolean checkForErrors() {
-		boolean noNeighbours = false, noContinent = false,
-				noCountryInContinent = false, ghostNeighbours = false;
+		boolean noNeighbours, noContinent, noCountryInContinent, ghostNeighbours, subConnectedGraph;
 
 		noContinent = this.validateNoContinent();
 		noNeighbours = this.validateNoNeighbours();
 		noCountryInContinent = this.validateNoCountryInContinent();
 		ghostNeighbours = this.validateGhostNeighboursNolink();
+		subConnectedGraph = this.isErrorInSubConnectedGraph();
 
 		return noNeighbours || noContinent || noCountryInContinent
-				|| ghostNeighbours;
+				|| ghostNeighbours || subConnectedGraph;
+	}
+
+	private boolean isErrorInSubConnectedGraph() {
+		for (Map.Entry<String, ContinentData> continentDataEntry : this.holder.getContinents().entrySet()) {
+			boolean isSubConnectedGraph = true;
+
+			List<CountryData> countries = this.holder.getCountriesInContinent(continentDataEntry.getKey());
+			List<String> countryNames = this.countriesToName(countries);
+
+			for (CountryData countryData : countries) {
+				for (String neighbour : countryData.getNeighbours()) {
+					if (countryNames.indexOf(neighbour) == -1) {
+						isSubConnectedGraph = false;
+						break;
+					}
+				}
+
+				if (!isSubConnectedGraph)
+					break;
+			}
+
+			if (!isSubConnectedGraph) {
+				this.errorMessage = this.errorMessage.concat("\n" + continentDataEntry.getKey() +
+					" is not a sub-connected graph");
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private List<String> countriesToName(List<CountryData> countryDataList) {
+		List<String> names = new ArrayList<>();
+		for (CountryData data : countryDataList) {
+			names.add(data.getName());
+		}
+
+		return names;
 	}
 
 	/**
