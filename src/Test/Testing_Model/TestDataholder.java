@@ -34,7 +34,7 @@ public class TestDataholder {
 		 
 		 int con=conqueredCountryList.size();
 
-		 Player testplayer=new Player("abc",0,"blue");
+		 Player testplayer=new Player("abc",0,"blue", 0);
 		 
 		 testplayer.updateCountry("a", 1);
 		 testplayer.updateCountry("b", 2);

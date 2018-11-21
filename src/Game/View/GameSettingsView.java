@@ -67,6 +67,8 @@ public class GameSettingsView {
 		frame.validate();
 
 		initializeLoadMap();
+		initializeLoadGame();
+		initializeStartTournament();
 	}
 
 	/**
@@ -415,6 +417,26 @@ public class GameSettingsView {
 				System.out.println("No errors found ");
 				editorController.initAndDisplayView();
 			}
+		});
+	}
+	
+	/**
+	 * This method will start the Tournament.
+	 */
+	public void initializeStartTournament(){
+		tournament.addActionListener((ActionEvent e) -> {
+			// Open Tournament game settings here
+			
+		});
+	}
+	
+	/**
+	 * This method will initialize the map loader.
+	 */
+	private void initializeLoadGame() {
+		loadGame.addActionListener((ActionEvent e) -> {
+			// Open saved game fiel here
+			
 		});
 	}
 
