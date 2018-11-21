@@ -44,8 +44,8 @@ public class Test_StartupController {
 		holder.addCountry(country4);
 		holder.countCountriesInContinent("Cockpit");
 
-		testplayer1 = new Player("abc", 1, "blue");
-		testplayer2 = new Player("xyz", 0, "red");
+		testplayer1 = new Player("abc", 1, "blue",0);
+		testplayer2 = new Player("xyz", 0, "red",1);
 
 		holder.addPlayer(testplayer1);
 		holder.addPlayer(testplayer2);

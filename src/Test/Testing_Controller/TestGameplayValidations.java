@@ -55,8 +55,8 @@ public class TestGameplayValidations {
 		this.countriesConquered.put("Cockpit03", 3);
 		
 		//Reinforcement
-		Player player1 = new Player("abc", 1, "blue");
-		Player player2 = new Player("xyz", 0, "red");
+		Player player1 = new Player("abc", 1, "blue", 0);
+		Player player2 = new Player("xyz", 0, "red", 1);
 		holder.addPlayer(player1);
 		holder.addPlayer(player2);
 
