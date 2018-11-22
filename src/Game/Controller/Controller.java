@@ -24,14 +24,8 @@ import Game.View.*;
  */
 public class Controller {
 
-	// Game Driver: Hold all the data for gameplay.
-	private DataHolder holder = DataHolder.getInstance();
-
 	// Store object of GameSettingsView class.
 	private GameSettingsView gameSettings;
-
-	private Views playerInfoGUI;
-	private StartupController startupController;
 
 	/**
 	 * Run the game by calling startGame functions.
@@ -57,7 +51,6 @@ public class Controller {
 		StartupController startupController = new StartupController(map_file);
 		startupController.processFiles(); // Reads the Map file
 		startupController.assignCountries(); // assign the contries
-		// startupController.assignArmies(); // assign armies
 
 		RiskMainInterface.createInstance();
 	}
