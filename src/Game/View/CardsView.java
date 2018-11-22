@@ -23,14 +23,15 @@ public class CardsView implements Observer {
     private JButton btnExchange = new JButton();
     private JPanel panelCard = new JPanel();
     private JList<String> listCard = new JList<>();
-    private JLabel labelCardTitle = new JLabel();
     private DefaultListModel<String> listModelCards = new DefaultListModel<>();
-    private JScrollPane jScrollPane1 = new JScrollPane();
 
     /**
      * Initialize the card view
      */
     CardsView() {
+        JScrollPane jScrollPane1 = new JScrollPane();
+        JLabel labelCardTitle = new JLabel();
+
         labelCardTitle.setText("Card");
         listCard.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -112,9 +113,6 @@ public class CardsView implements Observer {
      * @param visibility true if it is to be shown
      */
     private void setVisibilityOfTheView(boolean visibility) {
-//        jScrollPane1.setVisible(visibility);
-//        labelCardTitle.setVisible(visibility);
-//        listCard.setVisible(visibility);
         listCard.setEnabled(visibility);
         btnExchange.setVisible(visibility);
     }
@@ -129,6 +127,31 @@ public class CardsView implements Observer {
         return this.panelCard;
     }
 
+
+    public void automateCardPhase() {
+        Player player = holder.getActivePlayer();
+
+        if (player.haveThreeSameTypeCards()) {
+            if (player.haveThreeArtilleryCards()) {
+                player.removeSimilarThreeCards(CardData.CARD_TYPE_ARTILLERY);
+                player.cardHasBeenUsed();
+            } else if (player.haveThreeCavalryCards()) {
+                player.removeSimilarThreeCards(CardData.CARD_TYPE_CAVALRY);
+                player.cardHasBeenUsed();
+            } else if (player.haveThreeInfantryCards()) {
+                player.removeSimilarThreeCards(CardData.CARD_TYPE_INFANTRY);
+                player.cardHasBeenUsed();
+            }
+            holder.sendGameLog(player.getName() + ": Cards have been exchanged. " + (player.getCardsUsedCount()*5) + " armies");
+        } else if (player.haveDistinctCards()) {
+            player.removeDistinctCards();
+            player.cardHasBeenUsed();
+            holder.sendGameLog(player.getName() + ": Cards have been exchanged. " + (player.getCardsUsedCount()*5) + " armies");
+        }
+
+        holder.updatePlayer(player);
+    }
+
     /**
      * Initializes the list for the card phase.
      */
@@ -141,24 +164,7 @@ public class CardsView implements Observer {
                 holder.changePhases();
                 return;
             }
-            if (player.haveThreeSameTypeCards()) {
-                if (player.haveThreeArtilleryCards()) {
-                    player.removeSimilarThreeCards(CardData.CARD_TYPE_ARTILLERY);
-                    player.cardHasBeenUsed();
-                } else if (player.haveThreeCavalryCards()) {
-                    player.removeSimilarThreeCards(CardData.CARD_TYPE_CAVALRY);
-                    player.cardHasBeenUsed();
-                } else if (player.haveThreeInfantryCards()) {
-                    player.removeSimilarThreeCards(CardData.CARD_TYPE_INFANTRY);
-                    player.cardHasBeenUsed();
-                }
-                holder.sendGameLog(player.getName() + ": Cards have been exchanged. " + (player.getCardsUsedCount()*5) + " armies");
-            } else if (player.haveDistinctCards()) {
-                player.removeDistinctCards();
-                player.cardHasBeenUsed();
-                holder.sendGameLog(player.getName() + ": Cards have been exchanged. " + (player.getCardsUsedCount()*5) + " armies");
-            }
-            holder.updatePlayer(player);
+            this.automateCardPhase();
             holder.changePhases();
             return;
         }
