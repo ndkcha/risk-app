@@ -41,10 +41,10 @@ public class RiskMainInterface extends JFrame {
         
         organizeLayout(panelPhases, panelDice, panelCard, panelPlayers, panelGamePlay, panelMap);
 
-        initValues(phaseView);
-
         setVisible(true);
         pack();
+
+        initValues(phaseView);
     }
 
     /**
