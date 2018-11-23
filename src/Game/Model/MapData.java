@@ -1,14 +1,17 @@
 package Game.Model;
 
+import java.io.Serializable;
+
 /**
  * The basic details about the map
  * 
  * @author Jay, ndkcha, gunvansh
  * @version 1.2.0
  */
-public class MapData {
+public class MapData implements Serializable {
 	
 	public String author, imageFileName, scrollType, mapFileName;
+	public String imageFilePath, mapFilePath;
 	public boolean wrap, warn;
 
 	public MapData() {

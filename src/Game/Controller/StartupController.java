@@ -48,6 +48,8 @@ public class StartupController {
 			Scanner mapScanner = new Scanner(this.mapFile);
 			this.holder.mapData.cleanUpMapData();
 			List<CountryData> countries = new ArrayList<>();
+			this.holder.mapData.mapFilePath = this.mapFile.getAbsolutePath();
+			this.holder.mapData.imageFilePath = this.holder.bmpFile.getAbsolutePath();
 
 			while (mapScanner.hasNextLine()) {
 				String incoming = mapScanner.nextLine();

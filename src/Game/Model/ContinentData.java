@@ -1,5 +1,7 @@
 package Game.Model;
 
+import java.io.Serializable;
+
 /**
  * The continent will hold the information about continents It shall hold only
  * the name and the control value
@@ -7,7 +9,7 @@ package Game.Model;
  * @author ndkcha, jay
  * @version 1.2.0
  */
-public class ContinentData {
+public class ContinentData implements Serializable {
 	
 	private String name;
 	private int controlValue;

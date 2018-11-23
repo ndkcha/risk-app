@@ -1,5 +1,6 @@
 package Game.Model;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Observable;
  * @author ndkcha
  * @version 1.2.0
  */
-public class PhaseData extends Observable {
+public class PhaseData extends Observable implements Serializable {
     public static final String CHANGE_TURN = "change:turn";
     public static final String CHANGE_PHASE = "change:phase";
 

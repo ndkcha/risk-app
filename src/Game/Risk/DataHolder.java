@@ -3,6 +3,8 @@ package Game.Risk;
 import Game.Model.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 /**
@@ -12,7 +14,6 @@ import java.util.*;
  * @version 1.2.0
  */
 public class DataHolder {
-    public static final String CARD_TYPE_WILD = "Wild";
     /** A communication bridge to get the GameLogs flowing thru the application */
     private GameLogsData gameLogs = new GameLogsData();
     /** a holder that manipulates the phases */
@@ -26,8 +27,6 @@ public class DataHolder {
     private List<CountryData> countryDataList = new ArrayList<>();
     /** List of player in the game */
     private HashMap<String, Player> playerList = new HashMap<>();
-    /** List of number of armies a player has */
-    private HashMap<Integer,Integer> playersArmiesList=new HashMap<>();
     /** list of players conquered in the game **/
     private List<Player> conqueredPlayerList = new  ArrayList<>();
     /** Meta data of the map */
@@ -229,19 +228,6 @@ public class DataHolder {
         return players;
     }
 
-    public HashMap<Integer, Integer> getPlayersArmiesList() {
-        return playersArmiesList;
-    }
-
-    public void setPlayersArmiesList(int playerId, int noOfArmies) {
-        if(playersArmiesList.keySet().contains(playerId)) {
-            playersArmiesList.replace(playerId, noOfArmies);
-        }
-        else {
-            playersArmiesList.put(playerId, noOfArmies);
-        }
-    }
-
     /**
      * Update the list of players in the game.
      * @param players list of players to update to.
@@ -359,5 +345,26 @@ public class DataHolder {
         double limit = ((double) totalCountries) * (3.0/4.0);
 
         return (playerCountries >= limit);
+    }
+
+    /**
+     * Saves the game data to output buffer provided
+     * Order to serialize in:
+     *  - map data
+     *  - player data
+     *  - conquered player list
+     *  - phase data
+     *  - game logs
+     * @param outputStream the output buffer to save into
+     * @return output stream used to save
+     */
+    public ObjectOutputStream saveTheGameData(ObjectOutputStream outputStream) throws IOException {
+        outputStream.writeObject(this.mapData);
+        outputStream.writeObject(this.playerList);
+        outputStream.writeObject(this.conqueredPlayerList);
+        outputStream.writeObject(this.phaseData);
+        outputStream.writeObject(this.gameLogs);
+
+        return outputStream;
     }
 }

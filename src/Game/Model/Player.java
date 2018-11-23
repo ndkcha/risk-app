@@ -2,6 +2,7 @@ package Game.Model;
 
 import Game.Controller.AttackController;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
  * @author ndkcha, Jay, r-naik
  * @version 1.2.0
  */
-public class Player extends Observable {
+public class Player extends Observable implements Serializable {
     private int noOfArmiesToAssign = 0;
     private String name, color;
     private int type, strategy;
@@ -24,6 +25,12 @@ public class Player extends Observable {
     private int attackerArmies, defenderArmies;
     private boolean isAllOutMode = true;
     private int armiesToMove = 0;
+
+    /**
+     * The countries conquered by the player. Key is the name of the country.
+     * Values is the number of armies inside that country.
+     */
+    private HashMap<String, Integer> countriesConquered;
 
     /** notify change in player */
     public void notifyChangeInPlayer() {
@@ -132,12 +139,6 @@ public class Player extends Observable {
     public void resetCardUsedFlag() {
         this.isCardUsed = false;
     }
-
-    /**
-     * The countries conquered by the player. Key is the name of the country.
-     * Values is the number of armies inside that country.
-     */
-    private HashMap<String, Integer> countriesConquered;
 
     /**
      * Gets the number of armies left to assign
@@ -284,8 +285,7 @@ public class Player extends Observable {
      *
      * @param countriesConquered The key value pair of countries Conquered.
      */
-    public void setCountriesConquered(
-        HashMap<String, Integer> countriesConquered) {
+    public void setCountriesConquered(HashMap<String, Integer> countriesConquered) {
         this.countriesConquered = countriesConquered;
     }
 
@@ -561,11 +561,8 @@ public class Player extends Observable {
         for (Map.Entry<String, Integer> country : this
 				.getCountriesConquered().entrySet()) {
         	count++;
-        	System.out.println(country.getKey());
-        	System.out.println(country.getValue());
 			totalArmies += country.getValue();
 		}
-        System.out.println(count);
         return totalArmies;
     }
 }

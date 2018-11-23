@@ -6,7 +6,7 @@ import Game.Controller.StartupController;
 import Game.Risk.DataHolder;
 
 /**
- * Full Game Play Panel consist of Game Logs, Map, Dice info, Player Info,
+ * Full Game Play Panel consist of Game Logs, Map, Player Info,
  * Reinforcement, Attack and Fortification controls.
  *
  * @author Jay, ndkcha, vansh
@@ -33,13 +33,13 @@ public class RiskMainInterface extends JFrame {
         PhaseView phaseView = this.initializePhaseView();
 
         JPanel panelMap = this.initializeMapView();
-        JPanel panelDice = this.initializeDiceView();
+        JPanel panelSaveGame = this.initializeSaveGameView();
         JPanel panelPhases = phaseView.getPanel();
         JPanel panelCard = this.initializeCardView();
         JPanel panelPlayers = this.initializeWorldDominationView();
         JPanel panelGamePlay = this.initializeGameLogsView();
         
-        organizeLayout(panelPhases, panelDice, panelCard, panelPlayers, panelGamePlay, panelMap);
+        organizeLayout(panelPhases, panelSaveGame, panelCard, panelPlayers, panelGamePlay, panelMap);
 
         setVisible(true);
         pack();
@@ -60,13 +60,13 @@ public class RiskMainInterface extends JFrame {
     }
 
     /**
-     * Initialize the dice view
-     * @return the panel in which the dice area is loaded
+     * Initialize the save game view
+     * @return the panel in which the save game area is loaded
      */
-    private JPanel initializeDiceView() {
-        DiceView diceView = new DiceView();
+    private JPanel initializeSaveGameView() {
+        SaveGameView saveGameView = new SaveGameView();
 
-        return diceView.getPanel();
+        return saveGameView.getPanel();
     }
 
     /**
@@ -126,13 +126,13 @@ public class RiskMainInterface extends JFrame {
     /**
      * It organizes the main content layout
      * @param panelPhases the phases view
-     * @param dicePanel the dice view
+     * @param saveGamePanel the save game view
      * @param panelCard the card view
      * @param panelPlayers the players view
      * @param panelGamePlay the gameplay view
      * @param mapPanel the map view
      */
-    private void organizeLayout(JPanel panelPhases, JPanel dicePanel, JPanel panelCard, JPanel panelPlayers,
+    private void organizeLayout(JPanel panelPhases, JPanel saveGamePanel, JPanel panelCard, JPanel panelPlayers,
                                 JPanel panelGamePlay, JPanel mapPanel) {
         JScrollPane jScrollPane1 = new JScrollPane();
         jScrollPane1.setViewportView(mapPanel);
@@ -148,7 +148,7 @@ public class RiskMainInterface extends JFrame {
                             .addContainerGap()
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addComponent(panelPhases, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(dicePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(saveGamePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addComponent(panelCard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -170,7 +170,7 @@ public class RiskMainInterface extends JFrame {
                             .addContainerGap()
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addComponent(panelPhases, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(dicePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(saveGamePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addComponent(panelCard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -198,7 +198,7 @@ public class RiskMainInterface extends JFrame {
                                     .addGap(22, 22, 22)
                                     .addComponent(panelPlayers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(dicePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(saveGamePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(panelPhases, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
