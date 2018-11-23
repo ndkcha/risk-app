@@ -84,7 +84,7 @@ public class SaveGameView implements Observer {
 			FileOutputStream fileOutputStream = new FileOutputStream(fileToSave);
 			ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
 
-			holder.saveTheGameData(outputStream);
+			outputStream = holder.saveTheGameData(outputStream);
 
 			outputStream.close();
 			fileOutputStream.close();

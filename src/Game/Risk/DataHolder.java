@@ -4,6 +4,7 @@ import Game.Model.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 
@@ -360,11 +361,37 @@ public class DataHolder {
      */
     public ObjectOutputStream saveTheGameData(ObjectOutputStream outputStream) throws IOException {
         outputStream.writeObject(this.mapData);
+        outputStream.writeObject(this.countryDataList);
+        outputStream.writeObject(this.continentDataList);
         outputStream.writeObject(this.playerList);
         outputStream.writeObject(this.conqueredPlayerList);
         outputStream.writeObject(this.phaseData);
         outputStream.writeObject(this.gameLogs);
 
         return outputStream;
+    }
+
+    /**
+     * Load the game data from an input stream
+     * @param inputStream the stream to read
+     * @return the stream which is read
+     * @throws ClassNotFoundException when the class is not properly mapped
+     * @throws IOException error in parsing data
+     */
+    @SuppressWarnings("unchecked")
+    public ObjectInputStream loadTheGameData(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+        this.mapData = (MapData) inputStream.readObject();
+        this.countryDataList = (List<CountryData>) inputStream.readObject();
+        this.continentDataList = (List<ContinentData>) inputStream.readObject();
+        this.playerList = (HashMap<String, Player>) inputStream.readObject();
+        this.conqueredPlayerList = (List<Player>) inputStream.readObject();
+        this.phaseData = (PhaseData) inputStream.readObject();
+        this.gameLogs = (GameLogsData) inputStream.readObject();
+
+        return inputStream;
+    }
+
+    public List<String> getGameLogs() {
+        return gameLogs.logs;
     }
 }

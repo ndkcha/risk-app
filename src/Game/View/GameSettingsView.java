@@ -67,7 +67,6 @@ public class GameSettingsView {
 		frame.validate();
 
 		initializeLoadMap();
-		initializeLoadGame();
 		initializeStartTournament();
 	}
 
@@ -432,12 +431,10 @@ public class GameSettingsView {
 	
 	/**
 	 * This method will initialize the map loader.
+	 * @param listener the listener to attach
 	 */
-	private void initializeLoadGame() {
-		loadGame.addActionListener((ActionEvent e) -> {
-			// Open saved game fiel here
-			
-		});
+	public void addActionLoadGame(ActionListener listener) {
+		loadGame.addActionListener(listener);
 	}
 
 	/**

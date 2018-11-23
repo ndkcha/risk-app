@@ -9,7 +9,8 @@ import java.util.List;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Game.Model.Player;
 import Game.Risk.DataHolder;
@@ -23,7 +24,7 @@ import Game.View.*;
  *
  */
 public class Controller {
-
+	private DataHolder holder = DataHolder.getInstance();
 	// Store object of GameSettingsView class.
 	private GameSettingsView gameSettings;
 
@@ -36,7 +37,7 @@ public class Controller {
 		startGameListener();
 		mapEditorListener();
 //		taurnamentListener();
-//		loadGameListener();
+		loadGameListener();
 	}
 
 	/**
@@ -80,4 +81,43 @@ public class Controller {
 		this.gameSettings.mapEditorAction(mapEditorListener);
 	}
 
+	/**
+	 * Listener for load game button.
+	 */
+	private void loadGameListener() {
+		ActionListener loadGameActionListener = (ActionEvent e) -> {
+			File file = fileSelector();
+
+			StartupController startupController = new StartupController();
+			startupController.processGame(file);
+
+			holder.bmpFile = new File(holder.mapData.imageFilePath);
+
+			RiskMainInterface.createInstance();
+		};
+		this.gameSettings.addActionLoadGame(loadGameActionListener);
+	}
+
+	/**
+	 * Open a game file
+	 * @return the file object
+	 */
+	private File fileSelector() {
+		System.out.println("Load game file selected");
+		JFrame frame = new JFrame("Select Map File");
+
+		// Upload map file.
+		// https://coderanch.com/t/466536/java/closing-jFileChooser-window
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File("./files/map"));
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			"Risk Game Files", "risk");
+		fileChooser.setFileFilter(filter);
+
+		int returnValue = fileChooser.showOpenDialog(frame);
+		// Get the path of the file.
+		if (returnValue == JFileChooser.APPROVE_OPTION)
+			return fileChooser.getSelectedFile();
+		return null;
+	}
 }

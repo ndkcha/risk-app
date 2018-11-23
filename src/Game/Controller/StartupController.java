@@ -6,8 +6,7 @@ import Game.Model.CountryData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -36,7 +35,30 @@ public class StartupController {
 	}
 
 	/** A blank constructor */
-	public StartupController() {
+	public StartupController() { }
+
+	/**
+	 * Process the game file in order to load the game
+	 * @param gameFile file
+	 */
+	public void processGame(File gameFile) {
+		try {
+			FileInputStream fileInputStream = new FileInputStream(gameFile);
+			ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
+
+			inputStream = holder.loadTheGameData(inputStream);
+
+			inputStream.close();
+			fileInputStream.close();
+
+			this.holder.bmpFile = new File(holder.mapData.imageFilePath);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+		} catch (IOException e) {
+			System.out.println("Error in initializing stream");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error in parsing the data");
+		}
 	}
 
 	/**
