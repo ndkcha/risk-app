@@ -1,6 +1,3 @@
-/**
- * 
- */
 package Game.View;
 
 import Game.Model.Player;

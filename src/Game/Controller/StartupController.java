@@ -72,20 +72,33 @@ public class StartupController {
 				}
 			}
 
-			int totalCountries = countries.size();
-			int assignment[] = new int[3];
-			assignment[0] = totalCountries / 3; // infantry
-			assignment[1] = totalCountries / 3; // cavalry
-			assignment[2] = totalCountries / 3; // artillery
-			Random random = new Random();
+			this.assignCardsToCountry(countries);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
-			for (int i = 0; i < totalCountries; i++) {
-				int s = random.nextInt(3);
-				if (s == 3)
-					s--;
+	// change to the unit test
 
-				CountryData data = countries.get(i);
-				switch (s) {
+	/**
+	 * Assign cards to the countries on the map
+	 * @param countries list of countries
+	 */
+	private void assignCardsToCountry(List<CountryData> countries) {
+		int totalCountries = countries.size();
+		int assignment[] = new int[3];
+		assignment[0] = totalCountries / 3; // infantry
+		assignment[1] = totalCountries / 3; // cavalry
+		assignment[2] = totalCountries / 3; // artillery
+		Random random = new Random();
+
+		for (int i = 0; i < totalCountries; i++) {
+			int s = random.nextInt(3);
+			if (s == 3)
+				s--;
+
+			CountryData data = countries.get(i);
+			switch (s) {
 				case 0:
 					if (assignment[0] == 0) {
 						if (assignment[1] != 0) {
@@ -140,11 +153,8 @@ public class StartupController {
 						assignment[2]--;
 					}
 					break;
-				}
-				holder.addCountry(data);
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			holder.addCountry(data);
 		}
 	}
 

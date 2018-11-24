@@ -1,6 +1,3 @@
-/**
- * 
- */
 package Game.View;
 
 import Game.Model.GameLogsData;
@@ -17,19 +14,18 @@ import javax.swing.*;
  * @version 1.2.0
  */
 public class GameLogsView implements Observer {
-
-	private JScrollPane jScrollPane4 = new JScrollPane();
 	private JList<String> listGamePlay = new JList<>();
 	private JPanel panelGamePlay = new JPanel();
-    private JLabel jLabel7 = new JLabel();
-    private JLabel jLabel6 = new JLabel();
     private DefaultListModel<String> listModelGamePlay = new DefaultListModel<>();
     
 	/**
 	 * Initialize the view
 	 */
 	public GameLogsView() {
-		
+		JScrollPane jScrollPane4 = new JScrollPane();
+		JLabel jLabel7 = new JLabel();
+		JLabel jLabel6 = new JLabel();
+
 		jLabel7.setText("             Gameplay   :");
         jScrollPane4.setViewportView(listGamePlay);
 

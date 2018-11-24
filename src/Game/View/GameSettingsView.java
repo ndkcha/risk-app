@@ -67,6 +67,8 @@ public class GameSettingsView {
 		frame.validate();
 
 		initializeLoadMap();
+		initializeLoadGame();
+		initializeStartTournament();
 	}
 
 	/**
@@ -187,15 +189,15 @@ public class GameSettingsView {
 		
 		String[] player_strategy2 = {"Agressive", "Bove", "Random", "Cheater"};
 		player2_strategy = new JComboBox(player_strategy2);
-		player2_strategy.setSelectedIndex(0);
+		player2_strategy.setSelectedIndex(1);
 		
 		String[] player_strategy3 = {"Agressive", "Bove", "Random", "Cheater"};
 		player3_strategy = new JComboBox(player_strategy3);
-		player3_strategy.setSelectedIndex(0);
+		player3_strategy.setSelectedIndex(2);
 		
 		String[] player_strategy4 = {"Agressive", "Bove", "Random", "Cheater"};
 		player4_strategy = new JComboBox(player_strategy4);
-		player4_strategy.setSelectedIndex(0);
+		player4_strategy.setSelectedIndex(3);
 		
 		String[] player_strategy5 = {"Agressive", "Bove", "Random", "Cheater"};
 		player5_strategy = new JComboBox(player_strategy5);
@@ -361,17 +363,17 @@ public class GameSettingsView {
 			System.out.println("number of player selected: " + num_players);
 
 			Player pl1 = new Player(player1_name.getText(),
-					player1_select.getSelectedIndex(), "BLUE");
+					player1_select.getSelectedIndex(), "BLUE" , player1_strategy.getSelectedIndex());
 			Player pl2 = new Player(player2_name.getText(),
-					player2_select.getSelectedIndex(), "GREEN");
+					player2_select.getSelectedIndex(), "GREEN" , player2_strategy.getSelectedIndex());
 			Player pl3 = new Player(player3_name.getText(),
-					player3_select.getSelectedIndex(), "YELLOW");
+					player3_select.getSelectedIndex(), "YELLOW" , player3_strategy.getSelectedIndex());
 			Player pl4 = new Player(player4_name.getText(),
-					player4_select.getSelectedIndex(), "MAGENTA");
+					player4_select.getSelectedIndex(), "MAGENTA" , player4_strategy.getSelectedIndex());
 			Player pl5 = new Player(player5_name.getText(),
-					player5_select.getSelectedIndex(), "RED");
+					player5_select.getSelectedIndex(), "RED" , player5_strategy.getSelectedIndex());
 			Player pl6 = new Player(player6_name.getText(),
-					player6_select.getSelectedIndex(), "ORANGE");
+					player6_select.getSelectedIndex(), "ORANGE", player6_strategy.getSelectedIndex());
 
 			holder.addPlayer(pl1);
 			holder.addPlayer(pl2);
@@ -415,6 +417,26 @@ public class GameSettingsView {
 				System.out.println("No errors found ");
 				editorController.initAndDisplayView();
 			}
+		});
+	}
+	
+	/**
+	 * This method will start the Tournament.
+	 */
+	public void initializeStartTournament(){
+		tournament.addActionListener((ActionEvent e) -> {
+			// Open Tournament game settings here
+			
+		});
+	}
+	
+	/**
+	 * This method will initialize the map loader.
+	 */
+	private void initializeLoadGame() {
+		loadGame.addActionListener((ActionEvent e) -> {
+			// Open saved game fiel here
+			
 		});
 	}
 
