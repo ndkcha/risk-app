@@ -14,7 +14,7 @@ import Game.Risk.DataHolder;
  * 
  * @author Jay
  */
-public class TestFortificationCountryConnected {
+public class TestFortificationController {
 	private FortificationController fc;
 	public String transferingCountry;
 	public String destinationCountry;

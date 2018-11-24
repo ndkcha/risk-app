@@ -12,7 +12,7 @@ import Test.Testing_Controller.*;
  * This Test Suite calls   tall test classes of  Controller.
  */
 @RunWith(Suite.class)
-@SuiteClasses({TestGameplayValidations.class , TestMapValidation.class })
+@SuiteClasses({TestGameplayValidations.class , TestMapEditorController.class })
  
  
 public class TestSuiteController {

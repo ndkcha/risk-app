@@ -6,12 +6,12 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import Test.TestSuiteController;
 import Test.TestSuiteModel;
-import Test.Testing_Controller.TestFortificationCountryConnected;
+import Test.Testing_Controller.TestFortificationController;
 import Test.Testing_Controller.TestMapEditorController;
 import Test.Testing_Controller.TestMapReader;
-import Test.Testing_Controller.TestMapValidation;
+import Test.Testing_Controller.TestMapEditorController;
 import Test.Testing_Controller.TestNumberofInitialArmies;
-import Test.Testing_Controller.TestReinforcementArmiesCalculated;
+import Test.Testing_Controller.TestReinforcementController;
 /**
  * This Test Suite calls   the test suite of Model and Controller.
  */
