@@ -35,7 +35,7 @@ public class Controller {
 		gameSettings.startGame();
 		startGameListener();
 		mapEditorListener();
-//		taurnamentListener();
+		tournamentModeListener();
 //		loadGameListener();
 	}
 
@@ -80,4 +80,12 @@ public class Controller {
 		this.gameSettings.mapEditorAction(mapEditorListener);
 	}
 
+
+	private void tournamentModeListener() {
+		ActionListener tournamentListener = (ActionEvent e) -> {
+			TournamentController controller = new TournamentController();
+			controller.start();
+		};
+		this.gameSettings.initializeStartTournament(tournamentListener);
+	}
 }

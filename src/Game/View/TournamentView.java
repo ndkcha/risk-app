@@ -13,9 +13,7 @@ public class TournamentView extends javax.swing.JFrame {
      /**
      * Creates new form NewJFrame
      */
-    public TournamentView  () {
-        initComponents();
-    }
+    public TournamentView  () { }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT
@@ -23,7 +21,7 @@ public class TournamentView extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {
+    public void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         Tournament_game_log_Jlist = new javax.swing.JList<>();
@@ -306,6 +304,7 @@ public class TournamentView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        setVisible(true);
         pack();
     }// </editor-fold>                        
 

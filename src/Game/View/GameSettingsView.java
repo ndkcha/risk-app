@@ -68,7 +68,6 @@ public class GameSettingsView {
 
 		initializeLoadMap();
 		initializeLoadGame();
-		initializeStartTournament();
 	}
 
 	/**
@@ -422,12 +421,10 @@ public class GameSettingsView {
 	
 	/**
 	 * This method will start the Tournament.
+	 * @param listener listener to assign the tournament
 	 */
-	public void initializeStartTournament(){
-		tournament.addActionListener((ActionEvent e) -> {
-			// Open Tournament game settings here
-			
-		});
+	public void initializeStartTournament(ActionListener listener){
+		tournament.addActionListener(listener);
 	}
 	
 	/**
