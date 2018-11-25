@@ -14,6 +14,7 @@ import java.util.*;
  */
 public class Player extends Observable {
     private int noOfArmiesToAssign = 0;
+    private int noOfTurnsTaken = 0;
     private String name, color;
     private int type, strategy;
     private List<String> cards = new ArrayList<>();
@@ -24,6 +25,30 @@ public class Player extends Observable {
     private int attackerArmies, defenderArmies;
     private boolean isAllOutMode = true;
     private int armiesToMove = 0;
+
+    /**
+     * The countries conquered by the player. Key is the name of the country.
+     * Values is the number of armies inside that country.
+     */
+    private HashMap<String, Integer> countriesConquered;
+
+    /**
+     * Called when player has taken his turn.
+     * It is tracked so that we can determine the end of the game.
+     */
+    public void takeTurn() {
+        this.noOfTurnsTaken++;
+    }
+
+    /**
+     * To determine if the player can take more turns
+     * @param maxLimit maximum allowed turns
+     * @return true if he can
+     */
+    public boolean canTakeMoreTurns(int maxLimit) {
+        System.out.println(name + " turn taken " + noOfTurnsTaken + " :-max " + maxLimit);
+        return (this.noOfTurnsTaken <= maxLimit);
+    }
 
     /** notify change in player */
     public void notifyChangeInPlayer() {
@@ -132,12 +157,6 @@ public class Player extends Observable {
     public void resetCardUsedFlag() {
         this.isCardUsed = false;
     }
-
-    /**
-     * The countries conquered by the player. Key is the name of the country.
-     * Values is the number of armies inside that country.
-     */
-    private HashMap<String, Integer> countriesConquered;
 
     /**
      * Gets the number of armies left to assign
@@ -561,11 +580,8 @@ public class Player extends Observable {
         for (Map.Entry<String, Integer> country : this
 				.getCountriesConquered().entrySet()) {
         	count++;
-        	System.out.println(country.getKey());
-        	System.out.println(country.getValue());
 			totalArmies += country.getValue();
 		}
-        System.out.println(count);
         return totalArmies;
     }
 }

@@ -287,6 +287,13 @@ public class DataHolder {
         this.phaseData.changePhase();
     }
 
+    /**
+     * End the game forcefully
+     */
+    public void forceEndGame() {
+        this.phaseData.forceEnd();
+    }
+
     /** 
      * get the active player on the board 
      * 
@@ -359,5 +366,20 @@ public class DataHolder {
         double limit = ((double) totalCountries) * (3.0/4.0);
 
         return (playerCountries >= limit);
+    }
+
+    /**
+     * Has everyone reached the max limit?
+     * It's supposed end the game if true
+     * @param maxLimit the max limit
+     * @return true if game should be ended
+     */
+    public boolean areAllPlayerDone(int maxLimit) {
+        for (Player player : this.getPlayerList()) {
+            if (player.canTakeMoreTurns(maxLimit))
+                return false;
+        }
+
+        return true;
     }
 }
