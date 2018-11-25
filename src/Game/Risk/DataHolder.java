@@ -43,6 +43,8 @@ public class DataHolder {
         playersArmiesList.clear();
         conqueredPlayerList.clear();
         mapData.cleanUpMapData();
+        phaseData = new PhaseData();
+        phaseData.setTotalPlayers(this.getPlayerList().size());
     }
 
     /** 
@@ -297,9 +299,10 @@ public class DataHolder {
 
     /**
      * End the game forcefully
+     * @param winner name of the player who've won
      */
-    public void forceEndGame() {
-        this.phaseData.forceEnd();
+    public void forceEndGame(String winner) {
+        this.phaseData.forceEnd(winner);
     }
 
     /** 

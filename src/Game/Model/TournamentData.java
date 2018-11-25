@@ -1,5 +1,11 @@
 package Game.Model;
 
+import Game.Controller.StartupController;
+import Game.Risk.DataHolder;
+import Game.View.RiskMainInterface;
+import Game.View.TournamentView;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +16,8 @@ import java.util.Observable;
  * @author ndkcha
  */
 public class TournamentData extends Observable {
+    public static final String START_GAME = "start:game";
+    private DataHolder holder = DataHolder.getInstance();
     private List<List<String>> mapBuffer = new ArrayList<>();
     private HashMap<String, TournamentGame> games = new HashMap<>();
 
@@ -27,11 +35,19 @@ public class TournamentData extends Observable {
         this.mapBuffer.add(map);
     }
 
-    /**
-     * Get the map details
-     * @return path to map file, bmp file, and number of times to play
-     */
-    public List<List<String>> getMapBuffer() {
-        return this.mapBuffer;
+    public void startGame() {
+        this.setChanged();
+        this.notifyObservers(START_GAME);
+        holder.refreshHolder();
+
+        holder.bmpFile= new File(mapBuffer.get(0).get(1));
+        StartupController startupController = new StartupController(new File(mapBuffer.get(0).get(0)));
+
+        startupController.processFiles();
+        startupController.assignCountries();
+
+
+        RiskMainInterface mainInterface = new RiskMainInterface(true);
+
     }
 }

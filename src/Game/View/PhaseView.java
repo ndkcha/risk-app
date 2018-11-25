@@ -29,6 +29,7 @@ public class PhaseView implements Observer {
 	private DataHolder holder = DataHolder.getInstance();
 	private int reinforcementArmyAllocated = 0;
 	private boolean isFortificationDone = false;
+	private boolean isTournamentMode;
 
 	private JButton btnPhases = new JButton();
     private JPanel panelPhases = new JPanel();
@@ -44,7 +45,8 @@ public class PhaseView implements Observer {
 	/**
 	 * Constructor for the phase view interface.
 	 */
-	public PhaseView() {
+	public PhaseView(boolean isTournamentMode) {
+		this.isTournamentMode = isTournamentMode;
 		labelPhases.setText("Phases :");
         btnPhases.setText("Next Phase");
 
@@ -201,6 +203,7 @@ public class PhaseView implements Observer {
 	/**
 	 * start the attack phase
 	 */
+	@SuppressWarnings("Duplicates")
 	private void startAttackPhase() {
 		Player player = holder.getActivePlayer();
 
@@ -271,9 +274,11 @@ public class PhaseView implements Observer {
         player.notifyChangeInPlayer();
 
         if (holder.hasPlayerWon(player)) {
-			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
-				"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
-			holder.forceEndGame();
+        	if (!isTournamentMode) {
+				JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
+					"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			}
+			holder.forceEndGame(player.getName());
         	return;
 		}
 
@@ -283,6 +288,7 @@ public class PhaseView implements Observer {
 	/**
 	 * Perform the attack phase
 	 */
+	@SuppressWarnings("Duplicates")
 	private void prepareAttack() {
 		int attackerIndex = comboCountry.getSelectedIndex();
 		int defenderIndex = comboNeighbourCountry.getSelectedIndex();
@@ -326,9 +332,11 @@ public class PhaseView implements Observer {
         player = holder.getActivePlayer();
 		player.notifyChangeInPlayer();
 		if (holder.hasPlayerWon(player)) {
-			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
-				"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
-			holder.forceEndGame();
+			if (!isTournamentMode) {
+				JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
+					"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			}
+			holder.forceEndGame(player.getName());
 			return;
 		}
 
@@ -720,9 +728,11 @@ public class PhaseView implements Observer {
 	 */
 	private void setupPhaseValues() {
 		if (holder.areAllPlayerDone(15)) {
-			JOptionPane.showMessageDialog(new JFrame(), "Game drawn! No one won this game!",
-				"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
-			holder.forceEndGame();
+			if (!isTournamentMode) {
+				JOptionPane.showMessageDialog(new JFrame(), "Game drawn! No one won this game!",
+					"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			}
+			holder.forceEndGame("Draw");
 			return;
 		}
 

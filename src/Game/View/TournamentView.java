@@ -5,6 +5,8 @@
  */
 package Game.View;
 
+import Game.Model.PhaseData;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.Observable;
@@ -249,6 +251,21 @@ public class TournamentView extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if (arg instanceof String) {
+            switch ((String) arg) {
+                case PhaseData.END_GAME:
+                    this.endGame(o);
+                    break;
+            }
+        }
+    }
 
+    /**
+     * Executed when the game is ended
+     */
+    private void endGame(Observable observable) {
+        System.out.println("Ended");
+        PhaseData data = (PhaseData) observable;
+        System.out.println("winner: " + data.getWinner());
     }
 }

@@ -4,6 +4,7 @@ import Game.Model.TournamentData;
 import Game.Risk.DataHolder;
 import Game.View.DialogSelectGameNo;
 import Game.View.GameSettingsView;
+import Game.View.RiskMainInterface;
 import Game.View.TournamentView;
 
 import javax.swing.*;
@@ -12,11 +13,18 @@ import java.io.File;
 import java.util.List;
 
 public class TournamentController {
+    private static TournamentController controller;
     private DataHolder holder = DataHolder.getInstance();
     private TournamentView tournamentView = new TournamentView();
     private TournamentData tournamentData = new TournamentData();
 
     TournamentController() { }
+
+    public static TournamentController getInstance() {
+        if (controller == null)
+            controller = new TournamentController();
+        return controller;
+    }
 
     /**
      * Start the tournament
@@ -38,15 +46,12 @@ public class TournamentController {
         gameSettingsView.gameSettings(true);
     }
 
-    public void startGame(List<String> mapInfo) {
-        holder.refreshHolder();
-
-        holder.bmpFile= new File(mapInfo.get(1));
-        StartupController startupController = new StartupController(new File(mapInfo.get(0)));
-
-        startupController.processFiles();
-        startupController.assignCountries();
-        
+    /**
+     * Initialize the tournament
+     */
+    public void initTournament() {
+        holder.attachObserverToPhase(tournamentView);
+        tournamentData.startGame();
     }
 
     /**

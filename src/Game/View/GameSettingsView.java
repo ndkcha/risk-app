@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Game.Controller.Controller;
 import Game.Controller.MapEditorController;
+import Game.Controller.TournamentController;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
 
@@ -120,7 +121,7 @@ public class GameSettingsView {
 
 		String[] player1 = {"Human", "Computer"};
 		player1_select = new JComboBox(player1);
-		player1_select.setSelectedIndex(0);
+		player1_select.setSelectedIndex(isTournamentMode ? 1 : 0);
 		player1_select.setBackground(Color.BLUE);
 
 		String[] player2 = { "Human", "Computer" };
@@ -353,7 +354,8 @@ public class GameSettingsView {
 		if (!isTournamentMode)
 			jf.getContentPane().add(p1);
 		jf.getContentPane().add(p2);
-		jf.getContentPane().add(p3);
+		if (!isTournamentMode)
+			jf.getContentPane().add(p3);
 		jf.getContentPane().add(p4);
 		jf.getContentPane().add(p5);
 
@@ -390,10 +392,11 @@ public class GameSettingsView {
 			}
 
 			System.out.println("Select Map Button is clicked");
-			chooseOptionFrame().dispose();
-			if (isTournamentMode)
+//			chooseOptionFrame().dispose();
+			if (isTournamentMode) {
 				holder.isArmiesAutomatic = true;
-			else {
+				TournamentController.getInstance().initTournament();
+			} else {
 				File map_file = map_selector("map");
 				holder.bmpFile = map_selector("bmp");
 

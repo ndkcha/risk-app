@@ -83,7 +83,7 @@ public class Controller {
 
 	private void tournamentModeListener() {
 		ActionListener tournamentListener = (ActionEvent e) -> {
-			TournamentController controller = new TournamentController();
+			TournamentController controller = TournamentController.getInstance();
 			controller.start();
 		};
 		this.gameSettings.initializeStartTournament(tournamentListener);

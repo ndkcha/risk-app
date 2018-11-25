@@ -21,10 +21,20 @@ public class PhaseData extends Observable {
     private int currentPhase;
     private int playerTurn;
     private int totalPlayers;
+    private String winner;
+
+    /**
+     * Get the winner of that game
+     * @return winner
+     */
+    public String getWinner() {
+        return winner;
+    }
 
     /** Switch the control to the next player */
     private void nextPlayer() {
         this.playerTurn++;
+        System.out.print("player turn" + playerTurn + " | total: " + totalPlayers);
         if (this.playerTurn == this.totalPlayers)
             this.playerTurn = 0;
     }
@@ -83,7 +93,8 @@ public class PhaseData extends Observable {
     /**
      * Notifies end of the game
      */
-    public void forceEnd() {
+    public void forceEnd(String winner) {
+        this.winner = winner;
         this.setChanged();
         this.notifyObservers(END_GAME);
     }

@@ -30,7 +30,7 @@ public class RiskMainInterface extends JFrame {
     /** Various panel components are initialised in initComponents method */
     @SuppressWarnings("unchecked")
     private void initComponents(boolean isTournamentMode) {
-        PhaseView phaseView = this.initializePhaseView();
+        PhaseView phaseView = this.initializePhaseView(isTournamentMode);
 
         JPanel panelMap = this.initializeMapView();
         JPanel panelDice = this.initializeDiceView();
@@ -75,8 +75,8 @@ public class RiskMainInterface extends JFrame {
      * It also attaches the relevant observers in order to keep the view updated.
      * @return the view in which the phase area is loaded
      */
-    private PhaseView initializePhaseView() {
-        PhaseView phaseView = new PhaseView();
+    private PhaseView initializePhaseView(boolean isTournamentMode) {
+        PhaseView phaseView = new PhaseView(isTournamentMode);
         phaseView.changePhaseTitle();
         holder.attachObserverToPhase(phaseView);
 
