@@ -23,13 +23,13 @@ public class RiskMainInterface extends JFrame {
     private JLabel labelCardTitle = new JLabel();
     // End of variables declaration
 
-    public RiskMainInterface() {
-        initComponents();
+    public RiskMainInterface(boolean isTournamentMode) {
+        initComponents(isTournamentMode);
     }
 
     /** Various panel components are initialised in initComponents method */
     @SuppressWarnings("unchecked")
-    private void initComponents() {
+    private void initComponents(boolean isTournamentMode) {
         PhaseView phaseView = this.initializePhaseView();
 
         JPanel panelMap = this.initializeMapView();
@@ -41,7 +41,8 @@ public class RiskMainInterface extends JFrame {
         
         organizeLayout(panelPhases, panelDice, panelCard, panelPlayers, panelGamePlay, panelMap);
 
-        setVisible(true);
+        if (!isTournamentMode)
+            setVisible(true);
         pack();
 
         initValues(phaseView);
@@ -229,7 +230,7 @@ public class RiskMainInterface extends JFrame {
 
     public static void createInstance() {
         if (mainView == null) {
-            mainView = new RiskMainInterface();
+            mainView = new RiskMainInterface(false);
         }
     }
 

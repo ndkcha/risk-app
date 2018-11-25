@@ -61,7 +61,7 @@ public class Controller {
 	private void startGameListener() {
 		ActionListener startGameListener = (ActionEvent e) -> {
 			System.out.println("Start Game Button is clicked");
-			gameSettings.gameSettings(); // Open game settings.
+			gameSettings.gameSettings(false); // Open game settings.
 			gameSettings.chooseOptionFrame().dispose(); // close the previous
 														// window.
 		};

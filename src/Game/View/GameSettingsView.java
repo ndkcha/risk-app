@@ -75,7 +75,7 @@ public class GameSettingsView {
 	 * difficulty, player names and there type with colors
 	 */
 	@SuppressWarnings("unchecked")
-	public void gameSettings() {
+	public void gameSettings(boolean isTournamentMode) {
 		System.out.println("Game Setting panel is opened");
 		final JFrame jf = new JFrame();
 		jf.setBounds(100, 100, WIDTH * 8, HEIGHT * 4);
@@ -165,7 +165,7 @@ public class GameSettingsView {
 		troops_list = new JComboBox(troops);
 		troops_list.setSelectedIndex(0);
 
-		JButton selectMap = new JButton("Select Map");
+		JButton selectMap = new JButton(isTournamentMode ? "Start Tournament" : "Select Map");
 		JButton jb_cancel = new JButton("Cancel");
 
 		jf.getContentPane().setLayout(null);
@@ -346,15 +346,16 @@ public class GameSettingsView {
 		player4_strategy.setVisible(false);
 		player5_strategy.setVisible(false);
 		player6_strategy.setVisible(false);
-		
+
 		p4.add(selectMap);
 		p4.add(jb_cancel);
 
-		jf.getContentPane().add(p1);
+		if (!isTournamentMode)
+			jf.getContentPane().add(p1);
 		jf.getContentPane().add(p2);
 		jf.getContentPane().add(p3);
-		jf.getContentPane().add(p5);
 		jf.getContentPane().add(p4);
+		jf.getContentPane().add(p5);
 
 		selectMap.addActionListener((ActionEvent e) -> {
 			System.out.println(e.getActionCommand());
@@ -390,14 +391,18 @@ public class GameSettingsView {
 
 			System.out.println("Select Map Button is clicked");
 			chooseOptionFrame().dispose();
-			File map_file = map_selector("map");
-			holder.bmpFile = map_selector("bmp");
+			if (isTournamentMode)
+				holder.isArmiesAutomatic = true;
+			else {
+				File map_file = map_selector("map");
+				holder.bmpFile = map_selector("bmp");
 
-			holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
+				holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
 
-			Controller c = new Controller();
-			// c.reinforcement();
-			c.gameStart(map_file);
+				Controller c = new Controller();
+				// c.reinforcement();
+				c.gameStart(map_file);
+			}
 		});
 
 		jf.setVisible(true);
@@ -443,6 +448,7 @@ public class GameSettingsView {
 	 * @param ext Extension of the file.
 	 * @return map_path Stores the absolute path of the map file and bmp file.
 	 */
+	@SuppressWarnings("Duplicates")
 	private File map_selector(String ext) {
 		System.out.println("Map and BMP file selector opened");
 		JFrame frame = new JFrame("Select Map File");

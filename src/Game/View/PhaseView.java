@@ -696,6 +696,7 @@ public class PhaseView implements Observer {
 		comboCountry.setModel(comboModelCountries);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
@@ -871,6 +872,7 @@ public class PhaseView implements Observer {
      * @param player Player Object
      * @return new armies The number of armies available for reinforcement phase.
      */
+	@SuppressWarnings("Duplicates")
     public int calculateReinforcementArmies(Player player) {
 
         //retrieving the player number whose turn is goin on

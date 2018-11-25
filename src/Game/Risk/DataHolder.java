@@ -37,6 +37,14 @@ public class DataHolder {
     /** Is the armies distribution be automatic or manual? */
     public boolean isArmiesAutomatic = false;
 
+    public void refreshHolder() {
+        countryDataList.clear();
+        continentDataList.clear();
+        playersArmiesList.clear();
+        conqueredPlayerList.clear();
+        mapData.cleanUpMapData();
+    }
+
     /** 
      * Returns the active phase
      * @return phaseData current phase 

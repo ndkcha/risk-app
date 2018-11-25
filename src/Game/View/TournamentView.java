@@ -7,12 +7,15 @@ package Game.View;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * The view for the tournament mode
  * @author vansh, ndkcha
  */
-public class TournamentView extends JFrame {
+@SuppressWarnings("deprecation")
+public class TournamentView extends JFrame implements Observer {
 
     private JButton btnMap1Game1, btnMap1Game2, btnMap1Game3, btnMap1Game4, btnMap1Game5;
     private JButton btnMap2Game1, btnMap2Game2, btnMap2Game3, btnMap2Game4, btnMap2Game5;
@@ -78,8 +81,9 @@ public class TournamentView extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         jScrollPane1.setViewportView(listGameLogs);
-        tableTournament.setModel(this.modelTournament);
         jScrollPane2.setViewportView(tableTournament);
+        tableTournament.setModel(this.modelTournament);
+        listGameLogs.setModel(this.modelListGameLogs);
 
         this.organizeTheLayout();
 
@@ -241,5 +245,10 @@ public class TournamentView extends JFrame {
                             .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 490, GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
