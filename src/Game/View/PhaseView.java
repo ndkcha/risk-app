@@ -17,6 +17,7 @@ import javax.swing.*;
  * @author Jay, ndkcha
  * @version 1.2.0
  */
+@SuppressWarnings("deprecation")
 public class PhaseView implements Observer {
 	private boolean isStartupPhaseActive = true;
 	private static final String STARTUP_ADD_ARMY = "startup:add_army";
@@ -271,7 +272,8 @@ public class PhaseView implements Observer {
 
         if (holder.hasPlayerWon(player)) {
 			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
-				"Error", JOptionPane.ERROR_MESSAGE);
+				"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			holder.forceEndGame();
         	return;
 		}
 
@@ -325,7 +327,8 @@ public class PhaseView implements Observer {
 		player.notifyChangeInPlayer();
 		if (holder.hasPlayerWon(player)) {
 			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
-				"Error", JOptionPane.ERROR_MESSAGE);
+				"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			holder.forceEndGame();
 			return;
 		}
 
@@ -716,11 +719,22 @@ public class PhaseView implements Observer {
 	 * Reacts to the changes in the phases
 	 */
 	private void setupPhaseValues() {
+		if (holder.areAllPlayerDone(15)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Game drawn! No one won this game!",
+				"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			holder.forceEndGame();
+			return;
+		}
+
 		switch (holder.getCurrentPhase()) {
 			case PhaseData.CARD_EXCHANGE_PHASE:
 				this.setupCardExchangePhase();
 				break;
 			case PhaseData.REINFORCEMENT_PHASE:
+				Player player = holder.getActivePlayer();
+				player.takeTurn();
+				holder.updatePlayer(player);
+
 				this.setupReinforcementPhase();
 				this.startReinforcement();
 				break;
