@@ -11,6 +11,7 @@ import java.util.Observable;
 public class PhaseData extends Observable {
     public static final String CHANGE_TURN = "change:turn";
     public static final String CHANGE_PHASE = "change:phase";
+    public static final String END_GAME = "end:game";
 
     public static final int CARD_EXCHANGE_PHASE = 0;
     public static final int REINFORCEMENT_PHASE = 1;
@@ -77,5 +78,13 @@ public class PhaseData extends Observable {
         this.currentPhase++;
         this.setChanged();
         this.notifyObservers(CHANGE_PHASE);
+    }
+
+    /**
+     * Notifies end of the game
+     */
+    public void forceEnd() {
+        this.setChanged();
+        this.notifyObservers(END_GAME);
     }
 }
