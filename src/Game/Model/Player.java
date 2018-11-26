@@ -16,7 +16,7 @@ public class Player extends Observable {
     private int noOfArmiesToAssign = 0;
     private int noOfTurnsTaken = 0;
     private String name, color;
-    private int type, strategy;
+    private int type;
     private List<String> cards = new ArrayList<>();
     private int cardsUsedCount = 0;
     private boolean isCardUsed = false;
@@ -174,11 +174,10 @@ public class Player extends Observable {
      * @param type  The type of player human or computer.
      * @param color The color for player.
      */
-    public Player(String name, int type, String color, int strategy) {
+    public Player(String name, int type, String color) {
         this.name = name;
         this.type = type;
         this.color = color;
-        this.strategy = strategy;
         this.countriesConquered = new HashMap<>();
     }
 
