@@ -12,7 +12,7 @@ import Game.Model.*;
  * @author kunal ghai
  *
  */
-public class TestPlayer_Cards {
+public class TestPlayerCards {
 
 	Player player1;
 	Player player2;

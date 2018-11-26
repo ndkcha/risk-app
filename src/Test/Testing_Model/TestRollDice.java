@@ -12,6 +12,9 @@ import org.junit.Test;
  */
 public class TestRollDice {
 
+	/**
+	 * This method will test Roll dice model that generate random number.
+	 */
 	@Test
 	public void testrolldice() {
 
