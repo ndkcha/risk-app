@@ -81,6 +81,11 @@ public class AggressiveStrategy implements PlayerStrategy{
         return neighbours;
     }
     
+    /**
+     * gets the weakest neighbour to attack
+     * @param countryName country name whose neighbors are to be found
+     * @return name of the weakest neighbour
+     */
     public String weakestNeighbourForAttack(String countryName) {
         AttackController ac=new AttackController();
         List<String> neighboursForAttack=ac.getNeighboursForAttack(countryName);

@@ -85,24 +85,18 @@ public class AttackController {
                     player = holder.getActivePlayer();
                     System.out.println("attackResult: " + attackResult);
                     if (!attackResult) {
-                        // check if the attacker country has only one army. stop
-                        // sttack if true
-                        Iterator itForCountriesConquered = countriesConquered
-                                .entrySet().iterator();// iterator for countries
-                        // conqureeed by player
+                        // check if the attacker country has only one army. stop sttack if true
+                        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
                         while (itForCountriesConquered.hasNext()) {
-                            Map.Entry pair = (Map.Entry) itForCountriesConquered
-                                    .next();
+                            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
                             if (pair.getKey().equals(attackingCountry)) {
                                 numberOfArmiesAttackerC = (int) pair.getValue();
                             }
                         }
-                        System.out.println("numberOfArmiesAttackerC: "
-                                + numberOfArmiesAttackerC);
+                        System.out.println("numberOfArmiesAttackerC: "+ numberOfArmiesAttackerC);
                         if (numberOfArmiesAttackerC == 1) {
                             System.out.println("Attack failed");
-                            holder.sendGameLog(player.getName()
-                                    + ": Attack failed and the attacker lost the country");
+                            holder.sendGameLog(player.getName()+ ": Attack failed and the attacker lost the country");
                             break;
 
                         }
@@ -124,22 +118,17 @@ public class AttackController {
             System.out.println("attackResult2: " + attackResult);
             // if the attack gets successful
             if (attackResult) {
-                holder.sendGameLog(player.getName() + ": the attack between "
-                        + attackingCountry + " and " + defendingCountry
-                        + " was successful.");
+                holder.sendGameLog(player.getName() + ": the attack between "+ attackingCountry + " and " + defendingCountry+ " was successful.");
                 // getting the armies in defending country
                 List<Player> allPlayersList;
                 allPlayersList = holder.getPlayerList();
                 for (int i = 0; i < allPlayersList.size(); i++) {
                     Player tmp = allPlayersList.get(i);
-                    HashMap<String, Integer> countriesConqueredTmp = tmp
-                            .getCountriesConquered();
-                    Iterator itForCountriesConquered = countriesConqueredTmp
-                            .entrySet().iterator();// iterator for countries
+                    HashMap<String, Integer> countriesConqueredTmp = tmp.getCountriesConquered();
+                    Iterator itForCountriesConquered = countriesConqueredTmp.entrySet().iterator();// iterator for countries
                     // conqureeed by player
                     while (itForCountriesConquered.hasNext()) {
-                        Map.Entry pair = (Map.Entry) itForCountriesConquered
-                                .next();
+                        Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
                         if (pair.getKey().equals(defendingCountry)) {
                             numberOfArmiesDefenderC = (int) pair.getValue();
                         }
@@ -223,30 +212,18 @@ public class AttackController {
                     }
 
                 }
-                // putting defending country into the attacker's conquered
-                // country list
-                addCountryintoConqueredList(defendingCountry,
-                        numberOfArmiesDefenderC);
+                // putting defending country into the attacker's conquered country list
+                addCountryintoConqueredList(defendingCountry,numberOfArmiesDefenderC);
                 player = holder.getActivePlayer();
 
-                // //move armies from attacking country to newly conquered
-                // country
-                // //minimum number of armies to move and maximum nmber of
-                // armies to move
+                //move armies from attacking country to newly conquered country minimum number of armies to move and maximum nmber of armies to move
                 int minArmies = numberOfDice;
-                // //set armies in the drop down box to select from
-                // //get the selected armies
-                // int selectedNoOfArmies = 0;
-                // moveArmies(selectedNoOfArmies, player, attackingCountry,
-                // defendingCountry);
+                ;
                 returnResult = minArmies;
 
             } else {
-                System.out.println(" the attack between " + attackingCountry
-                        + " and " + defendingCountry + " was not successful. ");
-                holder.sendGameLog(player.getName() + ": the attack between "
-                        + attackingCountry + " and " + defendingCountry
-                        + " was not successful. ");
+                System.out.println(" the attack between " + attackingCountry + " and " + defendingCountry + " was not successful. ");
+                holder.sendGameLog(player.getName() + ": the attack between "+ attackingCountry + " and " + defendingCountry+ " was not successful. ");
                 // change the phase
                 returnResult = -1;
             }
@@ -255,15 +232,7 @@ public class AttackController {
         // Is attack possible again
         List<String> attackPossibleCountries = isAnotherAttackPossible(
                 countriesConquered);
-        // call the attack function again
-
-        // check if whole map is conquered
-        // if (countriesConquered.keySet().equals(holder.getCountryDataList()))
-        // {
-        // System.out.println("the map is conquered");
-        // holder.sendGameLog(player.getName() + ": the map is conquered");
-        // //game ends
-        // }
+        
         return returnResult;
     }
 
