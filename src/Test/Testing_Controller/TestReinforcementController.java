@@ -19,6 +19,8 @@ import Game.Risk.DataHolder;
  */
 public class TestReinforcementController {
 	ReinforcementController rc;
+	Player testplayer1;
+	Player testplayer2;
 	public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();;
 	private DataHolder holder = DataHolder.getInstance();
 
@@ -27,18 +29,42 @@ public class TestReinforcementController {
 		ContinentData continentData = new ContinentData("Cockpit", 5);
 		CountryData country1 = new CountryData("Cockpit01", 658.0, 355.0,
 				"Cockpit");
+		country1.addNeighbour("Cockpit02");
+		country1.addNeighbour("Cockpit04");
 		CountryData country2 = new CountryData("Cockpit02", 558.0, 255.0,
 				"Cockpit");
+		country2.addNeighbour("Cockpit01");
 		CountryData country3 = new CountryData("Cockpit03", 758.0, 155.0,
 				"Cockpit");
+		country3.addNeighbour("Cockpit04");
+		CountryData country4 = new CountryData("Cockpit04", 858.0, 455.0,
+				"Cockpit");
+		country4.addNeighbour("Cockpit03");
+		country4.addNeighbour("Cockpit01");
+		
+		
 		holder.addCountry(country1);
 		holder.addCountry(country2);
 		holder.addCountry(country3);
+		holder.addCountry(country4);
 		holder.countCountriesInContinent("Cockpit");
-		Player player1 = new Player("abc", 1, "blue", 1);
-		Player player2 = new Player("xyz", 0, "red", 0);
-		holder.addPlayer(player1);
-		holder.addPlayer(player2);
+
+		this.countriesConquered.put("Cockpit01", 3);
+		this.countriesConquered.put("Cockpit02", 2);
+		this.countriesConquered.put("Cockpit03", 3);
+		this.countriesConquered.put("Cockpit04", 1);
+
+		testplayer1 = new Player("abc", 1, "blue");
+		testplayer2 = new Player("xyz", 0, "red");
+
+		holder.addPlayer(testplayer1);
+		holder.addPlayer(testplayer2);
+		
+		testplayer1.updateCountry("Cockpit01",3);
+		testplayer1.updateCountry("Cockpit02",1);
+		testplayer2.updateCountry("Cockpit03",3);
+		testplayer2.updateCountry("Cockpit04",1);
+        testplayer2.updateCountry("Cockpit04",3);
 
 		rc = new ReinforcementController();
 		this.countriesConquered.put("Cockpit01", 1);
@@ -59,4 +85,15 @@ public class TestReinforcementController {
 		assertEquals(expected, numberOfArmies);
 	}
 	
+	/**
+	 * This method will test the calculation of armies received in
+	 * reinforcement phase.
+	 */
+	@Test
+	public void testreinforcementPhase() {
+		int previousnoOfarmies=testplayer1.getArmiesInCountry("Cockpit01");
+		testplayer1.reinforcementPhase(3, "Cockpit01");
+		int armiesnow=testplayer1.getArmiesInCountry("Cockpit01");
+		assertEquals(previousnoOfarmies+3,armiesnow);
+	}
 }
