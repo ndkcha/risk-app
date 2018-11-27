@@ -1,6 +1,7 @@
 package Test.Testing_Model;
 
 import Game.Model.CardData;
+import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
@@ -11,6 +12,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.IntStream;
+
 /**
  * Test class for Player Cards
  *
@@ -19,6 +26,8 @@ import static org.junit.Assert.assertTrue;
 public class TestPlayerModel {
 	DataHolder holder = DataHolder.getInstance();
     Player player, player2;
+    Player testplayer1;
+	Player testplayer2;
 
     /**
      * Method is called before each test case of this class is executed.
@@ -75,4 +84,5 @@ public class TestPlayerModel {
     	assertEquals(player1Won, true);
     	assertEquals(player2Won, false);
     }
+  
 }

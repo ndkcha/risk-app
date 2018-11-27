@@ -66,39 +66,4 @@ public class TestGameplayValidations {
 		this.countriesConquered.put("Cockpit03", 3);
 	}
 
-	/**
-	 * This method will test if the countries are connected.
-	 */
-	@Test
-	public void testCheckIfConnected() {
-		Boolean b = fc.checkIfConnected(transferingCountry, destinationCountry,
-				countriesConquered);
-		System.out.println(b);
-		assertTrue(b);
-	}
-
-	/**
-	 * This will test the Initial armies assign to user on initial startup
-	 * phase.
-	 */
-	@Test
-	public void testdetermineOfInitialArmy() {
-		for (int i = 2; i <= 6; i++) {
-			assertEquals((40 - ((i - 2) * 5)), sc.determineOfInitialArmy(i));
-		}
-	}
-	
-	/**
-	 * This will test the calculation of reinforcement armies.
-	 * phase.
-	 */
-	@Test
-	public void testCalculateReinforcementArmies() {
-
-		int expected = 3;
-		int numberOfArmies = 3;
-		System.out.println("number of armies: " + numberOfArmies);
-		assertEquals(expected, numberOfArmies);
-	}
-
 }

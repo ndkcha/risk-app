@@ -17,7 +17,7 @@ import Game.Risk.DataHolder;
  * 
  * @author r-naik
  */
-public class TestReinforcementArmiesCalculated {
+public class TestReinforcementController {
 	ReinforcementController rc;
 	public HashMap<String, Integer> countriesConquered = new HashMap<String, Integer>();;
 	private DataHolder holder = DataHolder.getInstance();
@@ -46,6 +46,10 @@ public class TestReinforcementArmiesCalculated {
 		this.countriesConquered.put("Cockpit03", 3);
 	}
 
+	/**
+	 * This will test the calculation of reinforcement armies.
+	 * phase.
+	 */
 	@Test
 	public void testCalculateReinforcementArmies() {
 

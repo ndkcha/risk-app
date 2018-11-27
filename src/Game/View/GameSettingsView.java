@@ -85,7 +85,6 @@ public class GameSettingsView {
 		JPanel p2 = new JPanel(); // Players Names Panel.
 		JPanel p3 = new JPanel(); // Players color Panel
 		JPanel p4 = new JPanel(); // Select map and Cancel panel
-		JPanel p5 = new JPanel();
 		
 		// Textfields for players name
 		final JTextField player1_name;
@@ -102,14 +101,6 @@ public class GameSettingsView {
 		final JComboBox player4_select;
 		final JComboBox player5_select;
 		final JComboBox player6_select;
-
-		// Select list for player strategy.
-		final JComboBox player1_strategy;
-		final JComboBox player2_strategy;
-		final JComboBox player3_strategy;
-		final JComboBox player4_strategy;
-		final JComboBox player5_strategy;
-		final JComboBox player6_strategy;
 				
 		// Combo select lists
 		final JComboBox players_list;
@@ -119,32 +110,32 @@ public class GameSettingsView {
 
 		jf.setTitle("Game Settings");
 
-		String[] player1 = {"Human", "Computer"};
+		String[] player1 = {"Human", "Aggressive", "Benevolent", "Random", "Cheater"};
 		player1_select = new JComboBox(player1);
 		player1_select.setSelectedIndex(isTournamentMode ? 1 : 0);
 		player1_select.setBackground(Color.BLUE);
 
-		String[] player2 = { "Human", "Computer" };
+		String[] player2 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
 		player2_select = new JComboBox(player2);
 		player2_select.setSelectedIndex(1);
 		player2_select.setBackground(Color.GREEN);
 
-		String[] player3 = { "Human", "Computer" };
+		String[] player3 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
 		player3_select = new JComboBox(player3);
 		player3_select.setSelectedIndex(1);
 		player3_select.setBackground(Color.YELLOW);
 
-		String[] player4 = { "Human", "Computer" };
+		String[] player4 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
 		player4_select = new JComboBox(player4);
 		player4_select.setSelectedIndex(1);
 		player4_select.setBackground(Color.MAGENTA);
 
-		String[] player5 = { "Human", "Computer" };
+		String[] player5 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
 		player5_select = new JComboBox(player5);
 		player5_select.setSelectedIndex(1);
 		player5_select.setBackground(Color.RED);
 
-		String[] player6 = { "Human", "Computer" };
+		String[] player6 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
 		player6_select = new JComboBox(player6);
 		player6_select.setSelectedIndex(1);
 		player6_select.setBackground(Color.ORANGE);
@@ -174,7 +165,6 @@ public class GameSettingsView {
 		p1.setLayout(new GridLayout(1, 5));
 		p2.setLayout(new GridLayout(1, 5));
 		p3.setLayout(new GridLayout(1, 5));
-		p5.setLayout(new GridLayout(1, 5));
 
 		player1_name = new JTextField("ndkcha");
 		player2_name = new JTextField("jatin");
@@ -182,32 +172,7 @@ public class GameSettingsView {
 		player4_name = new JTextField("roohani");
 		player5_name = new JTextField("kunal");
 		player6_name = new JTextField("player");
-		
-		String[] player_strategy1 = {"Agressive", "Bove", "Random", "Cheater"};
-		player1_strategy = new JComboBox(player_strategy1);
-		player1_strategy.setSelectedIndex(0);
-		
-		String[] player_strategy2 = {"Agressive", "Bove", "Random", "Cheater"};
-		player2_strategy = new JComboBox(player_strategy2);
-		player2_strategy.setSelectedIndex(1);
-		
-		String[] player_strategy3 = {"Agressive", "Bove", "Random", "Cheater"};
-		player3_strategy = new JComboBox(player_strategy3);
-		player3_strategy.setSelectedIndex(2);
-		
-		String[] player_strategy4 = {"Agressive", "Bove", "Random", "Cheater"};
-		player4_strategy = new JComboBox(player_strategy4);
-		player4_strategy.setSelectedIndex(3);
-		
-		String[] player_strategy5 = {"Agressive", "Bove", "Random", "Cheater"};
-		player5_strategy = new JComboBox(player_strategy5);
-		player5_strategy.setSelectedIndex(0);
-		
-		String[] player_strategy6 = {"Agressive", "Bove", "Random", "Cheater"};
-		player6_strategy = new JComboBox(player_strategy6);
-		player6_strategy.setSelectedIndex(0);
-		
-
+	
 		// Display players name and colors based on selection on number of
 		// players.
 		players_list.addActionListener((ActionEvent e) -> {
@@ -225,11 +190,6 @@ public class GameSettingsView {
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
 				
-				player3_strategy.setVisible(true);
-				player4_strategy.setVisible(false);
-				player5_strategy.setVisible(false);
-				player6_strategy.setVisible(false);
-				
 				break;
 
 			case 4:
@@ -242,11 +202,6 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
-				
-				player3_strategy.setVisible(true);
-				player4_strategy.setVisible(true);
-				player5_strategy.setVisible(false);
-				player6_strategy.setVisible(false);
 				
 				break;
 
@@ -261,10 +216,6 @@ public class GameSettingsView {
 				player5_select.setVisible(true);
 				player6_select.setVisible(false);
 				
-				player3_strategy.setVisible(true);
-				player4_strategy.setVisible(true);
-				player5_strategy.setVisible(true);
-				player6_strategy.setVisible(false);
 				break;
 
 			case 6:
@@ -277,12 +228,7 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(true);
 				player6_select.setVisible(true);
-				
-				player3_strategy.setVisible(true);
-				player4_strategy.setVisible(true);
-				player5_strategy.setVisible(true);
-				player6_strategy.setVisible(true);
-				
+					
 				break;
 
 			default:
@@ -295,12 +241,7 @@ public class GameSettingsView {
 				player4_select.setVisible(false);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
-				
-				player3_strategy.setVisible(false);
-				player4_strategy.setVisible(false);
-				player5_strategy.setVisible(false);
-				player6_strategy.setVisible(false);
-				
+					
 				break;
 			}
 		});
@@ -325,13 +266,6 @@ public class GameSettingsView {
 		p3.add(player4_select);
 		p3.add(player5_select);
 		p3.add(player6_select);
-		
-		p5.add(player1_strategy);
-		p5.add(player2_strategy);
-		p5.add(player3_strategy);
-		p5.add(player4_strategy);
-		p5.add(player5_strategy);
-		p5.add(player6_strategy);
 
 		player3_name.setVisible(false);
 		player4_name.setVisible(false);
@@ -342,12 +276,7 @@ public class GameSettingsView {
 		player4_select.setVisible(false);
 		player5_select.setVisible(false);
 		player6_select.setVisible(false);
-
-		player3_strategy.setVisible(false);
-		player4_strategy.setVisible(false);
-		player5_strategy.setVisible(false);
-		player6_strategy.setVisible(false);
-
+		
 		p4.add(selectMap);
 		p4.add(jb_cancel);
 
@@ -357,7 +286,6 @@ public class GameSettingsView {
 		if (!isTournamentMode)
 			jf.getContentPane().add(p3);
 		jf.getContentPane().add(p4);
-		jf.getContentPane().add(p5);
 
 		selectMap.addActionListener((ActionEvent e) -> {
 			System.out.println(e.getActionCommand());
@@ -365,17 +293,17 @@ public class GameSettingsView {
 			System.out.println("number of player selected: " + num_players);
 
 			Player pl1 = new Player(player1_name.getText(),
-					player1_select.getSelectedIndex(), "BLUE" , player1_strategy.getSelectedIndex());
+					player1_select.getSelectedIndex(), "BLUE");
 			Player pl2 = new Player(player2_name.getText(),
-					player2_select.getSelectedIndex(), "GREEN" , player2_strategy.getSelectedIndex());
+					player2_select.getSelectedIndex(), "GREEN");
 			Player pl3 = new Player(player3_name.getText(),
-					player3_select.getSelectedIndex(), "YELLOW" , player3_strategy.getSelectedIndex());
+					player3_select.getSelectedIndex(), "YELLOW");
 			Player pl4 = new Player(player4_name.getText(),
-					player4_select.getSelectedIndex(), "MAGENTA" , player4_strategy.getSelectedIndex());
+					player4_select.getSelectedIndex(), "MAGENTA");
 			Player pl5 = new Player(player5_name.getText(),
-					player5_select.getSelectedIndex(), "RED" , player5_strategy.getSelectedIndex());
+					player5_select.getSelectedIndex(), "RED");
 			Player pl6 = new Player(player6_name.getText(),
-					player6_select.getSelectedIndex(), "ORANGE", player6_strategy.getSelectedIndex());
+					player6_select.getSelectedIndex(), "ORANGE");
 
 			holder.addPlayer(pl1);
 			holder.addPlayer(pl2);

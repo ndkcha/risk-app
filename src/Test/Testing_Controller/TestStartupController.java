@@ -4,6 +4,7 @@ import Game.Controller.*;
 import Game.Model.*;
 import Game.Risk.DataHolder;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.*;
 import java.util.*;
@@ -12,9 +13,9 @@ import java.util.stream.IntStream;
 /**
  * Test Number of countries assign to players.
  * 
- * @author Ku_ghai
+ * @author Ku_ghai, Jay
  */
-public class Test_StartupController {
+public class TestStartupController {
 
 	StartupController sc = new StartupController();
 
@@ -52,8 +53,22 @@ public class Test_StartupController {
 
 	}
 
+	/**
+	 * This will test the Initial armies assign to user on initial startup
+	 * phase.
+	 */
 	@Test
-	public void testassignCountries() {
+	public void testDetermineOfInitialArmy() {
+		for (int i = 2; i <= 6; i++) {
+			assertEquals((40 - ((i - 2) * 5)), sc.determineOfInitialArmy(i));
+		}
+	}
+	
+	/**
+	 * This will test the intial countries assignments.
+	 */
+	@Test
+	public void testAssignCountries() {
 
 		List<CountryData> countries = this.holder.getCountryDataList();
 		List<Player> p = this.holder.getPlayerList();
