@@ -165,39 +165,29 @@ public class AttackController {
             }
 
         } else { // if the attack is normal mode
-            attackResult = attackBetweenTwoCoutries(attackingCountry,
-                    defendingCountry, numberOfDice);
+            attackResult = attackBetweenTwoCoutries(attackingCountry,defendingCountry, numberOfDice);
             player = holder.getActivePlayer();
             // if attack is successful
             if (attackResult) {
-                System.out.println("the attack between " + attackingCountry
-                        + " and " + defendingCountry + " was successful.");
-                holder.sendGameLog(player.getName() + ": the attack between "
-                        + attackingCountry + " and " + defendingCountry
-                        + " was successful.");
+                System.out.println("the attack between " + attackingCountry + " and " + defendingCountry + " was successful.");
+                holder.sendGameLog(player.getName() + ": the attack between "+ attackingCountry + " and " + defendingCountry + " was successful.");
                 // getting the armies in defending country
                 List<Player> allPlayersList;
                 allPlayersList = holder.getPlayerList();
                 for (int i = 0; i < allPlayersList.size(); i++) {
                     Player tmp = allPlayersList.get(i);
-                    HashMap<String, Integer> countriesConqueredTmp = tmp
-                            .getCountriesConquered();
-                    Iterator itForCountriesConquered = countriesConqueredTmp
-                            .entrySet().iterator();// iterator for countries
-                    // conqureeed by player
+                    HashMap<String, Integer> countriesConqueredTmp = tmp.getCountriesConquered();
+                    Iterator itForCountriesConquered = countriesConqueredTmp.entrySet().iterator();// iterator for countries conqureeed by player
                     while (itForCountriesConquered.hasNext()) {
-                        Map.Entry pair = (Map.Entry) itForCountriesConquered
-                                .next();
+                        Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
                         if (pair.getKey().equals(defendingCountry)) {
                             numberOfArmiesDefenderC = (int) pair.getValue();
                         }
                     }
                 }
-                // deleting defending country from the defender's conquered
-                // country list
+                // deleting defending country from the defender's conqueredcountry list
                 deleteDefendingCountry(defendingCountry);
-                System.out.println(
-                        "after deleting the conquered country from defender list");
+                System.out.println("after deleting the conquered country from defender list");
                 // check if any player conqured
                 Player tmp = null;
                 for (int i = 0; i < allPlayersList.size(); i++) {
@@ -218,7 +208,6 @@ public class AttackController {
 
                 //move armies from attacking country to newly conquered country minimum number of armies to move and maximum nmber of armies to move
                 int minArmies = numberOfDice;
-                ;
                 returnResult = minArmies;
 
             } else {
@@ -580,8 +569,7 @@ public class AttackController {
     public void addCountryintoConqueredList(String defendingCountry,
             int numberOfArmiesDefenderC) {
         Player player = holder.getActivePlayer();
-        HashMap<String, Integer> countriesConquered = player
-                .getCountriesConquered();
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
         countriesConquered.put(defendingCountry, numberOfArmiesDefenderC);
         player.setCountriesConquered(countriesConquered);
         holder.updatePlayer(player);
