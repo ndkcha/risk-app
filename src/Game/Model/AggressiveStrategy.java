@@ -5,12 +5,86 @@
  */
 package Game.Model;
 
+import Game.Risk.DataHolder;
+import Game.Model.Player;
+import Game.Model.CountryData;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Methods to implement the Aggressive strategy
  * @author r-naik
  */
 public class AggressiveStrategy implements PlayerStrategy{
 
+    private DataHolder holder = DataHolder.getInstance();
+    
+    /**
+     * This method returns the strongest country conquered by the player
+     * @return the name of the strongest country
+     */
+    public String strongestCountry() {
+        String strongestCountryName = null;
+        int maximumArmies=0;
+        //get the active player
+        Player player = holder.getActivePlayer();
+        // retrieving the countries conquered by the player
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
+        
+        boolean flag=false;
+        //a country can a strongest country if 1) it has a neighbour that is also conquered and 2) iff it has the highest number of armies 
+        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
+        while (itForCountriesConquered.hasNext()) {
+            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+            String countryName = (String) pair.getKey();
+            
+            // get the list of neighbouring countries of the country
+            List<String> countryNeighbours = new ArrayList<>();
+            countryNeighbours = getNeighbours(countryName);
+            for (int i = 0; i < countryNeighbours.size(); i++) {
+                if (countriesConquered.containsKey(countryNeighbours.get(i))) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                if((int)pair.getValue()>maximumArmies) {
+                    strongestCountryName = countryName;
+                    maximumArmies = (int) pair.getValue();
+                }
+                
+            }
+
+            
+        }
+        
+        
+        return strongestCountryName;
+    }
+    
+    /**
+     * Get neighbours of specific country
+     *
+     * @param countryName name of the country
+     * @return list of neighbouring countries
+     */
+    public List<String> getNeighbours(String countryName) {
+        List<CountryData> countryDataList = holder.getCountryDataList();
+        int index = 0;
+        for (int i = 0; i < countryDataList.size(); i++) {
+            if (countryDataList.get(i).getName().equals(countryName)) {
+                index = i; // index of the country in countryDataList whose
+                // neighbouring countries have to be searched
+            }
+        }
+        ArrayList<String> neighbours = countryDataList.get(index)
+                .getNeighbours();
+        return neighbours;
+    }
+    
     /**
      * This method implements the reinforcement phase 
      * @param armiesToAllocate number of armies to allocate during the phase
