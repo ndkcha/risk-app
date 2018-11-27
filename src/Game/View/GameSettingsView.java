@@ -288,9 +288,8 @@ public class GameSettingsView {
 		jf.getContentPane().add(p4);
 
 		selectMap.addActionListener((ActionEvent e) -> {
-			System.out.println(e.getActionCommand());
 			holder.clearPlayers();
-			System.out.println("number of player selected: " + num_players);
+			System.out.println("Number of player selected: " + num_players);
 
 			Player pl1 = new Player(player1_name.getText(),
 					player1_select.getSelectedIndex(), "BLUE");
@@ -319,8 +318,9 @@ public class GameSettingsView {
 				holder.addPlayer(pl3);
 			}
 
-			System.out.println("Select Map Button is clicked");
+			System.out.println("Start is clicked");
 //			chooseOptionFrame().dispose();
+			jf.setVisible(false);
 			if (isTournamentMode) {
 				holder.isArmiesAutomatic = true;
 				TournamentController.getInstance().initTournament();
@@ -331,7 +331,6 @@ public class GameSettingsView {
 				holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
 
 				Controller c = new Controller();
-				// c.reinforcement();
 				c.gameStart(map_file);
 			}
 		});
@@ -381,7 +380,7 @@ public class GameSettingsView {
 	 */
 	@SuppressWarnings("Duplicates")
 	private File map_selector(String ext) {
-		System.out.println("Map and BMP file selector opened");
+		System.out.println("map_selector from GameSettings opened");
 		JFrame frame = new JFrame("Select Map File");
 
 		// Upload map file.

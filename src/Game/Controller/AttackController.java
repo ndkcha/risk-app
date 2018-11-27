@@ -393,7 +393,7 @@ public class AttackController {
 		}
 		for (int i = 0; i < chosenNoOfDice; i++) {
 			diceRollValuesOfAttacker[i] = rollDice.roll();
-			System.out.println(diceRollValuesOfAttacker[i]);
+			System.out.println("diceRollValuesOfAttacker " + i + ": " + diceRollValuesOfAttacker[i]);
 		}
 		int temp = 0;
 		// sorting the dice rolls in decreasing values
@@ -410,7 +410,7 @@ public class AttackController {
 		// dice rolls for defender
 		for (int i = 0; i < dice; i++) {
 			diceRollValuesOfDefender[i] = rollDice.roll();
-			System.out.println(diceRollValuesOfDefender[i]);
+			System.out.println("diceRollValuesOfDefender " + i + ": " + diceRollValuesOfDefender[i]);
 		}
 		temp = 0;
 		// sorting the dice rolls in decreasing values

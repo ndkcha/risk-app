@@ -277,6 +277,8 @@ public class PhaseView implements Observer {
         	if (!isTournamentMode) {
 				JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
 					"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+        		System.out.println("Method Called: startAttack");
 			}
 			holder.forceEndGame(player.getName());
         	return;
@@ -335,6 +337,8 @@ public class PhaseView implements Observer {
 			if (!isTournamentMode) {
 				JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
 					"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				System.out.println("Method Called: prepareAttack");
 			}
 			holder.forceEndGame(player.getName());
 			return;
@@ -731,6 +735,8 @@ public class PhaseView implements Observer {
 			if (!isTournamentMode) {
 				JOptionPane.showMessageDialog(new JFrame(), "Game drawn! No one won this game!",
 					"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				System.out.println("Method Called: PhaseValues");
 			}
 			holder.forceEndGame("Draw");
 			return;
