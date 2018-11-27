@@ -16,7 +16,6 @@ public class TournamentController {
     private static TournamentController controller;
     private DataHolder holder = DataHolder.getInstance();
     private TournamentView tournamentView = new TournamentView();
-    private TournamentData tournamentData = new TournamentData();
 
     TournamentController() { }
 
@@ -31,7 +30,6 @@ public class TournamentController {
      */
     public void start() {
         tournamentView.initComponents();
-        tournamentData.addObserver(tournamentView);
 
         int noOfMaps = selectNumberOfMaps();
 
@@ -39,7 +37,7 @@ public class TournamentController {
             String mapPath = map_selector("map", i);
             String bmpPath = map_selector("bmp", i);
             String noOfGames = String.valueOf(selectNumberOfGames());
-            tournamentData.addGamePath(mapPath, bmpPath, noOfGames);
+            tournamentView.addGamePath(mapPath, bmpPath, noOfGames);
         }
 
         GameSettingsView gameSettingsView = new GameSettingsView();
@@ -51,7 +49,7 @@ public class TournamentController {
      */
     public void initTournament() {
         holder.attachObserverToPhase(tournamentView);
-        tournamentData.startGame();
+        tournamentView.startGame();
     }
 
     /**

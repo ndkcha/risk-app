@@ -20,6 +20,15 @@ public class TournamentData extends Observable {
     private DataHolder holder = DataHolder.getInstance();
     private List<List<String>> mapBuffer = new ArrayList<>();
     private HashMap<String, TournamentGame> games = new HashMap<>();
+    private int currentGame = -1, currentMap = 0;
+
+    /**
+     * Gets the list of maps to play
+     * @return list of maps
+     */
+    public List<List<String>> getMapBuffer() {
+        return mapBuffer;
+    }
 
     /**
      * Add the future game paths (such as map path and image path) to temporary buffer
@@ -35,13 +44,26 @@ public class TournamentData extends Observable {
         this.mapBuffer.add(map);
     }
 
-    public void startGame() {
+    /**
+     * Start the games in tournament
+     */
+    public void startNextGame() {
         this.setChanged();
         this.notifyObservers(START_GAME);
+
+        this.changeGame();
+
+        if (this.currentMap >= this.mapBuffer.size())
+            return;
+
         holder.refreshHolder();
 
-        holder.bmpFile= new File(mapBuffer.get(0).get(1));
-        StartupController startupController = new StartupController(new File(mapBuffer.get(0).get(0)));
+        System.out.println("CurrentMap: " + currentMap + " CurrentGame: " + currentGame);
+        holder.setGameId(currentMap + ":" + currentGame);
+
+        holder.bmpFile= new File(mapBuffer.get(currentMap).get(1));
+
+        StartupController startupController = new StartupController(new File(mapBuffer.get(currentMap).get(0)));
 
         startupController.processFiles();
         startupController.assignCountries();
@@ -49,5 +71,21 @@ public class TournamentData extends Observable {
 
         RiskMainInterface mainInterface = new RiskMainInterface(true);
 
+    }
+
+    /**
+     * Change the game iterator.
+     * If the map is out of game, change the map
+     */
+    public void changeGame() {
+        if (this.currentMap >= this.mapBuffer.size())
+            return;
+
+        this.currentGame++;
+
+        if (this.currentGame >= Integer.parseInt(this.mapBuffer.get(currentMap).get(2))) {
+            this.currentMap++;
+            this.currentGame = 0;
+        }
     }
 }

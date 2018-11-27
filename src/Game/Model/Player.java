@@ -33,6 +33,17 @@ public class Player extends Observable {
     private HashMap<String, Integer> countriesConquered;
 
     /**
+     * Reset the content of the player data for the new game in tournament.
+     */
+    public void resetPlayer() {
+        this.cards.clear();
+        this.isCardUsed = false;
+        this.cardsUsedCount = 0;
+        this.noOfTurnsTaken = 0;
+        this.countriesConquered.clear();
+    }
+
+    /**
      * Called when player has taken his turn.
      * It is tracked so that we can determine the end of the game.
      */

@@ -43,8 +43,25 @@ public class DataHolder {
         playersArmiesList.clear();
         conqueredPlayerList.clear();
         mapData.cleanUpMapData();
-        phaseData = new PhaseData();
+        phaseData.refreshPhase();
         phaseData.setTotalPlayers(this.getPlayerList().size());
+
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            String name = playerEntry.getKey();
+            Player player = playerEntry.getValue();
+
+            player.resetPlayer();
+
+            this.playerList.put(name, player);
+        }
+    }
+
+    /**
+     * Sets the game identifier in the tournament mode
+     * @param id id of the game
+     */
+    public void setGameId(String id) {
+        this.phaseData.setGameId(id);
     }
 
     /** 

@@ -6,9 +6,11 @@
 package Game.View;
 
 import Game.Model.PhaseData;
+import Game.Model.TournamentData;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,7 +20,7 @@ import java.util.Observer;
  */
 @SuppressWarnings("deprecation")
 public class TournamentView extends JFrame implements Observer {
-
+    private TournamentData tournamentData = new TournamentData();
     private JButton btnMap1Game1, btnMap1Game2, btnMap1Game3, btnMap1Game4, btnMap1Game5;
     private JButton btnMap2Game1, btnMap2Game2, btnMap2Game3, btnMap2Game4, btnMap2Game5;
     private JButton btnMap3Game1, btnMap3Game2, btnMap3Game3, btnMap3Game4, btnMap3Game5;
@@ -71,6 +73,44 @@ public class TournamentView extends JFrame implements Observer {
         btnMap5Game5 = new JButton("Game 5");
         labelResults = new JLabel("Results:");
         labelGameLogs = new JLabel("Game Logs:");
+
+        this.tournamentData.addObserver(this);
+    }
+
+    /**
+     * Add the future game paths (such as map path and image path) to temporary buffer
+     * @param path path to the map file
+     * @param imagePath path to the bmp file
+     * @param noOfGames number of games to play with this map
+     */
+    public void addGamePath(String path, String imagePath, String noOfGames) {
+        this.tournamentData.addGamePath(path, imagePath, noOfGames);
+    }
+
+    /**
+     * Start the games in tournament
+     */
+    public void startGame() {
+        int maxGames = 0;
+        for (List<String> map : this.tournamentData.getMapBuffer()) {
+            int noOfGames = Integer.parseInt(map.get(2));
+            if (noOfGames > maxGames)
+                maxGames = noOfGames;
+        }
+
+        int maxMaps = this.tournamentData.getMapBuffer().size();
+
+        this.modelTournament.addColumn("Maps");
+        for (int i = 0; i < maxGames; i++) {
+            this.modelTournament.addColumn("Game " + i);
+        }
+
+        for (int i = 0; i < maxMaps; i++) {
+            String[] row = { "Map" + i };
+            this.modelTournament.addRow(row);
+        }
+
+        this.tournamentData.startNextGame();
     }
 
     /**
@@ -252,6 +292,7 @@ public class TournamentView extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof String) {
+            System.out.println("Tournament View: " + arg);
             switch ((String) arg) {
                 case PhaseData.END_GAME:
                     this.endGame(o);
@@ -266,6 +307,16 @@ public class TournamentView extends JFrame implements Observer {
     private void endGame(Observable observable) {
         System.out.println("Ended");
         PhaseData data = (PhaseData) observable;
-        System.out.println("winner: " + data.getWinner());
+        System.out.println("winner: " + data.getWinner() + " - " + data.getGameId());
+        String gameContent[] = data.getGameId().split(":");
+        int map = Integer.parseInt(gameContent[0]);
+        int game = Integer.parseInt(gameContent[1]);
+
+        System.out.println("Game - map: " + map + " - game + 1: " + (game + 1));
+        System.out.println(this.modelTournament.getValueAt(map, game + 1));
+        this.modelTournament.setValueAt(data.getWinner(), map, game + 1);
+        this.tableTournament.setModel(this.modelTournament);
+
+        this.tournamentData.startNextGame();
     }
 }
