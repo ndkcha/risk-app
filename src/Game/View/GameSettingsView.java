@@ -177,7 +177,7 @@ public class GameSettingsView {
 		// players.
 		players_list.addActionListener((ActionEvent e) -> {
 			num_players = players_list.getSelectedIndex() + 2;
-
+			
 			switch (num_players) {
 			case 3:
 				player3_name.setVisible(true);
