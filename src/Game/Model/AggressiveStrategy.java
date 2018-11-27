@@ -5,6 +5,7 @@
  */
 package Game.Model;
 
+import Game.Controller.AttackController;
 import Game.Risk.DataHolder;
 import Game.Model.Player;
 import Game.Model.CountryData;
@@ -55,13 +56,8 @@ public class AggressiveStrategy implements PlayerStrategy{
                     strongestCountryName = countryName;
                     maximumArmies = (int) pair.getValue();
                 }
-                
             }
-
-            
         }
-        
-        
         return strongestCountryName;
     }
     
@@ -83,6 +79,38 @@ public class AggressiveStrategy implements PlayerStrategy{
         ArrayList<String> neighbours = countryDataList.get(index)
                 .getNeighbours();
         return neighbours;
+    }
+    
+    public String weakestNeighbourForAttack(String countryName) {
+        AttackController ac=new AttackController();
+        List<String> neighboursForAttack=ac.getNeighboursForAttack(countryName);
+        String weakestNeighbour=null;
+        int lowestArmies=0, noOfArmies=0;
+        List<Player> allPlayersList;
+        allPlayersList = holder.getPlayerList();
+        //for each country in the neighbours list
+        for(int j=0;j<neighboursForAttack.size();j++) {
+            // for each player in the list
+            for (int i = 0; i < allPlayersList.size(); i++) {
+                Player temp = allPlayersList.get(i);
+                // get a particular player's conquered country list
+                HashMap<String, Integer> countriesConqueredTmp = temp.getCountriesConquered();
+                Iterator itForCountriesConquered = countriesConqueredTmp.entrySet().iterator();// iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();// if the player has the country in the conqueredcountry list
+                    //if the key equal to the neighbor teh get number of armies in the country
+                    if (pair.getKey().equals(neighboursForAttack.get(j))) {
+                        noOfArmies  = (int) pair.getValue();
+                    }
+                }
+            }
+            //if the number of armies in the neigbour country is lowest till now
+            if (noOfArmies < lowestArmies) {
+                lowestArmies = noOfArmies;
+                weakestNeighbour =neighboursForAttack.get(j);
+            }
+        }
+        return weakestNeighbour;
     }
     
     /**

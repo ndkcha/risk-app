@@ -48,21 +48,10 @@ public class ReinforcementController {
 																			// continent
 			String continentName = continentData.getName();
 			List<CountryData> countriesContinent = holder
-					.countCountriesInContinent(continentName);// get COuntries
-																// of Continent
-			int countrySize = countriesContinent.size();// size of the no of
-														// countries in
-														// continent
-
-			// System.out.println("The countries in a continent " +
-			// continentName + " are ");
-			// for (CountryData cd : countriesContinent) {
-			// System.out.println(cd.getName());
-			// }
+					.countCountriesInContinent(continentName);// get COuntries of Continent
+			int countrySize = countriesContinent.size();// size of the no of countries in continent
 			listSizeOfCountriesConquered = 0;
-			for (CountryData countryData : countriesContinent) {/// countires in
-																/// continent
-																/// loop
+			for (CountryData countryData : countriesContinent) {/// countires in continent loop
 				Iterator itForCountriesConquered = countriesConquered.entrySet()
 						.iterator();// iterator for countries conqureeed by
 									// player
@@ -79,9 +68,7 @@ public class ReinforcementController {
 			}
 		}
 
-		System.out.println(
-				"The number of armies added due to conquering whole continent is: "
-						+ continentAddedArmies);
+		System.out.println("The number of armies added due to conquering whole continent is: "+ continentAddedArmies);
 
 		// number of countries owned divided by 3 and rounded down if the player
 		// owns more than 9 territores otherwise 3 territories
