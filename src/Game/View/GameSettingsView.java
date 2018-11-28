@@ -404,8 +404,7 @@ public class GameSettingsView {
 	 * @param ext Extension of the file.
 	 * @return map_path Stores the absolute path of the map file and bmp file.
 	 */
-	@SuppressWarnings("unchecked")
-	@SuppressWarnings("Duplicates")
+	@SuppressWarnings({"Duplicates", "unchecked"})
 	private File map_selector(String ext) {
 		System.out.println("map_selector from GameSettings opened");
 		JFrame frame = new JFrame("Select Map File");
