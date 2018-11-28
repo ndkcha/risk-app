@@ -1,5 +1,6 @@
 package Game.Model;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Observable;
  * @author ndkcha
  * @since 1.2.0
  */
-public class GameLogsData extends Observable {
+public class GameLogsData extends Observable implements Serializable {
     /** The observable key to identify the presence of this object in the pipeline */
     public static final String GAME_LOG = "gamePlay:logs";
     /** the logs that is to be transmitted */

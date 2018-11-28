@@ -1,5 +1,6 @@
 package Game.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  * @author jay, ndkcha, gunvansh
  * @version 1.2.0
  */
-public class CountryData {
+public class CountryData implements Serializable {
 	private String name, continent;
 	private double latitude, longitude; // x and y of the coordinate system  respectively
 	private ArrayList<String> neighbours;

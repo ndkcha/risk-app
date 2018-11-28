@@ -2,6 +2,7 @@ package Game.Model;
 
 import Game.Controller.AttackController;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
  * @author ndkcha, Jay, r-naik
  * @version 1.2.0
  */
-public class Player extends Observable {
+public class Player extends Observable implements Serializable {
     private int noOfArmiesToAssign = 0;
     private int noOfTurnsTaken = 0;
     private String name, color;
