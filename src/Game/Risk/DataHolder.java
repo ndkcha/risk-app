@@ -431,9 +431,9 @@ public class DataHolder implements Serializable {
 
     
     @SuppressWarnings("unchecked")
-	public void loadSavedGame(String filename) {
+	public void loadSavedGame(File inputFile) {
 		try {
-			FileInputStream file = new FileInputStream(filename);
+			FileInputStream file = new FileInputStream(inputFile);
 			ObjectInputStream in = new ObjectInputStream(file);
 			try {
 				this.bmpFile = (File) in.readObject();

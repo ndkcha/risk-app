@@ -229,16 +229,15 @@ public class PhaseView implements Observer {
 		System.out.println("file selector for saving game is opened");
 		frame = new JFrame("Save Game");
 		JFileChooser jFileChooser = new JFileChooser();
-		jFileChooser.setApproveButtonText("SAVE");
 		jFileChooser.setCurrentDirectory(new File("."));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Saved Game Files", "ser");
 		jFileChooser.setFileFilter(filter);
 
-		int result = jFileChooser.showOpenDialog(frame);
+		int result = jFileChooser.showSaveDialog(frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			System.out.println("game is saved");
 			File file = jFileChooser.getSelectedFile();
-			holder.saveGameState(file.getName());
+			holder.saveGameState(file.getAbsolutePath());
 			// saveGameState(file.getAbsolutePath());
 		}
 

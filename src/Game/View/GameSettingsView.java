@@ -384,7 +384,7 @@ public class GameSettingsView {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File file = jFileChooser.getSelectedFile();
 			DataHolder dataHold = DataHolder.getInstance();
-			dataHold.loadSavedGame(file.getName());
+			dataHold.loadSavedGame(file);
 		}
 
 		else if (result == JFileChooser.CANCEL_OPTION) {
