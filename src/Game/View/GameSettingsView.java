@@ -393,8 +393,6 @@ public class GameSettingsView {
 		}
 		
 	}
-
-	@SuppressWarnings("unchecked")
 	
 	/**
 	 * Upload .map along with .bmp file to be used for the game.
@@ -402,6 +400,7 @@ public class GameSettingsView {
 	 * @param ext Extension of the file.
 	 * @return map_path Stores the absolute path of the map file and bmp file.
 	 */
+	@SuppressWarnings({"Duplicates", "unchecked"})
 	private File map_selector(String ext) {
 		System.out.println("Map and BMP file selector opened");
 		JFrame frame = new JFrame("Select Map File");
