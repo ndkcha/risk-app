@@ -470,6 +470,7 @@ public class PhaseView implements Observer {
 	 * Add selected number of armies to the country in reinforcement phase
 	 */
 	private void addArmyInReinforcementPhase() {
+            
 		int selectedCountry = comboCountry.getSelectedIndex();
 		int selectedNoOfArmies = comboNoOfArmies.getSelectedIndex();
 
