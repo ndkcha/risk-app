@@ -66,8 +66,8 @@ public class TestPlayerPhase {
 		this.countriesConquered.put("Cockpit03", 3);
 		this.countriesConquered.put("Cockpit04", 1);
 
-		testplayer1 = new Player("abc", 1, "blue", 0);
-		testplayer2 = new Player("xyz", 0, "red", 1);
+		testplayer1 = new Player("abc", 1, "blue");
+		testplayer2 = new Player("xyz", 0, "red");
 
 		holder.addPlayer(testplayer1);
 		holder.addPlayer(testplayer2);
@@ -80,17 +80,7 @@ public class TestPlayerPhase {
         
 	}
 	
-	/**
-	 * This method will test the calculation of armies received in
-	 * reinforcement phase.
-	 */
-	@Test
-	public void testreinforcementPhase() {
-		int previousnoOfarmies=testplayer1.getArmiesInCountry("Cockpit01");
-		testplayer1.reinforcementPhase(3, "Cockpit01");
-		int armiesnow=testplayer1.getArmiesInCountry("Cockpit01");
-		assertEquals(previousnoOfarmies+3,armiesnow);
-	}
+	
 	
 	/**
 	 * This method will test number of dice allowed
@@ -101,28 +91,6 @@ public class TestPlayerPhase {
 		AttackController controller = new AttackController();
 		int noOfDiceAllowed=controller.calculateNoOfDiceAllowed("Cockpit01");
 	    assertEquals(2,noOfDiceAllowed);
-	}
-
-	/**
-	 * This method will test to get neighbors of a country
-	 */
-	@Test
-	public void testgetNeighbours() {
-		
-		AttackController controller = new AttackController();
-		List<String> result=controller.getNeighbours("Cockpit02");
-		assertEquals("Cockpit01",result.get(0));
-	}
-	
-	/**
-	 * This method will test neighbours of a country allowed for attack
-	 */
-	@Test
-	public void testgetNeighboursForAttack() {
-		
-		AttackController controller = new AttackController();
-		List<String> result=controller.getNeighboursForAttack("Cockpit01");
-		assertEquals("Cockpit04",result.get(0));
 	}
 		
 	/**
