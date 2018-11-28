@@ -5,6 +5,7 @@ import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
+import Game.View.RiskMainInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,6 +79,13 @@ public class StartupController {
 		}
 	}
 
+	/**
+	 * Resume saved game
+	 */
+	public void resumeGame() {
+		RiskMainInterface.createInstance();
+	}
+	
 	// change to the unit test
 
 	/**

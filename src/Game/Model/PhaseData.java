@@ -1,5 +1,6 @@
 package Game.Model;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Observable;
  * @author ndkcha
  * @version 1.2.0
  */
-public class PhaseData extends Observable {
+public class PhaseData extends Observable implements Serializable {
     public static final String CHANGE_TURN = "change:turn";
     public static final String CHANGE_PHASE = "change:phase";
     public static final String END_GAME = "end:game";
@@ -68,7 +69,7 @@ public class PhaseData extends Observable {
 
     /** Initializes the new instance of the class. */
     public PhaseData() {
-        this.currentPhase = -1;
+        this.currentPhase = -1 ;
         this.playerTurn = 0;
         this.totalPlayers = 0;
     }
@@ -125,4 +126,5 @@ public class PhaseData extends Observable {
         this.setChanged();
         this.notifyObservers(END_GAME);
     }
+    
 }
