@@ -119,6 +119,7 @@ public class RiskMainInterface extends JFrame {
     private JPanel initializeGameLogsView() {
         GameLogsView gameLogsView = new GameLogsView();
         holder.attachObserverToLogsView(gameLogsView);
+        gameLogsView.loadInitialData(holder.getGameLogs());
 
         return gameLogsView.getPanel();
     }

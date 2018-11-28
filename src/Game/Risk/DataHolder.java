@@ -398,7 +398,11 @@ public class DataHolder implements Serializable {
 
         return true;
     }
-    
+
+    /**
+     * Saves the state of the game
+     * @param filename name of the file to save it to
+     */
     public void saveGameState(String filename) {
 		try {
 			// Saving of object in a file
@@ -429,7 +433,11 @@ public class DataHolder implements Serializable {
 
 	}
 
-    
+
+    /**
+     * Loads the state of the game from a file
+     * @param inputFile file to load the game from
+     */
     @SuppressWarnings("unchecked")
 	public void loadSavedGame(File inputFile) {
 		try {
@@ -461,5 +469,12 @@ public class DataHolder implements Serializable {
 			System.out.println("IOException is caught");
 		}
 	}
-        
+
+    /**
+     * Get the list of predefined logs
+     * @return list of logs to display
+     */
+	public List<String> getGameLogs() {
+        return this.gameLogs.logs;
+    }
 }
