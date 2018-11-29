@@ -308,8 +308,6 @@ public class TournamentView extends JFrame implements Observer, ActionListener {
             this.tableTournament.setModel(this.modelTournament);
 
             this.tournamentData.addGame(data.getGameId(), holder.getGameLogs());
-
-            this.tournamentData.startNextGame();
         }
     }
 

@@ -783,7 +783,7 @@ public class PhaseView implements Observer {
 	 * Reacts to the changes in the phases
 	 */
 	private void setupPhaseValues() {
-		if (holder.areAllPlayerDone(15)) {
+		if (holder.areAllPlayerDone(25)) {
 			String message = "Game drawn! No one won this game!";
 			if (!isTournamentMode)
 				JOptionPane.showMessageDialog(new JFrame(), message, "Yeyy!", JOptionPane.INFORMATION_MESSAGE);

@@ -92,6 +92,7 @@ public class TournamentData extends Observable {
 
         RiskMainInterface mainInterface = new RiskMainInterface(true);
 
+        this.startNextGame();
     }
 
     /**

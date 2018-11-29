@@ -388,7 +388,7 @@ public class Player extends Observable implements Serializable {
                     return name + " skipped the fortification phase!";
 
                 sourceCountry = this.getNthCountry(pickCountry);
-                if (this.getArmiesInCountry(sourceCountry) != 1) {
+                if (this.getArmiesInCountry(sourceCountry) <= 1) {
                     sourceCountry = null;
                     break;
                 }
