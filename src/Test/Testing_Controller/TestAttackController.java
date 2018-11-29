@@ -18,7 +18,6 @@ import Game.Controller.StartupController;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.Player;
-import Game.Model.RollDice;
 import Game.Risk.DataHolder;
 
 /**
@@ -145,8 +144,7 @@ public class TestAttackController {
 	@Test
 	public void testrolldice() {
 
-		RollDice dice = new RollDice();
-		int testdice = dice.roll();
+		int testdice = controller.roll();
 		
 		Boolean dices = (testdice >= 1 && testdice <= 6);
 		assertTrue(dices);
