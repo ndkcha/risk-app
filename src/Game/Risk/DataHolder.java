@@ -382,4 +382,13 @@ public class DataHolder {
 
         return true;
     }
+    
+    /**
+	 * Clear the entire map holder data.
+	 */
+	public void clearDataHolder() {
+		this.playerList.clear();
+		this.continentDataList.clear();
+		this.countryDataList.clear();
+	}
 }

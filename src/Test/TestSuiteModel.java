@@ -17,6 +17,7 @@ import Test.Testing_Controller.*;
 	TestMapEditorController.class,
 	TestReinforcementController.class,
 	TestStartupController.class,
+	
 	TestContinentData.class , 
 	TestCountryData.class,
 	TestPlayerCards.class,
@@ -25,7 +26,6 @@ import Test.Testing_Controller.*;
 	TestRollDice.class})
  
  
-
 public class TestSuiteModel {
 
 }
