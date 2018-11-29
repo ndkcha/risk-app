@@ -34,6 +34,17 @@ public class Player extends Observable implements Serializable {
     private HashMap<String, Integer> countriesConquered;
 
     /**
+     * Reset the content of the player data for the new game in tournament.
+     */
+    public void resetPlayer() {
+        this.cards.clear();
+        this.isCardUsed = false;
+        this.cardsUsedCount = 0;
+        this.noOfTurnsTaken = 0;
+        this.countriesConquered.clear();
+    }
+
+    /**
      * Called when player has taken his turn.
      * It is tracked so that we can determine the end of the game.
      */
@@ -47,7 +58,6 @@ public class Player extends Observable implements Serializable {
      * @return true if he can
      */
     public boolean canTakeMoreTurns(int maxLimit) {
-        System.out.println(name + " turn taken " + noOfTurnsTaken + " :-max " + maxLimit);
         return (this.noOfTurnsTaken <= maxLimit);
     }
 
@@ -342,7 +352,6 @@ public class Player extends Observable implements Serializable {
         int attackerArmy = this.isAllOutMode ? -1 : this.attackerArmies;
         int mode = this.isAllOutMode ? 0 : 1;
         int result=controller.attack(this.attacker, this.defender, mode, attackerArmy);
-        System.out.println("no of armies to be minimum moved"+result);
         return result;
     }
 

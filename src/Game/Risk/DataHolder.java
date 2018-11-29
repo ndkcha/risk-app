@@ -53,6 +53,34 @@ public class DataHolder implements Serializable {
     /** Is the armies distribution be automatic or manual? */
     public boolean isArmiesAutomatic = false;
 
+    public void refreshHolder() {
+        countryDataList.clear();
+        continentDataList.clear();
+        playersArmiesList.clear();
+        conqueredPlayerList.clear();
+        mapData.cleanUpMapData();
+        phaseData.refreshPhase();
+        phaseData.setTotalPlayers(this.getPlayerList().size());
+        gameLogs.logs.clear();
+
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            String name = playerEntry.getKey();
+            Player player = playerEntry.getValue();
+
+            player.resetPlayer();
+
+            this.playerList.put(name, player);
+        }
+    }
+
+    /**
+     * Sets the game identifier in the tournament mode
+     * @param id id of the game
+     */
+    public void setGameId(String id) {
+        this.phaseData.setGameId(id);
+    }
+
     /** 
      * Returns the active phase
      * @return phaseData current phase 
@@ -305,9 +333,10 @@ public class DataHolder implements Serializable {
 
     /**
      * End the game forcefully
+     * @param winner name of the player who've won
      */
-    public void forceEndGame() {
-        this.phaseData.forceEnd();
+    public void forceEndGame(String winner) {
+        this.phaseData.forceEnd(winner);
     }
 
     /** 
@@ -428,7 +457,6 @@ public class DataHolder implements Serializable {
 
 		catch (IOException ex) {
 			ex.printStackTrace();
-			System.out.println("IOException is caught");
 		}
 
 	}
@@ -466,7 +494,6 @@ public class DataHolder implements Serializable {
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			System.out.println("IOException is caught");
 		}
 	}
 

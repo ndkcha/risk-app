@@ -52,6 +52,7 @@ public class PhaseView implements Observer {
 	private DataHolder holder = DataHolder.getInstance();
 	private int reinforcementArmyAllocated = 0;
 	private boolean isFortificationDone = false;
+	private boolean isTournamentMode;
 
 	private JFrame frame;
 	private JButton btnPhases = new JButton();
@@ -69,7 +70,8 @@ public class PhaseView implements Observer {
 	/**
 	 * Constructor for the phase view interface.
 	 */
-	public PhaseView() {
+	public PhaseView(boolean isTournamentMode) {
+		this.isTournamentMode = isTournamentMode;
 		labelPhases.setText("Phases :");
 		btnPhases.setText("Next Phase");
 		saveGameBtn.setText("Save Game");
@@ -140,7 +142,6 @@ public class PhaseView implements Observer {
 	 * armies for the game
 	 */
 	public void startInitialArmyAssignment() {
-		System.out.println("Start initial army assignment - " + this.isStartupPhaseActive);
 		if (holder.isArmiesAssignedForAll()) {
 			this.holder.changePhases();
 			this.isStartupPhaseActive = false;
@@ -219,14 +220,11 @@ public class PhaseView implements Observer {
 			}
 		});
 
-		this.saveGameBtn.addActionListener((ActionEvent e) -> {
-			saveGame();
-		});
+		this.saveGameBtn.addActionListener((ActionEvent e) -> saveGame());
 
 	}
 
 	public void saveGame() {
-		System.out.println("file selector for saving game is opened");
 		frame = new JFrame("Save Game");
 		JFileChooser jFileChooser = new JFileChooser();
 		jFileChooser.setCurrentDirectory(new File("."));
@@ -235,14 +233,12 @@ public class PhaseView implements Observer {
 
 		int result = jFileChooser.showSaveDialog(frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
-			System.out.println("game is saved");
 			File file = jFileChooser.getSelectedFile();
 			holder.saveGameState(file.getAbsolutePath());
 			// saveGameState(file.getAbsolutePath());
 		}
 
 		else if (result == JFileChooser.CANCEL_OPTION) {
-			System.out.println("game is not saved");
 			chooseOptionFrame().dispose();
 		}
 	}
@@ -259,6 +255,7 @@ public class PhaseView implements Observer {
 	/**
 	 * start the attack phase
 	 */
+	@SuppressWarnings("Duplicates")
 	private void startAttackPhase() {
 		Player player = holder.getActivePlayer();
 
@@ -328,11 +325,14 @@ public class PhaseView implements Observer {
 		player = holder.getActivePlayer();
 		player.notifyChangeInPlayer();
 
-		if (holder.hasPlayerWon(player)) {
-			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!", "Yeyy!",
-					JOptionPane.INFORMATION_MESSAGE);
-			holder.forceEndGame();
-			return;
+        if (holder.hasPlayerWon(player)) {
+        	String message = player.getName() + " has won the game!";
+        	if (!isTournamentMode)
+				JOptionPane.showMessageDialog(new JFrame(), message, "Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+        	
+			holder.sendGameLog(message);
+			holder.forceEndGame(player.getName());
+        	return;
 		}
 
 		holder.changePhases();
@@ -341,6 +341,7 @@ public class PhaseView implements Observer {
 	/**
 	 * Perform the attack phase
 	 */
+	@SuppressWarnings("Duplicates")
 	private void prepareAttack() {
 		int attackerIndex = comboCountry.getSelectedIndex();
 		int defenderIndex = comboNeighbourCountry.getSelectedIndex();
@@ -384,9 +385,12 @@ public class PhaseView implements Observer {
 		player = holder.getActivePlayer();
 		player.notifyChangeInPlayer();
 		if (holder.hasPlayerWon(player)) {
-			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!", "Yeyy!",
-					JOptionPane.INFORMATION_MESSAGE);
-			holder.forceEndGame();
+			String message = player.getName() + " has won the game!";
+			if (!isTournamentMode)
+				JOptionPane.showMessageDialog(new JFrame(), message, "Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			
+			holder.sendGameLog(message);
+			holder.forceEndGame(player.getName());
 			return;
 		}
 
@@ -502,8 +506,6 @@ public class PhaseView implements Observer {
 		int result = JOptionPane.showOptionDialog(null, panel, "Select Dices", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null, null, null);
 
-		System.out.println("All Out Mode: " + checkAllOutMode.isSelected());
-
 		Player player = holder.getActivePlayer();
 		player.setAllOutMode(checkAllOutMode.isSelected());
 		player.logAttackerAndDefender();
@@ -605,7 +607,6 @@ public class PhaseView implements Observer {
 
 		holder.updatePlayer(player);
 
-		System.out.println(player.getNoOfArmiesToAssign() + " left for " + player.getName());
 		holder.changeTurn();
 	}
 
@@ -757,6 +758,7 @@ public class PhaseView implements Observer {
 		comboCountry.setModel(comboModelCountries);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
@@ -777,9 +779,12 @@ public class PhaseView implements Observer {
 	 */
 	private void setupPhaseValues() {
 		if (holder.areAllPlayerDone(15)) {
-			JOptionPane.showMessageDialog(new JFrame(), "Game drawn! No one won this game!", "Yeyy!",
-					JOptionPane.INFORMATION_MESSAGE);
-			holder.forceEndGame();
+			String message = "Game drawn! No one won this game!";
+			if (!isTournamentMode)
+				JOptionPane.showMessageDialog(new JFrame(), message, "Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+			
+			holder.sendGameLog(message);
+			holder.forceEndGame("Draw");
 			return;
 		}
 
@@ -866,7 +871,6 @@ public class PhaseView implements Observer {
 				noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
 			} while (noOfArmies > 0);
 			holder.updatePlayer(player);
-			System.out.println("Armies allocation has been completed!");
 		}
 
 		changeControlButtonVisibility(true);
@@ -936,64 +940,56 @@ public class PhaseView implements Observer {
 		comboNeighbourCountry.setVisible(visibility);
 		comboNoOfArmies.setVisible(visibility);
 	}
+	
+    /**
+     * This function calculates the armies a player avails in each reinforcement
+     * phase
+     *
+     * @param player Player Object
+     * @return new armies The number of armies available for reinforcement phase.
+     */
+	@SuppressWarnings("Duplicates")
+    public int calculateReinforcementArmies(Player player) {
 
-	/**
-	 * This function calculates the armies a player avails in each reinforcement
-	 * phase
-	 *
-	 * @param player Player Object
-	 * @return new armies The number of armies available for reinforcement phase.
-	 */
-	public int calculateReinforcementArmies(Player player) {
+        //retrieving the player number whose turn is goin on
+        int newarmies;
 
-		// retrieving the player number whose turn is goin on
-		System.out.println("Calculating armies for player " + player.getName());
-		int newarmies;
+        //retrieving the continents conquered by the player
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
 
-		// retrieving the continents conquered by the player
-		HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-		System.out.println("The countries conquered by " + player.getName() + " is " + countriesConquered.keySet());
+        //get armies due to conquering whole continent
+        int listSizeOfCountriesConquered;
+        int continentAddedArmies = 0;
+        for (ContinentData continentData : holder.getContinentDataList()) {//get data for every continent
+            String continentName = continentData.getName();
+            List<CountryData> countriesContinent = holder.countCountriesInContinent(continentName);//get COuntries of Continent
+            int countrySize = countriesContinent.size();//size of the no of countries in continent
 
-		// get armies due to conquering whole continent
-		int listSizeOfCountriesConquered;
-		int continentAddedArmies = 0;
-		for (ContinentData continentData : holder.getContinentDataList()) {// get data for every continent
-			String continentName = continentData.getName();
-			List<CountryData> countriesContinent = holder.countCountriesInContinent(continentName);// get COuntries of
-																									// Continent
-			int countrySize = countriesContinent.size();// size of the no of countries in continent
+            listSizeOfCountriesConquered = 0;
+            for (CountryData countryData : countriesContinent) {///countires in continent loop
+                Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();//iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    String countryName = (String) pair.getKey();
+                    if (countryData.getName().equalsIgnoreCase(countryName)) {
+                        listSizeOfCountriesConquered++;
+                    }
+                }
+            }
+            if (listSizeOfCountriesConquered == countrySize) {
+                continentAddedArmies += continentData.getControlValue();
+            }
+        }
 
-			listSizeOfCountriesConquered = 0;
-			for (CountryData countryData : countriesContinent) {/// countires in continent loop
-				Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries
-																							// conqureeed by player
-				while (itForCountriesConquered.hasNext()) {
-					Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
-					String countryName = (String) pair.getKey();
-					if (countryData.getName().equalsIgnoreCase(countryName)) {
-						listSizeOfCountriesConquered++;
-					}
-				}
-			}
-			if (listSizeOfCountriesConquered == countrySize) {
-				continentAddedArmies += continentData.getControlValue();
-			}
-		}
+        // number of countries owned divided by 3 and rounded down if the player owns more than 9 territores otherwise 3 territories
+        if (countriesConquered.size() < 9) {
+            newarmies = 3 + continentAddedArmies;
+        } else {
+            int armies = Math.floorDiv((countriesConquered.size()), 3);
+            newarmies = armies + continentAddedArmies;
+        }
 
-		System.out.println("The number of armies added due to conquering whole continent is: " + continentAddedArmies);
-
-		// number of countries owned divided by 3 and rounded down if the player owns
-		// more than 9 territores otherwise 3 territories
-		if (countriesConquered.size() < 9) {
-			newarmies = 3 + continentAddedArmies;
-		} else {
-			int armies = Math.floorDiv((countriesConquered.size()), 3);
-			newarmies = armies + continentAddedArmies;
-		}
-
-		System.out.println("The number of armies available for reinforcement phase is " + newarmies);
-
-		return newarmies;
-	}
-
+       return newarmies;
+    }
+    
 }

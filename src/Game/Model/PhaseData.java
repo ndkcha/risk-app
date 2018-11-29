@@ -22,6 +22,42 @@ public class PhaseData extends Observable implements Serializable {
     private int currentPhase;
     private int playerTurn;
     private int totalPlayers;
+    private String winner;
+    private String gameId;
+
+    /**
+     * Refresh the phase values
+     */
+    public void refreshPhase() {
+        this.currentPhase = -1;
+        this.playerTurn = 0;
+        this.totalPlayers = 0;
+        this.winner = "";
+    }
+
+    /**
+     * Sets the identifier of the game when in tournament mode
+     * @param gameId id of the game
+     */
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
+
+    /**
+     * Identifies which game it is
+     * @return the id of the game
+     */
+    public String getGameId() {
+        return gameId;
+    }
+
+    /**
+     * Get the winner of that game
+     * @return winner
+     */
+    public String getWinner() {
+        return winner;
+    }
 
     /** Switch the control to the next player */
     private void nextPlayer() {
@@ -84,7 +120,8 @@ public class PhaseData extends Observable implements Serializable {
     /**
      * Notifies end of the game
      */
-    public void forceEnd() {
+    public void forceEnd(String winner) {
+        this.winner = winner;
         this.setChanged();
         this.notifyObservers(END_GAME);
     }

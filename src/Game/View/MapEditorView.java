@@ -608,8 +608,6 @@ public class MapEditorView extends JFrame {
             this.selectedCountry = -1;
             this.selectedNeighbouringCountry = -1;
 
-            System.out.println(name + " has been added!");
-
             computeCountries();
         });
 
@@ -651,7 +649,6 @@ public class MapEditorView extends JFrame {
                     String message = name + " is already neighbour of "
                         + countryData.getName() + ".\nCan not delete "
                         + name;
-                    System.out.println(message);
                     JOptionPane.showMessageDialog(new JFrame(), message,
                         "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -772,8 +769,6 @@ public class MapEditorView extends JFrame {
         this.selectedCountry = -1;
         this.selectedNeighbouringCountry = -1;
 
-        System.out.println(name + " has been updated!");
-
         computeCountries();
     }
 
@@ -838,8 +833,6 @@ public class MapEditorView extends JFrame {
 
         listContinents.clearSelection();
         this.selectedContinent = -1;
-
-        System.out.println(name + " has been added!");
     }
 
     /** select the country from the list on UI */
@@ -865,11 +858,9 @@ public class MapEditorView extends JFrame {
         String continent = listModelContinents
             .getElementAt(this.selectedContinent);
         String name = continent.split("-")[1].trim();
-        System.out.println(name);
 
         if (holder.getCountriesInContinent(name).size() != 0) {
             String message = "Can not delete continent. There are countries inside!";
-            System.out.println(message);
             JOptionPane.showMessageDialog(new JFrame(), message, "Error",
                 JOptionPane.ERROR_MESSAGE);
             return;
@@ -889,8 +880,6 @@ public class MapEditorView extends JFrame {
 
         listContinents.clearSelection();
         this.selectedContinent = -1;
-
-        System.out.println(name + " has been removed!");
     }
 
     /** update the continent from the UI */
@@ -916,8 +905,6 @@ public class MapEditorView extends JFrame {
 
         listContinents.clearSelection();
         this.selectedContinent = -1;
-
-        System.out.println(name + " has been updated!");
     }
 
     /**

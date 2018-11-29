@@ -24,6 +24,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Game.Controller.Controller;
 import Game.Controller.MapEditorController;
+import Game.Controller.TournamentController;
 import Game.Controller.StartupController;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
@@ -79,7 +80,6 @@ public class GameSettingsView {
 
 		initializeLoadMap();
 		initializeLoadGame();
-		initializeStartTournament();
 	}
 
 	/**
@@ -87,8 +87,7 @@ public class GameSettingsView {
 	 * difficulty, player names and there type with colors
 	 */
 	@SuppressWarnings("unchecked")
-	public void gameSettings() {
-		System.out.println("Game Setting panel is opened");
+	public void gameSettings(boolean isTournamentMode) {
 		final JFrame jf = new JFrame();
 		jf.setBounds(100, 100, WIDTH * 8, HEIGHT * 4);
 
@@ -123,7 +122,7 @@ public class GameSettingsView {
 
 		String[] player1 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
 		player1_select = new JComboBox(player1);
-		player1_select.setSelectedIndex(0);
+		player1_select.setSelectedIndex(isTournamentMode ? 1 : 0);
 		player1_select.setBackground(Color.BLUE);
 
 		String[] player2 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
@@ -167,7 +166,7 @@ public class GameSettingsView {
 		troops_list = new JComboBox(troops);
 		troops_list.setSelectedIndex(0);
 
-		JButton selectMap = new JButton("Select Map");
+		JButton selectMap = new JButton(isTournamentMode ? "Start Tournament" : "Select Map");
 		JButton jb_cancel = new JButton("Cancel");
 
 		jf.getContentPane().setLayout(null);
@@ -290,15 +289,15 @@ public class GameSettingsView {
 		p4.add(selectMap);
 		p4.add(jb_cancel);
 
-		jf.getContentPane().add(p1);
+		if (!isTournamentMode)
+			jf.getContentPane().add(p1);
 		jf.getContentPane().add(p2);
-		jf.getContentPane().add(p3);
+		if (!isTournamentMode)
+			jf.getContentPane().add(p3);
 		jf.getContentPane().add(p4);
 
 		selectMap.addActionListener((ActionEvent e) -> {
-			System.out.println(e.getActionCommand());
 			holder.clearPlayers();
-			System.out.println("number of player selected: " + num_players);
 
 			Player pl1 = new Player(player1_name.getText(), player1_select.getSelectedIndex(), "BLUE");
 			Player pl2 = new Player(player2_name.getText(), player2_select.getSelectedIndex(), "GREEN");
@@ -321,16 +320,20 @@ public class GameSettingsView {
 				holder.addPlayer(pl3);
 			}
 
-			System.out.println("Select Map Button is clicked");
-			chooseOptionFrame().dispose();
-			File map_file = map_selector("map");
-			holder.bmpFile = map_selector("bmp");
+//			chooseOptionFrame().dispose();
+			jf.setVisible(false);
+			if (isTournamentMode) {
+				holder.isArmiesAutomatic = true;
+				TournamentController.getInstance().initTournament();
+			} else {
+				File map_file = map_selector("map");
+				holder.bmpFile = map_selector("bmp");
 
-			holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
+				holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
 
-			Controller c = new Controller();
-			// c.reinforcement();
-			c.gameStart(map_file);
+				Controller c = new Controller();
+				c.gameStart(map_file);
+			}
 		});
 
 		jf.setVisible(true);
@@ -346,7 +349,6 @@ public class GameSettingsView {
 			MapEditorController editorController = new MapEditorController();
 			boolean anyErrors = editorController.loadExistingMap(mapFile);
 			if (!anyErrors) {
-				System.out.println("No errors found ");
 				editorController.initAndDisplayView();
 			}
 		});
@@ -354,12 +356,10 @@ public class GameSettingsView {
 
 	/**
 	 * This method will start the Tournament.
+	 * @param listener listener to assign the tournament
 	 */
-	public void initializeStartTournament() {
-		tournament.addActionListener((ActionEvent e) -> {
-			// Open Tournament game settings here
-
-		});
+	public void initializeStartTournament(ActionListener listener){
+		tournament.addActionListener(listener);
 	}
 
 	/**
@@ -372,7 +372,6 @@ public class GameSettingsView {
 	}
 	
 	private void showSavedGame() {
-		System.out.println("Saved Game file chooser opened");
 		JFrame frame = new JFrame("Select Saved Game File");
 		JFileChooser jFileChooser = new JFileChooser();
 
@@ -388,12 +387,11 @@ public class GameSettingsView {
 		}
 
 		else if (result == JFileChooser.CANCEL_OPTION) {
-			System.out.println("game is not loaded");
 			chooseOptionFrame().dispose();
 		}
 		
 	}
-	
+
 	/**
 	 * Upload .map along with .bmp file to be used for the game.
 	 *
@@ -402,7 +400,6 @@ public class GameSettingsView {
 	 */
 	@SuppressWarnings({"Duplicates", "unchecked"})
 	private File map_selector(String ext) {
-		System.out.println("Map and BMP file selector opened");
 		JFrame frame = new JFrame("Select Map File");
 
 		// Upload map file.

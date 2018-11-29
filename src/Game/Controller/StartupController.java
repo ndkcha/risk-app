@@ -197,11 +197,6 @@ public class StartupController {
 			playersTurn++;
 		}
 
-		for (Player player : this.holder.getPlayerList()) {
-			System.out.println(player.getName() + " has "
-					+ player.getCountriesConquered().size() + " countries");
-		}
-
 		this.holder.updatePlayerList(Arrays.asList(players));
 	}
 
@@ -230,17 +225,6 @@ public class StartupController {
 		}
 
 		this.holder.updatePlayerList(players);
-
-		System.out.println("Initial armies allocation:");
-		for (Player player : this.holder.getPlayerList()) {
-			System.out.println("\n" + player.getName() + ": ");
-
-			for (Map.Entry<String, Integer> country : player
-					.getCountriesConquered().entrySet()) {
-				System.out.print(
-						country.getKey() + " - " + country.getValue() + " | ");
-			}
-		}
 	}
 
 	/**
