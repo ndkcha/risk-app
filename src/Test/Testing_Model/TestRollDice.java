@@ -1,8 +1,11 @@
 package Test.Testing_Model;
 
 import Game.Model.RollDice;
+
+import static org.junit.Assert.*;
+
 import java.util.Random;
-import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Test;
 
 /**
@@ -19,11 +22,10 @@ public class TestRollDice {
 	public void testrolldice() {
 
 		RollDice dice = new RollDice();
-		Random random = new Random();
-
-		int expected = random.nextInt(6) + 1;
 		int testdice = dice.roll();
-		assertNotEquals(testdice, expected);
+		
+		Boolean dices = (testdice >= 1 && testdice <= 6);
+		assertTrue(dices);
 	}
 
 }
