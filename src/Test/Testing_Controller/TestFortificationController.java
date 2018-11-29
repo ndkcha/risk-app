@@ -69,6 +69,7 @@ public class TestFortificationController {
 				countriesConquered);
 		System.out.println(b);
 		assertTrue(b);
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -79,6 +80,7 @@ public class TestFortificationController {
 		
 		List<String> result = fc.getNeighbours("Cockpit02");
 		assertEquals("Cockpit01",result.get(0));
+		holder.clearDataHolder();
 	}
 
 }

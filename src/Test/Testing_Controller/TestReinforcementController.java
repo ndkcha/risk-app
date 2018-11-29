@@ -83,6 +83,7 @@ public class TestReinforcementController {
 		int numberOfArmies = rc.calculateReinforcementArmies(holder.getPlayer("abc"));
 		System.out.println("number of armies: " + numberOfArmies);
 		assertEquals(expected, numberOfArmies);
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -95,5 +96,7 @@ public class TestReinforcementController {
 		testplayer1.reinforcementPhase(3, "Cockpit01");
 		int armiesnow=testplayer1.getArmiesInCountry("Cockpit01");
 		assertEquals(previousnoOfarmies+3,armiesnow);
+		holder.clearDataHolder();
 	}
+
 }

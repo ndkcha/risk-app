@@ -89,6 +89,7 @@ public class TestAttackController {
 		
 		List<String> result=controller.getNeighbours("Cockpit02");
 		assertEquals("Cockpit01",result.get(0));
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -99,6 +100,7 @@ public class TestAttackController {
 		
 		List<String> result=controller.getNeighboursForAttack("Cockpit01");
 		assertEquals("Cockpit04",result.get(0));
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -109,6 +111,7 @@ public class TestAttackController {
 		
 		int noOfDiceAllowed=controller.calculateNoOfDiceAllowed("Cockpit01");
 	    assertEquals(2,noOfDiceAllowed);
+	    holder.clearDataHolder();
 	}
 	
 	/**
@@ -119,6 +122,7 @@ public class TestAttackController {
 		
 		Boolean attack = controller.attackBetweenTwoCoutries("Cockpit01", "Cockpit02", 3);
 		assertTrue(attack);
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -129,6 +133,7 @@ public class TestAttackController {
 		
 		int armies = controller.getArmiesOfDefendingCountry("Cockpit01");
 		assertEquals(3,armies);
+		holder.clearDataHolder();
 	}
 
 }

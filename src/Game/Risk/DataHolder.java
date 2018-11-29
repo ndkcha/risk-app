@@ -427,6 +427,15 @@ public class DataHolder implements Serializable {
 
         return true;
     }
+    
+    /**
+	 * Clear the entire map holder data.
+	 */
+	public void clearDataHolder() {
+		this.playerList.clear();
+		this.continentDataList.clear();
+		this.countryDataList.clear();
+	}
 
     /**
      * Saves the state of the game
@@ -504,4 +513,5 @@ public class DataHolder implements Serializable {
 	public List<String> getGameLogs() {
         return this.gameLogs.logs;
     }
+
 }

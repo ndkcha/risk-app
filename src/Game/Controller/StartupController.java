@@ -92,7 +92,7 @@ public class StartupController {
 	 * Assign cards to the countries on the map
 	 * @param countries list of countries
 	 */
-	private void assignCardsToCountry(List<CountryData> countries) {
+	public void assignCardsToCountry(List<CountryData> countries) {
 		int totalCountries = countries.size();
 		int assignment[] = new int[3];
 		assignment[0] = totalCountries / 3; // infantry
