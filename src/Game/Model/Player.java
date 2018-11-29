@@ -58,7 +58,6 @@ public class Player extends Observable implements Serializable {
      * @return true if he can
      */
     public boolean canTakeMoreTurns(int maxLimit) {
-        System.out.println(name + " turn taken " + noOfTurnsTaken + " :-max " + maxLimit);
         return (this.noOfTurnsTaken <= maxLimit);
     }
 
@@ -353,7 +352,6 @@ public class Player extends Observable implements Serializable {
         int attackerArmy = this.isAllOutMode ? -1 : this.attackerArmies;
         int mode = this.isAllOutMode ? 0 : 1;
         int result=controller.attack(this.attacker, this.defender, mode, attackerArmy);
-        System.out.println("no of armies to be minimum moved"+result);
         return result;
     }
 

@@ -32,140 +32,6 @@ public class FortificationController {
 	private DataHolder holder = DataHolder.getInstance();
 
 	/**
-	 * This function initializes the fortification phase for each player
-	 *
-	 * @param destinationCountry
-	 *            name of the destination country
-	 * @param transferringCountry
-	 *            name of the source country
-	 * @param noOfArmies
-	 *            number of armies to transfer
-	 * @return A message for game play
-	 */
-	public String fortification(String transferringCountry,
-			String destinationCountry, int noOfArmies) {
-		List<CountryData> countryDataList = holder.getCountryDataList();
-		String message = "";
-
-		// retrieving the player number whose turn is goin on
-		Player player = holder.getActivePlayer();
-		// retrieving the player type
-		int playerType = player.getType();
-		// retrieving the continents conquered by the player
-		HashMap<String, Integer> countriesConquered = player
-				.getCountriesConquered();
-		System.out.println("The countries conquered by " + player.getName()
-				+ " is " + countriesConquered.keySet());
-
-		if (playerType != 0) {
-			// generating random country name from conquered country list
-			while (!countriesConquered.keySet().contains(transferringCountry)) {
-				Random generator = new Random();
-				Object[] values = countriesConquered.keySet().toArray();
-				transferringCountry = (String) values[generator
-						.nextInt(values.length)];
-				System.out.println("\nThe country from which "
-						+ player.getName() + " will transfer armies: "
-						+ transferringCountry);
-			}
-			while (!countriesConquered.keySet().contains(destinationCountry)) {
-				Random generator = new Random();
-				Object[] values = countriesConquered.keySet().toArray();
-				destinationCountry = (String) values[generator
-						.nextInt(values.length)];
-				System.out.println("\nThe country to which " + player.getName()
-						+ " will add armies: " + destinationCountry);
-			}
-		}
-
-		int existingArmiesA = 0; // existing armies with transfereing country
-		int existingArmiesB = 0; // existing armies with destination country
-		Iterator itForCountriesConquered = countriesConquered.entrySet()
-				.iterator();// iterator for countries conqureeed by player
-		while (itForCountriesConquered.hasNext()) {
-			Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
-			String countryName = (String) pair.getKey();
-			if (countryName.equals(transferringCountry)) {
-				existingArmiesA = (int) pair.getValue();
-			}
-			if (countryName.equals(destinationCountry)) {
-				existingArmiesB = (int) pair.getValue();
-			}
-		}
-
-		if (playerType != 0) {
-			Random generator = new Random();
-			noOfArmies = generator.nextInt(existingArmiesA);
-			System.out.println("The armies to be transfered is " + noOfArmies);
-		}
-
-		// check if countries connected or not
-		boolean checkIfConnected = checkIfConnected(transferringCountry,
-				destinationCountry, countriesConquered);
-		if (checkIfConnected) {
-			// check if transfering countries have more than 2 armies
-			if (existingArmiesA <= 2) {
-				System.out.println(
-						"Cannot perform fortifiation. A transfering country should have minimum two armies");
-			} else {
-				// check if number of armies to transfered is atleast one less
-				// than the existing armies in transfering country
-				if (noOfArmies <= (existingArmiesA - 1)) {
-					existingArmiesB = existingArmiesB + noOfArmies; // adding
-																	// armies to
-																	// destination
-																	// country
-					existingArmiesA = existingArmiesA - noOfArmies; // subtracting
-																	// armies
-																	// from
-																	// transfering
-																	// country
-
-					// update the armies in conquered countries list
-					Iterator iteratorCountries = countriesConquered.entrySet()
-							.iterator(); // iterator for countries conqureeed by
-											// player
-					while (iteratorCountries.hasNext()) {
-						Map.Entry pair = (Map.Entry) iteratorCountries.next();
-						String countryName = (String) pair.getKey();
-						if (countryName.equals(transferringCountry)) {
-							pair.setValue(existingArmiesA);
-						}
-						if (countryName.equals(destinationCountry)) {
-							pair.setValue(existingArmiesB);
-						}
-					}
-					player.setCountriesConquered(countriesConquered);
-
-					message = " transferred " + noOfArmies + " armies from "
-							+ transferringCountry + " to " + destinationCountry;
-
-					// The updated conquered countries list
-					System.out.println("The updated counquered country list");
-					for (Map.Entry<String, Integer> country : player
-							.getCountriesConquered().entrySet()) {
-						System.out.print(country.getKey() + " - "
-								+ country.getValue() + " | ");
-					}
-				} else {
-					System.out.println(
-							"not enough armies in transfering country");
-				}
-			}
-		} else {
-			System.out.println(
-					"Cannot perform fortification, countries not connected");
-		}
-
-		holder.updatePlayer(player);
-
-		if (message.length() == 0)
-			message = " skipped fortification";
-
-		return message;
-	}
-
-	/**
 	 * Get neighbours of specific country
 	 *
 	 * @param countryName
@@ -211,7 +77,6 @@ public class FortificationController {
 		while (connected == false) {
 			// to restrict the deadlock and to get break the loop
 			if (tempCounter == 10) {
-				System.out.println("countries not connected");
 				break;
 			}
 			// if the destination country is in visited list means the country
@@ -227,20 +92,17 @@ public class FortificationController {
 				// if the neighbouring countries have destination country
 				if (tempCountryNeighbours.contains(destinationCountry)) {
 					visitedCountries.add(destinationCountry);
-					System.out.println("country found 2 ");
 					connected = true;
 					break;
 				} else {
 					// add to visited list if country not found
 					visitedCountries.add(tempCountry);
-					System.out.println("visited country " + tempCountry);
 				}
 				// assigning new country to check if connected
 				for (int i = 0; i < tempCountryNeighbours.size(); i++) {
 					if (!visitedCountries
 							.contains(tempCountryNeighbours.get(i))) {
 						tempCountry = tempCountryNeighbours.get(i);
-						System.out.println("new temp country " + tempCountry);
 						break;
 					}
 				}
@@ -251,7 +113,6 @@ public class FortificationController {
 					if (!visitedCountries
 							.contains(tempCountryNeighbours.get(i))) {
 						tempCountry = tempCountryNeighbours.get(i);
-						System.out.println("new temp country " + tempCountry);
 						break;
 					}
 				}

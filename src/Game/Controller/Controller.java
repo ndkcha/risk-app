@@ -60,7 +60,6 @@ public class Controller {
 	 */
 	private void startGameListener() {
 		ActionListener startGameListener = (ActionEvent e) -> {
-			System.out.println("Start Game Button is clicked");
 			gameSettings.gameSettings(false); // Open game settings.
 														// window.
 		};
@@ -74,7 +73,6 @@ public class Controller {
 		ActionListener mapEditorListener = (ActionEvent e) -> {
 			MapEditorController controller = new MapEditorController();
 			controller.initAndDisplayView();
-			System.out.println("Map Editor button is clicked");
 		};
 		this.gameSettings.mapEditorAction(mapEditorListener);
 	}

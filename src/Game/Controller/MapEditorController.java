@@ -131,8 +131,6 @@ public class MapEditorController {
 				noContinent = true;
 				this.errorMessage = this.errorMessage.concat("\n"
 						+ countryData.getName() + " is part of no continents");
-				System.out.println(
-						countryData.getName() + " is part of no continents");
 			}
 		}
 
@@ -154,7 +152,6 @@ public class MapEditorController {
 				noNeighbours = true;
 				this.errorMessage = this.errorMessage.concat(
 						"\n" + countryData.getName() + " has no neighbour");
-				System.out.println(countryData.getName() + " has no neighbour");
 			}
 		}
 
@@ -181,7 +178,6 @@ public class MapEditorController {
 				noCountryInContinent = true;
 				this.errorMessage = this.errorMessage.concat(
 						"\n" + data.getName() + " has no country inside");
-				System.out.println(data.getName() + " has no country inside");
 			}
 		}
 
@@ -214,9 +210,6 @@ public class MapEditorController {
 								.concat("\n" + neighbour
 										+ " doesn't exist, but is a neighbour of "
 										+ country.getName());
-						System.out.println(neighbour
-								+ " doesn't exist, but is a neighbour of "
-								+ country.getName());
 					} else {
 						if (!holder.getCountry(neighbour).getContinent()
 								.equalsIgnoreCase(data.getName()))
@@ -228,10 +221,7 @@ public class MapEditorController {
 			if (!hasLink) {
 				noLink = true;
 				this.errorMessage = this.errorMessage
-						.concat("\n" + data.getName()
-								+ " has no link to any other continent");
-				System.out.println(
-						data.getName() + " has no link to any other continent");
+					.concat("\n" + data.getName() + " has no link to any other continent");
 			}
 		}
 
@@ -274,7 +264,6 @@ public class MapEditorController {
 				isSubConnectedGraph = false;
 
 				for (String neighbour : countryData.getNeighbours()) {
-					System.out.println("continent: " + continentDataEntry.getKey() + " neighbour: " + neighbour);
 					if (countryNames.indexOf(neighbour) != -1) {
 						isSubConnectedGraph = true;
 						break;
@@ -302,13 +291,9 @@ public class MapEditorController {
 	 */
 	private List<String> countriesToName(List<CountryData> countryDataList) {
 		List<String> names = new ArrayList<>();
-		System.out.print("\n");
 		for (CountryData data : countryDataList) {
 			names.add(data.getName());
-			System.out.print(data.getName() + " ");
 		}
-
-		System.out.print("\n");
 
 		return names;
 	}
@@ -326,7 +311,6 @@ public class MapEditorController {
 		if (content.length < 4) {
 			this.errorMessage = this.errorMessage
 					.concat("\n" + "Invalid format of the file");
-			System.out.println("Invalid format of the file");
 			return null;
 		}
 		CountryData data = new CountryData(content[0],
@@ -351,7 +335,6 @@ public class MapEditorController {
 		if (contents.length != 2) {
 			this.errorMessage = this.errorMessage
 					.concat("\n" + "Invalid format of the file");
-			System.out.println("Invalid format of the file");
 		}
 		return contents.length == 2
 				? new ContinentData(contents[0], Integer.parseInt(contents[1]))
@@ -392,7 +375,7 @@ public class MapEditorController {
 						"Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			System.out.println(e.getActionCommand());
+
 			try (FileWriter fileWriter = new FileWriter(
 					e.getActionCommand() + ".map")) {
 				BufferedWriter writer = new BufferedWriter(fileWriter);
@@ -458,7 +441,6 @@ public class MapEditorController {
 	 * @return the file descriptor.
 	 */
 	private String mapImageFileSelector() {
-		System.out.println("BMP file selector opened");
 		JFrame frame = new JFrame("Select BMP File");
 
 		// Upload map file.

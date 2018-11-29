@@ -62,7 +62,6 @@ public class PhaseData extends Observable implements Serializable {
     /** Switch the control to the next player */
     private void nextPlayer() {
         this.playerTurn++;
-        System.out.print("player turn" + playerTurn + " | total: " + totalPlayers);
         if (this.playerTurn == this.totalPlayers)
             this.playerTurn = 0;
     }

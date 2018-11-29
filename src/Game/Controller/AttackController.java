@@ -69,9 +69,6 @@ public class AttackController {
 		int numberOfArmiesAttackerC = 0, numberOfArmiesDefenderC = 0;
 		int modeCounter = 0;
 
-		System.out.println("mode: " + mode);
-		System.out.println("numberOfDice: " + numberOfDice);
-
 		// if all out mode
 		if (mode == 0) {
 			holder.sendGameLog(player.getName() + ": all out mode selected");
@@ -82,7 +79,6 @@ public class AttackController {
 					attackResult = attackBetweenTwoCoutries(attackingCountry,
 							defendingCountry, numberOfDice);
 					player = holder.getActivePlayer();
-					System.out.println("attackResult: " + attackResult);
 					if (!attackResult) {
 						// check if the attacker country has only one army. stop
 						// sttack if true
@@ -96,20 +92,14 @@ public class AttackController {
 								numberOfArmiesAttackerC = (int) pair.getValue();
 							}
 						}
-						System.out.println("numberOfArmiesAttackerC: "
-								+ numberOfArmiesAttackerC);
 						if (numberOfArmiesAttackerC == 1) {
-							System.out.println("Attack failed");
 							holder.sendGameLog(player.getName()
 									+ ": Attack failed and the attacker lost the country");
 							break;
 
 						}
 
-						numberOfDice = calculateNoOfDiceAllowed(
-								attackingCountry);
-						System.out
-								.println("numberOfDice again: " + numberOfDice);
+						numberOfDice = calculateNoOfDiceAllowed(attackingCountry);
 					}
 					modeCounter++;
 				}
@@ -120,12 +110,11 @@ public class AttackController {
 			if (!attackResult) {
 				returnResult = -1;
 			}
-			System.out.println("attackResult2: " + attackResult);
+
 			// if the attack gets successful
 			if (attackResult) {
-				holder.sendGameLog(player.getName() + ": the attack between "
-						+ attackingCountry + " and " + defendingCountry
-						+ " was successful.");
+				holder.sendGameLog(player.getName() + ": the attack between " + attackingCountry + " and " +
+					defendingCountry + " was successful.");
 				// getting the armies in defending country
 				List<Player> allPlayersList;
 				allPlayersList = holder.getPlayerList();
@@ -151,9 +140,6 @@ public class AttackController {
 					holder.updatePlayer(player);
 				}
 				player = holder.getActivePlayer();
-				System.out.println(
-						"Defender country armies when attack is successful:"
-								+ numberOfArmiesDefenderC);
 				// deleting defending country from the defender's conquered
 				// country list
 				deleteDefendingCountry(defendingCountry);
@@ -162,16 +148,13 @@ public class AttackController {
 				// country list
 				addCountryintoConqueredList(defendingCountry,
 						numberOfArmiesDefenderC);
-				player = holder.getActivePlayer();
 
 				// //move armies from attacking country to newly conquered
 				// country
 				// //minimum number of armies to move and maximum nmber of
 				// armies to move
-				System.out.println("Number of dices " + numberOfDice);
-				int minArmies = numberOfDice;
 
-				returnResult = minArmies;
+				returnResult = numberOfDice;
 			}
 
 		} else { // if the attack is normal mode
@@ -180,24 +163,18 @@ public class AttackController {
 			player = holder.getActivePlayer();
 			// if attack is successful
 			if (attackResult) {
-				System.out.println("the attack between " + attackingCountry
-						+ " and " + defendingCountry + " was successful.");
-				holder.sendGameLog(player.getName() + ": the attack between "
-						+ attackingCountry + " and " + defendingCountry
-						+ " was successful.");
+				holder.sendGameLog(player.getName() + ": the attack between " + attackingCountry + " and " +
+					defendingCountry + " was successful.");
 				// getting the armies in defending country
 				List<Player> allPlayersList;
 				allPlayersList = holder.getPlayerList();
 				for (int i = 0; i < allPlayersList.size(); i++) {
 					Player tmp = allPlayersList.get(i);
-					HashMap<String, Integer> countriesConqueredTmp = tmp
-							.getCountriesConquered();
-					Iterator itForCountriesConquered = countriesConqueredTmp
-							.entrySet().iterator();// iterator for countries
+					HashMap<String, Integer> countriesConqueredTmp = tmp.getCountriesConquered();
+					Iterator itForCountriesConquered = countriesConqueredTmp.entrySet().iterator(); // iterator for countries
 													// conqureeed by player
 					while (itForCountriesConquered.hasNext()) {
-						Map.Entry pair = (Map.Entry) itForCountriesConquered
-								.next();
+						Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
 						if (pair.getKey().equals(defendingCountry)) {
 							numberOfArmiesDefenderC = (int) pair.getValue();
 						}
@@ -206,17 +183,13 @@ public class AttackController {
 				// deleting defending country from the defender's conquered
 				// country list
 				deleteDefendingCountry(defendingCountry);
-				System.out.println(
-						"after deleting the conquered country from defender list");
 				// check if any player conqured
 				Player tmp = null;
 				for (int i = 0; i < allPlayersList.size(); i++) {
 					tmp = allPlayersList.get(i);
 					boolean result = checkForConqueredPlayer(tmp);
 					if (result) {
-						System.out.println("player conquered");
-						List<Player> conqueredPlayerList = holder
-								.getConqueredPlayerList();
+						List<Player> conqueredPlayerList = holder.getConqueredPlayerList();
 						conqueredPlayerList.add(tmp);
 						holder.setConqueredPlayerList(conqueredPlayerList);
 					}
@@ -241,11 +214,8 @@ public class AttackController {
 				returnResult = minArmies;
 
 			} else {
-				System.out.println(" the attack between " + attackingCountry
-						+ " and " + defendingCountry + " was not successful. ");
-				holder.sendGameLog(player.getName() + ": the attack between "
-						+ attackingCountry + " and " + defendingCountry
-						+ " was not successful. ");
+				holder.sendGameLog(player.getName() + ": the attack between " + attackingCountry + " and " +
+					defendingCountry + " was not successful. ");
 				// change the phase
 				returnResult = -1;
 			}
@@ -259,7 +229,6 @@ public class AttackController {
 		// check if whole map is conquered
 		// if (countriesConquered.keySet().equals(holder.getCountryDataList()))
 		// {
-		// System.out.println("the map is conquered");
 		// holder.sendGameLog(player.getName() + ": the map is conquered");
 		// //game ends
 		// }
@@ -338,7 +307,6 @@ public class AttackController {
 	public boolean attackBetweenTwoCoutries(String attackingCountry,
 			String defendingCountry, int chosenNoOfDice) {
 		Player player = holder.getActivePlayer();
-		System.out.println("chosenNoOfDice: " + chosenNoOfDice);
 		int dice = (chosenNoOfDice == 1) ? 1 : chosenNoOfDice - 1;
 		if (dice < 1)
 			return false;
@@ -359,8 +327,6 @@ public class AttackController {
 			Map.Entry pair = (Map.Entry) itForCountries.next();
 			if (pair.getKey().equals(attackingCountry)) {
 				numberOfArmiesAttacker = (int) pair.getValue();
-				System.out.println("number of armies attacker : "
-						+ numberOfArmiesAttacker);
 			}
 		}
 
@@ -380,8 +346,6 @@ public class AttackController {
 					Map.Entry pair = (Map.Entry) itForCountriess.next();
 					if (pair.getKey().equals(defendingCountry)) {
 						numberOfArmiesDefender = (int) pair.getValue();
-						System.out.println("number of armies defender : "
-								+ numberOfArmiesDefender);
 					}
 				}
 			}
@@ -393,7 +357,6 @@ public class AttackController {
 		}
 		for (int i = 0; i < chosenNoOfDice; i++) {
 			diceRollValuesOfAttacker[i] = rollDice.roll();
-			System.out.println("diceRollValuesOfAttacker " + i + ": " + diceRollValuesOfAttacker[i]);
 		}
 		int temp = 0;
 		// sorting the dice rolls in decreasing values
@@ -410,7 +373,6 @@ public class AttackController {
 		// dice rolls for defender
 		for (int i = 0; i < dice; i++) {
 			diceRollValuesOfDefender[i] = rollDice.roll();
-			System.out.println("diceRollValuesOfDefender " + i + ": " + diceRollValuesOfDefender[i]);
 		}
 		temp = 0;
 		// sorting the dice rolls in decreasing values
@@ -428,10 +390,6 @@ public class AttackController {
 		for (int i = 0; i < dice; i++) {
 			// if the dice value of attacker is more than dice value of defender
 			if (diceRollValuesOfAttacker[i] > diceRollValuesOfDefender[i]) {
-				System.out.println("dice value of attacker :"
-						+ diceRollValuesOfAttacker[i]);
-				System.out.println("dice value of defender :"
-						+ diceRollValuesOfDefender[i]);
 				// decrement armies in defending country
 				decrementArmiesDefendingC(defendingCountry);
 				List<Player> allPlayersList2;
@@ -455,23 +413,12 @@ public class AttackController {
 						}
 					}
 				}
-				if (attackstatus) {
-					System.out.println(
-							"defender left with zero armeis in the country");
+				if (attackstatus)
 					break;
-				}
-				System.out.println("army decremented in defender ");
 			}
 			// if the dice value of attacker is same as dice roll of defender
-			else if (diceRollValuesOfAttacker
-					.equals(diceRollValuesOfDefender)) {
-				System.out.println("dice value of attacker :"
-						+ diceRollValuesOfAttacker[i]);
-				System.out.println("dice value of defender :"
-						+ diceRollValuesOfDefender[i]);
+			else if (diceRollValuesOfAttacker.equals(diceRollValuesOfDefender)) {
 				// decrement the armies in attacking country
-				System.out.println(
-						"decrement in attacking country if dice value is equal");
 				Iterator itForCountriesConquered = countriesConquered.entrySet()
 						.iterator();// iterator for countries conqureeed by
 									// player
@@ -499,15 +446,8 @@ public class AttackController {
 			}
 			// if dice value of attacker is less then the dice value of defender
 			else {
-				System.out.println("dice value of attacker :"
-						+ diceRollValuesOfAttacker[i]);
-				System.out.println("dice value of defender :"
-						+ diceRollValuesOfDefender[i]);
 				// decrement the armies in attacking country
-				System.out.println(
-						"decrement in attacking country if the dice value is less");
-				Iterator itForCountriesConquered = countriesConquered.entrySet()
-						.iterator();// iterator for countries conqureeed by
+				Iterator itForCountriesConquered = countriesConquered.entrySet().iterator(); // iterator for countries conqureeed by
 									// player
 				while (itForCountriesConquered.hasNext()) {
 					Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
@@ -552,8 +492,6 @@ public class AttackController {
 					if (numberOfArmies == 0) {
 						// attack successful
 						attackstatus = true;
-						System.out.println(
-								"defender left with zero armeis in the country");
 					}
 				}
 			}
@@ -568,8 +506,6 @@ public class AttackController {
 				if (numberOfArmies == 0) {
 					// attack successful
 					attackstatus = true;
-					System.out.println(
-							"defender left with zero armeis in the country");
 				}
 			}
 		}
@@ -598,7 +534,6 @@ public class AttackController {
 				holder.updatePlayer(tmp);
 			}
 		}
-		System.out.println("Deleting defending country: " + defendingCountry);
 	}
 
 	public int getArmiesOfDefendingCountry(String defendingCountry) {
@@ -641,7 +576,6 @@ public class AttackController {
 	 *            the country on which attack is done
 	 */
 	public void decrementArmiesDefendingC(String defendingCountry) {
-		System.out.println("decrementing armies defender country");
 		// taking al player
 		List<Player> allPlayersList;
 		allPlayersList = holder.getPlayerList();
@@ -680,7 +614,6 @@ public class AttackController {
 				// country list
 				if (pair.getKey().equals(defendingCountry)) {
 					int numberOfArmies = (int) pair.getValue();
-					System.out.println("value after update:" + numberOfArmies);
 				}
 			}
 		}

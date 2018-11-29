@@ -88,7 +88,6 @@ public class GameSettingsView {
 	 */
 	@SuppressWarnings("unchecked")
 	public void gameSettings(boolean isTournamentMode) {
-		System.out.println("Game Setting panel is opened");
 		final JFrame jf = new JFrame();
 		jf.setBounds(100, 100, WIDTH * 8, HEIGHT * 4);
 
@@ -299,7 +298,6 @@ public class GameSettingsView {
 
 		selectMap.addActionListener((ActionEvent e) -> {
 			holder.clearPlayers();
-			System.out.println("Number of player selected: " + num_players);
 
 			Player pl1 = new Player(player1_name.getText(), player1_select.getSelectedIndex(), "BLUE");
 			Player pl2 = new Player(player2_name.getText(), player2_select.getSelectedIndex(), "GREEN");
@@ -322,7 +320,6 @@ public class GameSettingsView {
 				holder.addPlayer(pl3);
 			}
 
-			System.out.println("Start is clicked");
 //			chooseOptionFrame().dispose();
 			jf.setVisible(false);
 			if (isTournamentMode) {
@@ -352,7 +349,6 @@ public class GameSettingsView {
 			MapEditorController editorController = new MapEditorController();
 			boolean anyErrors = editorController.loadExistingMap(mapFile);
 			if (!anyErrors) {
-				System.out.println("No errors found ");
 				editorController.initAndDisplayView();
 			}
 		});
@@ -376,7 +372,6 @@ public class GameSettingsView {
 	}
 	
 	private void showSavedGame() {
-		System.out.println("Saved Game file chooser opened");
 		JFrame frame = new JFrame("Select Saved Game File");
 		JFileChooser jFileChooser = new JFileChooser();
 
@@ -392,7 +387,6 @@ public class GameSettingsView {
 		}
 
 		else if (result == JFileChooser.CANCEL_OPTION) {
-			System.out.println("game is not loaded");
 			chooseOptionFrame().dispose();
 		}
 		
@@ -406,7 +400,6 @@ public class GameSettingsView {
 	 */
 	@SuppressWarnings({"Duplicates", "unchecked"})
 	private File map_selector(String ext) {
-		System.out.println("map_selector from GameSettings opened");
 		JFrame frame = new JFrame("Select Map File");
 
 		// Upload map file.
