@@ -4,13 +4,22 @@ import Game.View.GameSettingsView;
 import org.junit.Test;
 import org.junit.Assert.*;
 
+/**
+ * Test if game setting is loading successfully.
+ * 
+ * @author Jay
+ *
+ */
 public class TestGameSettingsView {
 	
 	GameSettingsView gsv=new GameSettingsView();
 	
-	@Test public void testGameSettings()
+	/**
+	 * Test if game setting is loading successfully
+	 */
+	@Test 
+	public void testGameSettings()
 	{
-		String[] playertype= {"Human","Computer"}; 
-		//assertArray(playertype, gsv.player2_select);
+		gsv.gameSettings(true);
 	}
 }

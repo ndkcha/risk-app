@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import Test.Testing_Model.*;
+import Test.Testing_View.*;
 import Test.Testing_Controller.*;
 
 /**
@@ -23,7 +24,9 @@ import Test.Testing_Controller.*;
 	TestPlayerCards.class,
 	TestPlayerModel.class,
 	TestPlayerPhase.class,
-	TestRollDice.class})
+	TestRollDice.class,
+	
+	TestGameSettingsView.class})
  
  
 public class TestSuiteModel {
