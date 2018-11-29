@@ -274,6 +274,11 @@ public class PhaseView implements Observer {
 		do {
 			int totalCountries = player.getCountriesConquered().size();
 
+			if (player.getCountriesConquered().size() == 0) {
+				holder.changePhases();
+				return;
+			}
+
 			int pickCountry = random.nextInt(totalCountries);
 			pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
 
@@ -848,6 +853,11 @@ public class PhaseView implements Observer {
 
 		changeControlButtonVisibility(false);
 
+		if (player.getCountriesConquered().size() == 0) {
+			holder.changePhases();
+			return;
+		}
+
 		int totalNoOfArmies = calculateReinforcementArmies(player);
 		int noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
 
@@ -885,6 +895,11 @@ public class PhaseView implements Observer {
 
 		if (player.getType() == 0) {
 			loadCountryListInCombo();
+			return;
+		}
+
+		if (player.getCountriesConquered().size() == 0) {
+			holder.changePhases();
 			return;
 		}
 

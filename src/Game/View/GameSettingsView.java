@@ -258,9 +258,11 @@ public class GameSettingsView {
 		jb_cancel.addActionListener((ActionEvent evt) -> jf.dispose());
 
 		p1.add(players_list);
-		p1.add(difficulty_list);
-		p1.add(countries_list);
-		p1.add(troops_list);
+		if (!isTournamentMode) {
+			p1.add(difficulty_list);
+			p1.add(countries_list);
+			p1.add(troops_list);
+		}
 
 		p2.add(player1_name);
 		p2.add(player2_name);
@@ -289,8 +291,7 @@ public class GameSettingsView {
 		p4.add(selectMap);
 		p4.add(jb_cancel);
 
-		if (!isTournamentMode)
-			jf.getContentPane().add(p1);
+		jf.getContentPane().add(p1);
 		jf.getContentPane().add(p2);
 		if (!isTournamentMode)
 			jf.getContentPane().add(p3);
