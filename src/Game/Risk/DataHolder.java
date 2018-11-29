@@ -1,9 +1,26 @@
 package Game.Risk;
 
-import Game.Model.*;
-
 import java.io.File;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Observer;
+
+import Game.Controller.StartupController;
+import Game.Model.ContinentData;
+import Game.Model.CountryData;
+import Game.Model.GameLogsData;
+import Game.Model.MapData;
+import Game.Model.PhaseData;
+import Game.Model.Player;
+import Game.View.GameLogsView;
 
 /**
  * A singleton class to hold the entire data set throughout the application.
@@ -11,7 +28,7 @@ import java.util.*;
  * @author Jay, ndkcha
  * @version 1.2.0
  */
-public class DataHolder {
+public class DataHolder implements Serializable {
     public static final String CARD_TYPE_WILD = "Wild";
     /** A communication bridge to get the GameLogs flowing thru the application */
     private GameLogsData gameLogs = new GameLogsData();
@@ -19,7 +36,6 @@ public class DataHolder {
     private PhaseData phaseData = new PhaseData();
     /** instance of the singleton class */
     private static DataHolder dataHolder;
-
     /** List of continents on the map */
     private List<ContinentData> continentDataList = new ArrayList<>();
     /** List of countries on the map */
@@ -36,6 +52,34 @@ public class DataHolder {
     public File bmpFile;
     /** Is the armies distribution be automatic or manual? */
     public boolean isArmiesAutomatic = false;
+
+    public void refreshHolder() {
+        countryDataList.clear();
+        continentDataList.clear();
+        playersArmiesList.clear();
+        conqueredPlayerList.clear();
+        mapData.cleanUpMapData();
+        phaseData.refreshPhase();
+        phaseData.setTotalPlayers(this.getPlayerList().size());
+        gameLogs.logs.clear();
+
+        for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
+            String name = playerEntry.getKey();
+            Player player = playerEntry.getValue();
+
+            player.resetPlayer();
+
+            this.playerList.put(name, player);
+        }
+    }
+
+    /**
+     * Sets the game identifier in the tournament mode
+     * @param id id of the game
+     */
+    public void setGameId(String id) {
+        this.phaseData.setGameId(id);
+    }
 
     /** 
      * Returns the active phase
@@ -289,9 +333,10 @@ public class DataHolder {
 
     /**
      * End the game forcefully
+     * @param winner name of the player who've won
      */
-    public void forceEndGame() {
-        this.phaseData.forceEnd();
+    public void forceEndGame(String winner) {
+        this.phaseData.forceEnd(winner);
     }
 
     /** 
@@ -391,4 +436,82 @@ public class DataHolder {
 		this.continentDataList.clear();
 		this.countryDataList.clear();
 	}
+
+    /**
+     * Saves the state of the game
+     * @param filename name of the file to save it to
+     */
+    public void saveGameState(String filename) {
+		try {
+			// Saving of object in a file
+			filename = filename.endsWith(".ser") ? filename : filename + ".ser";
+			FileOutputStream file = new FileOutputStream(filename);
+			ObjectOutputStream out = new ObjectOutputStream(file);
+
+			// Method for serialization of objects
+			out.writeObject(dataHolder.bmpFile);
+			out.writeObject(this.continentDataList);
+			out.writeObject(this.countryDataList);
+			out.writeObject(this.playerList);
+			out.writeObject(this.playersArmiesList);
+			out.writeObject(this.conqueredPlayerList);
+			out.writeObject(this.getActivePlayer());
+			out.writeObject(this.phaseData);
+			out.writeObject(this.gameLogs);
+			
+			out.close();
+			file.close();
+
+		}
+
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+
+    /**
+     * Loads the state of the game from a file
+     * @param inputFile file to load the game from
+     */
+    @SuppressWarnings("unchecked")
+	public void loadSavedGame(File inputFile) {
+		try {
+			FileInputStream file = new FileInputStream(inputFile);
+			ObjectInputStream in = new ObjectInputStream(file);
+			try {
+				this.bmpFile = (File) in.readObject();
+				this.continentDataList = (ArrayList<ContinentData>) in.readObject();
+				this.countryDataList = (ArrayList<CountryData>) in.readObject();
+				this.playerList = (HashMap<String, Player>) in.readObject();
+				this.playersArmiesList = (HashMap<Integer, Integer>) in.readObject();
+				this.conqueredPlayerList = (List<Player>) in.readObject();
+				this.updatePlayer((Player) in.readObject()); 
+				this.phaseData = (PhaseData) in.readObject();
+				this.gameLogs=(GameLogsData) in.readObject();
+					
+				StartupController startController = new StartupController();
+				startController.resumeGame();
+			} catch (ClassNotFoundException e) {
+
+				e.printStackTrace();
+			}
+
+			in.close();
+			file.close();
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+    /**
+     * Get the list of predefined logs
+     * @return list of logs to display
+     */
+	public List<String> getGameLogs() {
+        return this.gameLogs.logs;
+    }
+
 }

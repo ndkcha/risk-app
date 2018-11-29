@@ -2,6 +2,7 @@ package Game.View;
 
 import Game.Model.GameLogsData;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -66,6 +67,21 @@ public class GameLogsView implements Observer {
 	 */
 	public JPanel getPanel() {
 		 return this.panelGamePlay;
+	}
+
+	/**
+	 * Load pre-defined logs.
+	 * Used when the game is loaded from a file
+	 * @param logs list of logs
+	 */
+	public void loadInitialData(List<String> logs) {
+		listModelGamePlay.removeAllElements();
+
+		for (String log : logs) {
+			listModelGamePlay.add(0, log);
+		}
+
+		listGamePlay.setModel(listModelGamePlay);
 	}
 
 	@Override

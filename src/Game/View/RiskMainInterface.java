@@ -23,14 +23,14 @@ public class RiskMainInterface extends JFrame {
     private JLabel labelCardTitle = new JLabel();
     // End of variables declaration
 
-    public RiskMainInterface() {
-        initComponents();
+    public RiskMainInterface(boolean isTournamentMode) {
+        initComponents(isTournamentMode);
     }
 
     /** Various panel components are initialised in initComponents method */
     @SuppressWarnings("unchecked")
-    private void initComponents() {
-        PhaseView phaseView = this.initializePhaseView();
+    private void initComponents(boolean isTournamentMode) {
+        PhaseView phaseView = this.initializePhaseView(isTournamentMode);
 
         JPanel panelMap = this.initializeMapView();
         JPanel panelDice = this.initializeDiceView();
@@ -41,7 +41,8 @@ public class RiskMainInterface extends JFrame {
         
         organizeLayout(panelPhases, panelDice, panelCard, panelPlayers, panelGamePlay, panelMap);
 
-        setVisible(true);
+        if (!isTournamentMode)
+            setVisible(true);
         pack();
 
         initValues(phaseView);
@@ -74,8 +75,8 @@ public class RiskMainInterface extends JFrame {
      * It also attaches the relevant observers in order to keep the view updated.
      * @return the view in which the phase area is loaded
      */
-    private PhaseView initializePhaseView() {
-        PhaseView phaseView = new PhaseView();
+    private PhaseView initializePhaseView(boolean isTournamentMode) {
+        PhaseView phaseView = new PhaseView(isTournamentMode);
         phaseView.changePhaseTitle();
         holder.attachObserverToPhase(phaseView);
 
@@ -119,6 +120,7 @@ public class RiskMainInterface extends JFrame {
     private JPanel initializeGameLogsView() {
         GameLogsView gameLogsView = new GameLogsView();
         holder.attachObserverToLogsView(gameLogsView);
+        gameLogsView.loadInitialData(holder.getGameLogs());
 
         return gameLogsView.getPanel();
     }
@@ -229,7 +231,7 @@ public class RiskMainInterface extends JFrame {
 
     public static void createInstance() {
         if (mainView == null) {
-            mainView = new RiskMainInterface();
+            mainView = new RiskMainInterface(false);
         }
     }
 
