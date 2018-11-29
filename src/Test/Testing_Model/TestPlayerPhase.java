@@ -31,7 +31,6 @@ public class TestPlayerPhase {
 	private DataHolder holder = DataHolder.getInstance();
 	public String transferingCountry;
 	public String destinationCountry;
-	private StartupController sc = new StartupController(new File(""));
 	
 	@Before
 	public void testbefore() {
@@ -80,7 +79,17 @@ public class TestPlayerPhase {
         
 	}
 	
-	
+	/**
+	 * This method will test the calculation of armies received in
+	 * reinforcement phase.
+	 */
+	@Test
+	public void testreinforcementPhase() {
+		int previousnoOfarmies=testplayer1.getArmiesInCountry("Cockpit01");
+		testplayer1.reinforcementPhase(3, "Cockpit01");
+		int armiesnow=testplayer1.getArmiesInCountry("Cockpit01");
+		assertEquals(previousnoOfarmies+3,armiesnow);
+	}
 	
 	/**
 	 * This method will test number of dice allowed
@@ -92,6 +101,28 @@ public class TestPlayerPhase {
 		int noOfDiceAllowed=controller.calculateNoOfDiceAllowed("Cockpit01");
 	    assertEquals(2,noOfDiceAllowed);
 	}
+
+	/**
+	 * This method will test to get neighbors of a country
+	 */
+	@Test
+	public void testgetNeighbours() {
+		
+		AttackController controller = new AttackController();
+		List<String> result=controller.getNeighbours("Cockpit02");
+		assertEquals("Cockpit01",result.get(0));
+	}
+	
+	/**
+	 * This method will test neighbours of a country allowed for attack
+	 */
+	@Test
+	public void testgetNeighboursForAttack() {
+		
+		AttackController controller = new AttackController();
+		List<String> result=controller.getNeighboursForAttack("Cockpit01");
+		assertEquals("Cockpit04",result.get(0));
+	}
 		
 	/**
 	 * This method will test if the countries are connected.
@@ -102,17 +133,6 @@ public class TestPlayerPhase {
 		testplayer2.fortificationPhase("Cockpit03", "Cockpit04", 2);
 		int armiesnow=testplayer2.getArmiesInCountry("Cockpit03");
 		assertEquals(previousnoOfarmies,armiesnow+2);
-	}
-	
-	/**
-	 * This method will test the Initial armies assign to user on initial startup
-	 * phase.
-	 */
-	@Test
-	public void testdetermineOfInitialArmy() {
-		for (int i = 2; i <= 6; i++) {
-			assertEquals((40 - ((i - 2) * 5)), sc.determineOfInitialArmy(i));
-		}
 	}
 	
 	
