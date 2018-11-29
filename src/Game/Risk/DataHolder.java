@@ -61,6 +61,7 @@ public class DataHolder implements Serializable {
         mapData.cleanUpMapData();
         phaseData.refreshPhase();
         phaseData.setTotalPlayers(this.getPlayerList().size());
+        gameLogs.logs.clear();
 
         for (Map.Entry<String, Player> playerEntry : this.playerList.entrySet()) {
             String name = playerEntry.getKey();
@@ -456,7 +457,6 @@ public class DataHolder implements Serializable {
 
 		catch (IOException ex) {
 			ex.printStackTrace();
-			System.out.println("IOException is caught");
 		}
 
 	}
@@ -494,7 +494,6 @@ public class DataHolder implements Serializable {
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			System.out.println("IOException is caught");
 		}
 	}
 

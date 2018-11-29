@@ -8,28 +8,17 @@ import java.util.List;
  * @author ndkcha
  */
 public class TournamentGame {
-    private Player player;
-    private List<String> gameLogs = new ArrayList<>();
+    private List<String> gameLogs;
     private MapData mapData;
 
     /**
      * Initialize the object
-     * @param player player who have won the game
      * @param gameLogs things that happened in the game
      * @param mapData map played for the game
      */
-    public TournamentGame(Player player, List<String> gameLogs, MapData mapData) {
-        this.player = player;
+    public TournamentGame(List<String> gameLogs, MapData mapData) {
         this.gameLogs = gameLogs;
         this.mapData = mapData;
-    }
-
-    /**
-     * Get the winner
-     * @return player who've won
-     */
-    public Player getPlayer() {
-        return player;
     }
 
     /**

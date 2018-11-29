@@ -431,18 +431,6 @@ public class AttackController {
 				}
 				player.setCountriesConquered(countriesConquered);
 				holder.updatePlayer(player);
-				Iterator itForCountriesConquere = countriesConquered.entrySet()
-						.iterator();// iterator for countries conqureeed by
-									// player
-				while (itForCountriesConquere.hasNext()) {
-					Map.Entry pair = (Map.Entry) itForCountriesConquere.next();
-					if (pair.getKey().equals(attackingCountry)) {
-						int numberOfArmies = (int) pair.getValue();
-						System.out.println(
-								"decremented armies in attacking country"
-										+ numberOfArmies);
-					}
-				}
 			}
 			// if dice value of attacker is less then the dice value of defender
 			else {
@@ -459,18 +447,6 @@ public class AttackController {
 				}
 				player.setCountriesConquered(countriesConquered);
 				holder.updatePlayer(player);
-				Iterator itForCountriesConquere = countriesConquered.entrySet()
-						.iterator();// iterator for countries conqureeed by
-									// player
-				while (itForCountriesConquere.hasNext()) {
-					Map.Entry pair = (Map.Entry) itForCountriesConquere.next();
-					if (pair.getKey().equals(attackingCountry)) {
-						int numberOfArmies = (int) pair.getValue();
-						System.out.println(
-								"decremented armies in attacking country"
-										+ numberOfArmies);
-					}
-				}
 			}
 		}
 		// update the conquered country list of the player

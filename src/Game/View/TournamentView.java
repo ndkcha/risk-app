@@ -7,9 +7,13 @@ package Game.View;
 
 import Game.Model.PhaseData;
 import Game.Model.TournamentData;
+import Game.Model.TournamentGame;
+import Game.Risk.DataHolder;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,14 +23,12 @@ import java.util.Observer;
  * @author vansh, ndkcha
  */
 @SuppressWarnings("deprecation")
-public class TournamentView extends JFrame implements Observer {
+public class TournamentView extends JFrame implements Observer, ActionListener {
+    private DataHolder holder = DataHolder.getInstance();
+
     private TournamentData tournamentData = new TournamentData();
-    private JButton btnMap1Game1, btnMap1Game2, btnMap1Game3, btnMap1Game4, btnMap1Game5;
-    private JButton btnMap2Game1, btnMap2Game2, btnMap2Game3, btnMap2Game4, btnMap2Game5;
-    private JButton btnMap3Game1, btnMap3Game2, btnMap3Game3, btnMap3Game4, btnMap3Game5;
-    private JButton btnMap4Game1, btnMap4Game2, btnMap4Game3, btnMap4Game4, btnMap4Game5;
-    private JButton btnMap5Game1, btnMap5Game2, btnMap5Game3, btnMap5Game4, btnMap5Game5;
-    private JLabel labelMap1, labelMap2, labelMap3, labelMap4, labelMap5;
+    private JButton btnMap[][] = new JButton[5][5];
+    private JLabel labelMap[] = new JLabel[5];
     private JLabel labelResults, labelGameLogs;
     private JScrollPane jScrollPane1 = new JScrollPane();
     private JScrollPane jScrollPane2 = new JScrollPane();
@@ -40,37 +42,18 @@ public class TournamentView extends JFrame implements Observer {
      /**
      * Creates new form NewJFrame
      */
-    public TournamentView  () {
-        labelMap1 = new JLabel("Map 1:");
-        btnMap1Game1 = new JButton("Game 1");
-        btnMap1Game2 = new JButton("Game 2");
-        btnMap1Game3 = new JButton("Game 3");
-        btnMap1Game4 = new JButton("Game 4");
-        btnMap1Game5 = new JButton("Game 5");
-        labelMap2 = new JLabel("Map 2:");
-        btnMap2Game1 = new JButton("Game 1");
-        btnMap2Game2 = new JButton("Game 2");
-        btnMap2Game3 = new JButton("Game 3");
-        btnMap2Game4 = new JButton("Game 4");
-        btnMap2Game5 = new JButton("Game 5");
-        labelMap3 = new JLabel("Map 3:");
-        btnMap3Game1 = new JButton("Game 1");
-        btnMap3Game2 = new JButton("Game 2");
-        btnMap3Game3 = new JButton("Game 3");
-        btnMap3Game4 = new JButton("Game 4");
-        btnMap3Game5 = new JButton("Game 5");
-        labelMap4 = new JLabel("Map 4:");
-        btnMap4Game1 = new JButton("Game 1");
-        btnMap4Game2 = new JButton("Game 2");
-        btnMap4Game3 = new JButton("Game 3");
-        btnMap4Game4 = new JButton("Game 4");
-        btnMap4Game5 = new JButton("Game 5");
-        labelMap5 = new JLabel("Map 5:");
-        btnMap5Game1 = new JButton("Game 1");
-        btnMap5Game2 = new JButton("Game 2");
-        btnMap5Game3 = new JButton("Game 3");
-        btnMap5Game4 = new JButton("Game 4");
-        btnMap5Game5 = new JButton("Game 5");
+    public TournamentView() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                btnMap[i][j] = new JButton(" G " + j);
+                btnMap[i][j].setVisible(false);
+                btnMap[i][j].setActionCommand(i + ":" + j);
+                btnMap[i][j].addActionListener(this);
+            }
+
+            labelMap[i] = new JLabel("Map " + i + ":");
+            labelMap[i].setVisible(false);
+        }
         labelResults = new JLabel("Results:");
         labelGameLogs = new JLabel("Game Logs:");
 
@@ -92,8 +75,17 @@ public class TournamentView extends JFrame implements Observer {
      */
     public void startGame() {
         int maxGames = 0;
+        int mapNumber = 0;
         for (List<String> map : this.tournamentData.getMapBuffer()) {
             int noOfGames = Integer.parseInt(map.get(2));
+
+            for (int j = 0; j < noOfGames; j++) {
+                btnMap[mapNumber][j].setVisible(true);
+            }
+
+            labelMap[mapNumber].setVisible(true);
+
+            mapNumber++;
             if (noOfGames > maxGames)
                 maxGames = noOfGames;
         }
@@ -145,75 +137,75 @@ public class TournamentView extends JFrame implements Observer {
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(labelMap1, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelMap2, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelMap4, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelMap5, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelMap3, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelMap[0], GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelMap[1], GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelMap[3], GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelMap[4], GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelMap[2], GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
                         .addComponent(labelResults)
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                        .addComponent(btnMap1Game1)
-                                        .addComponent(btnMap2Game1))
+                                        .addComponent(btnMap[0][0])
+                                        .addComponent(btnMap[1][0]))
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnMap1Game2, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnMap[0][1], GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap1Game3))
+                                            .addComponent(btnMap[0][2]))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnMap2Game2, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnMap[1][1], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnMap2Game3, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(btnMap[1][2], GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)))
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnMap2Game4, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnMap[1][3], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap2Game5, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btnMap[1][4], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnMap1Game4)
+                                            .addComponent(btnMap[0][3])
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap1Game5))))
+                                            .addComponent(btnMap[0][4]))))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnMap4Game1)
+                                            .addComponent(btnMap[3][0])
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap4Game2, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnMap[3][1], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap4Game3, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btnMap[3][2], GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnMap3Game1)
+                                            .addComponent(btnMap[2][0])
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap3Game2, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnMap[2][1], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
                                             .addGap(20, 20, 20)
-                                            .addComponent(btnMap3Game3))
+                                            .addComponent(btnMap[2][2]))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnMap5Game1)
+                                            .addComponent(btnMap[4][0])
                                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnMap5Game2, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnMap[4][1], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap5Game3, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(btnMap[4][2], GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)))
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(btnMap3Game4)
+                                            .addComponent(btnMap[2][3])
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap3Game5, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btnMap[2][4], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(btnMap4Game4, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnMap[3][3], GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap4Game5, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btnMap[3][4], GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(btnMap5Game4)
+                                            .addComponent(btnMap[4][3])
                                             .addGap(18, 18, 18)
-                                            .addComponent(btnMap5Game5, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(btnMap[4][4], GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))))
                             .addGap(17, 17, 17)))
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
-                    .addComponent(labelGameLogs, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelGameLogs, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
                     .addGap(145, 145, 145))
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
@@ -231,50 +223,50 @@ public class TournamentView extends JFrame implements Observer {
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(labelMap1)
+                            .addComponent(labelMap[0])
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnMap1Game1)
-                                .addComponent(btnMap1Game2)
-                                .addComponent(btnMap1Game3)
-                                .addComponent(btnMap1Game4)
-                                .addComponent(btnMap1Game5))
+                                .addComponent(btnMap[0][0])
+                                .addComponent(btnMap[0][1])
+                                .addComponent(btnMap[0][2])
+                                .addComponent(btnMap[0][3])
+                                .addComponent(btnMap[0][4]))
                             .addGap(18, 18, 18)
-                            .addComponent(labelMap2)
+                            .addComponent(labelMap[1])
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnMap2Game1)
-                                .addComponent(btnMap2Game2)
-                                .addComponent(btnMap2Game3)
-                                .addComponent(btnMap2Game4)
-                                .addComponent(btnMap2Game5))
+                                .addComponent(btnMap[1][0])
+                                .addComponent(btnMap[1][1])
+                                .addComponent(btnMap[1][2])
+                                .addComponent(btnMap[1][3])
+                                .addComponent(btnMap[1][4]))
                             .addGap(27, 27, 27)
-                            .addComponent(labelMap3)
+                            .addComponent(labelMap[2])
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnMap3Game1)
-                                .addComponent(btnMap3Game2)
-                                .addComponent(btnMap3Game3)
-                                .addComponent(btnMap3Game4)
-                                .addComponent(btnMap3Game5))
+                                .addComponent(btnMap[2][0])
+                                .addComponent(btnMap[2][1])
+                                .addComponent(btnMap[2][2])
+                                .addComponent(btnMap[2][3])
+                                .addComponent(btnMap[2][4]))
                             .addGap(18, 18, 18)
-                            .addComponent(labelMap4)
+                            .addComponent(labelMap[3])
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnMap4Game1)
-                                .addComponent(btnMap4Game2)
-                                .addComponent(btnMap4Game3)
-                                .addComponent(btnMap4Game4)
-                                .addComponent(btnMap4Game5))
+                                .addComponent(btnMap[3][0])
+                                .addComponent(btnMap[3][1])
+                                .addComponent(btnMap[3][2])
+                                .addComponent(btnMap[3][3])
+                                .addComponent(btnMap[3][4]))
                             .addGap(18, 18, 18)
-                            .addComponent(labelMap5)
+                            .addComponent(labelMap[4])
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnMap5Game1)
-                                .addComponent(btnMap5Game2)
-                                .addComponent(btnMap5Game3)
-                                .addComponent(btnMap5Game4)
-                                .addComponent(btnMap5Game5))
+                                .addComponent(btnMap[4][0])
+                                .addComponent(btnMap[4][1])
+                                .addComponent(btnMap[4][2])
+                                .addComponent(btnMap[4][3])
+                                .addComponent(btnMap[4][4]))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
                             .addGap(2, 2, 2)
@@ -292,7 +284,6 @@ public class TournamentView extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof String) {
-            System.out.println("Tournament View: " + arg);
             switch ((String) arg) {
                 case PhaseData.END_GAME:
                     this.endGame(o);
@@ -305,18 +296,43 @@ public class TournamentView extends JFrame implements Observer {
      * Executed when the game is ended
      */
     private void endGame(Observable observable) {
-        System.out.println("Ended");
         PhaseData data = (PhaseData) observable;
-        System.out.println("winner: " + data.getWinner() + " - " + data.getGameId());
         String gameContent[] = data.getGameId().split(":");
         int map = Integer.parseInt(gameContent[0]);
         int game = Integer.parseInt(gameContent[1]);
 
-        System.out.println("Game - map: " + map + " - game + 1: " + (game + 1));
-        System.out.println(this.modelTournament.getValueAt(map, game + 1));
-        this.modelTournament.setValueAt(data.getWinner(), map, game + 1);
-        this.tableTournament.setModel(this.modelTournament);
+        if (this.modelTournament.getValueAt(map, game + 1) == null) {
+            System.out.println("winner: " + data.getWinner() + " - " + data.getGameId());
 
-        this.tournamentData.startNextGame();
+            this.modelTournament.setValueAt(data.getWinner(), map, game + 1);
+            this.tableTournament.setModel(this.modelTournament);
+
+            this.tournamentData.addGame(data.getGameId(), holder.getGameLogs());
+
+            this.tournamentData.startNextGame();
+        }
+    }
+
+    /**
+     * When any map button is clicked, show the appropriate logs
+     * @param e the action event
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String content[] = e.getActionCommand().split(":");
+        int map = Integer.parseInt(content[0]) + 1;
+        int game = Integer.parseInt(content[1]) + 1;
+
+        List<String> logs = tournamentData.getGameLogs(e.getActionCommand());
+
+        modelListGameLogs.removeAllElements();
+
+        modelListGameLogs.addElement("Map " + map + " : Game " + game);
+
+        for (String log : logs) {
+            modelListGameLogs.addElement(log);
+        }
+
+        listGameLogs.setModel(modelListGameLogs);
     }
 }

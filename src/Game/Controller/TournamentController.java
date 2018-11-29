@@ -1,4 +1,4 @@
-package Game.Controller;
+    package Game.Controller;
 
 import Game.Model.TournamentData;
 import Game.Risk.DataHolder;
@@ -17,7 +17,7 @@ public class TournamentController {
     private DataHolder holder = DataHolder.getInstance();
     private TournamentView tournamentView = new TournamentView();
 
-    TournamentController() { }
+    public TournamentController() { }
 
     public static TournamentController getInstance() {
         if (controller == null)
@@ -79,7 +79,6 @@ public class TournamentController {
      */
     @SuppressWarnings("Duplicates")
     private String map_selector(String ext, int gameIndex) {
-        System.out.println("Map and BMP file selector opened");
         JFrame frame = new JFrame("Select Map File for Game " + (gameIndex + 1));
 
         // Upload map file.
