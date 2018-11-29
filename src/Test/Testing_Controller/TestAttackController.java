@@ -20,6 +20,7 @@ import Game.Model.Player;
 import Game.Risk.DataHolder;
 
 /**
+ * The Test class for AttackController.
  * @author Jay
  *
  */

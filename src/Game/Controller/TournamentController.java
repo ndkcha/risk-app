@@ -12,6 +12,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
 
+/**\
+ * The controller class for tournament data which starts the game 
+ * with game selector and map selectors.
+ * 
+ * @author ndkcha
+ */
 public class TournamentController {
     private static TournamentController controller;
     private DataHolder holder = DataHolder.getInstance();
