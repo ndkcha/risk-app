@@ -234,7 +234,7 @@ public class AttackController {
 		// }
 		return returnResult;
 	}
-
+	
 	/**
 	 * to calculate number of dice allowed depending upon the armies existing in
 	 * the country
@@ -317,12 +317,7 @@ public class AttackController {
 		// armies in attacking country
 		HashMap<String, Integer> countriesConquered = player
 				.getCountriesConquered();
-		Iterator itForCountries = countriesConquered.entrySet().iterator();// iterator
-																			// for
-																			// countries
-																			// conqureeed
-																			// by
-																			// player
+		Iterator itForCountries = countriesConquered.entrySet().iterator();
 		while (itForCountries.hasNext()) {
 			Map.Entry pair = (Map.Entry) itForCountries.next();
 			if (pair.getKey().equals(attackingCountry)) {
@@ -512,6 +507,11 @@ public class AttackController {
 		}
 	}
 
+	/**
+	 * the armies in defending country.
+	 * @param defendingCountry The defending country name.
+	 * @return countriesConqueredTmp 
+	 */
 	public int getArmiesOfDefendingCountry(String defendingCountry) {
 		List<Player> allPlayersList = holder.getPlayerList();
 
