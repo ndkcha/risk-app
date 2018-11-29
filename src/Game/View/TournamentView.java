@@ -45,13 +45,13 @@ public class TournamentView extends JFrame implements Observer, ActionListener {
     public TournamentView() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                btnMap[i][j] = new JButton(" G " + j);
+                btnMap[i][j] = new JButton(" G " + (j + 1));
                 btnMap[i][j].setVisible(false);
                 btnMap[i][j].setActionCommand(i + ":" + j);
                 btnMap[i][j].addActionListener(this);
             }
 
-            labelMap[i] = new JLabel("Map " + i + ":");
+            labelMap[i] = new JLabel("Map " + (i + 1) + ":");
             labelMap[i].setVisible(false);
         }
         labelResults = new JLabel("Results:");
