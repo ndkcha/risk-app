@@ -18,14 +18,12 @@ import Test.Testing_Controller.*;
 	TestMapEditorController.class,
 	TestReinforcementController.class,
 	TestStartupController.class,
-	
 	TestContinentData.class , 
 	TestCountryData.class,
 	TestPlayerCards.class,
 	TestPlayerModel.class,
 	TestSaveAndLoadGame.class,
 	TestTournamentData.class,
-
 	TestGameSettingsView.class})
  
  

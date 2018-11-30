@@ -39,8 +39,6 @@ public class TestContinentData {
 
 	/**
 	 * This method Testcontrolvalue will test the getcontrolvalue method.
-	 * 
-	 * 
 	 */
 	@Test
 	public void Testcontrolvalue() {

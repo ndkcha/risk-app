@@ -293,6 +293,8 @@ public class TournamentView extends JFrame implements Observer, ActionListener {
 
     /**
      * Executed when the game is ended
+     * 
+     * @param observable The Observable for endgame.
      */
     private void endGame(Observable observable) {
         PhaseData data = (PhaseData) observable;
