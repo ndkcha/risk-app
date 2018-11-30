@@ -274,26 +274,26 @@ public class PhaseView implements Observer {
         changeControlButtonVisibility(false);
 
         if (player.getType() == 1) {
-            stratSetter.setStrategy(new AggressiveStrategy());
-            List<String> attackerAndDefender = stratSetter.attack();
+            player.setStrategy(new AggressiveStrategy());
+            List<String> attackerAndDefender = player.attack();
             aggressiveAttack(attackerAndDefender);
         }
 
         if (player.getType() == 2) {
-            stratSetter.setStrategy(new BenevolentStrategy());
-            List<String> attackerAndDefender = stratSetter.attack();
+            player.setStrategy(new BenevolentStrategy());
+            List<String> attackerAndDefender = player.attack();
             benevolentAttack();
         }
 
         if (player.getType() == 3) {
-            stratSetter.setStrategy(new RandomStrategy());
-            List<String> attackerAndDefender = stratSetter.attack();
+            player.setStrategy(new RandomStrategy());
+            List<String> attackerAndDefender = player.attack();
             randomAttack(attackerAndDefender);
         }
 
         if (player.getType() == 4) {
-            stratSetter.setStrategy(new CheaterStartegy());
-            List<String> attackerAndDefender = stratSetter.attack();
+            player.setStrategy(new CheaterStartegy());
+            List<String> attackerAndDefender = player.attack();
             cheaterAttack(attackerAndDefender);
         }
 
@@ -982,29 +982,29 @@ public class PhaseView implements Observer {
         changeControlButtonVisibility(false);
 
         if (player.getType() == 1) {
-            stratSetter.setStrategy(new AggressiveStrategy());
-            String strongestCountry = stratSetter.reinforcement();
+            player.setStrategy(new AggressiveStrategy());
+            String strongestCountry = player.reinforcement();
             System.out.println("Strongest Country is " + strongestCountry);
             aggressiveReinforcement(strongestCountry);
         }
 
         if (player.getType() == 2) {
-            stratSetter.setStrategy(new BenevolentStrategy());
-            String weakestCountry = stratSetter.reinforcement();
+            player.setStrategy(new BenevolentStrategy());
+            String weakestCountry = player.reinforcement();
             System.out.println("Weakest Country is " + weakestCountry);
             benevolentReinforcement(weakestCountry);
         }
 
         if (player.getType() == 3) {
-            stratSetter.setStrategy(new RandomStrategy());
-            String randomCountry = stratSetter.reinforcement();
+            player.setStrategy(new RandomStrategy());
+            String randomCountry = player.reinforcement();
             System.out.println("Random Country is " + randomCountry);
             randomReinforcement(randomCountry);
         }
 
         if (player.getType() == 4) {
-            stratSetter.setStrategy(new CheaterStartegy());
-            String message = stratSetter.reinforcement();
+            player.setStrategy(new CheaterStartegy());
+            String message = player.reinforcement();
             System.out.println("Cheater Country is ");
             cheaterReinforcement(message);
         }
@@ -1091,29 +1091,29 @@ public class PhaseView implements Observer {
         }
 
         if (player.getType() == 1) {
-            stratSetter.setStrategy(new AggressiveStrategy());
-            String countryName = stratSetter.fortify();
+            player.setStrategy(new AggressiveStrategy());
+            String countryName = player.fortify();
 
             aggressiveFortification(countryName);
         }
 
         if (player.getType() == 2) {
-            stratSetter.setStrategy(new BenevolentStrategy());
-            String countryName = stratSetter.fortify(); // will return List<String> with source country and target country
+            player.setStrategy(new BenevolentStrategy());
+            String countryName = player.fortify(); // will return List<String> with source country and target country
 
             benevolentFortification(countryName);
         }
 
         if (player.getType() == 3) {
-            stratSetter.setStrategy(new RandomStrategy());
-            String countryName = stratSetter.fortify(); // will return List<String> with source country and target country
+            player.setStrategy(new RandomStrategy());
+            String countryName = player.fortify(); // will return List<String> with source country and target country
 
             randomFortification(countryName);
         }
 
         if (player.getType() == 4) {
-            stratSetter.setStrategy(new CheaterStartegy());
-            String countryName = stratSetter.fortify(); // will return List<String> with source country and target country
+            player.setStrategy(new CheaterStartegy());
+            String countryName = player.fortify(); // will return List<String> with source country and target country
 
             cheaterFortification(countryName);
         }

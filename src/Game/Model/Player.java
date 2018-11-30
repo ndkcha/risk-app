@@ -27,6 +27,7 @@ public class Player extends Observable implements Serializable {
     private int attackerArmies, defenderArmies;
     private boolean isAllOutMode = true;
     private int armiesToMove = 0;
+    private PlayerStrategy strategy;
 
     /**
      * The countries conquered by the player. Key is the name of the country.
@@ -619,4 +620,36 @@ public class Player extends Observable implements Serializable {
         }
         return totalArmies;
     }
+    
+    /**
+     * to set the strategy for each phase
+     * @param strategy strategy to be implemented
+     */
+    public void setStrategy(PlayerStrategy strategy) {
+         this.strategy=strategy;
+     }
+    
+    /**
+     * The reinforcement strategy setter
+     * @return String containing the country name
+     */
+     public String reinforcement() {
+         return this.strategy.reinforcementPhase(0, null);
+     }
+     
+     /**
+      * The attack strategy setter
+      * @return a list containing the attacker and defender
+      */
+     public List<String> attack() {
+         return this.strategy.attackPhase();
+     }
+     
+     /**
+      * The fortification strategy setter
+      * @return string containing the source and target country
+      */
+     public String fortify() {
+         return this.strategy.fortificationPhase();
+     }
 }
