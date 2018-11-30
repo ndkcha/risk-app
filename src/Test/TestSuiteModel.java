@@ -23,6 +23,12 @@ import Test.Testing_Controller.*;
 	TestCountryData.class,
 	TestPlayerCards.class,
 	TestPlayerModel.class,
+<<<<<<< Updated upstream
+=======
+	TestPlayerPhase.class,
+	TestSaveAndLoadGame.class,
+	TestTournamentData.class,
+>>>>>>> Stashed changes
 	
 	TestGameSettingsView.class})
  

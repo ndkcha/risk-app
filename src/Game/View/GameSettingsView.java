@@ -12,6 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Game.Controller.Controller;
 import Game.Controller.MapEditorController;
+import Game.Controller.StartupController;
 import Game.Controller.TournamentController;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
