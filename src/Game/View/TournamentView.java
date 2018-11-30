@@ -7,7 +7,6 @@ package Game.View;
 
 import Game.Model.PhaseData;
 import Game.Model.TournamentData;
-import Game.Model.TournamentGame;
 import Game.Risk.DataHolder;
 
 import javax.swing.*;
@@ -94,11 +93,11 @@ public class TournamentView extends JFrame implements Observer, ActionListener {
 
         this.modelTournament.addColumn("Maps");
         for (int i = 0; i < maxGames; i++) {
-            this.modelTournament.addColumn("Game " + i);
+            this.modelTournament.addColumn("Game " + (i + 1));
         }
 
         for (int i = 0; i < maxMaps; i++) {
-            String[] row = { "Map" + i };
+            String[] row = { "Map" + (i + 1) };
             this.modelTournament.addRow(row);
         }
 
