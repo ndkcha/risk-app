@@ -166,8 +166,22 @@ public class AggressiveStrategy implements PlayerStrategy{
      * @return message of successful fortification
      */
     @Override
-    public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String fortificationPhase() {
+        Player player = holder.getActivePlayer();
+        String targetCountry=strongestCountry();
+        String sourceCountry=null;
+        
+        List<String> neighbours = getNeighbours(targetCountry);
+        int maxArmy = -1;
+        sourceCountry = "";
+        for (Map.Entry<String, Integer> entry : player.getCountriesConquered().entrySet()) {
+            if ((neighbours.indexOf(entry.getKey()) > -1) && (entry.getValue() > maxArmy)) {
+                maxArmy = entry.getValue();
+                sourceCountry = entry.getKey();
+            }
+        }
+        
+        return sourceCountry+"-"+targetCountry+"-"+maxArmy;
     }
     
 }

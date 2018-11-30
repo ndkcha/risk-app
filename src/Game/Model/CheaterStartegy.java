@@ -58,13 +58,13 @@ public class CheaterStartegy implements PlayerStrategy{
         AttackController ac=new AttackController();
         List<String> tempList=new ArrayList<>();
         List<String> message=new ArrayList<>();
-        int armies=0;
+        
         // retrieving the countries conquered by the player
-        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
-        while (itForCountriesConquered.hasNext()) {
-            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();// if the player has the country in the conqueredcountry list
-            List<String> neighbours=ac.getNeighboursForAttack((String)pair.getKey());
+        HashMap<String, Integer> countriesConquered = new HashMap<>(player.getCountriesConquered());
+        HashMap<String, Integer> ptrCountriesConquered = player.getCountriesConquered();
+        
+        for (Map.Entry<String, Integer> pair : countriesConquered.entrySet()) {
+            List<String> neighbours=new ArrayList<>(ac.getNeighboursForAttack((String)pair.getKey()));
             for(int j=0;j<neighbours.size();j++) {
                 //if the neighbour is not already conquered in previous iterations
                 if(!tempList.contains(neighbours.get(j))) {
@@ -75,24 +75,23 @@ public class CheaterStartegy implements PlayerStrategy{
                     for (int i = 0; i < allPlayersList.size(); i++) {
                         Player tmp = allPlayersList.get(i);
                         HashMap<String, Integer> countriesConqueredTmp = tmp.getCountriesConquered();
-                        Iterator itForCountriesConqueredt = countriesConqueredTmp.entrySet().iterator();// iterator for countries conqureeed by player
-                        while (itForCountriesConquered.hasNext()) {
-                            Map.Entry pair2 = (Map.Entry) itForCountriesConqueredt.next();
-                            if (pair2.getKey().equals(neighbours.get(j))) {
-                                armies = (int) pair.getValue();
-                            }
+                        
+                        if (countriesConqueredTmp.containsKey(neighbours.get(j))) {
+                            int armies = countriesConqueredTmp.get(neighbours.get(j));
+                            ptrCountriesConquered.put(neighbours.get(j), armies);
+                            
+                            countriesConqueredTmp.remove(neighbours.get(j));
                         }
+                        
+                        holder.updatePlayer(tmp);
                     }
-                    //adding the neibouring country in conquered country list
-                    countriesConquered.put(neighbours.get(j), armies);
-                    player.setCountriesConquered(countriesConquered);
-                    holder.updatePlayer(player);
-                    //deleting the neighbouring country
-                    ac.deleteDefendingCountry(neighbours.get(j));
                 }
             }
         }
-        message.add("Player "+player.getName()+" conquered all the neighbouring countries");
+        
+        player.setCountriesConquered(ptrCountriesConquered);
+        holder.updatePlayer(player);
+        message.add(player.getName()+" conquered all the neighbouring countries");
         //no armeis to be moved in attack phase of cheater player.
         return message;
     }
@@ -105,32 +104,34 @@ public class CheaterStartegy implements PlayerStrategy{
      * @return message of successful fortification
      */
     @Override
-    public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
+    public String fortificationPhase() {
         
         //get the active player
         Player player = holder.getActivePlayer();
         // retrieving the countries conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-        int armies=0;
-        List<String> tempList=new ArrayList<>();
+     
         Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
         while (itForCountriesConquered.hasNext()) {
             Map.Entry pair = (Map.Entry) itForCountriesConquered.next();// if the player has the country in the conqueredcountry list
-            List<String> neighbours=new ArrayList<>();
-            neighbours=getNeighbours((String)pair.getKey());
+            List<String> neighbours = getNeighbours((String)pair.getKey());
             for(int i=0;i<neighbours.size();i++) {
-                if(!countriesConquered.containsKey(neighbours.get(i))&& !tempList.contains(neighbours.get(i))) {
+                if(!countriesConquered.containsKey(neighbours.get(i))) {
                     System.out.println("The armies in "+(String)pair.getKey()+" is " +(int) pair.getValue());
-                    armies+=(int)pair.getValue();
+                    
+                    int armies=(int)pair.getValue()*2;
                     pair.setValue(armies);
-                    System.out.println("The updated armies in "+(String)pair.getKey()+" is " +(int) pair.getValue());
-                    tempList.add(neighbours.get(i));
                     break;
                 }
             }
-            player.setCountriesConquered(countriesConquered);
-            holder.updatePlayer(player);
         }
+        
+        for (Map.Entry<String, Integer> entry : countriesConquered.entrySet()) {
+            System.out.println("The updated armies in " + entry.getKey() + " is " + entry.getValue());
+        }
+        
+        player.setCountriesConquered(countriesConquered);
+        holder.updatePlayer(player);
         return "cheater's fortification";
     }
     

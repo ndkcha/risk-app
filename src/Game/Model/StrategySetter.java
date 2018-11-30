@@ -26,7 +26,7 @@ public class StrategySetter {
      }
      
      public String fortify() {
-         return this.strategy.fortificationPhase(null, null, 0);
+         return this.strategy.fortificationPhase();
      }
     
 }

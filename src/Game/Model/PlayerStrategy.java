@@ -34,5 +34,5 @@ public interface PlayerStrategy {
      * @param noOfArmies number of armies to be moved
      * @return message of successful fortification
      */
-    String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies);
+    String fortificationPhase();
 }

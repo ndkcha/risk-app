@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Methods to implement Benevolent Strategy
@@ -99,7 +100,9 @@ public class BenevolentStrategy implements PlayerStrategy{
      */
     @Override
     public List<String> attackPhase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> temp= new ArrayList<>();
+        temp.add("Attack of benevolent player is skipped");
+        return temp;
     }
 
     /**
@@ -110,8 +113,16 @@ public class BenevolentStrategy implements PlayerStrategy{
      * @return message of successful fortification
      */
     @Override
-    public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String fortificationPhase() {
+        Player player=holder.getActivePlayer();
+        Random random=new Random();
+        String targetCountry=weakestCountry();
+        int pickCountry = random.nextInt(player.getCountriesConquered().size() - 1);
+        System.out.println("The index of country "+pickCountry);
+        String sourceCountry = player.getNthCountry(pickCountry);
+        System.out.println("source country "+sourceCountry);
+        int armies=player.getArmiesInCountry(sourceCountry);
+        return sourceCountry+"-"+targetCountry+"-"+armies;
     }
     
 }

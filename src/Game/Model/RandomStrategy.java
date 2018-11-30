@@ -99,8 +99,11 @@ public class RandomStrategy implements PlayerStrategy{
      * @return message of successful fortification
      */
     @Override
-    public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String fortificationPhase() {
+        Player player=holder.getActivePlayer();
+        String sourceCountry=randomCountry();
+        String targetCountry=randomCountry();
+        return sourceCountry+"-"+targetCountry+"-1";
     }
     
 }
