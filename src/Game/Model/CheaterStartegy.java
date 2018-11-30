@@ -34,12 +34,11 @@ public class CheaterStartegy implements PlayerStrategy{
         Player player = holder.getActivePlayer();
         // retrieving the countries conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-        int armies=0;
         Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
         while (itForCountriesConquered.hasNext()) {
             Map.Entry pair = (Map.Entry) itForCountriesConquered.next();// if the player has the country in the conqueredcountry list
             //double the armies in the country
-            armies+=(int)pair.getValue();
+            int armies =(int)pair.getValue() * 2;
             pair.setValue(armies);
         }
         player.setCountriesConquered(countriesConquered);
@@ -74,6 +73,8 @@ public class CheaterStartegy implements PlayerStrategy{
                     allPlayersList = holder.getPlayerList();
                     for (int i = 0; i < allPlayersList.size(); i++) {
                         Player tmp = allPlayersList.get(i);
+                        if (tmp.getName().equalsIgnoreCase(player.getName()))
+                            continue;
                         HashMap<String, Integer> countriesConqueredTmp = tmp.getCountriesConquered();
                         
                         if (countriesConqueredTmp.containsKey(neighbours.get(j))) {
@@ -88,7 +89,7 @@ public class CheaterStartegy implements PlayerStrategy{
                 }
             }
         }
-        
+
         player.setCountriesConquered(ptrCountriesConquered);
         holder.updatePlayer(player);
         message.add(player.getName()+" conquered all the neighbouring countries");
@@ -98,9 +99,6 @@ public class CheaterStartegy implements PlayerStrategy{
 
     /**
      * This method implements the fortification phase
-     * @param sourceCountry source country name from which armies to be moved
-     * @param targetCountry destination country name to which armies to be moved
-     * @param noOfArmies number of armies to be moved
      * @return message of successful fortification
      */
     @Override
@@ -117,17 +115,11 @@ public class CheaterStartegy implements PlayerStrategy{
             List<String> neighbours = getNeighbours((String)pair.getKey());
             for(int i=0;i<neighbours.size();i++) {
                 if(!countriesConquered.containsKey(neighbours.get(i))) {
-                    System.out.println("The armies in "+(String)pair.getKey()+" is " +(int) pair.getValue());
-                    
                     int armies=(int)pair.getValue()*2;
                     pair.setValue(armies);
                     break;
                 }
             }
-        }
-        
-        for (Map.Entry<String, Integer> entry : countriesConquered.entrySet()) {
-            System.out.println("The updated armies in " + entry.getKey() + " is " + entry.getValue());
         }
         
         player.setCountriesConquered(countriesConquered);

@@ -57,11 +57,7 @@ public class RandomStrategy implements PlayerStrategy{
      * @return a country name to which attack will be done
      */
     public String randomCountryToAttack(String countryName) {
-        AttackController ac=new AttackController();
-        List<String> neighboursForAttack=ac.getNeighboursForAttack(countryName);
-        Random rand=new Random();
-        String randomCountryToAttack=neighboursForAttack.get(rand.nextInt(neighboursForAttack.size()));
-        return randomCountryToAttack;
+        return null;
     }
     
     /**
@@ -93,9 +89,6 @@ public class RandomStrategy implements PlayerStrategy{
     
     /**
      * This method implements the fortification phase
-     * @param sourceCountry source country name from which armies to be moved
-     * @param targetCountry destination country name to which armies to be moved
-     * @param noOfArmies number of armies to be moved
      * @return message of successful fortification
      */
     @Override

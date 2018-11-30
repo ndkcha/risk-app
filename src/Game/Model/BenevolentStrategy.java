@@ -27,38 +27,27 @@ public class BenevolentStrategy implements PlayerStrategy{
      */
     public String weakestCountry() {
         String weakestCountryName = null;
-        int minArmies=0;
+        int minArmies = -1;
         //get the active player
         Player player = holder.getActivePlayer();
         // retrieving the countries conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-        
-        boolean flag=false;
-        //a country can a weakest country if 1) it has a neighbour that is also conquered and 2) iff it has the lowest number of armies 
-        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
-        while (itForCountriesConquered.hasNext()) {
-            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
-            String countryName = (String) pair.getKey();
-            if(minArmies==0) {
-                minArmies= (int) pair.getValue();
-            }
-            
-            // get the list of neighbouring countries of the country
-            List<String> countryNeighbours = new ArrayList<>();
-            countryNeighbours = getNeighbours(countryName);
-            for (int i = 0; i < countryNeighbours.size(); i++) {
-                if (countriesConquered.containsKey(countryNeighbours.get(i))) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag) {
-                if((int)pair.getValue()<minArmies) {
-                    weakestCountryName = countryName;
-                    minArmies = (int) pair.getValue();
+
+        //a country can a weakest country if 1) it has a neighbour that is also conquered and 2) iff it has the lowest number of armies
+
+        for (Map.Entry<String, Integer> entry : countriesConquered.entrySet()) {
+            if (minArmies == -1)
+                minArmies = entry.getValue();
+            List<String> neighbours = getNeighbours(entry.getKey());
+
+            for (String neighbour : neighbours) {
+                if (countriesConquered.containsKey(neighbour) && (entry.getValue() < minArmies)) {
+                    minArmies = entry.getValue();
+                    weakestCountryName = entry.getKey();
                 }
             }
         }
+
         return weakestCountryName;
     }
     
@@ -107,9 +96,6 @@ public class BenevolentStrategy implements PlayerStrategy{
 
     /**
      * This method implements the fortification phase
-     * @param sourceCountry source country name from which armies to be moved
-     * @param targetCountry destination country name to which armies to be moved
-     * @param noOfArmies number of armies to be moved
      * @return message of successful fortification
      */
     @Override
@@ -117,10 +103,13 @@ public class BenevolentStrategy implements PlayerStrategy{
         Player player=holder.getActivePlayer();
         Random random=new Random();
         String targetCountry=weakestCountry();
+        if (player.getCountriesConquered().size() <= 1) {
+            return "-null-1";
+        }
         int pickCountry = random.nextInt(player.getCountriesConquered().size() - 1);
-        System.out.println("The index of country "+pickCountry);
+
         String sourceCountry = player.getNthCountry(pickCountry);
-        System.out.println("source country "+sourceCountry);
+
         int armies=player.getArmiesInCountry(sourceCountry);
         return sourceCountry+"-"+targetCountry+"-"+armies;
     }

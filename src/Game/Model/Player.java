@@ -330,6 +330,8 @@ public class Player extends Observable implements Serializable {
         if (country == null) {
             Random random = new Random();
             Object countries[] = this.getCountriesConquered().keySet().toArray();
+            if (countries.length == 0)
+                return name + " is eliminated";
             int countryIndex = random.nextInt(countries.length);
             country = (String) countries[countryIndex];
         }

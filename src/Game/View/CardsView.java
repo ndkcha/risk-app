@@ -159,7 +159,7 @@ public class CardsView implements Observer {
         Player player = holder.getActivePlayer();
         listModelCards.removeAllElements();
 
-        if (player.getType() == 1) {
+        if (player.getType() != 0) {
             if (player.canAddMoreCards()) {
                 holder.changePhases();
                 return;

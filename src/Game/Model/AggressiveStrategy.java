@@ -35,33 +35,40 @@ public class AggressiveStrategy implements PlayerStrategy{
         Player player = holder.getActivePlayer();
         // retrieving the countries conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
-        
-        boolean flag=false;
-        //a country can a strongest country if 1) it has a neighbour that is also conquered and 2) iff it has the highest number of armies 
-        Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
-        while (itForCountriesConquered.hasNext()) {
-            Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
-            String countryName = (String) pair.getKey();
-            if(maximumArmies==0) {
-                maximumArmies= (int) pair.getValue();
+        List<String> tried = new ArrayList<>();
+
+        //a country can a strongest country if 1) it has a neighbour that is also conquered and 2) iff it has the highest number of armies
+
+        while (tried.size() != countriesConquered.size()) {
+            maximumArmies = 0;
+            System.out.println(tried);
+            for (Map.Entry<String, Integer> entry : countriesConquered.entrySet()) {
+                System.out.println("entry: " + entry.getKey());
+                if (tried.indexOf(entry.getKey()) != -1)
+                    continue;
+                List<String> neighbours = getNeighbours(entry.getKey());
+
+                for (String neighbour : neighbours) {
+                    if (countriesConquered.containsKey(neighbour) && (entry.getValue() > maximumArmies)) {
+                        maximumArmies = entry.getValue();
+                        strongestCountryName = entry.getKey();
+                    }
+                }
             }
-            
-            // get the list of neighbouring countries of the country
-            List<String> countryNeighbours = new ArrayList<>();
-            countryNeighbours = getNeighbours(countryName);
-            for (int i = 0; i < countryNeighbours.size(); i++) {
-                if (countriesConquered.containsKey(countryNeighbours.get(i))) {
-                    flag = true;
+
+            System.out.println(strongestCountryName);
+
+            if (strongestCountryName != null) {
+                tried.add(strongestCountryName);
+                AttackController controller = new AttackController();
+                if (controller.getNeighboursForAttack(strongestCountryName).size() == 0) {
+                    strongestCountryName = null;
+                } else
                     break;
-                }
-            }
-            if (flag) {
-                if((int)pair.getValue()>maximumArmies) {
-                    strongestCountryName = countryName;
-                    maximumArmies = (int) pair.getValue();
-                }
-            }
+            } else
+                break;
         }
+
         return strongestCountryName;
     }
     
@@ -104,6 +111,8 @@ public class AggressiveStrategy implements PlayerStrategy{
             // for each player in the list
             for (int i = 0; i < allPlayersList.size(); i++) {
                 Player temp = allPlayersList.get(i);
+                if (temp.getName().equalsIgnoreCase(holder.getActivePlayer().getName()))
+                    continue;
                 // get a particular player's conquered country list
                 HashMap<String, Integer> countriesConqueredTmp = temp.getCountriesConquered();
                 Iterator itForCountriesConquered = countriesConqueredTmp.entrySet().iterator();// iterator for countries conqureeed by player
@@ -160,9 +169,6 @@ public class AggressiveStrategy implements PlayerStrategy{
 
     /**
      * This method implements the fortification phase
-     * @param sourceCountry source country name from which armies to be moved
-     * @param targetCountry destination country name to which armies to be moved
-     * @param noOfArmies number of armies to be moved
      * @return message of successful fortification
      */
     @Override
