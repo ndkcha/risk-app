@@ -23,7 +23,6 @@ import Test.Testing_Controller.*;
 	TestCountryData.class,
 	TestPlayerCards.class,
 	TestPlayerModel.class,
-	TestPlayerPhase.class,
 	
 	TestGameSettingsView.class})
  

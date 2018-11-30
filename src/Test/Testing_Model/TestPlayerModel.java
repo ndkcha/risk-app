@@ -39,6 +39,9 @@ public class TestPlayerModel {
         player = new Player("abc", 1, "blue");
         player2 = new Player("a", 2, "red");
         player.updateCountry("attacker", 4);
+        
+        holder.addPlayer(player);
+        holder.addPlayer(player2);
     }
 
     /**
@@ -52,6 +55,7 @@ public class TestPlayerModel {
 
         assertEquals(player.getArmiesInCountry("attacker"),1);
         assertEquals(player.getArmiesInCountry("defender"), 3);
+        holder.clearDataHolder();
     }
     
     /**
@@ -83,6 +87,44 @@ public class TestPlayerModel {
     	
     	//assertEquals(player1Won, true);
     	assertEquals(player2Won, false);
+    	holder.clearDataHolder();
+    }
+    
+    /**
+     * This method will get the total armies the player have
+     */
+    @Test
+    public void testGetTotalPlayerArmies(){
+    	int  totalArmies = player.getTotalPlayerArmies();
+    	
+    	assertEquals(4, totalArmies);
+    	holder.clearDataHolder();
     }
   
+    /**
+     * Test to check if player have any continent.
+     */
+    @Test
+    public void TestGetNoOfContinents(){
+    	int continenet = holder.getNoOfContinents(player);
+    	assertEquals(0,continenet);
+    }
+    
+    /**
+     * Test weather all player are done with the max turn allowed.
+     */
+    @Test
+    public void TestAreAllPlayerDone(){
+    	holder.maxTurnLimit = 2;
+    	player.takeTurn();
+    	player2.takeTurn();
+    	player.takeTurn();
+    	player2.takeTurn();
+    	holder.updatePlayer(player);
+    	holder.updatePlayer(player2);
+    	
+    	Boolean done = holder.areAllPlayerDone();
+    	assertTrue(done);
+    }
+    
 }

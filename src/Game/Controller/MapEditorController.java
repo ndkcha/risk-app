@@ -250,7 +250,7 @@ public class MapEditorController {
 	 * Checks if the sub-connected graph is valid or not for each continents
 	 * @return true if it is not valid.
 	 */
-	private boolean isErrorInSubConnectedGraph() {
+	public boolean isErrorInSubConnectedGraph() {
 		for (Map.Entry<String, ContinentData> continentDataEntry : this.holder.getContinents().entrySet()) {
 			boolean isSubConnectedGraph = false;
 
