@@ -362,6 +362,7 @@ public class Player extends Observable implements Serializable {
     public void moveArmiesAfterAttack(int armiesToMove) {
         int existing = this.getArmiesInCountry(attacker);
         int armiesLeftInAttacker = existing - armiesToMove;
+        System.out.println("Armies existing: "+existing+" Armies left "+armiesLeftInAttacker);
 
         this.updateCountry(defender, armiesToMove);
         this.updateCountry(attacker, armiesLeftInAttacker);

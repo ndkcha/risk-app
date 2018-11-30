@@ -29,10 +29,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Game.Controller.AttackController;
 import Game.Model.AggressiveStrategy;
+import Game.Model.BenevolentStrategy;
+import Game.Model.CheaterStartegy;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.PhaseData;
 import Game.Model.Player;
+import Game.Model.RandomStrategy;
 import Game.Model.StrategySetter;
 import Game.Risk.DataHolder;
 
@@ -262,51 +265,25 @@ public class PhaseView implements Observer {
 	 */
 	@SuppressWarnings("Duplicates")
 	private void startAttackPhase() {
-		Player player = holder.getActivePlayer();
+            Player player = holder.getActivePlayer();
 
-		if (player.getType() == 0) {
-			this.loadCountryListInCombo();
-			return;
-		}
+            if (player.getType() == 0) {
+                this.loadCountryListInCombo();
+                return;
+            }
 
-		AttackController controller = new AttackController();
-		List<String> neighboursForAttack;
-		changeControlButtonVisibility(false);
-		int iterations = 0;
-		Random random = new Random();
-		String attacker;
+            AttackController controller = new AttackController();
+            List<String> neighboursForAttack;
+            changeControlButtonVisibility(false);
+            int iterations = 0;
+            Random random = new Random();
+            String attacker;
 
-		do {
-			int totalCountries = player.getCountriesConquered().size();
-
-			if (player.getCountriesConquered().size() == 0) {
-				holder.changePhases();
-				return;
-			}
-
-			int pickCountry = random.nextInt(totalCountries);
-			pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
-
-			attacker = player.getNthCountry(pickCountry);
-
-			neighboursForAttack = controller.getNeighboursForAttack(attacker);
-
-			iterations++;
-
-			if (iterations == 10)
-				break;
-		} while (neighboursForAttack.size() == 0);
-
-        if (player.getType() == 0) {
-            this.loadCountryListInCombo();
-            return;
-        }
-
-        if (player.getType() == 1) {
-            stratSetter.setStrategy(new AggressiveStrategy());
-            List<String> attackerAndDefender = stratSetter.attack();
-            aggressiveAttack(attackerAndDefender);
-        }
+            if (player.getType() == 1) {
+                stratSetter.setStrategy(new AggressiveStrategy());
+                List<String> attackerAndDefender = stratSetter.attack();
+                aggressiveAttack(attackerAndDefender);
+            }
 
 //        do {
 //            int totalCountries = player.getCountriesConquered().size();
@@ -356,22 +333,22 @@ public class PhaseView implements Observer {
 //            player.moveArmiesAfterAttack(armiesToMove);
 //
 //        }
-        player.resetAttackerAndDefender();
+            player.resetAttackerAndDefender();
 
-        holder.updatePlayer(player);
+            holder.updatePlayer(player);
 
-        player = holder.getActivePlayer();
-        player.notifyChangeInPlayer();
+            player = holder.getActivePlayer();
+            player.notifyChangeInPlayer();
 
-        if (holder.hasPlayerWon(player)) {
-            JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
-                    "Yeyy!", JOptionPane.INFORMATION_MESSAGE);
-            holder.forceEndGame(player.getName());
-            return;
+            if (holder.hasPlayerWon(player)) {
+                JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
+                        "Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+                holder.forceEndGame(player.getName());
+                return;
+            }
+
+            holder.changePhases();
         }
-
-        holder.changePhases();
-    }
         
         /**
          * This implements the aggressive attack strategy
@@ -398,6 +375,7 @@ public class PhaseView implements Observer {
 
             player = holder.getActivePlayer();
             int minArmiesToMove = player.attackPhase();
+            System.out.println("Minimum armies to move: "+minArmiesToMove);
 
             player = holder.getActivePlayer();
 
@@ -408,6 +386,7 @@ public class PhaseView implements Observer {
                 if (existing > minArmiesToMove) {
                     armiesToMove = random.nextInt(existing - minArmiesToMove);
                     armiesToMove += minArmiesToMove;
+                    System.out.println("Armies going to be moved: "+armiesToMove);
                 }
                 player.moveArmiesAfterAttack(armiesToMove);
             }  
@@ -930,6 +909,27 @@ public class PhaseView implements Observer {
                     System.out.println("Strongest Country is "+strongestCountry);
                     aggressiveReinforcement(strongestCountry);
                 }
+                
+                if (player.getType() == 2) {
+                    stratSetter.setStrategy( new BenevolentStrategy());
+                    String strongestCountry=stratSetter.reinforcement();
+                    System.out.println("Strongest Country is "+strongestCountry);
+                    benevolentReinforcement(strongestCountry);
+                }
+                
+                if (player.getType() == 3) {
+                    stratSetter.setStrategy( new RandomStrategy());
+                    String strongestCountry=stratSetter.reinforcement();
+                    System.out.println("Strongest Country is "+strongestCountry);
+                    randomReinforcement(strongestCountry);
+                }
+                
+                if (player.getType() == 1) {
+                    stratSetter.setStrategy( new CheaterStartegy());
+                    String strongestCountry=stratSetter.reinforcement();
+                    System.out.println("Strongest Country is "+strongestCountry);
+                    cheaterReinforcement(strongestCountry);
+                }
 
 //		int totalNoOfArmies = calculateReinforcementArmies(player);
 //		int noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
@@ -962,7 +962,7 @@ public class PhaseView implements Observer {
         
         /**
          * This method implements the aggressive reinforcement strategy
-         * @param countryName 
+         * @param countryName name of the country
          */
         public void aggressiveReinforcement(String countryName) {
             Player player=holder.getActivePlayer();
@@ -974,6 +974,52 @@ public class PhaseView implements Observer {
             System.out.println("Armies allocation has been completed!");
 
         }
+        
+        /**
+         * This method implements the aggressive reinforcement strategy
+         * @param countryName name of the country
+         */
+        public void benevolentReinforcement(String countryName) {
+            Player player=holder.getActivePlayer();
+            int totalNoOfArmies = calculateReinforcementArmies(player);
+
+            String message = player.reinforcementPhase(totalNoOfArmies, countryName);
+            holder.sendGameLog(message);
+            holder.updatePlayer(player);
+            System.out.println("Armies allocation has been completed!");
+
+        }
+        
+        /**
+         * This method implements the aggressive reinforcement strategy
+         * @param countryName name of the country
+         */
+        public void randomReinforcement(String countryName) {
+            Player player=holder.getActivePlayer();
+            int totalNoOfArmies = calculateReinforcementArmies(player);
+
+            String message = player.reinforcementPhase(totalNoOfArmies, countryName);
+            holder.sendGameLog(message);
+            holder.updatePlayer(player);
+            System.out.println("Armies allocation has been completed!");
+
+        }
+        
+        /**
+         * This method implements the aggressive reinforcement strategy
+         * @param countryName name of the country
+         */
+        public void cheaterReinforcement(String countryName) {
+            Player player=holder.getActivePlayer();
+            int totalNoOfArmies = calculateReinforcementArmies(player);
+
+            String message = player.reinforcementPhase(totalNoOfArmies, countryName);
+            holder.sendGameLog(message);
+            holder.updatePlayer(player);
+            System.out.println("Armies allocation has been completed!");
+
+        }
+        
 	/**
 	 * Start the fortification phase
 	 */
@@ -989,6 +1035,34 @@ public class PhaseView implements Observer {
 			holder.changePhases();
 			return;
 		}
+                
+//                if (player.getType() == 1) {
+//                    stratSetter.setStrategy( new AggressiveStrategy());
+//                    String countryName=stratSetter.fortify();
+//                    System.out.println("Country  is "+countryName);
+//                    aggressiveFortification(countryName);
+//                }
+
+//                if (player.getType() == 2) {
+//                    stratSetter.setStrategy( new BenevolentStrategy());
+//                    String countryName=stratSetter.fortify(); // will return List<String> with source country and target country
+//                    System.out.println("Country  is "+countryName);
+//                    benevolentFortification(countryName);
+//                }
+
+//                if (player.getType() == 3) {
+//                    stratSetter.setStrategy( new RandomStrategy());
+//                    String countryName=stratSetter.fortify(); // will return List<String> with source country and target country
+//                    System.out.println("Country  is "+countryName);
+//                    randomFortification(countryName);
+//                }
+//                
+//                if (player.getType() == 4) {
+//                    stratSetter.setStrategy( new CheaterStartegy());
+//                    String countryName=stratSetter.fortify(); // will return List<String> with source country and target country
+//                    System.out.println("Country  is "+countryName);
+//                    cheaterFortification(countryName);
+//                }
 
 		changeControlButtonVisibility(false);
 
@@ -999,6 +1073,58 @@ public class PhaseView implements Observer {
 		changeControlButtonVisibility(true);
 		holder.changePhases();
 	}
+        
+        /**
+         * This method implements the aggressive fortification strategy
+         * @param countryName name of the country
+         */
+        public void aggressiveFortification(String countryName) {
+                changeControlButtonVisibility(false);
+                Player player = holder.getActivePlayer();
+		String message = player.fortificationPhase(countryName, null, -1);
+		holder.updatePlayer(player);
+		holder.sendGameLog(message);
+
+        }
+        
+        /**
+         * This method implements the benevolent fortification strategy
+         * @param countryName name of the country
+         */
+        public void benevolentFortification(String countryName) {
+                changeControlButtonVisibility(false);
+                Player player = holder.getActivePlayer();
+		String message = player.fortificationPhase(countryName, null, -1);
+		holder.updatePlayer(player);
+		holder.sendGameLog(message);
+
+        }
+        
+        /**
+         * This method implements the random fortification strategy
+         * @param countryName name of the country
+         */
+        public void randomFortification(String countryName) {
+                changeControlButtonVisibility(false);
+                Player player = holder.getActivePlayer();
+		String message = player.fortificationPhase(countryName, null, -1);
+		holder.updatePlayer(player);
+		holder.sendGameLog(message);
+
+        }
+        
+        /**
+         * This method implements the cheater fortification strategy
+         * @param countryName name of the country
+         */
+        public void cheaterFortification(String countryName) {
+                changeControlButtonVisibility(false);
+                Player player = holder.getActivePlayer();
+		String message = player.fortificationPhase(countryName, null, -1);
+		holder.updatePlayer(player);
+		holder.sendGameLog(message);
+
+        }
 
 	/**
 	 * Initializes the default values and settings for the attack phase
