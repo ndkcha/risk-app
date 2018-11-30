@@ -1,16 +1,21 @@
 package Test.Testing_View;
 
 import Game.View.GameSettingsView;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
+
+import static org.junit.Assert.assertNotNull;
 
 public class TestGameSettingsView {
+	private GameSettingsView gsv;
+
+	@Before
+	public void initValues() {
+		this.gsv = new GameSettingsView();
+	}
 	
-	GameSettingsView gsv=new GameSettingsView();
-	
-	@Test public void testGameSettings()
-	{
-		String[] playertype= {"Human","Computer"}; 
-		//assertArray(playertype, gsv.player2_select);
+	@Test public void testGameSettings() {
+		this.gsv.gameSettings(false);
+		assertNotNull(this.gsv.getFrameGameSettings());
 	}
 }
