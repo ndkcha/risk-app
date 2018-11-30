@@ -330,6 +330,8 @@ public class Player extends Observable implements Serializable {
         if (country == null) {
             Random random = new Random();
             Object countries[] = this.getCountriesConquered().keySet().toArray();
+            if (countries.length == 0)
+                return name + " is eliminated";
             int countryIndex = random.nextInt(countries.length);
             country = (String) countries[countryIndex];
         }
@@ -362,7 +364,7 @@ public class Player extends Observable implements Serializable {
     public void moveArmiesAfterAttack(int armiesToMove) {
         int existing = this.getArmiesInCountry(attacker);
         int armiesLeftInAttacker = existing - armiesToMove;
-
+        System.out.println("Armies existing: "+existing+" Armies left "+armiesLeftInAttacker);
         this.updateCountry(defender, armiesToMove);
         this.updateCountry(attacker, armiesLeftInAttacker);
     }
@@ -424,7 +426,7 @@ public class Player extends Observable implements Serializable {
         this.updateCountry(sourceCountry, armiesLeftInSource);
         this.updateCountry(targetCountry, armiesInTarget);
 
-        return name + " sent " + noOfArmies + " arm(ies) from " + sourceCountry + " to " + targetCountry;
+        return name + " sent " + noOfArmies + " arm(ies) from " + sourceCountry + " to " + targetCountry+" in fortification";
     }
 
 
