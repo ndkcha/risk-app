@@ -7,6 +7,8 @@ package Game.Model;
 
 import Game.Controller.AttackController;
 import Game.Risk.DataHolder;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,7 +19,7 @@ import java.util.Map;
  * Methods to implement Cheater Strategy
  * @author r-naik
  */
-public class CheaterStartegy implements PlayerStrategy{
+public class CheaterStartegy implements PlayerStrategy, Serializable  {
 
     private DataHolder holder = DataHolder.getInstance();
     

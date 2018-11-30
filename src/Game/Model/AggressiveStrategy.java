@@ -9,6 +9,8 @@ import Game.Controller.AttackController;
 import Game.Risk.DataHolder;
 import Game.Model.Player;
 import Game.Model.CountryData;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,7 +22,7 @@ import javax.print.DocFlavor;
  * Methods to implement the Aggressive strategy
  * @author r-naik
  */
-public class AggressiveStrategy implements PlayerStrategy{
+public class AggressiveStrategy implements PlayerStrategy, Serializable {
 
     private DataHolder holder = DataHolder.getInstance();
     

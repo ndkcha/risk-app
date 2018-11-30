@@ -7,6 +7,8 @@ package Game.Model;
 
 import Game.Controller.AttackController;
 import Game.Risk.DataHolder;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,7 +20,7 @@ import java.util.Random;
  * Methods to implement Random Strategy
  * @author r-naik
  */
-public class RandomStrategy implements PlayerStrategy{
+public class RandomStrategy implements PlayerStrategy, Serializable {
 
     private DataHolder holder = DataHolder.getInstance();
     

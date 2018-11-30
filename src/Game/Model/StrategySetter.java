@@ -5,13 +5,14 @@
  */
 package Game.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * This class sets the strategy
  * @author r-naik
  */
-public class StrategySetter {
+public class StrategySetter implements Serializable {
      private PlayerStrategy strategy;
      
      public void setStrategy(PlayerStrategy strategy) {

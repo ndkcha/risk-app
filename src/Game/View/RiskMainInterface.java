@@ -50,6 +50,14 @@ public class RiskMainInterface extends JFrame {
         pack();
 
         initValues(phaseView);
+
+        String winner = holder.getWinner();
+        if (winner != null) {
+            String message = (winner.equalsIgnoreCase("Draw") ? "Game drawn! No one won this game!" : holder.getWinner() + " has won the game");
+            if (!isTournamentMode)
+                JOptionPane.showMessageDialog(new JFrame(), message, "Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println(holder.getWinner());
+        }
     }
 
     /**

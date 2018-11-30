@@ -386,6 +386,14 @@ public class DataHolder implements Serializable {
     }
 
     /**
+     * Get the winner
+     * @return winner of the game
+     */
+    public String getWinner() {
+        return this.phaseData.getWinner();
+    }
+
+    /**
      * End the game forcefully
      *
      * @param winner name of the player who've won

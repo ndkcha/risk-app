@@ -221,14 +221,6 @@ public class GameSettingsView {
 		// players.
 		comboPlayers.addActionListener((ActionEvent e) -> this.listenToNoOfPlayersCombo());
 
-		String[] difficulty = { "Difficulty", "Easy", "Medium", "Hard" };
-		JComboBox<String> comboDifficultyList = new JComboBox(difficulty);
-		comboDifficultyList.setSelectedIndex(0);
-
-		String[] countries = { "Countries Distribution ", "Auto", "Manual" };
-		JComboBox<String> comboCountryList = new JComboBox(countries);
-		comboCountryList.setSelectedIndex(0);
-
 		String[] troops = { "Troops Distribution", "Auto", "Manual" };
 		comboTroops = new JComboBox(troops);
 		comboTroops.setSelectedIndex(0);
@@ -239,8 +231,6 @@ public class GameSettingsView {
 		panel.add(comboPlayers);
 		panel.add(comboNoOfTurns);
 		if (!isTournamentMode) {
-			panel.add(comboDifficultyList);
-			panel.add(comboCountryList);
 			panel.add(comboTroops);
 		}
 

@@ -310,9 +310,9 @@ public class PhaseView implements Observer {
 
         if (holder.hasPlayerWon(player)) {
             String message = player.getName() + " has won the game!";
-            if (!isTournamentMode) {
-                JOptionPane.showMessageDialog(new JFrame(),message,"Yeyy!",JOptionPane.INFORMATION_MESSAGE);
-            }
+//            if (!isTournamentMode) {
+//                JOptionPane.showMessageDialog(new JFrame(),message,"Yeyy!",JOptionPane.INFORMATION_MESSAGE);
+//            }
             holder.forceEndGame(player.getName());
             return;
         }
@@ -502,9 +502,9 @@ public class PhaseView implements Observer {
         player.notifyChangeInPlayer();
         if (holder.hasPlayerWon(player)) {
             String message = player.getName() + " has won the game!";
-            if (!isTournamentMode) {
-                JOptionPane.showMessageDialog(new JFrame(),message,"Yeyy!",JOptionPane.INFORMATION_MESSAGE);
-            }
+//            if (!isTournamentMode) {
+//                JOptionPane.showMessageDialog(new JFrame(),message,"Yeyy!",JOptionPane.INFORMATION_MESSAGE);
+//            }
 
             holder.sendGameLog(message);
             holder.forceEndGame(player.getName());
@@ -914,9 +914,9 @@ public class PhaseView implements Observer {
     private void setupPhaseValues () {
         if (holder.areAllPlayerDone()) {
             String message = "Game drawn! No one won this game!";
-            if (!isTournamentMode) {
-                JOptionPane.showMessageDialog(new JFrame(),message,"Yeyy!",JOptionPane.INFORMATION_MESSAGE);
-            }
+//            if (!isTournamentMode) {
+//                JOptionPane.showMessageDialog(new JFrame(),message,"Yeyy!",JOptionPane.INFORMATION_MESSAGE);
+//            }
 
             holder.sendGameLog(message);
             holder.forceEndGame("Draw");

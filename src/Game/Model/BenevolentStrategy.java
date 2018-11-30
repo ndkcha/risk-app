@@ -6,6 +6,8 @@
 package Game.Model;
 
 import Game.Risk.DataHolder;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,7 +19,7 @@ import java.util.Random;
  * Methods to implement Benevolent Strategy
  * @author r-naik
  */
-public class BenevolentStrategy implements PlayerStrategy{
+public class BenevolentStrategy implements PlayerStrategy, Serializable  {
 
     private DataHolder holder = DataHolder.getInstance();
     
