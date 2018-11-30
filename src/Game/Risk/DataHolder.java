@@ -486,13 +486,12 @@ public class DataHolder implements Serializable {
 				this.countryDataList = (ArrayList<CountryData>) in.readObject();
 				this.playerList = (HashMap<String, Player>) in.readObject();
 				this.playersArmiesList = (HashMap<Integer, Integer>) in.readObject();
+				System.out.println(this.playersArmiesList.size());
 				this.conqueredPlayerList = (List<Player>) in.readObject();
 				this.updatePlayer((Player) in.readObject()); 
 				this.phaseData = (PhaseData) in.readObject();
 				this.gameLogs=(GameLogsData) in.readObject();
 					
-				StartupController startController = new StartupController();
-				startController.resumeGame();
 			} catch (ClassNotFoundException e) {
 
 				e.printStackTrace();
