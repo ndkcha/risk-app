@@ -658,8 +658,10 @@ public class PhaseView implements Observer {
 	 * with the phase from UI.
 	 */
 	private void setupManualFortificationPhase() {
-		if (this.isFortificationDone)
+		if (this.isFortificationDone) {
+			holder.changePhases();
 			return;
+		}
 
 		comboModelNoOfArmies.removeAllElements();
 		comboModelNeighbourCountries.removeAllElements();
