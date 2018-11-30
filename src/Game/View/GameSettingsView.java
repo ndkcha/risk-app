@@ -423,6 +423,9 @@ public class GameSettingsView {
 			File file = jFileChooser.getSelectedFile();
 			DataHolder dataHold = DataHolder.getInstance();
 			dataHold.loadSavedGame(file);
+			
+			StartupController startController = new StartupController();
+			startController.resumeGame();
 		}
 
 		else if (result == JFileChooser.CANCEL_OPTION) {
