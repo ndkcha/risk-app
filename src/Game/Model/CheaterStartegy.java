@@ -40,6 +40,7 @@ public class CheaterStartegy implements PlayerStrategy{
             //double the armies in the country
             int armies =(int)pair.getValue() * 2;
             pair.setValue(armies);
+            holder.sendGameLog("Armies in "+pair.getKey()+" owned by "+player.getName()+" doubled to " +pair.getValue());
         }
         player.setCountriesConquered(countriesConquered);
         holder.updatePlayer(player);
@@ -78,6 +79,7 @@ public class CheaterStartegy implements PlayerStrategy{
                         HashMap<String, Integer> countriesConqueredTmp = tmp.getCountriesConquered();
                         
                         if (countriesConqueredTmp.containsKey(neighbours.get(j))) {
+                            holder.sendGameLog(player.getName() + " conquered " + neighbours.get(j));
                             int armies = countriesConqueredTmp.get(neighbours.get(j));
                             ptrCountriesConquered.put(neighbours.get(j), armies);
                             
@@ -120,7 +122,10 @@ public class CheaterStartegy implements PlayerStrategy{
                     break;
                 }
             }
+            holder.sendGameLog("Armies in "+pair.getKey()+" owned by "+player.getName()+" doubled to " +pair.getValue());
         }
+        
+        
         
         player.setCountriesConquered(countriesConquered);
         holder.updatePlayer(player);

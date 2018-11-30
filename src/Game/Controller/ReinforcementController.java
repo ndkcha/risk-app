@@ -13,61 +13,64 @@ import Game.Model.Player;
  * @version 1.2.0
  */
 public class ReinforcementController {
-	public ReinforcementController() {
-	}
 
-	private DataHolder holder = DataHolder.getInstance();
+    public ReinforcementController () {
+    }
 
-	/**
-	 * This function calculates the armies a player avails in each reinforcement phase
-	 * @param player Player Object.
-	 * @return new armies The number of armies available for reinforcement phase.
-	 */
-	public int calculateReinforcementArmies(Player player) {
+    private DataHolder holder = DataHolder.getInstance();
 
-		// retrieving the player number whose turn is goin on
-		int newarmies;
+    /**
+     * This function calculates the armies a player avails in each reinforcement
+     * phase
+     *
+     * @param player Player Object.
+     * @return new armies The number of armies available for reinforcement
+     * phase.
+     */
+    public int calculateReinforcementArmies (Player player) {
 
-		// retrieving the continents conquered by the player
-		HashMap<String, Integer> countriesConquered = player
-				.getCountriesConquered();
+        // retrieving the player number whose turn is goin on
+        int newarmies;
 
-		// get armies due to conquering whole continent
-		int listSizeOfCountriesConquered;
-		int continentAddedArmies = 0;
-		for (ContinentData continentData : holder.getContinentDataList()) {// get data for every continent
-			String continentName = continentData.getName();
+        // retrieving the continents conquered by the player
+        HashMap<String,Integer> countriesConquered = player
+            .getCountriesConquered();
 
-			List<CountryData> countriesContinent = holder.countCountriesInContinent(continentName);// get COuntries of Continent
-			int countrySize = countriesContinent.size();// size of the no of countries in continent
+        // get armies due to conquering whole continent
+        int listSizeOfCountriesConquered;
+        int continentAddedArmies = 0;
+        for (ContinentData continentData : holder.getContinentDataList()) {// get data for every continent
+            String continentName = continentData.getName();
 
-			listSizeOfCountriesConquered = 0;
-			for (CountryData countryData : countriesContinent) {/// countires in continent loop
-				Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
-				while (itForCountriesConquered.hasNext()) {
-					Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
-					String countryName = (String) pair.getKey();
-					if (countryData.getName().equalsIgnoreCase(countryName)) {
-						listSizeOfCountriesConquered++;
-					}
-				}
-			}
-			if (listSizeOfCountriesConquered == countrySize) {
-				continentAddedArmies += continentData.getControlValue();
-			}
-		}
+            List<CountryData> countriesContinent = holder.countCountriesInContinent(continentName);// get COuntries of Continent
+            int countrySize = countriesContinent.size();// size of the no of countries in continent
 
-		// number of countries owned divided by 3 and rounded down if the player owns more than 9 territores otherwise 3 territories
-		if (countriesConquered.size() < 9) {
-			newarmies = 3 + continentAddedArmies;
-		} else {
-			int armies = Math.floorDiv((countriesConquered.size()), 3);
-			newarmies = armies + continentAddedArmies;
-		}
+            listSizeOfCountriesConquered = 0;
+            for (CountryData countryData : countriesContinent) {// countires in continent loop
+                Iterator itForCountriesConquered = countriesConquered.entrySet().iterator();// iterator for countries conqureeed by player
+                while (itForCountriesConquered.hasNext()) {
+                    Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
+                    String countryName = (String) pair.getKey();
+                    if (countryData.getName().equalsIgnoreCase(countryName)) {
+                        listSizeOfCountriesConquered++;
+                    }
+                }
+            }
+            if (listSizeOfCountriesConquered == countrySize) {
+                continentAddedArmies += continentData.getControlValue();
+            }
+        }
 
-		// holder.setPlayersArmiesList(playerTurn, newarmies);
+        // number of countries owned divided by 3 and rounded down if the player owns more than 9 territores otherwise 3 territories
+        if (countriesConquered.size() < 9) {
+            newarmies = 3 + continentAddedArmies;
+        } else {
+            int armies = Math.floorDiv((countriesConquered.size()),3);
+            newarmies = armies + continentAddedArmies;
+        }
 
-		return newarmies;
-	}
+        // holder.setPlayersArmiesList(playerTurn, newarmies);
+        return newarmies;
+    }
 
 }

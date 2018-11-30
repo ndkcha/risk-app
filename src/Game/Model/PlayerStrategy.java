@@ -29,9 +29,6 @@ public interface PlayerStrategy {
     
     /**
      * This method implements the fortification phase
-     * @param sourceCountry source country name from which armies to be moved
-     * @param targetCountry destination country name to which armies to be moved
-     * @param noOfArmies number of armies to be moved
      * @return message of successful fortification
      */
     String fortificationPhase();
