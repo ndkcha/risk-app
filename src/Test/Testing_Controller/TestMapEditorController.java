@@ -72,6 +72,7 @@ public class TestMapEditorController {
 		Boolean countryInCOntinent = mec.validateNoContinent();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
+		
 	}
 
 	/**

@@ -6,6 +6,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +24,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Game.Controller.Controller;
 import Game.Controller.MapEditorController;
+import Game.Controller.TournamentController;
+import Game.Controller.StartupController;
+import Game.Model.ContinentData;
+import Game.Model.CountryData;
+import Game.Model.GameLogsData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
 
@@ -28,7 +40,7 @@ import Game.Risk.DataHolder;
  * @version 1.2.0
  */
 public class GameSettingsView {
-	
+
 	// Panel height and width.
 	private static final int WIDTH = 100;
 	private static final int HEIGHT = 50;
@@ -68,7 +80,6 @@ public class GameSettingsView {
 
 		initializeLoadMap();
 		initializeLoadGame();
-		initializeStartTournament();
 	}
 
 	/**
@@ -76,8 +87,7 @@ public class GameSettingsView {
 	 * difficulty, player names and there type with colors
 	 */
 	@SuppressWarnings("unchecked")
-	public void gameSettings() {
-		System.out.println("Game Setting panel is opened");
+	public void gameSettings(boolean isTournamentMode) {
 		final JFrame jf = new JFrame();
 		jf.setBounds(100, 100, WIDTH * 8, HEIGHT * 4);
 
@@ -85,7 +95,7 @@ public class GameSettingsView {
 		JPanel p2 = new JPanel(); // Players Names Panel.
 		JPanel p3 = new JPanel(); // Players color Panel
 		JPanel p4 = new JPanel(); // Select map and Cancel panel
-		
+
 		// Textfields for players name
 		final JTextField player1_name;
 		final JTextField player2_name;
@@ -101,7 +111,7 @@ public class GameSettingsView {
 		final JComboBox player4_select;
 		final JComboBox player5_select;
 		final JComboBox player6_select;
-				
+
 		// Combo select lists
 		final JComboBox players_list;
 		final JComboBox difficulty_list;
@@ -110,9 +120,9 @@ public class GameSettingsView {
 
 		jf.setTitle("Game Settings");
 
-		String[] player1 = {"Human", "Aggressive", "Benevolent", "Random", "Cheater"};
+		String[] player1 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
 		player1_select = new JComboBox(player1);
-		player1_select.setSelectedIndex(0);
+		player1_select.setSelectedIndex(isTournamentMode ? 1 : 0);
 		player1_select.setBackground(Color.BLUE);
 
 		String[] player2 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
@@ -140,8 +150,7 @@ public class GameSettingsView {
 		player6_select.setSelectedIndex(1);
 		player6_select.setBackground(Color.ORANGE);
 
-		String[] players = { "2 Players", "3 Players", "4 Players", "5 Players",
-				"6 Players" };
+		String[] players = { "2 Players", "3 Players", "4 Players", "5 Players", "6 Players" };
 		players_list = new JComboBox(players);
 		players_list.setSelectedIndex(0);
 
@@ -157,7 +166,7 @@ public class GameSettingsView {
 		troops_list = new JComboBox(troops);
 		troops_list.setSelectedIndex(0);
 
-		JButton selectMap = new JButton("Select Map");
+		JButton selectMap = new JButton(isTournamentMode ? "Start Tournament" : "Select Map");
 		JButton jb_cancel = new JButton("Cancel");
 
 		jf.getContentPane().setLayout(null);
@@ -172,12 +181,12 @@ public class GameSettingsView {
 		player4_name = new JTextField("roohani");
 		player5_name = new JTextField("kunal");
 		player6_name = new JTextField("player");
-	
+
 		// Display players name and colors based on selection on number of
 		// players.
 		players_list.addActionListener((ActionEvent e) -> {
 			num_players = players_list.getSelectedIndex() + 2;
-
+			
 			switch (num_players) {
 			case 3:
 				player3_name.setVisible(true);
@@ -189,7 +198,7 @@ public class GameSettingsView {
 				player4_select.setVisible(false);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
-				
+
 				break;
 
 			case 4:
@@ -202,7 +211,7 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
-				
+
 				break;
 
 			case 5:
@@ -215,7 +224,7 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(true);
 				player6_select.setVisible(false);
-				
+
 				break;
 
 			case 6:
@@ -228,7 +237,7 @@ public class GameSettingsView {
 				player4_select.setVisible(true);
 				player5_select.setVisible(true);
 				player6_select.setVisible(true);
-					
+
 				break;
 
 			default:
@@ -241,7 +250,7 @@ public class GameSettingsView {
 				player4_select.setVisible(false);
 				player5_select.setVisible(false);
 				player6_select.setVisible(false);
-					
+
 				break;
 			}
 		});
@@ -249,9 +258,11 @@ public class GameSettingsView {
 		jb_cancel.addActionListener((ActionEvent evt) -> jf.dispose());
 
 		p1.add(players_list);
-		p1.add(difficulty_list);
-		p1.add(countries_list);
-		p1.add(troops_list);
+		if (!isTournamentMode) {
+			p1.add(difficulty_list);
+			p1.add(countries_list);
+			p1.add(troops_list);
+		}
 
 		p2.add(player1_name);
 		p2.add(player2_name);
@@ -276,32 +287,25 @@ public class GameSettingsView {
 		player4_select.setVisible(false);
 		player5_select.setVisible(false);
 		player6_select.setVisible(false);
-		
+
 		p4.add(selectMap);
 		p4.add(jb_cancel);
 
 		jf.getContentPane().add(p1);
 		jf.getContentPane().add(p2);
-		jf.getContentPane().add(p3);
+		if (!isTournamentMode)
+			jf.getContentPane().add(p3);
 		jf.getContentPane().add(p4);
 
 		selectMap.addActionListener((ActionEvent e) -> {
-			System.out.println(e.getActionCommand());
 			holder.clearPlayers();
-			System.out.println("number of player selected: " + num_players);
 
-			Player pl1 = new Player(player1_name.getText(),
-					player1_select.getSelectedIndex(), "BLUE");
-			Player pl2 = new Player(player2_name.getText(),
-					player2_select.getSelectedIndex(), "GREEN");
-			Player pl3 = new Player(player3_name.getText(),
-					player3_select.getSelectedIndex(), "YELLOW");
-			Player pl4 = new Player(player4_name.getText(),
-					player4_select.getSelectedIndex(), "MAGENTA");
-			Player pl5 = new Player(player5_name.getText(),
-					player5_select.getSelectedIndex(), "RED");
-			Player pl6 = new Player(player6_name.getText(),
-					player6_select.getSelectedIndex(), "ORANGE");
+			Player pl1 = new Player(player1_name.getText(), player1_select.getSelectedIndex(), "BLUE");
+			Player pl2 = new Player(player2_name.getText(), player2_select.getSelectedIndex(), "GREEN");
+			Player pl3 = new Player(player3_name.getText(), player3_select.getSelectedIndex(), "YELLOW");
+			Player pl4 = new Player(player4_name.getText(), player4_select.getSelectedIndex(), "MAGENTA");
+			Player pl5 = new Player(player5_name.getText(), player5_select.getSelectedIndex(), "RED");
+			Player pl6 = new Player(player6_name.getText(), player6_select.getSelectedIndex(), "ORANGE");
 
 			holder.addPlayer(pl1);
 			holder.addPlayer(pl2);
@@ -317,16 +321,20 @@ public class GameSettingsView {
 				holder.addPlayer(pl3);
 			}
 
-			System.out.println("Select Map Button is clicked");
-			chooseOptionFrame().dispose();
-			File map_file = map_selector("map");
-			holder.bmpFile = map_selector("bmp");
+//			chooseOptionFrame().dispose();
+			jf.setVisible(false);
+			if (isTournamentMode) {
+				holder.isArmiesAutomatic = true;
+				TournamentController.getInstance().initTournament();
+			} else {
+				File map_file = map_selector("map");
+				holder.bmpFile = map_selector("bmp");
 
-			holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
+				holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
 
-			Controller c = new Controller();
-			// c.reinforcement();
-			c.gameStart(map_file);
+				Controller c = new Controller();
+				c.gameStart(map_file);
+			}
 		});
 
 		jf.setVisible(true);
@@ -342,30 +350,47 @@ public class GameSettingsView {
 			MapEditorController editorController = new MapEditorController();
 			boolean anyErrors = editorController.loadExistingMap(mapFile);
 			if (!anyErrors) {
-				System.out.println("No errors found ");
 				editorController.initAndDisplayView();
 			}
 		});
 	}
-	
+
 	/**
 	 * This method will start the Tournament.
+	 * @param listener listener to assign the tournament
 	 */
-	public void initializeStartTournament(){
-		tournament.addActionListener((ActionEvent e) -> {
-			// Open Tournament game settings here
-			
-		});
+	public void initializeStartTournament(ActionListener listener){
+		tournament.addActionListener(listener);
 	}
-	
+
 	/**
-	 * This method will initialize the map loader.
+	 * This method will load game.
 	 */
 	private void initializeLoadGame() {
 		loadGame.addActionListener((ActionEvent e) -> {
-			// Open saved game fiel here
-			
+			showSavedGame();
 		});
+	}
+	
+	private void showSavedGame() {
+		JFrame frame = new JFrame("Select Saved Game File");
+		JFileChooser jFileChooser = new JFileChooser();
+
+		jFileChooser.setCurrentDirectory(new File("."));
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Saved Game Files", "ser");
+		jFileChooser.setFileFilter(filter);
+
+		int result = jFileChooser.showOpenDialog(frame);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File file = jFileChooser.getSelectedFile();
+			DataHolder dataHold = DataHolder.getInstance();
+			dataHold.loadSavedGame(file);
+		}
+
+		else if (result == JFileChooser.CANCEL_OPTION) {
+			chooseOptionFrame().dispose();
+		}
+		
 	}
 
 	/**
@@ -374,16 +399,15 @@ public class GameSettingsView {
 	 * @param ext Extension of the file.
 	 * @return map_path Stores the absolute path of the map file and bmp file.
 	 */
+	@SuppressWarnings({"Duplicates", "unchecked"})
 	private File map_selector(String ext) {
-		System.out.println("Map and BMP file selector opened");
 		JFrame frame = new JFrame("Select Map File");
 
 		// Upload map file.
 		// https://coderanch.com/t/466536/java/closing-jFileChooser-window
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File("./files/map"));
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"Map Files", ext);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Map Files", ext);
 		fileChooser.setFileFilter(filter);
 
 		int returnValue = fileChooser.showOpenDialog(frame);
@@ -392,8 +416,7 @@ public class GameSettingsView {
 			File selectedFile = fileChooser.getSelectedFile();
 			String map_path = selectedFile.getAbsolutePath();
 			frame.dispose();
-			if (map_path.substring(map_path.lastIndexOf("."))
-					.equalsIgnoreCase("." + ext))
+			if (map_path.substring(map_path.lastIndexOf(".")).equalsIgnoreCase("." + ext))
 				return selectedFile;
 		}
 		if (ext.equals("map"))
@@ -409,7 +432,7 @@ public class GameSettingsView {
 	public JFrame chooseOptionFrame() {
 		return this.frame;
 	}
-	
+
 	/**
 	 * Action Listener for start game button.
 	 * 

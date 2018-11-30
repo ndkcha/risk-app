@@ -35,7 +35,7 @@ public class Controller {
 		gameSettings.startGame();
 		startGameListener();
 		mapEditorListener();
-//		taurnamentListener();
+		tournamentModeListener();
 //		loadGameListener();
 	}
 
@@ -60,9 +60,7 @@ public class Controller {
 	 */
 	private void startGameListener() {
 		ActionListener startGameListener = (ActionEvent e) -> {
-			System.out.println("Start Game Button is clicked");
-			gameSettings.gameSettings(); // Open game settings.
-			gameSettings.chooseOptionFrame().dispose(); // close the previous
+			gameSettings.gameSettings(false); // Open game settings.
 														// window.
 		};
 		this.gameSettings.startGameAction(startGameListener);
@@ -75,9 +73,16 @@ public class Controller {
 		ActionListener mapEditorListener = (ActionEvent e) -> {
 			MapEditorController controller = new MapEditorController();
 			controller.initAndDisplayView();
-			System.out.println("Map Editor button is clicked");
 		};
 		this.gameSettings.mapEditorAction(mapEditorListener);
 	}
 
+
+	private void tournamentModeListener() {
+		ActionListener tournamentListener = (ActionEvent e) -> {
+			TournamentController controller = TournamentController.getInstance();
+			controller.start();
+		};
+		this.gameSettings.initializeStartTournament(tournamentListener);
+	}
 }

@@ -34,7 +34,7 @@ public class TestDataholder {
 		 
 		 int con=conqueredCountryList.size();
 
-		 Player testplayer=new Player("abc",0,"blue", 0);
+		 Player testplayer=new Player("abc",0,"blue");
 		 
 		 testplayer.updateCountry("a", 1);
 		 testplayer.updateCountry("b", 2);
@@ -50,6 +50,7 @@ public class TestDataholder {
 		 
 		 Boolean b=holder.hasPlayerWon(testplayer);
 		 assertTrue(b);
+		 holder.clearDataHolder();
 		
 	 }
 	

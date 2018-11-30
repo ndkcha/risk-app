@@ -45,8 +45,8 @@ public class TestStartupController {
 		holder.addCountry(country4);
 		holder.countCountriesInContinent("Cockpit");
 
-		testplayer1 = new Player("abc", 1, "blue",0);
-		testplayer2 = new Player("xyz", 0, "red",1);
+		testplayer1 = new Player("abc", 1, "blue");
+		testplayer2 = new Player("xyz", 0, "red");
 
 		holder.addPlayer(testplayer1);
 		holder.addPlayer(testplayer2);
@@ -62,6 +62,7 @@ public class TestStartupController {
 		for (int i = 2; i <= 6; i++) {
 			assertEquals((40 - ((i - 2) * 5)), sc.determineOfInitialArmy(i));
 		}
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -104,6 +105,29 @@ public class TestStartupController {
 
 		assertTrue(testplayer1.getCountriesConquered().size() > 0);
 		assertTrue(testplayer2.getCountriesConquered().size() > 0);
+		holder.clearDataHolder();
 	}
 
+	/**
+	 * Test Each country has assigned the cards.
+	 */
+	@Test
+	public void testAssignCardsToCountry(){
+	
+		sc.assignCardsToCountry(holder.getCountryDataList());
+		int count = 0;
+		List<CountryData> countries = holder.getCountryDataList();
+		int totalCountries = countries.size();
+		
+		for (int i = 0; i < totalCountries; i++) {
+			CountryData data = countries.get(i);
+			if(data.getCardType() != null){
+				count++;
+			}
+		}
+		System.out.println("counter: " +count);
+		assertEquals(8, count);
+		holder.clearDataHolder();
+	}
+	
 }

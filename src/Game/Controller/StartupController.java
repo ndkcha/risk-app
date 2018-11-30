@@ -5,6 +5,7 @@ import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
+import Game.View.RiskMainInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,13 +79,20 @@ public class StartupController {
 		}
 	}
 
+	/**
+	 * Resume saved game
+	 */
+	public void resumeGame() {
+		RiskMainInterface.createInstance();
+	}
+	
 	// change to the unit test
 
 	/**
 	 * Assign cards to the countries on the map
 	 * @param countries list of countries
 	 */
-	private void assignCardsToCountry(List<CountryData> countries) {
+	public void assignCardsToCountry(List<CountryData> countries) {
 		int totalCountries = countries.size();
 		int assignment[] = new int[3];
 		assignment[0] = totalCountries / 3; // infantry
@@ -189,11 +197,6 @@ public class StartupController {
 			playersTurn++;
 		}
 
-		for (Player player : this.holder.getPlayerList()) {
-			System.out.println(player.getName() + " has "
-					+ player.getCountriesConquered().size() + " countries");
-		}
-
 		this.holder.updatePlayerList(Arrays.asList(players));
 	}
 
@@ -222,17 +225,6 @@ public class StartupController {
 		}
 
 		this.holder.updatePlayerList(players);
-
-		System.out.println("Initial armies allocation:");
-		for (Player player : this.holder.getPlayerList()) {
-			System.out.println("\n" + player.getName() + ": ");
-
-			for (Map.Entry<String, Integer> country : player
-					.getCountriesConquered().entrySet()) {
-				System.out.print(
-						country.getKey() + " - " + country.getValue() + " | ");
-			}
-		}
 	}
 
 	/**
