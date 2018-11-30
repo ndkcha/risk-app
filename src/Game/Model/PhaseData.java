@@ -119,6 +119,7 @@ public class PhaseData extends Observable implements Serializable {
 
     /**
      * Notifies end of the game
+     * @param winner winner of the game
      */
     public void forceEnd(String winner) {
         this.winner = winner;
