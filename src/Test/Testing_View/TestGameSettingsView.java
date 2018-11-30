@@ -20,7 +20,11 @@ public class TestGameSettingsView {
 		this.gsv = new GameSettingsView();
 	}
 	
-	@Test public void testGameSettings() {
+	/**
+	 * The test method for game setting view.
+	 */
+	@Test 
+	public void testGameSettings() {
 		this.gsv.gameSettings(false);
 		assertNotNull(this.gsv.getFrameGameSettings());
 	}

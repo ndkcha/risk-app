@@ -27,7 +27,11 @@ public class RiskMainInterface extends JFrame {
         initComponents(isTournamentMode);
     }
 
-    /** Various panel components are initialised in initComponents method */
+    /** 
+     * Various panel components are initialised in initComponents method 
+     *
+     * @param isTournamentMode The mode for the game.
+     */
     @SuppressWarnings("unchecked")
     private void initComponents(boolean isTournamentMode) {
         PhaseView phaseView = this.initializePhaseView(isTournamentMode);
@@ -73,6 +77,8 @@ public class RiskMainInterface extends JFrame {
     /**
      * Initialize the phase view.
      * It also attaches the relevant observers in order to keep the view updated.
+     * 
+     * @param isTournamentMode The mode for the game.
      * @return the view in which the phase area is loaded
      */
     private PhaseView initializePhaseView(boolean isTournamentMode) {
@@ -216,7 +222,11 @@ public class RiskMainInterface extends JFrame {
         );
     }
 
-    /** Initialize values for the first time in the game instance */
+    /** 
+     * Initialize values for the first time in the game instance 
+     * 
+     * @param phaseView The phase view object.
+     */
     private void initValues(PhaseView phaseView) {
         if (holder.isArmiesAutomatic) {
             StartupController controller = new StartupController();

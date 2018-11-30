@@ -78,6 +78,8 @@ public class PhaseView implements Observer {
 
     /**
      * Constructor for the phase view interface.
+     * 
+     * @param isTournamentMode The mode for the game.
      */
     public PhaseView (boolean isTournamentMode) {
         this.isTournamentMode = isTournamentMode;
@@ -559,6 +561,7 @@ public class PhaseView implements Observer {
      *
      * @param noOfAttacker max armies attacker can have
      * @param noOfDefender max armies defender can have
+     * @param defenderType The type of defender.
      */
     private void selectAttackArmies (int noOfAttacker,int noOfDefender,int defenderType) {
         JPanel panel = new JPanel();
