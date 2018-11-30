@@ -50,6 +50,7 @@ public class TestDataholder {
 		 
 		 Boolean b=holder.hasPlayerWon(testplayer);
 		 assertTrue(b);
+		 holder.clearDataHolder();
 		
 	 }
 	

@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import Game.Model.Player;
 import Game.Risk.DataHolder;
 
 /**
+ * The Test class for AttackController.
  * @author Jay
  *
  */
@@ -89,6 +91,7 @@ public class TestAttackController {
 		
 		List<String> result=controller.getNeighbours("Cockpit02");
 		assertEquals("Cockpit01",result.get(0));
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -99,6 +102,7 @@ public class TestAttackController {
 		
 		List<String> result=controller.getNeighboursForAttack("Cockpit01");
 		assertEquals("Cockpit04",result.get(0));
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -109,6 +113,7 @@ public class TestAttackController {
 		
 		int noOfDiceAllowed=controller.calculateNoOfDiceAllowed("Cockpit01");
 	    assertEquals(2,noOfDiceAllowed);
+	    holder.clearDataHolder();
 	}
 	
 	/**
@@ -119,6 +124,7 @@ public class TestAttackController {
 		
 		Boolean attack = controller.attackBetweenTwoCoutries("Cockpit01", "Cockpit02", 3);
 		assertTrue(attack);
+		holder.clearDataHolder();
 	}
 	
 	/**
@@ -129,6 +135,18 @@ public class TestAttackController {
 		
 		int armies = controller.getArmiesOfDefendingCountry("Cockpit01");
 		assertEquals(3,armies);
+		holder.clearDataHolder();
 	}
 
+	/**
+	 * This method will test Roll dice model that generate random number.
+	 */
+	@Test
+	public void testrolldice() {
+
+		int testdice = controller.roll();
+		
+		Boolean dices = (testdice >= 1 && testdice <= 6);
+		assertTrue(dices);
+	}
 }

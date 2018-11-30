@@ -6,6 +6,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test if game setting is loading successfully.
+ * 
+ * @author Jay
+ *
+ */
 public class TestGameSettingsView {
 	private GameSettingsView gsv;
 

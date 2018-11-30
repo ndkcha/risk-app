@@ -2,10 +2,18 @@ package Game.View;
 
 import javax.swing.*;
 
+/**
+ * This class will provide the dialog box for number of games and maps
+ * @author ndkcha
+ *
+ */
 public class DialogSelectGameNo extends JPanel {
     private JComboBox<String> comboAttacker = new JComboBox<>();
     private JLabel title = new JLabel();
 
+    /**
+     * Constructor for dialog box UI initialization.
+     */
     public DialogSelectGameNo() {
         this.add(title);
 
@@ -20,6 +28,12 @@ public class DialogSelectGameNo extends JPanel {
         this.add(comboAttacker);
     }
 
+    /**
+     * This method will select the number of games and maps.
+     * 
+     * @param type The game or Map
+     * @return getSelectedIndex The number of games and maps.
+     */
     public int selectNumberOfGames(String type) {
         this.title.setText("No of " + type);
         int result = JOptionPane.showOptionDialog(null, this, "Select number of " + type,

@@ -11,9 +11,9 @@ import Game.Risk.DataHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import Game.Model.CountryData;
-import Game.Model.RollDice;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,7 +31,6 @@ public class AttackController {
 	public static final int MODE_NORMAL = 1;
 
 	private DataHolder holder = DataHolder.getInstance();
-	private RollDice rollDice = new RollDice();
 
 	/**
 	 * called when to declare an attack. not relevant
@@ -351,7 +350,7 @@ public class AttackController {
 			return false;
 		}
 		for (int i = 0; i < chosenNoOfDice; i++) {
-			diceRollValuesOfAttacker[i] = rollDice.roll();
+			diceRollValuesOfAttacker[i] = roll();
 		}
 		int temp = 0;
 		// sorting the dice rolls in decreasing values
@@ -367,7 +366,7 @@ public class AttackController {
 
 		// dice rolls for defender
 		for (int i = 0; i < dice; i++) {
-			diceRollValuesOfDefender[i] = rollDice.roll();
+			diceRollValuesOfDefender[i] = roll();
 		}
 		temp = 0;
 		// sorting the dice rolls in decreasing values
@@ -696,5 +695,16 @@ public class AttackController {
 			}
 		}
 		return tempCountryNeighbours;
+	}
+	
+	/**
+	 * Gives a random value of the dice. 
+	 * nextInt(max - min)
+	 * 
+	 * @return dice Dive Value
+	 */
+	public int roll() {
+		Random dice = new Random();
+		return dice.nextInt(6) + 1;
 	}
 }
