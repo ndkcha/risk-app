@@ -20,6 +20,11 @@ import Game.Model.Player;
 import Game.Risk.DataHolder;
 import Game.View.PhaseView;
 
+/**
+ * This class will test the save and load game functionality.
+ * @author Kunal Ghai
+ *
+ */
 public class TestSaveAndLoadGame {
 	private DataHolder dataHolder = DataHolder.getInstance();
 
@@ -73,6 +78,9 @@ public class TestSaveAndLoadGame {
 		dataHolder.changePhases();		
 	}
 
+	/**
+	 * Test the game load after saving game file.
+	 */
 	@Test
 	public void testSaveAndLoadGame() {
 		dataHolder.saveGameState("TestSaveGame");
