@@ -284,6 +284,24 @@ public class PhaseView implements Observer {
                 List<String> attackerAndDefender = stratSetter.attack();
                 aggressiveAttack(attackerAndDefender);
             }
+            
+            if (player.getType() == 2) {
+                stratSetter.setStrategy(new BenevolentStrategy());
+                List<String> attackerAndDefender = stratSetter.attack();
+                benevolentAttack(attackerAndDefender);
+            }
+            
+            if (player.getType() == 3) {
+                stratSetter.setStrategy(new RandomStrategy());
+                List<String> attackerAndDefender = stratSetter.attack();
+                randomAttack(attackerAndDefender);
+            }
+            
+            if (player.getType() == 4) {
+                stratSetter.setStrategy(new CheaterStartegy());
+                List<String> attackerAndDefender = stratSetter.attack();
+                cheaterAttack(attackerAndDefender);
+            }
 
 //        do {
 //            int totalCountries = player.getCountriesConquered().size();
@@ -912,23 +930,23 @@ public class PhaseView implements Observer {
                 
                 if (player.getType() == 2) {
                     stratSetter.setStrategy( new BenevolentStrategy());
-                    String strongestCountry=stratSetter.reinforcement();
-                    System.out.println("Strongest Country is "+strongestCountry);
-                    benevolentReinforcement(strongestCountry);
+                    String weakestCountry=stratSetter.reinforcement();
+                    System.out.println("Weakest Country is "+weakestCountry);
+                    benevolentReinforcement(weakestCountry);
                 }
                 
                 if (player.getType() == 3) {
                     stratSetter.setStrategy( new RandomStrategy());
-                    String strongestCountry=stratSetter.reinforcement();
-                    System.out.println("Strongest Country is "+strongestCountry);
-                    randomReinforcement(strongestCountry);
+                    String randomCountry=stratSetter.reinforcement();
+                    System.out.println("Random Country is "+randomCountry);
+                    randomReinforcement(randomCountry);
                 }
                 
-                if (player.getType() == 1) {
+                if (player.getType() == 4) {
                     stratSetter.setStrategy( new CheaterStartegy());
-                    String strongestCountry=stratSetter.reinforcement();
-                    System.out.println("Strongest Country is "+strongestCountry);
-                    cheaterReinforcement(strongestCountry);
+                    String message=stratSetter.reinforcement();
+                    System.out.println("Cheater Country is ");
+                    cheaterReinforcement(message);
                 }
 
 //		int totalNoOfArmies = calculateReinforcementArmies(player);
@@ -1009,11 +1027,8 @@ public class PhaseView implements Observer {
          * This method implements the aggressive reinforcement strategy
          * @param countryName name of the country
          */
-        public void cheaterReinforcement(String countryName) {
+        public void cheaterReinforcement(String message) {
             Player player=holder.getActivePlayer();
-            int totalNoOfArmies = calculateReinforcementArmies(player);
-
-            String message = player.reinforcementPhase(totalNoOfArmies, countryName);
             holder.sendGameLog(message);
             holder.updatePlayer(player);
             System.out.println("Armies allocation has been completed!");

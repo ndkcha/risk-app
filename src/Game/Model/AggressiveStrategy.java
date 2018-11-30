@@ -42,6 +42,9 @@ public class AggressiveStrategy implements PlayerStrategy{
         while (itForCountriesConquered.hasNext()) {
             Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
             String countryName = (String) pair.getKey();
+            if(maximumArmies==0) {
+                maximumArmies= (int) pair.getValue();
+            }
             
             // get the list of neighbouring countries of the country
             List<String> countryNeighbours = new ArrayList<>();

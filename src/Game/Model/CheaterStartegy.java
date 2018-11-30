@@ -44,7 +44,7 @@ public class CheaterStartegy implements PlayerStrategy{
         }
         player.setCountriesConquered(countriesConquered);
         holder.updatePlayer(player);
-        return "cheater's reinforcement";
+        return "Player "+player.getName()+" reinforced all its armies";
     }
 
     /**

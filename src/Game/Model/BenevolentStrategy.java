@@ -39,8 +39,9 @@ public class BenevolentStrategy implements PlayerStrategy{
             Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
             String countryName = (String) pair.getKey();
             if(minArmies==0) {
-                minArmies= (int) pair.getKey();
+                minArmies= (int) pair.getValue();
             }
+            
             // get the list of neighbouring countries of the country
             List<String> countryNeighbours = new ArrayList<>();
             countryNeighbours = getNeighbours(countryName);
@@ -89,7 +90,6 @@ public class BenevolentStrategy implements PlayerStrategy{
     @Override
     public String reinforcementPhase(int armiesToAllocate, String country) {
         String weakCountry=weakestCountry();
-        System.out.println("The weakest country is "+weakCountry);
         return weakestCountry();
     }
 

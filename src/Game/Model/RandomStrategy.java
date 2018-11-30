@@ -72,7 +72,9 @@ public class RandomStrategy implements PlayerStrategy{
      */
     @Override
     public String reinforcementPhase(int armiesToAllocate, String country) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String countryName=randomCountry();
+        System.out.println("The random country is" +countryName);
+        return countryName;
     }
 
     /**
