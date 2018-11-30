@@ -57,6 +57,7 @@ public class CheaterStartegy implements PlayerStrategy{
         Player player = holder.getActivePlayer();
         AttackController ac=new AttackController();
         List<String> tempList=new ArrayList<>();
+        List<String> message=new ArrayList<>();
         int armies=0;
         // retrieving the countries conquered by the player
         HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
@@ -91,17 +92,9 @@ public class CheaterStartegy implements PlayerStrategy{
                 }
             }
         }
+        message.add("Player "+player.getName()+" conquered all the neighbouring countries");
         //no armeis to be moved in attack phase of cheater player.
-        return tempList;
-    }
-    
-    /**
-     * This method is to move armies from one country to another
-     * @param armiesToMove number of armies to move
-     */
-    @Override
-    public void moveArmiesAfterAttack(int armiesToMove) {
-        
+        return message;
     }
 
     /**
@@ -160,4 +153,5 @@ public class CheaterStartegy implements PlayerStrategy{
                 .getNeighbours();
         return neighbours;
     }
+
 }

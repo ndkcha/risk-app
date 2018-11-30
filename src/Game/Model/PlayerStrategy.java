@@ -28,12 +28,6 @@ public interface PlayerStrategy {
     List<String> attackPhase();
     
     /**
-     * This method is to move armies from one country to another
-     * @param armiesToMove number of armies to move
-     */
-    void moveArmiesAfterAttack(int armiesToMove);
-    
-    /**
      * This method implements the fortification phase
      * @param sourceCountry source country name from which armies to be moved
      * @param targetCountry destination country name to which armies to be moved

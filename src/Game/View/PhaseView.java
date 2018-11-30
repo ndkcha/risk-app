@@ -288,7 +288,7 @@ public class PhaseView implements Observer {
             if (player.getType() == 2) {
                 stratSetter.setStrategy(new BenevolentStrategy());
                 List<String> attackerAndDefender = stratSetter.attack();
-                benevolentAttack(attackerAndDefender);
+                benevolentAttack();
             }
             
             if (player.getType() == 3) {
@@ -303,54 +303,6 @@ public class PhaseView implements Observer {
                 cheaterAttack(attackerAndDefender);
             }
 
-//        do {
-//            int totalCountries = player.getCountriesConquered().size();
-//
-//            int pickCountry = random.nextInt(totalCountries);
-//            pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
-//
-//            attacker = player.getNthCountry(pickCountry);
-//
-//            neighboursForAttack = controller.getNeighboursForAttack(attacker);
-//
-//            iterations++;
-//
-//            if (iterations == 10) {
-//                break;
-//            }
-//        } while (neighboursForAttack.size() == 0);
-//
-//        if (neighboursForAttack.size() == 0) {
-//            holder.sendGameLog(player.getName() + " ended the attack phase");
-//            holder.changePhases();
-//            return;
-//        }
-//
-//        int pickDefender = random.nextInt(neighboursForAttack.size());
-//        pickDefender = (pickDefender == neighboursForAttack.size()) ? pickDefender - 1 : pickDefender;
-//
-//        String defender = neighboursForAttack.get(pickDefender);
-//        player.setAttackerAndDefender(attacker, defender);
-//        player.setAllOutMode(true);
-//        holder.updatePlayer(player);
-//
-//        player = holder.getActivePlayer();
-//        int minArmiesToMove = player.attackPhase();
-//
-//        player = holder.getActivePlayer();
-//
-//        if (minArmiesToMove != -1) {
-//            int armiesToMove = minArmiesToMove;
-//
-//            int existing = player.getArmiesInCountry(attacker) - 1;
-//            if (existing > minArmiesToMove) {
-//                armiesToMove = random.nextInt(existing - minArmiesToMove);
-//                armiesToMove += minArmiesToMove;
-//            }
-//
-//            player.moveArmiesAfterAttack(armiesToMove);
-//
-//        }
             player.resetAttackerAndDefender();
 
             holder.updatePlayer(player);
@@ -370,13 +322,13 @@ public class PhaseView implements Observer {
         
         /**
          * This implements the aggressive attack strategy
+         * @param attackerAndDefender list having the names of the attacker country and the defender country
          */
         public void aggressiveAttack(List<String> attackerAndDefender) {
             Player player = holder.getActivePlayer();
             AttackController controller = new AttackController();
             List<String> neighboursForAttack;
             changeControlButtonVisibility(false);
-            int iterations = 0;
             Random random = new Random();
             String attacker=attackerAndDefender.get(0);
             neighboursForAttack = controller.getNeighboursForAttack(attacker);
@@ -409,6 +361,87 @@ public class PhaseView implements Observer {
                 player.moveArmiesAfterAttack(armiesToMove);
             }  
         }
+        
+        /**
+         * This implements the benevolent attack strategy
+         * @param attackerAndDefender list having the names of the attacker country and the defender country
+         */
+        public void benevolentAttack() {
+            Player player = holder.getActivePlayer();
+            System.out.println("Player "+player.getName()+" skipped attack");  
+        }
+        
+        /**
+         * This implements the cheater attack strategy
+         * @param attackerAndDefender list having the names of the attacker country and the defender country
+         */
+        public void cheaterAttack(List<String> attackerAndDefender) {
+            Player player = holder.getActivePlayer();
+            System.out.println("Player "+player.getName()+" skipped attack");  
+        }
+        
+        /**
+         * This implements the random attack strategy
+         * @param attackerAndDefender list having the names of the attacker country and the defender country
+         */
+        public void randomAttack(List<String> attackerAndDefender) {
+            Player player = holder.getActivePlayer();
+            AttackController controller = new AttackController();
+            String attacker;
+            List<String> neighboursForAttack;
+            changeControlButtonVisibility(false);
+            int iterations = 0;
+            Random random = new Random();
+            do {
+                int totalCountries = player.getCountriesConquered().size();
+
+                int pickCountry = random.nextInt(totalCountries);
+                pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
+
+                attacker = player.getNthCountry(pickCountry);
+
+                neighboursForAttack = controller.getNeighboursForAttack(attacker);
+
+                iterations++;
+
+                if (iterations == 10) {
+                    break;
+                }
+            } while (neighboursForAttack.size() == 0);
+
+            if (neighboursForAttack.size() == 0) {
+                holder.sendGameLog(player.getName() + " ended the attack phase");
+                holder.changePhases();
+                return;
+            }
+
+            int pickDefender = random.nextInt(neighboursForAttack.size());
+            pickDefender = (pickDefender == neighboursForAttack.size()) ? pickDefender - 1 : pickDefender;
+
+            String defender = neighboursForAttack.get(pickDefender);
+            player.setAttackerAndDefender(attacker, defender);
+            player.setAllOutMode(true);
+            holder.updatePlayer(player);
+
+            player = holder.getActivePlayer();
+            int minArmiesToMove = player.attackPhase();
+
+            player = holder.getActivePlayer();
+
+            if (minArmiesToMove != -1) {
+                int armiesToMove = minArmiesToMove;
+
+                int existing = player.getArmiesInCountry(attacker) - 1;
+                if (existing > minArmiesToMove) {
+                    armiesToMove = random.nextInt(existing - minArmiesToMove);
+                    armiesToMove += minArmiesToMove;
+                }
+
+                player.moveArmiesAfterAttack(armiesToMove);
+
+            }  
+        }
+        
 
 	/**
 	 * Perform the attack phase

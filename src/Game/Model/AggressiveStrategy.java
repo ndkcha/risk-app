@@ -159,15 +159,6 @@ public class AggressiveStrategy implements PlayerStrategy{
     }
 
     /**
-     * This method is to move armies from one country to another
-     * @param armiesToMove number of armies to move
-     */
-    @Override
-    public void moveArmiesAfterAttack(int armiesToMove) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
      * This method implements the fortification phase
      * @param sourceCountry source country name from which armies to be moved
      * @param targetCountry destination country name to which armies to be moved

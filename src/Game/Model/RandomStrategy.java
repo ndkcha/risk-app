@@ -83,17 +83,14 @@ public class RandomStrategy implements PlayerStrategy{
      */
     @Override
     public List<String> attackPhase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String attacker=randomCountry();
+        String defender=randomCountryToAttack(attacker);
+        List<String> attackerDefender= new ArrayList<>();
+        attackerDefender.add(attacker);
+        attackerDefender.add(defender);
+        return attackerDefender;
     }
-
-    /**
-     * This method is to move armies from one country to another
-     * @param armiesToMove number of armies to move
-     */
-    @Override
-    public void moveArmiesAfterAttack(int armiesToMove) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     /**
      * This method implements the fortification phase
      * @param sourceCountry source country name from which armies to be moved
