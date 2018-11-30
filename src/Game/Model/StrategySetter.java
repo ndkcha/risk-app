@@ -5,6 +5,8 @@
  */
 package Game.Model;
 
+import java.util.List;
+
 /**
  * This class sets the strategy
  * @author r-naik
@@ -19,7 +21,7 @@ public class StrategySetter {
          return this.strategy.reinforcementPhase(0, null);
      }
      
-     public int attack() {
+     public List<String> attack() {
          return this.strategy.attackPhase();
      }
      

@@ -44,16 +44,14 @@ public class AttackController {
      *
      * @return returnResult Number of armies to add.
      */
-    public int attack(String attackingCountry, String defendingCountry,
-            int mode, int numberOfDice) {
+    public int attack(String attackingCountry, String defendingCountry,int mode, int numberOfDice) {
 
         // get players conquered country list
         Player player = holder.getActivePlayer();
         // retrieving the player type
         int playerType = player.getType();
         // retrieving the countries conquered by the player
-        HashMap<String, Integer> countriesConquered = player
-                .getCountriesConquered();
+        HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
         // String which returns the number of armies in to move in format "min
         // no of armies to move: max no of armies to move" if attack is
         // successful
@@ -80,8 +78,8 @@ public class AttackController {
             while (!attackResult) {
                 if (modeCounter < 10) {
                     player = holder.getActivePlayer();
-                    attackResult = attackBetweenTwoCoutries(attackingCountry,
-                            defendingCountry, numberOfDice);
+                    System.out.println("Attacking Country "+attackingCountry+ "Defending Country "+defendingCountry);
+                    attackResult = attackBetweenTwoCoutries(attackingCountry,defendingCountry, numberOfDice);
                     player = holder.getActivePlayer();
                     System.out.println("attackResult: " + attackResult);
                     if (!attackResult) {
@@ -141,9 +139,7 @@ public class AttackController {
                     holder.updatePlayer(player);
                 }
                 player = holder.getActivePlayer();
-                System.out.println(
-                        "Defender country armies when attack is successful:"
-                        + numberOfArmiesDefenderC);
+                System.out.println("Defender country armies when attack is successful:"+ numberOfArmiesDefenderC);
                 // deleting defending country from the defender's conquered
                 // country list
                 deleteDefendingCountry(defendingCountry);
@@ -338,6 +334,7 @@ public class AttackController {
         if (numberOfArmiesAttacker <= 1) {
             return false;
         }
+        
         for (int i = 0; i < chosenNoOfDice; i++) {
             diceRollValuesOfAttacker[i] = rollDice.roll();
             System.out.println(diceRollValuesOfAttacker[i]);
@@ -395,6 +392,7 @@ public class AttackController {
                                 .next();
                         if (pair.getKey().equals(defendingCountry)) {
                             int numberOfArmies = (int) pair.getValue();
+                            System.out.println("The defender country has "+numberOfArmies);
                             if (numberOfArmies == 0) {
                                 // attack successful
                                 attackstatus = true;
@@ -403,8 +401,7 @@ public class AttackController {
                     }
                 }
                 if (attackstatus) {
-                    System.out.println(
-                            "defender left with zero armeis in the country");
+                    System.out.println("defender left with zero armeis in the country");
                     break;
                 }
                 System.out.println("army decremented in defender ");
@@ -589,25 +586,26 @@ public class AttackController {
         for (int i = 0; i < allPlayersList.size(); i++) {
             Player temp = allPlayersList.get(i);
             // get a particular player's conquered country list
-            HashMap<String, Integer> countriesConqueredTmp = temp
-                    .getCountriesConquered();
-            Iterator itForCountriesConquered = countriesConqueredTmp.entrySet()
-                    .iterator();// iterator for countries conqureeed by player
+            HashMap<String, Integer> countriesConqueredTmp = temp.getCountriesConquered();
+            Iterator itForCountriesConquered = countriesConqueredTmp.entrySet().iterator();// iterator for countries conqureeed by player
             while (itForCountriesConquered.hasNext()) {
                 Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
-                // if the player has the defending country in the conquered
-                // country list
+                // if the player has the defending country in the conqueredcountry list
                 if (pair.getKey().equals(defendingCountry)) {
                     int numberOfArmies = (int) pair.getValue();
+                    System.out.println("armeis in "+pair.getKey()+"before decrementing "+pair.getValue());
                     pair.setValue(--numberOfArmies);
+                    System.out.println("armies after decrementing" +pair.getValue());
                 }
             }
             // update the players conquered country list
             temp.setCountriesConquered(countriesConqueredTmp);
             holder.updatePlayer(temp);
         }
+        
         // for printing the decremented army
         for (int i = 0; i < allPlayersList.size(); i++) {
+            
             Player temp = allPlayersList.get(i);
             // get a particular player's conquered country list
             HashMap<String, Integer> countriesConqueredTmp = temp
@@ -616,8 +614,7 @@ public class AttackController {
                     .iterator();// iterator for countries conqureeed by player
             while (itForCountriesConquered.hasNext()) {
                 Map.Entry pair = (Map.Entry) itForCountriesConquered.next();
-                // if the player has the defending country in the conquered
-                // country list
+                // if the player has the defending country in the conqueredcountry list
                 if (pair.getKey().equals(defendingCountry)) {
                     int numberOfArmies = (int) pair.getValue();
                     System.out.println("value after update:" + numberOfArmies);

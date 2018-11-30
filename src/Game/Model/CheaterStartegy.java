@@ -52,7 +52,7 @@ public class CheaterStartegy implements PlayerStrategy{
      * @return number of armies to be moved
      */
     @Override
-    public int attackPhase() {
+    public List<String> attackPhase() {
         //get the active player
         Player player = holder.getActivePlayer();
         AttackController ac=new AttackController();
@@ -92,7 +92,7 @@ public class CheaterStartegy implements PlayerStrategy{
             }
         }
         //no armeis to be moved in attack phase of cheater player.
-        return -1;
+        return tempList;
     }
     
     /**

@@ -29,7 +29,7 @@ public class ReinforcementController {
 		System.out.println("Calculating armies for player " + player.getName());
 		int newarmies;
 
-		// retrieving the continents conquered by the player
+		// retrieving the countries conquered by the player
 		HashMap<String, Integer> countriesConquered = player.getCountriesConquered();
 		System.out.println("The countries conquered by " + player.getName()+ " is " + countriesConquered.keySet());
 

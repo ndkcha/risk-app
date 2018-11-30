@@ -88,7 +88,9 @@ public class BenevolentStrategy implements PlayerStrategy{
      */
     @Override
     public String reinforcementPhase(int armiesToAllocate, String country) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String weakCountry=weakestCountry();
+        System.out.println("The weakest country is "+weakCountry);
+        return weakestCountry();
     }
 
     /**
@@ -96,7 +98,7 @@ public class BenevolentStrategy implements PlayerStrategy{
      * @return number of armies to be moved
      */
     @Override
-    public int attackPhase() {
+    public List<String> attackPhase() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

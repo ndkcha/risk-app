@@ -5,6 +5,8 @@
  */
 package Game.Model;
 
+import java.util.List;
+
 /**
  * Interface for the types of player strategies
  * @author r-naik
@@ -23,7 +25,7 @@ public interface PlayerStrategy {
      * This method implements attack
      * @return number of armies to be moved
      */
-    int attackPhase();
+    List<String> attackPhase();
     
     /**
      * This method is to move armies from one country to another

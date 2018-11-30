@@ -80,7 +80,7 @@ public class RandomStrategy implements PlayerStrategy{
      * @return number of armies to be moved
      */
     @Override
-    public int attackPhase() {
+    public List<String> attackPhase() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

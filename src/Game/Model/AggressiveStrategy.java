@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.print.DocFlavor;
 
 /**
  * Methods to implement the Aggressive strategy
@@ -89,12 +90,14 @@ public class AggressiveStrategy implements PlayerStrategy{
     public String weakestNeighbourForAttack(String countryName) {
         AttackController ac=new AttackController();
         List<String> neighboursForAttack=ac.getNeighboursForAttack(countryName);
-        String weakestNeighbour=null;
+        System.out.println(" number of neighbours "+neighboursForAttack.size());
+        String weakestNeighbour=null,tempneighbor = null;
         int lowestArmies=0, noOfArmies=0;
         List<Player> allPlayersList;
         allPlayersList = holder.getPlayerList();
         //for each country in the neighbours list
         for(int j=0;j<neighboursForAttack.size();j++) {
+            //System.out.println("neighbor "+neighboursForAttack.get(j));
             // for each player in the list
             for (int i = 0; i < allPlayersList.size(); i++) {
                 Player temp = allPlayersList.get(i);
@@ -106,15 +109,22 @@ public class AggressiveStrategy implements PlayerStrategy{
                     //if the key equal to the neighbor teh get number of armies in the country
                     if (pair.getKey().equals(neighboursForAttack.get(j))) {
                         noOfArmies  = (int) pair.getValue();
+                        tempneighbor=neighboursForAttack.get(j);
+                        if(lowestArmies==0) {
+                            lowestArmies=noOfArmies;
+                            weakestNeighbour=tempneighbor;
+                        }
+                        System.out.println("Neigbour:: "+pair.getKey()+"armies::"+pair.getValue());
                     }
                 }
             }
             //if the number of armies in the neigbour country is lowest till now
             if (noOfArmies < lowestArmies) {
                 lowestArmies = noOfArmies;
-                weakestNeighbour =neighboursForAttack.get(j);
+                weakestNeighbour =tempneighbor;
             }
         }
+        System.out.println("The weakest neighbour is "+weakestNeighbour+" with number of armies:" +lowestArmies);
         return weakestNeighbour;
     }
     
@@ -126,7 +136,9 @@ public class AggressiveStrategy implements PlayerStrategy{
      */
     @Override
     public String reinforcementPhase(int armiesToAllocate, String country) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String countryName=strongestCountry();
+        System.out.println("The strongest country is" +strongestCountry());
+        return countryName;
     }
 
     /**
@@ -134,8 +146,13 @@ public class AggressiveStrategy implements PlayerStrategy{
      * @return number of armies to be moved
      */
     @Override
-    public int attackPhase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<String> attackPhase() {
+        
+        List<String> attackerAndDefender= new ArrayList<>();
+        attackerAndDefender.add(strongestCountry());
+        attackerAndDefender.add(weakestNeighbourForAttack(attackerAndDefender.get(0)));
+        System.out.println("Attacker:::" +attackerAndDefender.get(0)+"Defender:::" + attackerAndDefender.get(1));
+        return attackerAndDefender;
     }
 
     /**

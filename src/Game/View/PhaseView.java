@@ -1,10 +1,12 @@
 package Game.View;
 
 import Game.Controller.AttackController;
+import Game.Model.AggressiveStrategy;
 import Game.Model.ContinentData;
 import Game.Model.CountryData;
 import Game.Model.PhaseData;
 import Game.Model.Player;
+import Game.Model.StrategySetter;
 import Game.Risk.DataHolder;
 
 import java.awt.event.ActionEvent;
@@ -14,7 +16,7 @@ import javax.swing.*;
 /**
  * This class represent the Phase View for the Main game.
  * 
- * @author Jay, ndkcha
+ * @author Jay, ndkcha, r-naik
  * @version 1.2.0
  */
 @SuppressWarnings("deprecation")
@@ -40,6 +42,8 @@ public class PhaseView implements Observer {
     private DefaultComboBoxModel<String> comboModelCountries = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel<String> comboModelNeighbourCountries = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel<Integer> comboModelNoOfArmies = new DefaultComboBoxModel<>();
+    
+    StrategySetter stratSetter=new StrategySetter();
     
 	/**
 	 * Constructor for the phase view interface.
@@ -198,71 +202,78 @@ public class PhaseView implements Observer {
 		});
 	}
 
-	/**
-	 * start the attack phase
-	 */
-	private void startAttackPhase() {
-		Player player = holder.getActivePlayer();
+    /**
+    * start the attack phase
+    */
+    private void startAttackPhase() {
+        Player player = holder.getActivePlayer();
 
-		if (player.getType() == 0) {
-			this.loadCountryListInCombo();
-			return;
-		}
-
-		AttackController controller = new AttackController();
-		List<String> neighboursForAttack;
-		changeControlButtonVisibility(false);
-		int iterations = 0;
-		Random random = new Random();
-		String attacker;
-
-		do {
-			int totalCountries = player.getCountriesConquered().size();
-
-			int pickCountry = random.nextInt(totalCountries);
-			pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
-
-			attacker = player.getNthCountry(pickCountry);
-
-			neighboursForAttack = controller.getNeighboursForAttack(attacker);
-
-			iterations++;
-
-			if (iterations == 10)
-				break;
-		} while (neighboursForAttack.size() == 0);
-
-		if (neighboursForAttack.size() == 0) {
-			holder.sendGameLog(player.getName() + " ended the attack phase");
-			holder.changePhases();
-			return;
-		}
-
-		int pickDefender = random.nextInt(neighboursForAttack.size());
-		pickDefender = (pickDefender == neighboursForAttack.size()) ? pickDefender - 1 : pickDefender;
-
-		String defender = neighboursForAttack.get(pickDefender);
-		player.setAttackerAndDefender(attacker, defender);
-		player.setAllOutMode(true);
-		holder.updatePlayer(player);
-
-		player = holder.getActivePlayer();
-		int minArmiesToMove = player.attackPhase();
-
-        player = holder.getActivePlayer();
-
-		if (minArmiesToMove != -1) {
-            int armiesToMove = minArmiesToMove;
-
-            int existing = player.getArmiesInCountry(attacker) - 1;
-            if (existing > minArmiesToMove) {
-                armiesToMove = random.nextInt(existing - minArmiesToMove);
-                armiesToMove += minArmiesToMove;
-            }
-
-            player.moveArmiesAfterAttack(armiesToMove);
-
+        if (player.getType() == 0) {
+            this.loadCountryListInCombo();
+            return;
         }
+
+        AttackController controller = new AttackController();
+        List<String> neighboursForAttack;
+        changeControlButtonVisibility(false);
+        int iterations = 0;
+        Random random = new Random();
+        String attacker;
+
+        if (player.getType() == 1) {
+            stratSetter.setStrategy(new AggressiveStrategy());
+            List<String> attackerAndDefender = stratSetter.attack();
+            aggressiveAttack(attackerAndDefender);
+        }
+
+//        do {
+//            int totalCountries = player.getCountriesConquered().size();
+//
+//            int pickCountry = random.nextInt(totalCountries);
+//            pickCountry = (pickCountry == totalCountries) ? pickCountry - 1 : pickCountry;
+//
+//            attacker = player.getNthCountry(pickCountry);
+//
+//            neighboursForAttack = controller.getNeighboursForAttack(attacker);
+//
+//            iterations++;
+//
+//            if (iterations == 10) {
+//                break;
+//            }
+//        } while (neighboursForAttack.size() == 0);
+//
+//        if (neighboursForAttack.size() == 0) {
+//            holder.sendGameLog(player.getName() + " ended the attack phase");
+//            holder.changePhases();
+//            return;
+//        }
+//
+//        int pickDefender = random.nextInt(neighboursForAttack.size());
+//        pickDefender = (pickDefender == neighboursForAttack.size()) ? pickDefender - 1 : pickDefender;
+//
+//        String defender = neighboursForAttack.get(pickDefender);
+//        player.setAttackerAndDefender(attacker, defender);
+//        player.setAllOutMode(true);
+//        holder.updatePlayer(player);
+//
+//        player = holder.getActivePlayer();
+//        int minArmiesToMove = player.attackPhase();
+//
+//        player = holder.getActivePlayer();
+//
+//        if (minArmiesToMove != -1) {
+//            int armiesToMove = minArmiesToMove;
+//
+//            int existing = player.getArmiesInCountry(attacker) - 1;
+//            if (existing > minArmiesToMove) {
+//                armiesToMove = random.nextInt(existing - minArmiesToMove);
+//                armiesToMove += minArmiesToMove;
+//            }
+//
+//            player.moveArmiesAfterAttack(armiesToMove);
+//
+//        }
         player.resetAttackerAndDefender();
 
         holder.updatePlayer(player);
@@ -271,14 +282,54 @@ public class PhaseView implements Observer {
         player.notifyChangeInPlayer();
 
         if (holder.hasPlayerWon(player)) {
-			JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
-				"Yeyy!", JOptionPane.INFORMATION_MESSAGE);
-			holder.forceEndGame();
-        	return;
-		}
+            JOptionPane.showMessageDialog(new JFrame(), player.getName() + " has won the game!",
+                    "Yeyy!", JOptionPane.INFORMATION_MESSAGE);
+            holder.forceEndGame();
+            return;
+        }
 
-		holder.changePhases();
-	}
+        holder.changePhases();
+    }
+        
+        /**
+         * This implements the aggressive attack strategy
+         */
+        public void aggressiveAttack(List<String> attackerAndDefender) {
+            Player player = holder.getActivePlayer();
+            AttackController controller = new AttackController();
+            List<String> neighboursForAttack;
+            changeControlButtonVisibility(false);
+            int iterations = 0;
+            Random random = new Random();
+            String attacker=attackerAndDefender.get(0);
+            neighboursForAttack = controller.getNeighboursForAttack(attacker);
+            if (neighboursForAttack.size() == 0) {
+	        holder.sendGameLog(player.getName() + " ended the attack phase");
+                holder.changePhases();
+                return;
+            }
+            String defender = attackerAndDefender.get(1);
+            System.out.println("Defender "+defender);
+            player.setAttackerAndDefender(attacker, defender);
+            player.setAllOutMode(true);
+            holder.updatePlayer(player);
+
+            player = holder.getActivePlayer();
+            int minArmiesToMove = player.attackPhase();
+
+            player = holder.getActivePlayer();
+
+            if (minArmiesToMove != -1) {
+                int armiesToMove = minArmiesToMove;
+
+            int existing = player.getArmiesInCountry(attacker) - 1;
+                if (existing > minArmiesToMove) {
+                    armiesToMove = random.nextInt(existing - minArmiesToMove);
+                    armiesToMove += minArmiesToMove;
+                }
+                player.moveArmiesAfterAttack(armiesToMove);
+            }  
+        }
 
 	/**
 	 * Perform the attack phase
@@ -785,37 +836,58 @@ public class PhaseView implements Observer {
 		}
 
 		changeControlButtonVisibility(false);
+                
+                if (player.getType() == 1) {
+                    stratSetter.setStrategy( new AggressiveStrategy());
+                    String strongestCountry=stratSetter.reinforcement();
+                    System.out.println("Strongest Country is "+strongestCountry);
+                    aggressiveReinforcement(strongestCountry);
+                }
 
-		int totalNoOfArmies = calculateReinforcementArmies(player);
-		int noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
-
-		if (totalNoOfArmies != 0) {
-			Random random = new Random();
-
-			do {
-				if (noOfArmies == 0)
-					break;
-
-				int armiesToAllocate = random.nextInt(noOfArmies);
-
-				if (armiesToAllocate == 0)
-					armiesToAllocate++;
-
-				this.reinforcementArmyAllocated += armiesToAllocate;
-
-				String message = player.reinforcementPhase(armiesToAllocate, null);
-				holder.sendGameLog(message);
-
-				noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
-			} while (noOfArmies > 0);
-			holder.updatePlayer(player);
-			System.out.println("Armies allocation has been completed!");
-		}
+//		int totalNoOfArmies = calculateReinforcementArmies(player);
+//		int noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
+//
+//		if (totalNoOfArmies != 0) {
+//			Random random = new Random();
+//
+//			do {
+//				if (noOfArmies == 0)
+//					break;
+//
+//				int armiesToAllocate = random.nextInt(noOfArmies);
+//
+//				if (armiesToAllocate == 0)
+//					armiesToAllocate++;
+//
+//				this.reinforcementArmyAllocated += armiesToAllocate;
+//
+//				String message = player.reinforcementPhase(armiesToAllocate, null);
+//				holder.sendGameLog(message);
+//
+//				noOfArmies = totalNoOfArmies - this.reinforcementArmyAllocated;
+//			} while (noOfArmies > 0);
+//			holder.updatePlayer(player);
+//			System.out.println("Armies allocation has been completed!");
+//		}
 
 		changeControlButtonVisibility(true);
 		holder.changePhases();
 	}
+        
+        /**
+         * This method implements the aggressive reinforcement strategy
+         * @param countryName 
+         */
+        public void aggressiveReinforcement(String countryName) {
+            Player player=holder.getActivePlayer();
+            int totalNoOfArmies = calculateReinforcementArmies(player);
 
+            String message = player.reinforcementPhase(totalNoOfArmies, countryName);
+            holder.sendGameLog(message);
+            holder.updatePlayer(player);
+            System.out.println("Armies allocation has been completed!");
+
+        }
 	/**
 	 * Start the fortification phase
 	 */
