@@ -29,7 +29,6 @@ import Game.View.GameLogsView;
  * @version 1.2.0
  */
 public class DataHolder implements Serializable {
-    public static final String CARD_TYPE_WILD = "Wild";
     /** A communication bridge to get the GameLogs flowing thru the application */
     private GameLogsData gameLogs = new GameLogsData();
     /** a holder that manipulates the phases */
@@ -52,6 +51,8 @@ public class DataHolder implements Serializable {
     public File bmpFile;
     /** Is the armies distribution be automatic or manual? */
     public boolean isArmiesAutomatic = false;
+    /** max limit for the turns */
+    public int maxTurnLimit = 20;
 
     public void refreshHolder() {
         countryDataList.clear();
@@ -416,12 +417,11 @@ public class DataHolder implements Serializable {
     /**
      * Has everyone reached the max limit?
      * It's supposed end the game if true
-     * @param maxLimit the max limit
      * @return true if game should be ended
      */
-    public boolean areAllPlayerDone(int maxLimit) {
+    public boolean areAllPlayerDone() {
         for (Player player : this.getPlayerList()) {
-            if (player.canTakeMoreTurns(maxLimit))
+            if (player.canTakeMoreTurns(maxTurnLimit))
                 return false;
         }
 
@@ -486,13 +486,12 @@ public class DataHolder implements Serializable {
 				this.countryDataList = (ArrayList<CountryData>) in.readObject();
 				this.playerList = (HashMap<String, Player>) in.readObject();
 				this.playersArmiesList = (HashMap<Integer, Integer>) in.readObject();
+				System.out.println(this.playersArmiesList.size());
 				this.conqueredPlayerList = (List<Player>) in.readObject();
 				this.updatePlayer((Player) in.readObject()); 
 				this.phaseData = (PhaseData) in.readObject();
 				this.gameLogs=(GameLogsData) in.readObject();
 					
-				StartupController startController = new StartupController();
-				startController.resumeGame();
 			} catch (ClassNotFoundException e) {
 
 				e.printStackTrace();

@@ -20,7 +20,8 @@ public class TournamentData extends Observable {
     private DataHolder holder = DataHolder.getInstance();
     private List<List<String>> mapBuffer = new ArrayList<>();
     private HashMap<String, List<String>> gameLogs = new HashMap<>();
-    private int currentGame = -1, currentMap = 0;
+    public int currentGame = -1;
+	public int currentMap = 0;
 
     /**
      * Add a game for the logs

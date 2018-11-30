@@ -51,6 +51,9 @@ public class TestMapEditorController {
 		country1.addNeighbour("Cockpit02");
 		country2.addNeighbour("Cockpit01");
 		country3.addNeighbour("Cockpit01");
+		country1.addNeighbour("Cockpit03");
+		country2.addNeighbour("Cockpit03");
+		country3.addNeighbour("Cockpit02");
 
 		// Continent 2 data
 		country4.addNeighbour("Cockpit05");
@@ -103,5 +106,15 @@ public class TestMapEditorController {
 		Boolean countryInCOntinent = mec.validateGhostNeighboursNolink();
 		System.out.println(countryInCOntinent);
 		assertFalse(countryInCOntinent);
+	}
+	
+	/**
+	 * Test to Check if the sub-connected graph is valid or not for each continents
+	 */
+	@Test
+	public void TestIsErrorInSubConnectedGraph(){
+		
+		Boolean subgraph = mec.isErrorInSubConnectedGraph();
+		assertFalse(subgraph);
 	}
 }

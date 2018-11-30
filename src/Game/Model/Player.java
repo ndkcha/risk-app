@@ -58,7 +58,7 @@ public class Player extends Observable implements Serializable {
      * @return true if he can
      */
     public boolean canTakeMoreTurns(int maxLimit) {
-        return (this.noOfTurnsTaken <= maxLimit);
+        return (this.noOfTurnsTaken < maxLimit);
     }
 
     /** notify change in player */

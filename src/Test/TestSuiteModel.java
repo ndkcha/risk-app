@@ -23,9 +23,9 @@ import Test.Testing_Controller.*;
 	TestCountryData.class,
 	TestPlayerCards.class,
 	TestPlayerModel.class,
-	TestPlayerPhase.class,
-	TestRollDice.class,
-	
+	TestSaveAndLoadGame.class,
+	TestTournamentData.class,
+
 	TestGameSettingsView.class})
  
  

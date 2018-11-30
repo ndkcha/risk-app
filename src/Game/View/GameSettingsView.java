@@ -6,29 +6,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Game.Controller.Controller;
 import Game.Controller.MapEditorController;
-import Game.Controller.TournamentController;
 import Game.Controller.StartupController;
-import Game.Model.ContinentData;
-import Game.Model.CountryData;
-import Game.Model.GameLogsData;
+import Game.Controller.TournamentController;
 import Game.Model.Player;
 import Game.Risk.DataHolder;
 
@@ -40,6 +25,12 @@ import Game.Risk.DataHolder;
  * @version 1.2.0
  */
 public class GameSettingsView {
+    private Integer[] noOfTurns = { 10, 15, 20, 25, 30, 35, 40, 45, 50 };
+	private JTextField textPlayer1, textPlayer2, textPlayer3, textPlayer4, textPlayer5, textPlayer6;
+	private JComboBox comboPlayer1, comboPlayer2, comboPlayer3, comboPlayer4, comboPlayer5, comboPlayer6;
+	private JComboBox comboPlayers, comboTroops;
+	private JComboBox<Integer> comboNoOfTurns;
+	private JFrame frameGameSettings;
 
 	// Panel height and width.
 	private static final int WIDTH = 100;
@@ -50,6 +41,9 @@ public class GameSettingsView {
 	private JButton startGame, btnLoadMap, mapEditor, loadGame, tournament;
 
 	private DataHolder holder = DataHolder.getInstance();
+
+	/** An empty constructor */
+	public GameSettingsView() { }
 
 	/**
 	 * This method will start the game and give startup options to user.
@@ -85,232 +79,215 @@ public class GameSettingsView {
 	/**
 	 * This method will provide the game settings panel for Number of players,
 	 * difficulty, player names and there type with colors
+	 *
+	 * @param isTournamentMode is it a tournament mode?
 	 */
 	@SuppressWarnings("unchecked")
 	public void gameSettings(boolean isTournamentMode) {
-		final JFrame jf = new JFrame();
-		jf.setBounds(100, 100, WIDTH * 8, HEIGHT * 4);
+		frameGameSettings = new JFrame();
+		frameGameSettings.setBounds(100, 100, WIDTH * 8, HEIGHT * 4);
 
-		JPanel p1 = new JPanel(); // Settings panel
-		JPanel p2 = new JPanel(); // Players Names Panel.
-		JPanel p3 = new JPanel(); // Players color Panel
-		JPanel p4 = new JPanel(); // Select map and Cancel panel
-
-		// Textfields for players name
-		final JTextField player1_name;
-		final JTextField player2_name;
-		final JTextField player3_name;
-		final JTextField player4_name;
-		final JTextField player5_name;
-		final JTextField player6_name;
-
-		// Select sist for player type and color of player
-		final JComboBox player1_select;
-		final JComboBox player2_select;
-		final JComboBox player3_select;
-		final JComboBox player4_select;
-		final JComboBox player5_select;
-		final JComboBox player6_select;
+		// Settings panel
+		JPanel panelSettings = getTheSettingsPanel(isTournamentMode);
+		// Players Names Panel.
+		JPanel panelPlayers = getThePlayersPanel();
+		// Players color Panel
+		JPanel panelColor = getTheColorPanel(isTournamentMode);
+		// Select map and Cancel panel
+		JPanel panelActions = getActionsPanel(isTournamentMode);
 
 		// Combo select lists
-		final JComboBox players_list;
-		final JComboBox difficulty_list;
-		final JComboBox countries_list;
-		final JComboBox troops_list;
+		frameGameSettings.setTitle("Game Settings");
 
-		jf.setTitle("Game Settings");
+		frameGameSettings.getContentPane().setLayout(null);
+		frameGameSettings.getContentPane().setLayout(new GridLayout(5, 6));
+		panelSettings.setLayout(new GridLayout(1, 5));
+		panelPlayers.setLayout(new GridLayout(1, 5));
+		panelColor.setLayout(new GridLayout(1, 5));
+
+		frameGameSettings.getContentPane().add(panelSettings);
+		frameGameSettings.getContentPane().add(panelPlayers);
+        frameGameSettings.getContentPane().add(panelColor);
+		frameGameSettings.getContentPane().add(panelActions);
+
+		frameGameSettings.setVisible(true);
+	}
+
+    /**
+     * Get the frame for game settings view
+     * @return frame for game settings
+     */
+    public JFrame getFrameGameSettings() {
+        return frameGameSettings;
+    }
+
+    /**
+	 * Initializes the players
+	 * @return panels that has all the players
+	 */
+	private JPanel getThePlayersPanel() {
+		JPanel panel = new JPanel();
+
+		textPlayer1 = new JTextField("ndkcha");
+		textPlayer2 = new JTextField("jatin");
+		textPlayer3 = new JTextField("gunnu");
+		textPlayer4 = new JTextField("roohani");
+		textPlayer5 = new JTextField("kunal");
+		textPlayer6 = new JTextField("player");
+
+		textPlayer3.setVisible(false);
+		textPlayer4.setVisible(false);
+		textPlayer5.setVisible(false);
+		textPlayer6.setVisible(false);
+
+		panel.add(textPlayer1);
+		panel.add(textPlayer2);
+		panel.add(textPlayer3);
+		panel.add(textPlayer4);
+		panel.add(textPlayer5);
+		panel.add(textPlayer6);
+
+		return panel;
+	}
+
+	/**
+	 * Initializes player details panel
+	 * @param isTournamentMode is it a tournament module?
+	 * @return panel that has details about players
+	 */
+	@SuppressWarnings("unchecked")
+	private JPanel getTheColorPanel(boolean isTournamentMode) {
+		JPanel panel = new JPanel();
 
 		String[] player1 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
-		player1_select = new JComboBox(player1);
-		player1_select.setSelectedIndex(isTournamentMode ? 1 : 0);
-		player1_select.setBackground(Color.BLUE);
+		comboPlayer1 = new JComboBox(player1);
+		comboPlayer1.setSelectedIndex(isTournamentMode ? 1 : 0);
+		comboPlayer1.setBackground(Color.BLUE);
 
 		String[] player2 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
-		player2_select = new JComboBox(player2);
-		player2_select.setSelectedIndex(1);
-		player2_select.setBackground(Color.GREEN);
+		comboPlayer2 = new JComboBox(player2);
+		comboPlayer2.setSelectedIndex(1);
+		comboPlayer2.setBackground(Color.GREEN);
 
 		String[] player3 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
-		player3_select = new JComboBox(player3);
-		player3_select.setSelectedIndex(1);
-		player3_select.setBackground(Color.YELLOW);
+		comboPlayer3 = new JComboBox(player3);
+		comboPlayer3.setSelectedIndex(1);
+		comboPlayer3.setBackground(Color.YELLOW);
 
 		String[] player4 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
-		player4_select = new JComboBox(player4);
-		player4_select.setSelectedIndex(1);
-		player4_select.setBackground(Color.MAGENTA);
+		comboPlayer4 = new JComboBox(player4);
+		comboPlayer4.setSelectedIndex(1);
+		comboPlayer4.setBackground(Color.MAGENTA);
 
 		String[] player5 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
-		player5_select = new JComboBox(player5);
-		player5_select.setSelectedIndex(1);
-		player5_select.setBackground(Color.RED);
+		comboPlayer5 = new JComboBox(player5);
+		comboPlayer5.setSelectedIndex(1);
+		comboPlayer5.setBackground(Color.RED);
 
 		String[] player6 = { "Human", "Aggressive", "Benevolent", "Random", "Cheater" };
-		player6_select = new JComboBox(player6);
-		player6_select.setSelectedIndex(1);
-		player6_select.setBackground(Color.ORANGE);
+		comboPlayer6 = new JComboBox(player6);
+		comboPlayer6.setSelectedIndex(1);
+		comboPlayer6.setBackground(Color.ORANGE);
+
+		comboPlayer3.setVisible(false);
+		comboPlayer4.setVisible(false);
+		comboPlayer5.setVisible(false);
+		comboPlayer6.setVisible(false);
+
+		panel.add(comboPlayer1);
+		panel.add(comboPlayer2);
+		panel.add(comboPlayer3);
+		panel.add(comboPlayer4);
+		panel.add(comboPlayer5);
+		panel.add(comboPlayer6);
+
+		return panel;
+	}
+
+	/**
+	 * Initializes settings view
+	 * @param isTournamentMode is it a tournament mode?
+	 * @return panel for the settings
+	 */
+	@SuppressWarnings("unchecked")
+	private JPanel getTheSettingsPanel(boolean isTournamentMode) {
+		JPanel panel = new JPanel();
 
 		String[] players = { "2 Players", "3 Players", "4 Players", "5 Players", "6 Players" };
-		players_list = new JComboBox(players);
-		players_list.setSelectedIndex(0);
+		comboPlayers = new JComboBox(players);
+		comboPlayers.setSelectedIndex(0);
+
+		// Display players name and colors based on selection on number of
+		// players.
+		comboPlayers.addActionListener((ActionEvent e) -> this.listenToNoOfPlayersCombo());
 
 		String[] difficulty = { "Difficulty", "Easy", "Medium", "Hard" };
-		difficulty_list = new JComboBox(difficulty);
-		difficulty_list.setSelectedIndex(0);
+		JComboBox<String> comboDifficultyList = new JComboBox(difficulty);
+		comboDifficultyList.setSelectedIndex(0);
 
 		String[] countries = { "Countries Distribution ", "Auto", "Manual" };
-		countries_list = new JComboBox(countries);
-		countries_list.setSelectedIndex(0);
+		JComboBox<String> comboCountryList = new JComboBox(countries);
+		comboCountryList.setSelectedIndex(0);
 
 		String[] troops = { "Troops Distribution", "Auto", "Manual" };
-		troops_list = new JComboBox(troops);
-		troops_list.setSelectedIndex(0);
+		comboTroops = new JComboBox(troops);
+		comboTroops.setSelectedIndex(0);
+
+		comboNoOfTurns = new JComboBox<>(noOfTurns);
+		comboNoOfTurns.setSelectedIndex(0);
+
+		panel.add(comboPlayers);
+		panel.add(comboNoOfTurns);
+		if (!isTournamentMode) {
+			panel.add(comboDifficultyList);
+			panel.add(comboCountryList);
+			panel.add(comboTroops);
+		}
+
+		return panel;
+	}
+
+	/**
+	 * Initializes the action panel
+	 * @param isTournamentMode is it a tournament mode?
+	 * @return panel for the action buttons
+	 */
+	private JPanel getActionsPanel(boolean isTournamentMode) {
+		JPanel panel = new JPanel();
 
 		JButton selectMap = new JButton(isTournamentMode ? "Start Tournament" : "Select Map");
 		JButton jb_cancel = new JButton("Cancel");
 
-		jf.getContentPane().setLayout(null);
-		jf.getContentPane().setLayout(new GridLayout(5, 6));
-		p1.setLayout(new GridLayout(1, 5));
-		p2.setLayout(new GridLayout(1, 5));
-		p3.setLayout(new GridLayout(1, 5));
+		selectMap.addActionListener((ActionEvent e) -> listenToSelectMapBtn(isTournamentMode));
+		jb_cancel.addActionListener((ActionEvent evt) -> frameGameSettings.dispose());
 
-		player1_name = new JTextField("ndkcha");
-		player2_name = new JTextField("jatin");
-		player3_name = new JTextField("gunnu");
-		player4_name = new JTextField("roohani");
-		player5_name = new JTextField("kunal");
-		player6_name = new JTextField("player");
+		panel.add(selectMap);
+		panel.add(jb_cancel);
 
-		// Display players name and colors based on selection on number of
-		// players.
-		players_list.addActionListener((ActionEvent e) -> {
-			num_players = players_list.getSelectedIndex() + 2;
-			
-			switch (num_players) {
-			case 3:
-				player3_name.setVisible(true);
-				player4_name.setVisible(false);
-				player5_name.setVisible(false);
-				player6_name.setVisible(false);
+		return panel;
+	}
 
-				player3_select.setVisible(true);
-				player4_select.setVisible(false);
-				player5_select.setVisible(false);
-				player6_select.setVisible(false);
+	/**
+	 * Listen to the selector action of map button
+	 * @param isTournamentMode is it a tournament module?
+	 */
+	private void listenToSelectMapBtn(boolean isTournamentMode) {
+		holder.clearPlayers();
 
-				break;
+		Player pl1 = new Player(textPlayer1.getText(), comboPlayer1.getSelectedIndex(), "BLUE");
+		Player pl2 = new Player(textPlayer2.getText(), comboPlayer2.getSelectedIndex(), "GREEN");
+		Player pl3 = new Player(textPlayer3.getText(), comboPlayer3.getSelectedIndex(), "YELLOW");
+		Player pl4 = new Player(textPlayer4.getText(), comboPlayer4.getSelectedIndex(), "MAGENTA");
+		Player pl5 = new Player(textPlayer5.getText(), comboPlayer5.getSelectedIndex(), "RED");
+		Player pl6 = new Player(textPlayer6.getText(), comboPlayer6.getSelectedIndex(), "ORANGE");
 
-			case 4:
-				player3_name.setVisible(true);
-				player4_name.setVisible(true);
-				player5_name.setVisible(false);
-				player6_name.setVisible(false);
+		holder.addPlayer(pl1);
+		holder.addPlayer(pl2);
 
-				player3_select.setVisible(true);
-				player4_select.setVisible(true);
-				player5_select.setVisible(false);
-				player6_select.setVisible(false);
+		int indexMaxLimit = comboNoOfTurns.getSelectedIndex();
+		holder.maxTurnLimit = comboNoOfTurns.getItemAt(indexMaxLimit);
 
-				break;
-
-			case 5:
-				player3_name.setVisible(true);
-				player4_name.setVisible(true);
-				player5_name.setVisible(true);
-				player6_name.setVisible(false);
-
-				player3_select.setVisible(true);
-				player4_select.setVisible(true);
-				player5_select.setVisible(true);
-				player6_select.setVisible(false);
-
-				break;
-
-			case 6:
-				player3_name.setVisible(true);
-				player4_name.setVisible(true);
-				player5_name.setVisible(true);
-				player6_name.setVisible(true);
-
-				player3_select.setVisible(true);
-				player4_select.setVisible(true);
-				player5_select.setVisible(true);
-				player6_select.setVisible(true);
-
-				break;
-
-			default:
-				player3_name.setVisible(false);
-				player4_name.setVisible(false);
-				player5_name.setVisible(false);
-				player6_name.setVisible(false);
-
-				player3_select.setVisible(false);
-				player4_select.setVisible(false);
-				player5_select.setVisible(false);
-				player6_select.setVisible(false);
-
-				break;
-			}
-		});
-
-		jb_cancel.addActionListener((ActionEvent evt) -> jf.dispose());
-
-		p1.add(players_list);
-		if (!isTournamentMode) {
-			p1.add(difficulty_list);
-			p1.add(countries_list);
-			p1.add(troops_list);
-		}
-
-		p2.add(player1_name);
-		p2.add(player2_name);
-		p2.add(player3_name);
-		p2.add(player4_name);
-		p2.add(player5_name);
-		p2.add(player6_name);
-
-		p3.add(player1_select);
-		p3.add(player2_select);
-		p3.add(player3_select);
-		p3.add(player4_select);
-		p3.add(player5_select);
-		p3.add(player6_select);
-
-		player3_name.setVisible(false);
-		player4_name.setVisible(false);
-		player5_name.setVisible(false);
-		player6_name.setVisible(false);
-
-		player3_select.setVisible(false);
-		player4_select.setVisible(false);
-		player5_select.setVisible(false);
-		player6_select.setVisible(false);
-
-		p4.add(selectMap);
-		p4.add(jb_cancel);
-
-		jf.getContentPane().add(p1);
-		jf.getContentPane().add(p2);
-		if (!isTournamentMode)
-			jf.getContentPane().add(p3);
-		jf.getContentPane().add(p4);
-
-		selectMap.addActionListener((ActionEvent e) -> {
-			holder.clearPlayers();
-
-			Player pl1 = new Player(player1_name.getText(), player1_select.getSelectedIndex(), "BLUE");
-			Player pl2 = new Player(player2_name.getText(), player2_select.getSelectedIndex(), "GREEN");
-			Player pl3 = new Player(player3_name.getText(), player3_select.getSelectedIndex(), "YELLOW");
-			Player pl4 = new Player(player4_name.getText(), player4_select.getSelectedIndex(), "MAGENTA");
-			Player pl5 = new Player(player5_name.getText(), player5_select.getSelectedIndex(), "RED");
-			Player pl6 = new Player(player6_name.getText(), player6_select.getSelectedIndex(), "ORANGE");
-
-			holder.addPlayer(pl1);
-			holder.addPlayer(pl2);
-
-			switch (num_players) {
+		switch (num_players) {
 			case 6:
 				holder.addPlayer(pl6);
 			case 5:
@@ -319,25 +296,89 @@ public class GameSettingsView {
 				holder.addPlayer(pl4);
 			case 3:
 				holder.addPlayer(pl3);
-			}
+		}
 
 //			chooseOptionFrame().dispose();
-			jf.setVisible(false);
-			if (isTournamentMode) {
-				holder.isArmiesAutomatic = true;
-				TournamentController.getInstance().initTournament();
-			} else {
-				File map_file = map_selector("map");
-				holder.bmpFile = map_selector("bmp");
+		frameGameSettings.setVisible(false);
+		if (isTournamentMode) {
+			holder.isArmiesAutomatic = true;
+			TournamentController.getInstance().initTournament();
+		} else {
+			File map_file = map_selector("map");
+			holder.bmpFile = map_selector("bmp");
 
-				holder.isArmiesAutomatic = (troops_list.getSelectedIndex() != 2);
+			holder.isArmiesAutomatic = (comboTroops.getSelectedIndex() != 2);
 
-				Controller c = new Controller();
-				c.gameStart(map_file);
-			}
-		});
+			Controller c = new Controller();
+			c.gameStart(map_file);
+		}
+	}
 
-		jf.setVisible(true);
+	/**
+	 * Listener for the combo list of the players.
+	 * It will listen to the select event and hide/show the elements in other panels.
+	 */
+	private void listenToNoOfPlayersCombo() {
+		num_players = comboPlayers.getSelectedIndex() + 2;
+
+		switch (num_players) {
+			case 3:
+				textPlayer3.setVisible(true);
+				textPlayer4.setVisible(false);
+				textPlayer5.setVisible(false);
+				textPlayer6.setVisible(false);
+				comboPlayer3.setVisible(true);
+				comboPlayer4.setVisible(false);
+				comboPlayer5.setVisible(false);
+				comboPlayer6.setVisible(false);
+
+				break;
+
+			case 4:
+				textPlayer3.setVisible(true);
+				textPlayer4.setVisible(true);
+				textPlayer5.setVisible(false);
+				textPlayer6.setVisible(false);
+				comboPlayer3.setVisible(true);
+				comboPlayer4.setVisible(true);
+				comboPlayer5.setVisible(false);
+				comboPlayer6.setVisible(false);
+
+				break;
+
+			case 5:
+				textPlayer3.setVisible(true);
+				textPlayer4.setVisible(true);
+				textPlayer5.setVisible(true);
+				textPlayer6.setVisible(false);
+				comboPlayer3.setVisible(true);
+				comboPlayer4.setVisible(true);
+				comboPlayer5.setVisible(true);
+				comboPlayer6.setVisible(false);
+				break;
+
+			case 6:
+				textPlayer3.setVisible(true);
+				textPlayer4.setVisible(true);
+				textPlayer5.setVisible(true);
+				textPlayer6.setVisible(true);
+				comboPlayer3.setVisible(true);
+				comboPlayer4.setVisible(true);
+				comboPlayer5.setVisible(true);
+				comboPlayer6.setVisible(true);
+				break;
+
+			default:
+				textPlayer3.setVisible(false);
+				textPlayer4.setVisible(false);
+				textPlayer5.setVisible(false);
+				textPlayer6.setVisible(false);
+				comboPlayer3.setVisible(false);
+				comboPlayer4.setVisible(false);
+				comboPlayer5.setVisible(false);
+				comboPlayer6.setVisible(false);
+				break;
+		}
 	}
 
 	/**
@@ -359,7 +400,7 @@ public class GameSettingsView {
 	 * This method will start the Tournament.
 	 * @param listener listener to assign the tournament
 	 */
-	public void initializeStartTournament(ActionListener listener){
+	public void initializeStartTournament(ActionListener listener) {
 		tournament.addActionListener(listener);
 	}
 
@@ -367,11 +408,9 @@ public class GameSettingsView {
 	 * This method will load game.
 	 */
 	private void initializeLoadGame() {
-		loadGame.addActionListener((ActionEvent e) -> {
-			showSavedGame();
-		});
+		loadGame.addActionListener((ActionEvent e) -> showSavedGame());
 	}
-	
+
 	private void showSavedGame() {
 		JFrame frame = new JFrame("Select Saved Game File");
 		JFileChooser jFileChooser = new JFileChooser();
@@ -385,12 +424,15 @@ public class GameSettingsView {
 			File file = jFileChooser.getSelectedFile();
 			DataHolder dataHold = DataHolder.getInstance();
 			dataHold.loadSavedGame(file);
+			
+			StartupController startController = new StartupController();
+			startController.resumeGame();
 		}
 
 		else if (result == JFileChooser.CANCEL_OPTION) {
 			chooseOptionFrame().dispose();
 		}
-		
+
 	}
 
 	/**
@@ -435,7 +477,7 @@ public class GameSettingsView {
 
 	/**
 	 * Action Listener for start game button.
-	 * 
+	 *
 	 * @param newAction Action Listenser object.
 	 */
 	public void startGameAction(ActionListener newAction) {
@@ -444,7 +486,7 @@ public class GameSettingsView {
 
 	/**
 	 * Action Listener for Map Editor button.
-	 * 
+	 *
 	 * @param newAction Action Listenser object.
 	 */
 	public void mapEditorAction(ActionListener newAction) {
