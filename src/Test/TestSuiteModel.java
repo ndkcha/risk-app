@@ -24,7 +24,6 @@ import Test.Testing_Controller.*;
 	TestPlayerCards.class,
 	TestPlayerModel.class,
 	TestPlayerPhase.class,
-	TestRollDice.class,
 	
 	TestGameSettingsView.class})
  
