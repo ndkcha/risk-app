@@ -1,8 +1,10 @@
 package Test.Testing_View;
 
 import Game.View.GameSettingsView;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test if game setting is loading successfully.
@@ -11,15 +13,15 @@ import org.junit.Assert.*;
  *
  */
 public class TestGameSettingsView {
+	private GameSettingsView gsv;
+
+	@Before
+	public void initValues() {
+		this.gsv = new GameSettingsView();
+	}
 	
-	GameSettingsView gsv=new GameSettingsView();
-	
-	/**
-	 * Test if game setting is loading successfully
-	 */
-	@Test 
-	public void testGameSettings()
-	{
-		gsv.gameSettings(true);
+	@Test public void testGameSettings() {
+		this.gsv.gameSettings(false);
+		assertNotNull(this.gsv.getFrameGameSettings());
 	}
 }
