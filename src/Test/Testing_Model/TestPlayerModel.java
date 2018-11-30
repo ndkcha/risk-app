@@ -52,6 +52,7 @@ public class TestPlayerModel {
 
         assertEquals(player.getArmiesInCountry("attacker"),1);
         assertEquals(player.getArmiesInCountry("defender"), 3);
+        holder.clearDataHolder();
     }
     
     /**
@@ -83,6 +84,36 @@ public class TestPlayerModel {
     	
     	//assertEquals(player1Won, true);
     	assertEquals(player2Won, false);
+    	holder.clearDataHolder();
+    }
+    
+    /**
+     * This method will get the total armies the player have
+     */
+    @Test
+    public void testGetTotalPlayerArmies(){
+    	int  totalArmies = player.getTotalPlayerArmies();
+    	
+    	assertEquals(4, totalArmies);
+    	holder.clearDataHolder();
     }
   
+    /**
+     * 
+     */
+    @Test
+    public void TestGetNoOfContinents(){
+    	int continenet = holder.getNoOfContinents(player);
+    	assertEquals(0,continenet);
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public void TestAreAllPlayerDone(){
+    	Boolean done = holder.areAllPlayerDone(1);
+    	assertTrue(done);
+    }
+    
 }
