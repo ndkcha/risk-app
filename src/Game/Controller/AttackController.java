@@ -320,10 +320,7 @@ public class AttackController {
             holder.sendGameLog("Attacker: " + player.getName() + " dice value: " + diceRollValuesOfAttacker[i]);
         }
 
-        Player Defender = holder.getPlayerFromCountryName(defendingCountry);
-        for (int i = 0; i < diceRollValuesOfDefender.length; i++) {
-            holder.sendGameLog("Defender: " + Defender.getName() + " dice value: " + diceRollValuesOfAttacker[i]);
-        }
+        
 
         // dice rolls for defender
         for (int i = 0; i < dice; i++) {
@@ -339,6 +336,10 @@ public class AttackController {
                     diceRollValuesOfDefender[j] = temp;
                 }
             }
+        }
+        Player Defender = holder.getPlayerFromCountryName(defendingCountry);
+        for (int i = 0; i < diceRollValuesOfDefender.length; i++) {
+            holder.sendGameLog("Defender: " + Defender.getName() + " dice value: " + diceRollValuesOfDefender[i]);
         }
 
         // matching the dice roll values
