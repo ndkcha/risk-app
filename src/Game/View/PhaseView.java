@@ -1062,7 +1062,7 @@ public class PhaseView implements Observer {
     }
 
     /**
-     * This method implements the aggressive reinforcement strategy
+     * This method implements the cheater reinforcement strategy
      *
      * @param message name of the country
      */
