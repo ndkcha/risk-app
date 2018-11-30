@@ -9,11 +9,12 @@ import java.util.*;
  * This holds the player data and the runtime data collected for player It holds
  * the countries he conquered and it can be updated anytime. It also holds list
  * of continents the he has conquered.
- * 
+ *
  * @author ndkcha, Jay, r-naik
  * @version 1.2.0
  */
 public class Player extends Observable implements Serializable {
+
     private int noOfArmiesToAssign = 0;
     private int noOfTurnsTaken = 0;
     private String name, color;
@@ -31,12 +32,12 @@ public class Player extends Observable implements Serializable {
      * The countries conquered by the player. Key is the name of the country.
      * Values is the number of armies inside that country.
      */
-    private HashMap<String, Integer> countriesConquered;
+    private HashMap<String,Integer> countriesConquered;
 
     /**
      * Reset the content of the player data for the new game in tournament.
      */
-    public void resetPlayer() {
+    public void resetPlayer () {
         this.cards.clear();
         this.isCardUsed = false;
         this.cardsUsedCount = 0;
@@ -45,92 +46,104 @@ public class Player extends Observable implements Serializable {
     }
 
     /**
-     * Called when player has taken his turn.
-     * It is tracked so that we can determine the end of the game.
+     * Called when player has taken his turn. It is tracked so that we can
+     * determine the end of the game.
      */
-    public void takeTurn() {
+    public void takeTurn () {
         this.noOfTurnsTaken++;
     }
 
     /**
      * To determine if the player can take more turns
+     *
      * @param maxLimit maximum allowed turns
      * @return true if he can
      */
-    public boolean canTakeMoreTurns(int maxLimit) {
+    public boolean canTakeMoreTurns (int maxLimit) {
         return (this.noOfTurnsTaken < maxLimit);
     }
 
-    /** notify change in player */
-    public void notifyChangeInPlayer() {
+    /**
+     * notify change in player
+     */
+    public void notifyChangeInPlayer () {
         setChanged();
         notifyObservers("player:changed");
     }
 
     /**
      * Gets the number of armies to move after attack phase
+     *
      * @return armies to move
      */
-    public int getArmiesToMove() {
+    public int getArmiesToMove () {
         return armiesToMove;
     }
 
     /**
      * Sets the number of armies to move after attack phase
+     *
      * @param armiesToMove armies to move
      */
-    public void setArmiesToMove(int armiesToMove) {
+    public void setArmiesToMove (int armiesToMove) {
         this.armiesToMove = armiesToMove;
     }
 
     /**
      * Sets the all out mode
+     *
      * @param mode true if active
      */
-    public void setAllOutMode(boolean mode) {
+    public void setAllOutMode (boolean mode) {
         this.isAllOutMode = mode;
     }
 
     /**
      * returns the type of mode
+     *
      * @return type
      */
-    public boolean getAllOutMode() {
+    public boolean getAllOutMode () {
         return isAllOutMode;
     }
 
-    public void logAttackerAndDefender() {
+    public void logAttackerAndDefender () {
         System.out.println(attackerArmies + " - " + defenderArmies);
     }
 
     /**
      * Set the attacker country and the defender country for the attack phase
+     *
      * @param attacker name of the attacker country
      * @param defender name of the defender country
      */
-    public void setAttackerAndDefender(String attacker, String defender) {
+    public void setAttackerAndDefender (String attacker,String defender) {
         this.attacker = attacker;
         this.defender = defender;
     }
 
     /**
      * Set the armies for attacker and defender both
+     *
      * @param attackerArmies number of armies
      */
-    public void setAttackerArmies(int attackerArmies) {
+    public void setAttackerArmies (int attackerArmies) {
         this.attackerArmies = attackerArmies;
     }
 
     /**
      * Set the armies for attacker and defender both
+     *
      * @param defenderArmies number of armies
      */
-    public void setDefenderArmies(int defenderArmies) {
+    public void setDefenderArmies (int defenderArmies) {
         this.defenderArmies = defenderArmies;
     }
 
-    /** Reset the attacker and defender countries */
-    public void resetAttackerAndDefender() {
+    /**
+     * Reset the attacker and defender countries
+     */
+    public void resetAttackerAndDefender () {
         this.attacker = null;
         this.defender = null;
         this.attackerArmies = 0;
@@ -140,32 +153,34 @@ public class Player extends Observable implements Serializable {
 
     /**
      * Has the card been used in this turn?
+     *
      * @return true if it has been
      */
-    public boolean isCardUsed() {
+    public boolean isCardUsed () {
         return isCardUsed;
     }
 
     /**
      * Use the card
      */
-    public void cardHasBeenUsed() {
+    public void cardHasBeenUsed () {
         this.isCardUsed = true;
         this.cardsUsedCount++;
     }
 
     /**
      * Returns number of cards are used.
+     *
      * @return cards used
      */
-    public int getCardsUsedCount() {
+    public int getCardsUsedCount () {
         return cardsUsedCount;
     }
 
     /**
      * Reset the used card flag
      */
-    public void resetCardUsedFlag() {
+    public void resetCardUsedFlag () {
         this.isCardUsed = false;
     }
 
@@ -174,18 +189,18 @@ public class Player extends Observable implements Serializable {
      *
      * @return number of armies
      */
-    public int getNoOfArmiesToAssign() {
+    public int getNoOfArmiesToAssign () {
         return noOfArmiesToAssign;
     }
 
     /**
      * This constructor set the player details.
      *
-     * @param name  The name of player.
-     * @param type  The type of player human or computer.
+     * @param name The name of player.
+     * @param type The type of player human or computer.
      * @param color The color for player.
      */
-    public Player(String name, int type, String color) {
+    public Player (String name,int type,String color) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -195,7 +210,7 @@ public class Player extends Observable implements Serializable {
     /**
      * when an army is assigned, it decrements the count from the total.
      */
-    public void assignInitialArmies() {
+    public void assignInitialArmies () {
         this.noOfArmiesToAssign--;
     }
 
@@ -204,7 +219,7 @@ public class Player extends Observable implements Serializable {
      *
      * @param noOfArmies number of armies to assign
      */
-    public void setMaxInitialArmies(int noOfArmies) {
+    public void setMaxInitialArmies (int noOfArmies) {
         this.noOfArmiesToAssign = noOfArmies;
     }
 
@@ -214,18 +229,18 @@ public class Player extends Observable implements Serializable {
      *
      * @param name Name of the country
      */
-    public void initializeCountry(String name) {
-        this.countriesConquered.put(name, 1);
+    public void initializeCountry (String name) {
+        this.countriesConquered.put(name,1);
     }
 
     /**
      * Update the number of armies assigned to that country
      *
-     * @param name       Name of the country
+     * @param name Name of the country
      * @param noOfArmies Number of armies used for the country.
      */
-    public void updateCountry(String name, int noOfArmies) {
-        this.countriesConquered.put(name, noOfArmies);
+    public void updateCountry (String name,int noOfArmies) {
+        this.countriesConquered.put(name,noOfArmies);
     }
 
     /**
@@ -234,7 +249,7 @@ public class Player extends Observable implements Serializable {
      * @param name name of then country
      * @return an integer that states the number of armies.
      */
-    public int getArmiesInCountry(String name) {
+    public int getArmiesInCountry (String name) {
         return this.countriesConquered.get(name);
     }
 
@@ -243,15 +258,16 @@ public class Player extends Observable implements Serializable {
      *
      * @return name THe name of the player
      */
-    public String getName() {
+    public String getName () {
         return name;
     }
 
     /**
      * Collect the card for a player
+     *
      * @param card card that has been collected
      */
-    public void addCard(String card) {
+    public void addCard (String card) {
         this.cards.add(card);
     }
 
@@ -260,17 +276,17 @@ public class Player extends Observable implements Serializable {
      *
      * @param card card to be removed from list.
      */
-    public void removeCard(String card) {
+    public void removeCard (String card) {
         this.cards.remove(card);
     }
 
     /**
-     * This method will return the type of the player.
-     * 0 = HUMAN and 1 = Computer
+     * This method will return the type of the player. 0 = HUMAN and 1 =
+     * Computer
      *
      * @return type THe name of the player
      */
-    public int getType() {
+    public int getType () {
         return type;
     }
 
@@ -279,7 +295,7 @@ public class Player extends Observable implements Serializable {
      *
      * @return color The color of the player
      */
-    public String getColor() {
+    public String getColor () {
         return color;
     }
 
@@ -288,7 +304,7 @@ public class Player extends Observable implements Serializable {
      *
      * @return countriesConquered The list of countriesConquered by player
      */
-    public HashMap<String, Integer> getCountriesConquered() {
+    public HashMap<String,Integer> getCountriesConquered () {
         return countriesConquered;
     }
 
@@ -298,13 +314,12 @@ public class Player extends Observable implements Serializable {
      * @param n index of the country
      * @return name of the country
      */
-    public String getNthCountry(int n) {
+    public String getNthCountry (int n) {
         List<String> countries = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> countryEntry : this.countriesConquered.entrySet()) {
+        for (Map.Entry<String,Integer> countryEntry : this.countriesConquered.entrySet()) {
             countries.add(countryEntry.getKey());
         }
-
         return countries.get(n);
     }
 
@@ -313,81 +328,81 @@ public class Player extends Observable implements Serializable {
      *
      * @param countriesConquered The key value pair of countries Conquered.
      */
-    public void setCountriesConquered(
-        HashMap<String, Integer> countriesConquered) {
+    public void setCountriesConquered (
+        HashMap<String,Integer> countriesConquered) {
         this.countriesConquered = countriesConquered;
     }
 
     /**
-     * Refactoring 2: All phases in player model.
-     * Performs the reinforcement phase for the player.
+     * Refactoring 2: All phases in player model. Performs the reinforcement
+     * phase for the player.
      *
      * @param armiesToAllocate total armies to allocated to a country.
-     * @param country          the name of the country to allocated armies to.
+     * @param country the name of the country to allocated armies to.
      * @return message produced from the fortification phase
      */
-    public String reinforcementPhase(int armiesToAllocate, String country) {
+    public String reinforcementPhase (int armiesToAllocate,String country) {
         if (country == null) {
             Random random = new Random();
             Object countries[] = this.getCountriesConquered().keySet().toArray();
-            if (countries.length == 0)
+            if (countries.length == 0) {
                 return name + " is eliminated";
+            }
             int countryIndex = random.nextInt(countries.length);
             country = (String) countries[countryIndex];
         }
-
         int existingArmies = this.getCountriesConquered().get(country);
         existingArmies += armiesToAllocate;
-
-        this.updateCountry(country, existingArmies);
-
+        this.updateCountry(country,existingArmies);
         return name + " added " + armiesToAllocate + " armies to " + country;
     }
 
     /**
-     * Refactoring 2: All phases in player model.
-     * Attack Phase
+     * Refactoring 2: All phases in player model. Attack Phase
+     *
      * @return noOfArmies to be moved (minimum)
      */
-    public int attackPhase() {
+    public int attackPhase () {
         AttackController controller = new AttackController();
         int attackerArmy = this.isAllOutMode ? -1 : this.attackerArmies;
         int mode = this.isAllOutMode ? 0 : 1;
-        int result=controller.attack(this.attacker, this.defender, mode, attackerArmy);
+        int result = controller.attack(this.attacker,this.defender,mode,attackerArmy);
         return result;
     }
 
     /**
      * Moves armies after attack from attacker to defender
+     *
      * @param armiesToMove no of armies to move
      */
-    public void moveArmiesAfterAttack(int armiesToMove) {
+    public void moveArmiesAfterAttack (int armiesToMove) {
         int existing = this.getArmiesInCountry(attacker);
         int armiesLeftInAttacker = existing - armiesToMove;
-        System.out.println("Armies existing: "+existing+" Armies left "+armiesLeftInAttacker);
-        this.updateCountry(defender, armiesToMove);
-        this.updateCountry(attacker, armiesLeftInAttacker);
+        System.out.println("Armies existing: " + existing + " Armies left " + armiesLeftInAttacker);
+        this.updateCountry(defender,armiesToMove);
+        this.updateCountry(attacker,armiesLeftInAttacker);
     }
 
     /**
-     * Refactoring 2: All phases in player model.
-     * Implementation of Fortification Phase.
+     * Refactoring 2: All phases in player model. Implementation of
+     * Fortification Phase.
      *
      * @param sourceCountry Source country
      * @param targetCountry Target Country
      * @param noOfArmies No of armies.
-     * 
+     *
      * @return message produced from the fortification phase
      */
-    public String fortificationPhase(String sourceCountry, String targetCountry, int noOfArmies) {
+    public String fortificationPhase (String sourceCountry,String targetCountry,int noOfArmies) {
         Random random = new Random();
         if (sourceCountry == null) {
             int iterations = 10;
             do {
                 int pickCountry = random.nextInt(this.getCountriesConquered().size());
 
-                if (pickCountry < 0)
+                if (pickCountry < 0) {
                     return name + " skipped the fortification phase!";
+                }
 
                 sourceCountry = this.getNthCountry(pickCountry);
                 if (this.getArmiesInCountry(sourceCountry) <= 1) {
@@ -399,19 +414,22 @@ public class Player extends Observable implements Serializable {
             } while (iterations != 0);
         }
 
-        if (sourceCountry == null)
+        if (sourceCountry == null) {
             return name + " skipped the fortification phase!";
+        }
 
         if (targetCountry == null) {
             int pickCountry = random.nextInt(this.getCountriesConquered().size());
 
-            if (pickCountry < 0)
+            if (pickCountry < 0) {
                 pickCountry++;
+            }
 
             targetCountry = this.getNthCountry(pickCountry);
 
-            if (targetCountry.equalsIgnoreCase(sourceCountry))
+            if (targetCountry.equalsIgnoreCase(sourceCountry)) {
                 return name + " skipped the fortification phase!";
+            }
         }
 
         if (noOfArmies == -1) {
@@ -423,14 +441,18 @@ public class Player extends Observable implements Serializable {
         int armiesLeftInSource = this.getArmiesInCountry(sourceCountry) - noOfArmies;
         int armiesInTarget = this.getArmiesInCountry(targetCountry) + noOfArmies;
 
-        this.updateCountry(sourceCountry, armiesLeftInSource);
-        this.updateCountry(targetCountry, armiesInTarget);
+        this.updateCountry(sourceCountry,armiesLeftInSource);
+        this.updateCountry(targetCountry,armiesInTarget);
 
-        return name + " sent " + noOfArmies + " arm(ies) from " + sourceCountry + " to " + targetCountry+" in fortification";
+        return name + " sent " + noOfArmies + " arm(ies) from " + sourceCountry + " to " + targetCountry + " in fortification";
     }
 
-
-    public boolean haveInfantryCard() {
+    /**
+     * Checks if player have Infantry card
+     *
+     * @return true if player has infantry card
+     */
+    public boolean haveInfantryCard () {
         for (String card : this.cards) {
             if (card.equals(CardData.CARD_TYPE_INFANTRY)) {
                 return true;
@@ -444,7 +466,7 @@ public class Player extends Observable implements Serializable {
      *
      * @return true if player have Cavalry Card otherwise false
      */
-    public boolean haveCavalryCard() {
+    public boolean haveCavalryCard () {
         for (String card : this.cards) {
             if (card.equals(CardData.CARD_TYPE_CAVALRY)) {
                 return true;
@@ -458,7 +480,7 @@ public class Player extends Observable implements Serializable {
      *
      * @return true if player have Artillery Card otherwise false
      */
-    public boolean haveArtilleryCard() {
+    public boolean haveArtilleryCard () {
         for (String card : this.cards) {
             if (card.equals(CardData.CARD_TYPE_ARTILLERY)) {
                 return true;
@@ -470,9 +492,10 @@ public class Player extends Observable implements Serializable {
     /**
      * Checks if player have Infantry, Artillery and Cavalry Cards
      *
-     * @return true if player have Infantry, Artillery and Cavalry Cards otherwise false
+     * @return true if player have Infantry, Artillery and Cavalry Cards
+     * otherwise false
      */
-    public boolean haveDistinctCards() {
+    public boolean haveDistinctCards () {
         return (this.haveInfantryCard() && this.haveArtilleryCard() && this.haveCavalryCard());
     }
 
@@ -481,7 +504,7 @@ public class Player extends Observable implements Serializable {
      *
      * @return true if player have three Artillery cards otherwise false
      */
-    public boolean haveThreeArtilleryCards() {
+    public boolean haveThreeArtilleryCards () {
         int artillery = 0;
         for (String card : this.cards) {
             if (card.equals(CardData.CARD_TYPE_ARTILLERY)) {
@@ -496,7 +519,7 @@ public class Player extends Observable implements Serializable {
      *
      * @return true if player have three Cavalry cards otherwise false
      */
-    public boolean haveThreeCavalryCards() {
+    public boolean haveThreeCavalryCards () {
         int cavalry = 0;
         for (String card : this.cards) {
             if (card.equals(CardData.CARD_TYPE_CAVALRY)) {
@@ -511,7 +534,7 @@ public class Player extends Observable implements Serializable {
      *
      * @return true if player have three Infantry Cards otherwise false
      */
-    public boolean haveThreeInfantryCards() {
+    public boolean haveThreeInfantryCards () {
         int infantry = 0;
         for (String card : this.cards) {
             if (card.equals(CardData.CARD_TYPE_INFANTRY)) {
@@ -524,31 +547,33 @@ public class Player extends Observable implements Serializable {
     /**
      * Checks if player have either three Cavalry, Artillery or Infantry cards
      *
-     * @return true if player have either three Cavalry, Artillery or Infantry cards otherwise false
+     * @return true if player have either three Cavalry, Artillery or Infantry
+     * cards otherwise false
      */
-    public boolean haveThreeSameTypeCards() {
+    public boolean haveThreeSameTypeCards () {
         return (this.haveThreeCavalryCards() || this.haveThreeArtilleryCards() || this.haveThreeInfantryCards());
     }
 
     /**
      * Is it possible to add more cards for this player?
+     *
      * @return true if you can add more cards
      */
-    public boolean canAddMoreCards() {
+    public boolean canAddMoreCards () {
         return (this.cards.size() < 5);
     }
 
     /**
      * @return list of cards player has.
      */
-    public List<String> getCards() {
+    public List<String> getCards () {
         return this.cards;
     }
 
     /**
      * Removes one Infantry, Artillery and Cavalry cards
      */
-    public void removeDistinctCards() {
+    public void removeDistinctCards () {
         this.cards.remove(CardData.CARD_TYPE_ARTILLERY);
         this.cards.remove(CardData.CARD_TYPE_CAVALRY);
         this.cards.remove(CardData.CARD_TYPE_INFANTRY);
@@ -560,7 +585,7 @@ public class Player extends Observable implements Serializable {
      * @param cardName name of the card
      * @return card with cardName equals to parameter
      */
-    public String getCard(String cardName) {
+    public String getCard (String cardName) {
         for (String card : this.cards) {
             if (card.equals(cardName)) {
                 return card;
@@ -571,28 +596,27 @@ public class Player extends Observable implements Serializable {
 
     /**
      * Removes either of three Infantry or Artillery or Cavalry cards
-     * 
+     *
      * @param type Sting type of card
      */
-    public void removeSimilarThreeCards(String type) {
+    public void removeSimilarThreeCards (String type) {
         this.cards.remove(type);
         this.cards.remove(type);
         this.cards.remove(type);
     }
-    
+
     /**
      * This method will return the total number of armies player have
-     * 
+     *
      * @return totalArmies Return total number.
      */
-    public int getTotalPlayerArmies(){
-    	int totalArmies = 0;
-    	int count = 0;
-        for (Map.Entry<String, Integer> country : this
-				.getCountriesConquered().entrySet()) {
-        	count++;
-			totalArmies += country.getValue();
-		}
+    public int getTotalPlayerArmies () {
+        int totalArmies = 0;
+        int count = 0;
+        for (Map.Entry<String,Integer> country : this.getCountriesConquered().entrySet()) {
+            count++;
+            totalArmies += country.getValue();
+        }
         return totalArmies;
     }
 }
