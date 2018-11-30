@@ -39,6 +39,9 @@ public class TestPlayerModel {
         player = new Player("abc", 1, "blue");
         player2 = new Player("a", 2, "red");
         player.updateCountry("attacker", 4);
+        
+        holder.addPlayer(player);
+        holder.addPlayer(player2);
     }
 
     /**
@@ -99,7 +102,7 @@ public class TestPlayerModel {
     }
   
     /**
-     * 
+     * Test to check if player have any continent.
      */
     @Test
     public void TestGetNoOfContinents(){
@@ -108,11 +111,19 @@ public class TestPlayerModel {
     }
     
     /**
-     * 
+     * Test weather all player are done with the max turn allowed.
      */
     @Test
     public void TestAreAllPlayerDone(){
-    	Boolean done = holder.areAllPlayerDone(1);
+    	holder.maxTurnLimit = 2;
+    	player.takeTurn();
+    	player2.takeTurn();
+    	player.takeTurn();
+    	player2.takeTurn();
+    	holder.updatePlayer(player);
+    	holder.updatePlayer(player2);
+    	
+    	Boolean done = holder.areAllPlayerDone();
     	assertTrue(done);
     }
     
